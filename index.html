@@ -3,452 +3,434 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-<meta name="theme-color" content="#ffffff" />
+<meta name="theme-color" content="#15110F" />
 <title>كريم تفتيح الشفاه | Cosmarab — شفاه وردية ورطبة بشكل طبيعي</title>
 <meta name="description" content="كريم تفتيح الشفاه من Cosmarab — يفتّح اسمرار الشفاه تدريجياً، يرطب بعمق ويعيد اللون الوردي الطبيعي. الدفع عند الاستلام في جميع مدن السعودية." />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="كريم تفتيح الشفاه | Cosmarab" />
 <meta property="og:description" content="شفاه وردية ورطبة بشكل طبيعي — الدفع عند الاستلام في جميع مدن السعودية." />
+<meta property="og:image" content="assets/hero.png" />
 <meta property="og:locale" content="ar_SA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
 <!--
-TODO: Uncomment and replace IDs before going live.
+TODO: Uncomment + add your IDs before going live.
 <script>(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','SNAP_PIXEL_ID',{});snaptr('track','PAGE_VIEW');</script>
 -->
 <style>
 :root{
-  --red:#E0102B; --red-dark:#B00C22; --red-soft:#FDECEE;
-  --ink:#111114; --ink-soft:#5b5b63; --line:#ececef;
-  --bg:#fff; --bg-alt:#fbfbfc; --gold:#caa55a; --ok:#1f9d55;
-  --shadow:0 18px 50px -20px rgba(17,17,20,.28);
-  --shadow-sm:0 8px 24px -12px rgba(17,17,20,.18);
-  --r:18px; --r-lg:26px; --maxw:520px;
+  --red:#D90A2C; --red-2:#A30821; --red-3:#7c0518; --red-soft:#FCEDEF;
+  --ink:#15110F; --ink-2:#3a332e; --ink-soft:#736b64; --line:#ece6df;
+  --paper:#FBF8F5; --paper-2:#F4EEE7;
+  --gold:#C2A14D; --gold-soft:#f6efdf; --ok:#1f9d55;
+  --shadow:0 24px 60px -24px rgba(21,17,15,.32);
+  --shadow-sm:0 10px 30px -16px rgba(21,17,15,.22);
+  --shadow-red:0 18px 40px -16px rgba(217,10,44,.45);
+  --r:20px; --r-lg:28px; --maxw:540px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:'Tajawal',system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:17px;overflow-x:hidden}
+body{font-family:'Tajawal',system-ui,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.62;font-size:17px;overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
-.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:18px}
-.section{padding-block:52px}
-.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--red);background:var(--red-soft);padding:7px 14px;border-radius:999px;margin-bottom:14px}
-h2.title{font-size:27px;font-weight:900;line-height:1.25;letter-spacing:-.01em}
-.lead{color:var(--ink-soft);font-size:16px;margin-top:10px}
+h1,h2,h3,.cairo{font-family:'Cairo','Tajawal',sans-serif}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:20px}
+.section{padding-block:56px;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;letter-spacing:.06em;color:var(--red);background:#fff;border:1px solid var(--red-soft);padding:7px 15px;border-radius:999px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+h2.title{font-size:29px;font-weight:900;line-height:1.22;letter-spacing:-.02em}
+.title .gold{color:var(--gold)}
+.lead{color:var(--ink-soft);font-size:16px;margin-top:11px}
+.hairline{width:54px;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:99px;margin:14px auto 0}
 
-/* Announce bar */
-.announce{background:var(--ink);color:#fff;text-align:center;font-size:13px;font-weight:700;padding:8px 14px;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
-.announce span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.adot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+/* Announce */
+.announce{background:linear-gradient(90deg,var(--ink),#241d18);color:#fff;text-align:center;font-size:12.5px;font-weight:700;padding:9px 14px;display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;position:relative;overflow:hidden}
+.announce::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(217,10,44,.25),transparent);transform:translateX(-100%);animation:shine 5s infinite}
+@keyframes shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.announce span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;position:relative;z-index:1}
+.adot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite;box-shadow:0 0 8px var(--red)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
 
 /* Header */
-header.bar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
-.bar-in{max-width:var(--maxw);margin-inline:auto;padding:11px 18px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:19px}
-.logo .mark{width:30px;height:30px;border-radius:9px;background:var(--red);color:#fff;display:grid;place-items:center;font-size:16px;font-weight:900;box-shadow:0 6px 16px -6px var(--red)}
-.logo small{display:block;font-size:9px;font-weight:700;color:var(--ink-soft);letter-spacing:.18em;margin-top:-3px}
-.bar-cta{font-size:13px;font-weight:800;color:var(--red)}
+header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:var(--maxw);margin-inline:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;letter-spacing:.04em}
+.logo .mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;display:grid;place-items:center;font-size:17px;font-weight:900;box-shadow:var(--shadow-red)}
+.logo small{display:block;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.24em;margin-top:-3px}
+.bar-cta{font-size:13px;font-weight:800;color:#fff;background:var(--red);padding:8px 16px;border-radius:999px;box-shadow:var(--shadow-red)}
 
-/* Hero */
-.hero{position:relative;overflow:hidden;background:radial-gradient(120% 80% at 80% 0%,#fff5f6 0%,#fff 55%)}
-.hero-in{max-width:var(--maxw);margin-inline:auto;padding:28px 18px 8px;text-align:center}
-.hero .rate{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:16px}
+/* HERO */
+.hero{position:relative;overflow:hidden;background:radial-gradient(130% 70% at 70% -10%,#fff 0%,var(--paper) 60%)}
+.hero::before{content:"";position:absolute;top:-120px;right:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(217,10,44,.10),transparent 70%);pointer-events:none}
+.hero-in{max-width:var(--maxw);margin-inline:auto;padding:18px 20px 8px;text-align:center}
+.hero-photo{position:relative;margin:0 auto 22px;max-width:430px;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.6)}
+.hero-photo img{width:100%;display:block}
+.hero-photo .glow{position:absolute;inset:0;box-shadow:inset 0 -60px 60px -40px rgba(21,17,15,.25);pointer-events:none}
+.hero-float{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:12px;padding:7px 12px;font-size:11.5px;font-weight:900;color:var(--ink);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:6px}
+.hero-float .s{color:var(--gold)}
+.hero .rate{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--ink-2);margin-bottom:14px;background:#fff;padding:7px 15px;border-radius:999px;box-shadow:var(--shadow-sm)}
 .stars{color:var(--gold);letter-spacing:1px}
-.hero h1{font-size:32px;line-height:1.18;font-weight:900;letter-spacing:-.02em}
+.hero h1{font-size:34px;line-height:1.16;font-weight:900;letter-spacing:-.03em}
 .hero h1 .hl{color:var(--red);position:relative;white-space:nowrap}
-.hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:9px;background:var(--red-soft);z-index:-1;border-radius:4px}
-.hero p.sub{font-size:16px;color:var(--ink-soft);margin-top:14px}
+.hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:1px;height:10px;background:linear-gradient(90deg,var(--red-soft),rgba(194,161,77,.25));z-index:-1;border-radius:4px}
+.hero p.sub{font-size:16.5px;color:var(--ink-soft);margin-top:14px}
 .pains{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
-.pain{font-size:12.5px;font-weight:700;background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:999px;box-shadow:var(--shadow-sm)}
+.pain{font-size:12.5px;font-weight:800;background:#fff;border:1px solid var(--line);padding:8px 13px;border-radius:999px;box-shadow:var(--shadow-sm)}
 .pain b{color:var(--red)}
 
-/* Countdown timer */
-.timer-wrap{max-width:var(--maxw);margin:18px auto 0;background:var(--ink);border-radius:15px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.timer-wrap .lbl{color:rgba(255,255,255,.8);font-size:13px;font-weight:700}
-.timer-units{display:flex;gap:8px;align-items:center}
-.tu{text-align:center;background:rgba(255,255,255,.1);border-radius:9px;padding:8px 10px;min-width:44px}
-.tu b{display:block;color:#fff;font-size:21px;font-weight:900;line-height:1}
-.tu span{display:block;color:rgba(255,255,255,.5);font-size:9px;font-weight:700;letter-spacing:.06em;margin-top:2px}
+/* Timer */
+.timer-wrap{max-width:var(--maxw);margin:20px auto 0;background:linear-gradient(135deg,var(--ink),#241c17);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(194,161,77,.25);box-shadow:var(--shadow)}
+.timer-wrap .lbl{color:rgba(255,255,255,.85);font-size:13px;font-weight:800}
+.timer-units{display:flex;gap:7px;align-items:center}
+.tu{text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 9px;min-width:46px}
+.tu b{display:block;color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:'Cairo'}
+.tu span{display:block;color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.08em;margin-top:3px}
 .tu-sep{color:var(--red);font-size:20px;font-weight:900;margin-top:-6px}
 
-.hero-img{position:relative;margin:20px auto 0;max-width:380px;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
-.hero-img img{width:100%;aspect-ratio:4/3.2;object-fit:cover}
-.ba-tag{position:absolute;bottom:12px;font-size:12px;font-weight:900;color:#fff;padding:6px 12px;border-radius:999px;backdrop-filter:blur(4px)}
-.ba-before{right:12px;background:rgba(17,17,20,.62)}
-.ba-after{left:12px;background:var(--red)}
-
-.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--red);color:#fff;font-size:18px;font-weight:900;padding:17px 22px;border-radius:15px;box-shadow:0 14px 30px -10px var(--red);transition:transform .12s ease,box-shadow .12s ease;letter-spacing:.01em}
+/* Buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-size:18px;font-weight:900;padding:18px 22px;border-radius:16px;box-shadow:var(--shadow-red);transition:transform .12s ease,box-shadow .12s ease;letter-spacing:.01em;font-family:'Cairo'}
 .btn:active{transform:scale(.975)}
-.btn.lg{padding:19px 22px;font-size:19px}
-.btn .arr{font-size:15px;transform:rotate(180deg)}
-.btn-note{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:10px;font-weight:700}
+.btn.lg{padding:20px 22px;font-size:19px}
+.btn.dark{background:linear-gradient(145deg,var(--ink),#2a221c);box-shadow:var(--shadow)}
+.btn.gold{background:linear-gradient(145deg,var(--gold),#a8862f);box-shadow:0 16px 36px -16px rgba(194,161,77,.6);color:#1a1208}
+.btn-note{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:11px;font-weight:700}
 .btn-note b{color:var(--ink)}
 .cta-pulse{position:relative}
-.cta-pulse::before{content:"";position:absolute;inset:0;border-radius:15px;box-shadow:0 0 0 0 rgba(224,16,43,.5);animation:ring 2.2s infinite}
-@keyframes ring{0%{box-shadow:0 0 0 0 rgba(224,16,43,.45)}70%{box-shadow:0 0 0 16px rgba(224,16,43,0)}100%{box-shadow:0 0 0 0 rgba(224,16,43,0)}}
+.cta-pulse::before{content:"";position:absolute;inset:0;border-radius:16px;box-shadow:0 0 0 0 rgba(217,10,44,.5);animation:ring 2.2s infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(217,10,44,.45)}70%{box-shadow:0 0 0 16px rgba(217,10,44,0)}100%{box-shadow:0 0 0 0 rgba(217,10,44,0)}}
 
 /* Trust strip */
-.trust-strip{background:var(--bg-alt);border-block:1px solid var(--line)}
-.trust-grid{max-width:var(--maxw);margin-inline:auto;padding:14px 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.trust-strip{background:#fff;border-block:1px solid var(--line)}
+.trust-grid{max-width:var(--maxw);margin-inline:auto;padding:16px 20px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .trust-i{text-align:center;font-size:11px;font-weight:800;color:var(--ink)}
-.trust-i .ic{font-size:20px;display:block;margin-bottom:4px}
+.trust-i .ic{font-size:21px;display:block;margin-bottom:5px}
 .trust-i span{display:block;color:var(--ink-soft);font-size:10px;font-weight:700}
 
-/* Live orders ticker */
-.ticker-bar{background:#fff;border-bottom:1px solid var(--line);overflow:hidden;position:relative}
-.ticker-inner{max-width:var(--maxw);margin-inline:auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
-.ticker-label{flex:none;font-size:11.5px;font-weight:900;color:var(--red);display:flex;align-items:center;gap:6px;white-space:nowrap}
-.ticker-label .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 1.2s infinite}
-.ticker-scroll{flex:1;overflow:hidden;position:relative;height:26px}
-.ticker-scroll .track{display:flex;gap:0;animation:tickerScroll 28s linear infinite;white-space:nowrap}
-.ticker-scroll .track:hover{animation-play-state:paused}
-.ticker-item{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;padding-left:48px}
-.ticker-item .av{width:24px;height:24px;border-radius:50%;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
-@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
-/* ===== QUIZ FUNNEL ===== */
-.quiz-section{background:linear-gradient(135deg,#fff5f6 0%,#fff 60%);border-bottom:1px solid var(--line)}
-.quiz-wrap{max-width:var(--maxw);margin-inline:auto;padding:36px 18px}
+/* QUIZ */
+.quiz-section{background:linear-gradient(160deg,#fff 0%,var(--paper-2) 100%);border-bottom:1px solid var(--line)}
+.quiz-wrap{max-width:var(--maxw);margin-inline:auto;padding:40px 20px}
 .quiz-hook{text-align:center;margin-bottom:24px}
-.quiz-hook h2{font-size:26px;font-weight:900}
+.quiz-hook h2{font-size:27px;font-weight:900}
 .quiz-hook p{font-size:15px;color:var(--ink-soft);margin-top:8px}
-.quiz-progress{display:flex;gap:5px;margin-bottom:22px}
-.quiz-progress .qp{flex:1;height:5px;border-radius:99px;background:var(--line);transition:background .3s}
-.quiz-progress .qp.done{background:var(--red)}
-.quiz-progress .qp.active{background:rgba(224,16,43,.4)}
-.qcard{display:none;animation:fade .25s ease}
+.quiz-progress{display:flex;gap:6px;margin-bottom:22px}
+.quiz-progress .qp{flex:1;height:6px;border-radius:99px;background:var(--line);transition:background .3s}
+.quiz-progress .qp.done{background:linear-gradient(90deg,var(--red),var(--gold))}
+.quiz-progress .qp.active{background:rgba(217,10,44,.4)}
+.qcard{display:none;animation:fade .3s ease}
 .qcard.show{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.qcard h3{font-size:18px;font-weight:900;margin-bottom:16px;line-height:1.35}
-.qcard .qstep{font-size:12px;font-weight:800;color:var(--red);margin-bottom:8px}
-.qopts{display:grid;gap:10px}
-.qopt{display:flex;align-items:center;gap:13px;border:2px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff;font-size:15px;font-weight:700;text-align:right;transition:all .15s;cursor:pointer;width:100%}
-.qopt:hover,.qopt:active{border-color:var(--red);background:var(--red-soft)}
-.qopt .qic{flex:none;width:38px;height:38px;border-radius:10px;background:var(--red-soft);display:grid;place-items:center;font-size:18px;transition:background .15s}
-.qopt:hover .qic,.qopt:active .qic{background:rgba(224,16,43,.18)}
-
-/* Quiz result */
+.qcard h3{font-size:19px;font-weight:900;margin-bottom:16px;line-height:1.4}
+.qcard .qstep{font-size:12px;font-weight:800;color:var(--red);margin-bottom:8px;letter-spacing:.04em}
+.qopts{display:grid;gap:11px}
+.qopt{display:flex;align-items:center;gap:13px;border:2px solid var(--line);border-radius:15px;padding:15px 16px;background:#fff;font-size:15px;font-weight:800;text-align:right;transition:all .15s;cursor:pointer;width:100%;box-shadow:var(--shadow-sm)}
+.qopt:hover,.qopt:active{border-color:var(--red);transform:translateY(-2px)}
+.qopt .qic{flex:none;width:40px;height:40px;border-radius:11px;background:var(--red-soft);display:grid;place-items:center;font-size:19px}
 .quiz-result{display:none;text-align:center;padding:8px 0}
 .quiz-result.show{display:block;animation:fade .3s ease}
-.qr-match{display:inline-block;background:var(--ok);color:#fff;font-size:12px;font-weight:900;padding:6px 16px;border-radius:999px;margin-bottom:14px}
-.qr-title{font-size:22px;font-weight:900;margin-bottom:8px}
+.qr-match{display:inline-block;background:linear-gradient(145deg,var(--ok),#178045);color:#fff;font-size:12px;font-weight:900;padding:7px 17px;border-radius:999px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.qr-title{font-size:23px;font-weight:900;margin-bottom:8px}
 .qr-desc{font-size:14.5px;color:var(--ink-soft);margin-bottom:20px;line-height:1.6}
-.qr-tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:22px}
-.qr-tag{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:var(--bg-alt);border:1px solid var(--line)}
+.qr-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
+.qr-tag{font-size:12px;font-weight:800;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
 
-/* Offers */
+/* OFFERS */
 .offers-head{text-align:center;margin-bottom:8px}
-.stock-bar{max-width:var(--maxw);margin:14px auto 22px;background:var(--red-soft);border:1px solid #f6cdd3;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:var(--red-dark)}
-.stock-bar .track{flex:1;height:7px;background:#f6d0d6;border-radius:99px;overflow:hidden}
-.stock-bar .fill{height:100%;width:18%;background:var(--red);border-radius:99px;transition:width 1s ease}
+.stock-bar{max-width:var(--maxw);margin:16px auto 22px;background:#fff;border:1px solid var(--red-soft);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:var(--red-2);box-shadow:var(--shadow-sm)}
+.stock-bar .track{flex:1;height:8px;background:#f1e3e5;border-radius:99px;overflow:hidden}
+.stock-bar .fill{height:100%;width:18%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:99px;transition:width 1s ease}
 
-.offer{position:relative;border:2px solid var(--line);border-radius:var(--r-lg);padding:20px 18px;margin-bottom:16px;background:#fff;transition:border-color .15s,transform .12s;cursor:pointer;box-shadow:var(--shadow-sm)}
-.offer:active{transform:scale(.99)}
-.offer.best{border-color:var(--red);box-shadow:0 20px 45px -22px var(--red)}
-.offer.quiz-rec{border-color:var(--ok);box-shadow:0 20px 45px -22px rgba(31,157,85,.4)}
-.offer .ribbon{position:absolute;top:-13px;right:18px;background:var(--red);color:#fff;font-size:12px;font-weight:900;padding:5px 14px;border-radius:999px;box-shadow:var(--shadow-sm)}
-.offer .ribbon.gold{background:var(--ink)}
-.offer .ribbon.green{background:var(--ok)}
-.offer-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.offer-qty{font-size:20px;font-weight:900}
-.offer-qty small{display:block;font-size:12.5px;font-weight:700;color:var(--red);margin-top:2px}
-.offer-pieces{display:flex;gap:4px}
-.offer-pieces .p{width:34px;height:34px;border-radius:9px;background:var(--red-soft);display:grid;place-items:center;font-size:16px}
-.offer-price{display:flex;align-items:baseline;gap:8px;margin-top:14px}
-.offer-price .now{font-size:30px;font-weight:900;color:var(--ink)}
-.offer-price .cur{font-size:15px;font-weight:800;color:var(--ink)}
-.offer-price .was{font-size:15px;font-weight:700;color:var(--ink-soft);text-decoration:line-through}
-.offer-price .save{margin-inline-start:auto;font-size:11.5px;font-weight:900;color:#fff;background:var(--ok);padding:4px 9px;border-radius:7px}
-.offer .perunit{font-size:12.5px;color:var(--ink-soft);font-weight:700;margin-top:6px}
-.offer .pick{margin-top:15px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;font-weight:900;font-size:15.5px;padding:13px;border-radius:12px}
-.offer.best .pick{background:var(--red)}
-.offer.quiz-rec .pick{background:var(--ok)}
-.offers-foot{text-align:center;font-size:12.5px;color:var(--ink-soft);font-weight:700;margin-top:4px}
+.offer{position:relative;border:2px solid var(--line);border-radius:var(--r-lg);padding:18px;margin-bottom:14px;background:#fff;transition:all .18s;cursor:pointer;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px}
+.offer:hover{transform:translateY(-2px)}
+.offer.selected{border-color:var(--red);box-shadow:var(--shadow-red);background:linear-gradient(180deg,#fff,#fffafb)}
+.offer .radio{position:absolute;top:14px;left:14px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;transition:all .15s;background:#fff}
+.offer.selected .radio{border-color:var(--red);background:var(--red)}
+.offer .radio::after{content:"✓";color:#fff;font-size:14px;font-weight:900;opacity:0;transform:scale(.4);transition:all .15s}
+.offer.selected .radio::after{opacity:1;transform:scale(1)}
+.offer .ribbon{position:absolute;top:-13px;right:18px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-size:11.5px;font-weight:900;padding:5px 14px;border-radius:999px;box-shadow:var(--shadow-sm);z-index:2}
+.offer .ribbon.gold{background:linear-gradient(145deg,var(--ink),#2a221c)}
+.offer .ribbon.green{background:linear-gradient(145deg,var(--ok),#178045)}
+.offer .imgs{flex:none;width:84px;height:84px;position:relative;display:flex;align-items:center;justify-content:center}
+.offer .imgs img{height:78px;width:auto;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(21,17,15,.18));position:absolute}
+.offer .imgs img:nth-child(1){z-index:3}
+.offer .imgs.two img:nth-child(1){transform:translateX(11px) rotate(4deg)}
+.offer .imgs.two img:nth-child(2){transform:translateX(-11px) rotate(-4deg);z-index:2}
+.offer .imgs.three img:nth-child(1){transform:translateX(0) rotate(0)}
+.offer .imgs.three img:nth-child(2){transform:translateX(15px) rotate(7deg);z-index:2}
+.offer .imgs.three img:nth-child(3){transform:translateX(-15px) rotate(-7deg);z-index:1}
+.offer .obody{flex:1;min-width:0}
+.offer-qty{font-size:18px;font-weight:900;font-family:'Cairo'}
+.offer-qty small{display:block;font-size:12px;font-weight:800;color:var(--red);margin-top:1px}
+.offer-price{display:flex;align-items:baseline;gap:7px;margin-top:9px;flex-wrap:wrap}
+.offer-price .now{font-size:27px;font-weight:900;color:var(--ink);font-family:'Cairo'}
+.offer-price .cur{font-size:14px;font-weight:800}
+.offer-price .was{font-size:14px;font-weight:700;color:var(--ink-soft);text-decoration:line-through}
+.offer .save{display:inline-block;margin-top:7px;font-size:11px;font-weight:900;color:#fff;background:var(--ok);padding:3px 9px;border-radius:7px}
+.offer .perunit{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:6px}
 
-/* Live order count under offers */
-.order-count{max-width:var(--maxw);margin:18px auto 0;background:var(--bg-alt);border:1px solid var(--line);border-radius:13px;padding:13px 16px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:800}
+.order-btn-wrap{margin-top:6px}
+.order-btn-wrap .selnote{text-align:center;font-size:13px;font-weight:800;color:var(--ink-2);margin-bottom:10px}
+.order-btn-wrap .selnote b{color:var(--red)}
+.offers-foot{text-align:center;font-size:12.5px;color:var(--ink-soft);font-weight:700;margin-top:12px}
+
+.order-count{max-width:var(--maxw);margin:18px auto 0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:800;box-shadow:var(--shadow-sm)}
 .order-count .ic{font-size:22px}
 .order-count span{color:var(--ink-soft);font-weight:700;font-size:12.5px;display:block}
 .order-count b{color:var(--red)}
 
-/* Expert section */
-.expert-section{background:var(--ink)}
-.expert-wrap{max-width:var(--maxw);margin-inline:auto;padding:40px 18px}
-.expert-top{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.expert-av{width:60px;height:60px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-size:28px;flex:none;box-shadow:0 8px 20px -8px var(--red)}
-.expert-info{flex:1}
-.expert-info h3{color:#fff;font-size:17px;font-weight:900}
+/* EXPERT */
+.expert-section{background:linear-gradient(165deg,var(--ink) 0%,#241c16 100%)}
+.expert-wrap{max-width:var(--maxw);margin-inline:auto;padding:44px 20px}
+.expert-wrap .eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:#fff}
+.expert-wrap h2.title{color:#fff}
+.expert-top{display:flex;align-items:center;gap:14px;margin:20px 0}
+.expert-av{width:62px;height:62px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-2));display:grid;place-items:center;font-size:28px;flex:none;box-shadow:var(--shadow-red);border:2px solid rgba(255,255,255,.15)}
+.expert-info h3{color:#fff;font-size:18px;font-weight:900}
 .expert-info p{color:rgba(255,255,255,.6);font-size:12.5px;font-weight:700;margin-top:3px}
-.expert-badge{display:inline-flex;align-items:center;gap:5px;background:var(--red);color:#fff;font-size:11px;font-weight:900;padding:4px 10px;border-radius:999px;margin-top:6px}
+.expert-badge{display:inline-flex;align-items:center;gap:5px;background:var(--red);color:#fff;font-size:11px;font-weight:900;padding:4px 11px;border-radius:999px;margin-top:7px}
+.video-box{border-radius:18px;overflow:hidden;background:#0d0a08;position:relative;aspect-ratio:9/12;max-height:520px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;border:1px solid rgba(194,161,77,.25);box-shadow:var(--shadow)}
+.video-box video{width:100%;height:100%;object-fit:cover;display:block;background:#0d0a08}
+.video-cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(160deg,rgba(21,17,15,.35),rgba(21,17,15,.7));cursor:pointer;z-index:2;transition:opacity .25s}
+.video-cover.hide{opacity:0;pointer-events:none}
+.video-play{width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 16px 40px rgba(0,0,0,.5);transition:transform .2s}
+.video-play::after{content:"▶";color:var(--red);font-size:26px;position:relative;left:3px}
+.video-cover:hover .video-play{transform:scale(1.08)}
+.video-cover .vtext{color:#fff;font-size:14px;font-weight:900;background:rgba(217,10,44,.9);padding:7px 16px;border-radius:999px}
+.expert-quote{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:20px;margin-bottom:20px;position:relative}
+.expert-quote .qmark{font-size:44px;color:var(--red);line-height:.6;font-family:'Cairo'}
+.expert-quote p{color:rgba(255,255,255,.9);font-size:15px;line-height:1.75;font-weight:600;margin-top:6px}
+.expert-quote .highlight{color:var(--gold);font-weight:900}
+.ingredient-tags{display:flex;flex-wrap:wrap;gap:8px}
+.itag{font-size:12px;font-weight:800;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.12)}
 
-/* Video placeholder */
-.video-box{border-radius:16px;overflow:hidden;background:#1a1a1e;position:relative;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:20px;border:1px solid rgba(255,255,255,.08)}
-.video-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
-.video-play{position:relative;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;font-size:24px;box-shadow:0 12px 30px rgba(0,0,0,.4);transition:transform .2s}
-.video-play::after{content:"▶";color:var(--red);font-size:22px;position:relative;left:3px}
-.video-box:hover .video-play{transform:scale(1.08)}
-.video-note{position:absolute;bottom:12px;left:12px;background:rgba(10,10,12,.7);color:#fff;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:8px;backdrop-filter:blur(4px)}
-/* TODO: Replace the video-box div with your actual video embed:
-   <video src="your-video.mp4" controls poster="thumbnail.jpg"></video>
-   OR an <iframe> from YouTube/Vimeo */
-
-.expert-quote{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:18px;margin-bottom:20px}
-.expert-quote .qmark{font-size:36px;color:var(--red);line-height:.8;margin-bottom:8px}
-.expert-quote p{color:rgba(255,255,255,.88);font-size:15px;line-height:1.7;font-weight:600}
-.expert-quote .highlight{color:var(--red);font-weight:900}
-.ingredient-tags{display:flex;flex-wrap:wrap;gap:7px}
-.itag{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.12)}
-
-/* Certifications */
-.certs-section{background:var(--bg-alt);border-bottom:1px solid var(--line)}
+/* CERTS */
+.certs-section{background:#fff;border-bottom:1px solid var(--line)}
 .certs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:var(--maxw);margin-inline:auto;margin-top:24px}
-.cert{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 14px;text-align:center;box-shadow:var(--shadow-sm)}
-.cert .cic{width:52px;height:52px;border-radius:14px;margin:0 auto 10px;display:grid;place-items:center;font-size:26px}
-.cert .cic.green{background:#e9f7ef}
-.cert .cic.blue{background:#e8f4fd}
-.cert .cic.gold{background:#fef9ec}
-.cert .cic.red{background:var(--red-soft)}
+.cert{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 14px;text-align:center;box-shadow:var(--shadow-sm)}
+.cert .cic{width:54px;height:54px;border-radius:15px;margin:0 auto 10px;display:grid;place-items:center;font-size:27px}
+.cic.green{background:#e9f7ef}.cic.blue{background:#e8f4fd}.cic.gold{background:var(--gold-soft)}.cic.red{background:var(--red-soft)}
 .cert h4{font-size:14px;font-weight:900}
-.cert p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:4px;line-height:1.4}
-.cert-full{grid-column:1/-1;display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
-.cert-full .cic{flex:none;width:52px;height:52px;border-radius:14px;background:#e9f7ef;display:grid;place-items:center;font-size:26px}
-.cert-full div h4{font-size:14px;font-weight:900}
-.cert-full div p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:3px}
+.cert p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:4px;line-height:1.45}
+.cert-full{grid-column:1/-1;display:flex;align-items:center;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
+.cert-full .cic{flex:none;margin:0}
+.cert-full h4{font-size:14px;font-weight:900}
+.cert-full p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:3px;text-align:right}
 
-/* Before / After */
-.ba-wrap{max-width:var(--maxw);margin-inline:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ba-card{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);position:relative;box-shadow:var(--shadow-sm)}
-.ba-card img{width:100%;aspect-ratio:1/1.05;object-fit:cover}
-.ba-card .lbl{position:absolute;top:10px;right:10px;font-size:12px;font-weight:900;color:#fff;padding:5px 11px;border-radius:999px}
-.timeline{max-width:var(--maxw);margin:22px auto 0;display:flex;gap:8px}
-.tl{flex:1;text-align:center;background:var(--bg-alt);border:1px solid var(--line);border-radius:12px;padding:12px 6px}
-.tl b{display:block;color:var(--red);font-size:18px;font-weight:900}
+/* BEFORE/AFTER (single real photo) */
+.ba-photo{max-width:var(--maxw);margin:24px auto 0;position:relative;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.ba-photo img{width:100%;display:block;transform:scaleX(-1)}
+.ba-lbl{position:absolute;top:14px;font-size:13px;font-weight:900;color:#fff;padding:6px 15px;border-radius:999px;backdrop-filter:blur(6px);box-shadow:var(--shadow-sm);font-family:'Cairo'}
+.ba-lbl.before{right:14px;background:rgba(21,17,15,.78)}
+.ba-lbl.after{left:14px;background:linear-gradient(145deg,var(--red),var(--red-2))}
+.timeline{max-width:var(--maxw);margin:18px auto 0;display:flex;gap:8px}
+.tl{flex:1;text-align:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 6px;box-shadow:var(--shadow-sm)}
+.tl b{display:block;color:var(--red);font-size:17px;font-weight:900;font-family:'Cairo'}
 .tl span{font-size:11.5px;font-weight:700;color:var(--ink-soft)}
 
-/* Comparison table */
-.comp-section{background:#fff}
+/* COMPARISON */
 .comp-table{max-width:var(--maxw);margin:24px auto 0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
 .comp-header{display:grid;grid-template-columns:1.6fr 1fr 1fr;background:var(--ink);color:#fff}
-.comp-header .ch{padding:13px 10px;font-size:13px;font-weight:900;text-align:center}
+.comp-header .ch{padding:14px 10px;font-size:13px;font-weight:900;text-align:center;font-family:'Cairo'}
 .comp-header .ch:first-child{text-align:right;padding-right:16px}
-.comp-header .ch.ours{background:var(--red);color:#fff}
+.comp-header .ch.ours{background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff}
 .comp-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;border-bottom:1px solid var(--line)}
 .comp-row:last-child{border-bottom:none}
-.comp-row:nth-child(even){background:var(--bg-alt)}
-.comp-cell{padding:12px 10px;font-size:13px;font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center}
+.comp-row:nth-child(even){background:var(--paper)}
+.comp-cell{padding:13px 10px;font-size:13px;font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center}
 .comp-cell:first-child{text-align:right;justify-content:flex-end;padding-right:16px;font-weight:800;color:var(--ink);font-size:12.5px}
-.comp-cell.ours{background:rgba(224,16,43,.04)}
-.cyes{color:var(--ok);font-size:18px}
-.cno{color:#ccc;font-size:18px}
-.cpart{color:var(--gold);font-size:14px;font-weight:900}
+.comp-cell.ours{background:rgba(217,10,44,.05)}
+.cyes{color:var(--ok);font-size:19px}.cno{color:#ccc;font-size:18px}.cpart{color:var(--gold);font-size:13px;font-weight:900}
 
 /* Benefits */
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
-.ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:15px;box-shadow:var(--shadow-sm)}
-.ben .ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--red-soft);display:grid;place-items:center;font-size:22px}
+.ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
+.ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
 .ben h3{font-size:16px;font-weight:900}
 .ben p{font-size:14px;color:var(--ink-soft);margin-top:2px}
 
 /* Ingredients */
-.ing{background:var(--ink);color:#fff;border-radius:var(--r-lg);padding:24px 20px;max-width:var(--maxw);margin-inline:auto}
-.ing .eyebrow{background:rgba(255,255,255,.1);color:#fff}
+.ing{background:linear-gradient(165deg,var(--ink),#241c16);color:#fff;border-radius:var(--r-lg);padding:26px 22px;max-width:var(--maxw);margin-inline:auto;border:1px solid rgba(194,161,77,.2)}
+.ing .eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:#fff}
 .ing h2{color:#fff}
 .ing-list{display:grid;gap:11px;margin-top:18px}
-.ing-i{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:12px 14px}
-.ing-i .ic{flex:none;width:38px;height:38px;border-radius:10px;background:var(--red);display:grid;place-items:center;font-size:18px}
+.ing-i{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:13px 14px}
+.ing-i .ic{flex:none;width:40px;height:40px;border-radius:11px;background:linear-gradient(145deg,var(--red),var(--red-2));display:grid;place-items:center;font-size:19px}
 .ing-i b{font-size:15px;font-weight:900;display:block}
 .ing-i span{font-size:12.5px;color:rgba(255,255,255,.66);font-weight:600}
-.ing-safe{margin-top:16px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.8);display:flex;gap:8px;align-items:center;justify-content:center;text-align:center}
+.ing-safe{margin-top:16px;font-size:12.5px;font-weight:700;color:var(--gold);display:flex;gap:8px;align-items:center;justify-content:center;text-align:center}
 
 /* Steps */
 .steps{max-width:var(--maxw);margin-inline:auto;display:grid;gap:12px}
 .step{display:flex;gap:14px;align-items:center}
-.step .n{flex:none;width:42px;height:42px;border-radius:50%;border:2px solid var(--red);color:var(--red);display:grid;place-items:center;font-weight:900;font-size:18px}
+.step .n{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--red);color:var(--red);display:grid;place-items:center;font-weight:900;font-size:18px;font-family:'Cairo';background:#fff}
 .step b{font-size:15.5px;font-weight:900}
 .step p{font-size:13.5px;color:var(--ink-soft)}
 
 /* Reviews */
-.review{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px;max-width:var(--maxw);margin-inline:auto;box-shadow:var(--shadow-sm)}
+.review{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:17px;margin-bottom:12px;max-width:var(--maxw);margin-inline:auto;box-shadow:var(--shadow-sm)}
 .review .top{display:flex;align-items:center;gap:11px;margin-bottom:8px}
-.review .av{width:42px;height:42px;border-radius:50%;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-weight:900;font-size:17px}
+.review .av{width:44px;height:44px;border-radius:50%;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-weight:900;font-size:18px}
 .review .nm{font-weight:900;font-size:15px;display:flex;align-items:center;gap:6px}
 .review .verified{font-size:10px;font-weight:800;color:var(--ok);background:#e9f7ef;padding:2px 7px;border-radius:6px}
 .review .city{font-size:12px;color:var(--ink-soft);font-weight:700}
 .review p{font-size:14px;color:var(--ink)}
 
 /* Guarantee */
-.guarantee{max-width:var(--maxw);margin-inline:auto;background:var(--red-soft);border:1px solid #f6cdd3;border-radius:var(--r-lg);padding:24px 20px;text-align:center}
-.guarantee .seal{width:64px;height:64px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:30px;margin:0 auto 12px;box-shadow:0 12px 26px -10px var(--red)}
-.guarantee h2{font-size:21px;font-weight:900}
+.guarantee{max-width:var(--maxw);margin-inline:auto;background:linear-gradient(160deg,#fff,var(--red-soft));border:1px solid #f3d4d9;border-radius:var(--r-lg);padding:26px 22px;text-align:center;box-shadow:var(--shadow-sm)}
+.guarantee .seal{width:68px;height:68px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;display:grid;place-items:center;font-size:32px;margin:0 auto 12px;box-shadow:var(--shadow-red)}
+.guarantee h2{font-size:22px;font-weight:900}
 .guarantee p{font-size:14px;color:var(--ink-soft);margin-top:8px}
 
 /* FAQ */
 .faq{max-width:var(--maxw);margin-inline:auto}
-details{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;background:#fff;overflow:hidden}
+details{border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:#fff;overflow:hidden;box-shadow:var(--shadow-sm)}
 details[open]{border-color:var(--red)}
-summary{list-style:none;padding:15px 16px;font-weight:800;font-size:15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+summary{list-style:none;padding:16px;font-weight:800;font-size:15px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 summary::-webkit-details-marker{display:none}
-summary .pm{color:var(--red);font-size:22px;font-weight:900;transition:transform .2s}
+summary .pm{color:var(--red);font-size:23px;font-weight:900;transition:transform .2s}
 details[open] summary .pm{transform:rotate(45deg)}
 details p{padding:0 16px 16px;font-size:14px;color:var(--ink-soft)}
 
-/* Final CTA */
-.final{background:var(--ink);color:#fff;text-align:center}
-.final h2{font-size:26px;font-weight:900;color:#fff}
+/* Final */
+.final{background:linear-gradient(165deg,var(--ink),#241c16);color:#fff;text-align:center}
+.final h2{font-size:27px;font-weight:900;color:#fff}
 .final p{color:rgba(255,255,255,.72);font-size:15px;margin-top:10px}
 .final .btn{margin-top:20px}
-.final .micro{margin-top:14px;font-size:12px;color:rgba(255,255,255,.6);font-weight:700}
+.final .micro{margin-top:14px;font-size:12px;color:var(--gold);font-weight:700}
 
 /* Footer */
-footer{background:#0b0b0d;color:rgba(255,255,255,.6);font-size:12.5px;text-align:center;padding:26px 18px 100px}
+footer{background:#0c0907;color:rgba(255,255,255,.6);font-size:12.5px;text-align:center;padding:28px 20px 100px}
 footer .logo{justify-content:center;color:#fff;margin-bottom:10px}
 footer .links{margin-top:10px;display:flex;gap:14px;justify-content:center}
 footer a{color:rgba(255,255,255,.8);font-weight:700}
 
 /* Sticky CTA */
-.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:45;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));transform:translateY(120%);transition:transform .3s ease}
+.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:46;background:rgba(251,248,245,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:11px 16px calc(11px + env(safe-area-inset-bottom));transform:translateY(120%);transition:transform .3s ease}
 .sticky-cta.show{transform:translateY(0)}
 .sticky-cta .row{max-width:var(--maxw);margin-inline:auto;display:flex;align-items:center;gap:12px}
 .sticky-cta .px{font-size:12px;font-weight:800;color:var(--ink-soft);line-height:1.2}
-.sticky-cta .px b{display:block;font-size:18px;color:var(--ink)}
-.sticky-cta .btn{flex:1;padding:14px;font-size:16px;box-shadow:none}
+.sticky-cta .px b{display:block;font-size:18px;color:var(--ink);font-family:'Cairo'}
+.sticky-cta .btn{flex:1;padding:15px;font-size:16px}
 
-/* ===== ORDER FLOW MODAL ===== */
+/* LIVE ORDER TOASTS */
+.toast-wrap{position:fixed;right:14px;bottom:84px;z-index:44;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:300px}
+.toast{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 13px;box-shadow:var(--shadow);transform:translateX(-120%);opacity:0;transition:transform .4s cubic-bezier(.16,.84,.44,1),opacity .4s}
+.toast.in{transform:translateX(0);opacity:1}
+.toast .av{flex:none;width:38px;height:38px;border-radius:50%;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-weight:900;font-size:15px}
+.toast .tb b{font-size:13px;font-weight:900;display:block;line-height:1.3}
+.toast .tb span{font-size:11.5px;color:var(--ink-soft);font-weight:700}
+.toast .tb .ago{color:var(--ok);font-weight:800}
+.toast .vchk{position:absolute;top:8px;left:10px;font-size:10px;color:var(--ok);font-weight:900}
+
+/* MODAL */
 .modal{position:fixed;inset:0;z-index:80;display:none}
 .modal.open{display:block}
-.modal-bg{position:absolute;inset:0;background:rgba(10,10,12,.55);backdrop-filter:blur(2px);animation:fade .2s ease}
-.sheet{position:absolute;left:0;right:0;bottom:0;max-width:var(--maxw);margin-inline:auto;background:#fff;border-radius:24px 24px 0 0;max-height:94vh;overflow-y:auto;animation:slideup .28s cubic-bezier(.16,.84,.44,1);box-shadow:0 -20px 60px -20px rgba(0,0,0,.4)}
+.modal-bg{position:absolute;inset:0;background:rgba(12,9,7,.6);backdrop-filter:blur(3px);animation:fade .2s ease}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-width:var(--maxw);margin-inline:auto;background:var(--paper);border-radius:26px 26px 0 0;max-height:94vh;overflow-y:auto;animation:slideup .3s cubic-bezier(.16,.84,.44,1);box-shadow:0 -24px 60px -20px rgba(0,0,0,.5)}
 @keyframes slideup{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.sheet-head{position:sticky;top:0;background:#fff;z-index:5;padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
-.sheet-head .grab{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:42px;height:5px;border-radius:99px;background:var(--line)}
+.sheet-head{position:sticky;top:0;background:var(--paper);z-index:5;padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.sheet-head .grab{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:99px;background:var(--line)}
 .steps-ind{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800}
 .steps-ind .d{width:24px;height:5px;border-radius:99px;background:var(--line)}
 .steps-ind .d.on{background:var(--red)}
-.x{width:34px;height:34px;border-radius:50%;background:var(--bg-alt);display:grid;place-items:center;font-size:18px;color:var(--ink-soft);font-weight:900}
-.sheet-body{padding:18px 18px 22px}
-.panel{display:none}
-.panel.active{display:block;animation:fade .25s ease}
-
-.sel-offer{display:flex;align-items:center;gap:13px;background:var(--red-soft);border:1px solid #f6cdd3;border-radius:15px;padding:14px;margin-bottom:18px}
-.sel-offer .badge{flex:none;width:48px;height:48px;border-radius:12px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:900;font-size:20px}
-.sel-offer .nm{font-weight:900;font-size:16px}
-.sel-offer .nm small{display:block;font-weight:700;font-size:12.5px;color:var(--red-dark)}
-.sel-offer .pr{margin-inline-start:auto;font-weight:900;font-size:19px;white-space:nowrap}
-
-.blk-title{font-size:13px;font-weight:900;color:var(--ink);margin:6px 0 12px;display:flex;align-items:center;gap:8px}
+.x{width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:17px;color:var(--ink-soft);font-weight:900}
+.sheet-body{padding:18px 18px 24px}
+.panel{display:none}.panel.active{display:block;animation:fade .25s ease}
+.sel-offer{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--red-soft);border-radius:16px;padding:13px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.sel-offer .badge{flex:none;width:54px;height:54px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;padding:5px}
+.sel-offer .badge img{height:46px;width:auto}
+.sel-offer .nm{font-weight:900;font-size:16px;font-family:'Cairo'}
+.sel-offer .nm small{display:block;font-weight:800;font-size:12.5px;color:var(--red)}
+.sel-offer .pr{margin-inline-start:auto;font-weight:900;font-size:20px;white-space:nowrap;font-family:'Cairo'}
+.blk-title{font-size:13px;font-weight:900;margin:6px 0 12px;display:flex;align-items:center;gap:8px}
 .blk-title .tag{font-size:10.5px;font-weight:900;color:#fff;background:var(--ok);padding:3px 8px;border-radius:6px}
-
-.upsell{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:14px;padding:13px;margin-bottom:11px;transition:border-color .15s,background .15s;cursor:pointer}
-.upsell.on{border-color:var(--red);background:var(--red-soft)}
-.upsell .chk{flex:none;width:24px;height:24px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;color:#fff;font-size:14px;transition:all .15s}
+.upsell{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:15px;padding:13px;margin-bottom:11px;transition:all .15s;cursor:pointer;background:#fff}
+.upsell.on{border-color:var(--red);background:#fffafb}
+.upsell .chk{flex:none;width:25px;height:25px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;color:#fff;font-size:14px;transition:all .15s}
 .upsell.on .chk{background:var(--red);border-color:var(--red)}
-.upsell .uimg{flex:none;width:46px;height:46px;border-radius:11px;background:var(--bg-alt);display:grid;place-items:center;font-size:23px}
+.upsell .uimg{flex:none;width:46px;height:46px;border-radius:12px;background:var(--paper);display:grid;place-items:center;font-size:23px}
 .upsell .ut{flex:1}
 .upsell .ut b{font-size:14.5px;font-weight:900;display:block}
-.upsell .ut span{font-size:12.5px;color:var(--ink-soft);font-weight:600}
+.upsell .ut span{font-size:12px;color:var(--ink-soft);font-weight:600}
 .upsell .up{font-weight:900;font-size:14.5px;color:var(--red);white-space:nowrap}
 .upsell .up small{color:var(--ink-soft);text-decoration:line-through;font-weight:700;font-size:11px;display:block;text-align:left}
-
 .field{margin-bottom:14px}
 .field label{display:block;font-size:13.5px;font-weight:800;margin-bottom:7px}
 .field label .req{color:var(--red)}
-.field input{width:100%;font-family:inherit;font-size:16px;font-weight:600;padding:14px 15px;border:2px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);transition:border-color .15s}
+.field input{width:100%;font-family:inherit;font-size:16px;font-weight:600;padding:15px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);transition:border-color .15s}
 .field input:focus{outline:none;border-color:var(--red)}
 .field input.err{border-color:var(--red);background:var(--red-soft)}
 .field .hint{font-size:11.5px;color:var(--ink-soft);font-weight:700;margin-top:5px}
 .field .errmsg{font-size:12px;color:var(--red);font-weight:800;margin-top:5px;display:none}
 .field.invalid .errmsg{display:block}
 .ltr{direction:ltr;text-align:right}
-
-.summary{background:var(--bg-alt);border:1px solid var(--line);border-radius:15px;padding:15px;margin-bottom:16px}
-.summary .row{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;padding:5px 0;color:var(--ink)}
+.summary{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.summary .row{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;padding:5px 0}
 .summary .row.muted{color:var(--ink-soft);font-size:13px}
 .summary .row.free b{color:var(--ok)}
 .summary hr{border:none;border-top:1px dashed var(--line);margin:8px 0}
-.summary .total{font-size:19px;font-weight:900}
+.summary .total{font-size:19px;font-weight:900;font-family:'Cairo'}
 .summary .total .v{color:var(--red)}
-.cod-note{display:flex;gap:9px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:14px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+.cod-note{display:flex;gap:9px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:14px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
 .cod-note .ic{flex:none;font-size:18px}
 .mini-trust{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap}
 .mini-trust span{font-size:11.5px;font-weight:800;color:var(--ink-soft);display:flex;gap:5px;align-items:center}
-
-/* Thank you */
 .ty{text-align:center;padding:8px 4px 10px}
-.ty .check{width:84px;height:84px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:44px;margin:6px auto 16px;animation:pop .4s cubic-bezier(.2,1.2,.4,1)}
+.ty .check{width:86px;height:86px;border-radius:50%;background:linear-gradient(145deg,var(--ok),#178045);color:#fff;display:grid;place-items:center;font-size:44px;margin:6px auto 16px;animation:pop .4s cubic-bezier(.2,1.2,.4,1)}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
 .ty h2{font-size:25px;font-weight:900}
-.ty .oid{display:inline-block;font-size:13px;font-weight:800;background:var(--bg-alt);border:1px solid var(--line);padding:6px 14px;border-radius:99px;margin-top:10px}
-.ty .call{background:var(--red-soft);border:1px solid #f6cdd3;border-radius:15px;padding:15px;margin-top:18px;font-size:14px;font-weight:800;color:var(--red-dark)}
+.ty .oid{display:inline-block;font-size:13px;font-weight:800;background:#fff;border:1px solid var(--line);padding:7px 15px;border-radius:99px;margin-top:10px}
+.ty .call{background:linear-gradient(160deg,#fff,var(--red-soft));border:1px solid #f3d4d9;border-radius:16px;padding:15px;margin-top:18px;font-size:14px;font-weight:800;color:var(--red-2)}
 .ty-steps{text-align:right;margin-top:18px;display:grid;gap:10px}
 .ty-steps .s{display:flex;gap:11px;align-items:center;font-size:13.5px;font-weight:700}
-.ty-steps .s .ic{flex:none;width:34px;height:34px;border-radius:9px;background:var(--bg-alt);display:grid;place-items:center;font-size:17px}
-.ty .cross{margin-top:20px;background:var(--ink);color:#fff;border-radius:15px;padding:16px;text-align:right}
-.ty .cross b{color:var(--red);display:block;font-size:13px;margin-bottom:5px}
+.ty-steps .s .ic{flex:none;width:36px;height:36px;border-radius:10px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:17px}
+.ty .cross{margin-top:20px;background:linear-gradient(160deg,var(--ink),#241c16);color:#fff;border-radius:16px;padding:17px;text-align:right}
+.ty .cross b{color:var(--gold);display:block;font-size:13px;margin-bottom:5px}
 .ty .cross p{font-size:13px;color:rgba(255,255,255,.8)}
-
-/* Reveal */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
-
-@media(max-width:360px){
-  .hero h1{font-size:28px}
-  h2.title{font-size:24px}
-  .trust-grid{gap:3px}
-  .comp-cell:first-child{font-size:11.5px;padding-right:10px}
-}
+@media(max-width:360px){.hero h1{font-size:30px}h2.title{font-size:25px}.trust-grid{gap:3px}.comp-cell:first-child{font-size:11.5px;padding-right:10px}.offer .imgs{width:74px}}
 </style>
 </head>
 <body>
 
-<!-- ===== Announce bar ===== -->
+<!-- Announce -->
 <div class="announce">
   <span><span class="adot"></span> الدفع عند الاستلام 💵</span>
   <span>🚚 توصيل لكل مدن السعودية</span>
-  <span>🔥 الكمية محدودة اليوم</span>
+  <span>🔥 كمية محدودة اليوم</span>
 </div>
 
-<!-- ===== Header ===== -->
+<!-- Header -->
 <header class="bar">
   <div class="bar-in">
-    <div class="logo">
-      <span class="mark">C</span>
-      <span>COSMARAB<small>SKINCARE</small></span>
-    </div>
-    <a href="#offers" class="bar-cta">العروض ↓</a>
+    <div class="logo"><span class="mark">C</span><span>COSMARAB<small>LUXURY LIP CARE</small></span></div>
+    <a href="#offers" class="bar-cta">اطلب الآن</a>
   </div>
 </header>
 
-<!-- ===== Hero ===== -->
+<!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
-    <div class="rate">
-      <span class="stars">★★★★★</span>
-      <span>أكثر من <b>9,400</b> طلب في السعودية</span>
+    <div class="hero-photo">
+      <img src="assets/hero.png" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" fetchpriority="high" />
+      <div class="glow"></div>
+      <div class="hero-float"><span class="s">★</span> 4.8/5 · +9,400 عميل</div>
     </div>
     <h1>ودّع <span class="hl">سواد الشفايف</span><br>ورجّع لونك الوردي الطبيعي</h1>
     <p class="sub">كريم تفتيح الشفاه من Cosmarab — يفتّح الاسمرار تدريجياً، يرطّب بعمق ويعالج الجفاف والتشققات.</p>
     <div class="pains">
-      <span class="pain">🚬 سواد من <b>التدخين</b></span>
-      <span class="pain">☀️ اسمرار من <b>الشمس</b></span>
+      <span class="pain">🚬 سواد <b>التدخين</b></span>
+      <span class="pain">☀️ اسمرار <b>الشمس</b></span>
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
     </div>
     <div class="timer-wrap">
       <span class="lbl">⏳ العرض ينتهي خلال</span>
       <div class="timer-units">
-        <div class="tu"><b id="th">00</b><span>ساعة</span></div>
-        <span class="tu-sep">:</span>
-        <div class="tu"><b id="tm">14</b><span>دقيقة</span></div>
-        <span class="tu-sep">:</span>
+        <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
+        <div class="tu"><b id="tm">14</b><span>دقيقة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="ts">59</b><span>ثانية</span></div>
       </div>
-    </div>
-    <div class="hero-img">
-      <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=760&q=80" alt="نتيجة كريم تفتيح الشفاه قبل وبعد" loading="eager" />
-      <span class="ba-tag ba-before">قبل</span>
-      <span class="ba-tag ba-after">بعد</span>
     </div>
   </div>
   <div class="wrap" style="padding-top:22px;padding-bottom:8px">
@@ -457,45 +439,27 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
-<!-- ===== Trust strip ===== -->
+<!-- Trust strip -->
 <div class="trust-strip">
   <div class="trust-grid">
     <div class="trust-i"><span class="ic">💵</span>دفع عند<span>الاستلام</span></div>
     <div class="trust-i"><span class="ic">🚚</span>توصيل<span>لكل المدن</span></div>
-    <div class="trust-i"><span class="ic">🛡️</span>منتج آمن<span>ومرخّص</span></div>
-    <div class="trust-i"><span class="ic">🔒</span>طلب<span>آمن وسري</span></div>
+    <div class="trust-i"><span class="ic">🛡️</span>معتمد<span>SFDA</span></div>
+    <div class="trust-i"><span class="ic">☪️</span>حلال<span>100%</span></div>
   </div>
 </div>
 
-<!-- ===== Live Orders Ticker ===== -->
-<div class="ticker-bar">
-  <div class="ticker-inner">
-    <span class="ticker-label"><span class="dot"></span> طلبات مباشرة</span>
-    <div class="ticker-scroll">
-      <div class="track" id="ticker">
-        <!-- filled by JS -->
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== QUIZ FUNNEL ===== -->
+<!-- QUIZ -->
 <section class="quiz-section section" id="quiz-section">
   <div class="quiz-wrap">
     <div class="quiz-hook">
       <span class="eyebrow">🧪 اختبار سريع (30 ثانية)</span>
       <h2>وش يناسبك بالضبط؟</h2>
-      <p>جاوب على 4 أسئلة بسيطة ونحدد الكريم الأنسب لحالتك.</p>
+      <p>جاوب على 4 أسئلة بسيطة ونحدد لك العرض الأنسب.</p>
     </div>
-
-    <div class="quiz-progress" id="quizProg">
-      <div class="qp active" id="qp0"></div>
-      <div class="qp" id="qp1"></div>
-      <div class="qp" id="qp2"></div>
-      <div class="qp" id="qp3"></div>
+    <div class="quiz-progress">
+      <div class="qp active" id="qp0"></div><div class="qp" id="qp1"></div><div class="qp" id="qp2"></div><div class="qp" id="qp3"></div>
     </div>
-
-    <!-- Q1 -->
     <div class="qcard show" id="qcard0">
       <div class="qstep">السؤال 1 من 4</div>
       <h3>وش أكثر شي يزعجك في شفايفك؟</h3>
@@ -506,8 +470,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <button class="qopt" data-q="0" data-a="3"><span class="qic">🌫</span> شفايف باهتة بدون حيوية</button>
       </div>
     </div>
-
-    <!-- Q2 -->
     <div class="qcard" id="qcard1">
       <div class="qstep">السؤال 2 من 4</div>
       <h3>كم صار لك بهالمشكلة؟</h3>
@@ -518,8 +480,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <button class="qopt" data-q="1" data-a="3"><span class="qic">♾</span> من طول عمري</button>
       </div>
     </div>
-
-    <!-- Q3 -->
     <div class="qcard" id="qcard2">
       <div class="qstep">السؤال 3 من 4</div>
       <h3>جربت منتجات قبل؟</h3>
@@ -530,8 +490,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <button class="qopt" data-q="2" data-a="3"><span class="qic">😤</span> جربت كل شي وما فيه نتيجة</button>
       </div>
     </div>
-
-    <!-- Q4 -->
     <div class="qcard" id="qcard3">
       <div class="qstep">السؤال 4 من 4</div>
       <h3>وش هدفك من الكريم؟</h3>
@@ -542,8 +500,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <button class="qopt" data-q="3" data-a="3"><span class="qic">⚡</span> نتيجة سريعة في أقل وقت</button>
       </div>
     </div>
-
-    <!-- Quiz result -->
     <div class="quiz-result" id="quizResult">
       <div class="qr-match" id="qrMatch">✅ تحليل اكتمل</div>
       <h3 class="qr-title" id="qrTitle">العرض المناسب لك</h3>
@@ -554,183 +510,135 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
-<!-- ===== OFFERS ===== -->
-<section class="section" id="offers" style="background:#fff">
+<!-- OFFERS -->
+<section class="section" id="offers" style="background:var(--paper)">
   <div class="wrap">
     <div class="offers-head">
       <span class="eyebrow">🔥 عروض اليوم فقط</span>
-      <h2 class="title">اختر عرضك وادفع عند الاستلام</h2>
+      <h2 class="title">اختر <span class="gold">عرضك</span> وادفع عند الاستلام</h2>
+      <div class="hairline"></div>
       <p class="lead">كل ما زادت الكمية، كل ما وفّرت أكثر.</p>
     </div>
 
     <div class="stock-bar">
-      <span>⚡ تبقّى عدد محدود اليوم</span>
+      <span>⚡ تبقّى عدد محدود</span>
       <span class="track"><span class="fill" id="stockFill"></span></span>
       <span id="stockN">17</span>
     </div>
 
     <!-- Offer 1 -->
-    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="199" data-was="299" data-label="قطعة واحدة">
-      <div class="offer-top">
+    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة">
+      <span class="radio"></span>
+      <div class="imgs"><img src="assets/product.png" alt="كريم تفتيح الشفاه" /></div>
+      <div class="obody">
         <div class="offer-qty">قطعة واحدة <small>للتجربة</small></div>
-        <div class="offer-pieces"><span class="p">💄</span></div>
-      </div>
-      <div class="offer-price">
-        <span class="now">199</span><span class="cur">ر.س</span>
-        <span class="was">299 ر.س</span>
+        <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was">299 ر.س</span></div>
         <span class="save">وفّر 33%</span>
+        <div class="perunit">السعر للقطعة 199 ر.س</div>
       </div>
-      <div class="perunit">السعر للقطعة 199 ر.س</div>
-      <div class="pick">اطلب الآن ←</div>
     </div>
 
     <!-- Offer 2 best -->
-    <div class="offer best" id="offer2" data-offer="2" data-qty="2" data-price="299" data-was="598" data-label="قطعتان — الثانية بنص السعر">
+    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="299" data-label="قطعتان — الثانية بنص السعر">
       <span class="ribbon">⭐ الأكثر طلباً</span>
-      <div class="offer-top">
+      <span class="radio"></span>
+      <div class="imgs two"><img src="assets/product.png" alt="" /><img src="assets/product.png" alt="" /></div>
+      <div class="obody">
         <div class="offer-qty">قطعتان <small>الثانية بنص السعر</small></div>
-        <div class="offer-pieces"><span class="p">💄</span><span class="p">💄</span></div>
+        <div class="offer-price"><span class="now">299</span><span class="cur">ر.س</span><span class="was">598 ر.س</span></div>
+        <span class="save">وفّر 299 ر.س</span>
+        <div class="perunit">السعر للقطعة 149 ر.س فقط</div>
       </div>
-      <div class="offer-price">
-        <span class="now">299</span><span class="cur">ر.س</span>
-        <span class="was">598 ر.س</span>
-        <span class="save">وفّر 299</span>
-      </div>
-      <div class="perunit">السعر للقطعة 149 ر.س فقط</div>
-      <div class="pick">اطلب الآن ←</div>
     </div>
 
     <!-- Offer 3 -->
-    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="398" data-was="897" data-label="3 قطع — اشترِ 2 والثالثة مجاناً">
+    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="398" data-label="3 قطع — اشترِ 2 والثالثة مجاناً">
       <span class="ribbon gold">👑 أفضل صفقة</span>
-      <div class="offer-top">
+      <span class="radio"></span>
+      <div class="imgs three"><img src="assets/product.png" alt="" /><img src="assets/product.png" alt="" /><img src="assets/product.png" alt="" /></div>
+      <div class="obody">
         <div class="offer-qty">3 قطع <small>اشترِ 2 والثالثة مجاناً 🎁</small></div>
-        <div class="offer-pieces"><span class="p">💄</span><span class="p">💄</span><span class="p">💄</span></div>
+        <div class="offer-price"><span class="now">398</span><span class="cur">ر.س</span><span class="was">897 ر.س</span></div>
+        <span class="save">وفّر 499 ر.س</span>
+        <div class="perunit">السعر للقطعة 132 ر.س فقط</div>
       </div>
-      <div class="offer-price">
-        <span class="now">398</span><span class="cur">ر.س</span>
-        <span class="was">897 ر.س</span>
-        <span class="save">وفّر 499</span>
-      </div>
-      <div class="perunit">السعر للقطعة 132 ر.س فقط</div>
-      <div class="pick">اطلب الآن ←</div>
     </div>
 
-    <p class="offers-foot">🚚 توصيل مجاني · 💵 الدفع عند الاستلام · 🔒 بياناتك سرّية</p>
+    <!-- Single order button below offers -->
+    <div class="order-btn-wrap">
+      <p class="selnote">المختار: <b id="selNote">قطعتان — الثانية بنص السعر</b></p>
+      <button class="btn lg cta-pulse" id="orderBtn">اطلب الآن وادفع عند الاستلام 💵</button>
+      <p class="offers-foot">🚚 توصيل مجاني · 💵 دفع عند الاستلام · 🔒 بياناتك سرّية</p>
+    </div>
 
-    <!-- Live order count -->
     <div class="order-count">
       <span class="ic">🔴</span>
-      <div>
-        <b><span id="liveCount">23</span> شخص يشوف هذا العرض الآن</b>
-        <span>تم طلب <span id="todayOrders">147</span> قطعة اليوم في السعودية</span>
-      </div>
+      <div><b><span id="liveCount">23</span> شخص يشوف هذا العرض الآن</b><span>تم طلب <span id="todayOrders">147</span> قطعة اليوم في السعودية</span></div>
     </div>
   </div>
 </section>
 
-<!-- ===== EXPERT SECTION ===== -->
+<!-- EXPERT -->
 <section class="section expert-section" id="expert">
   <div class="expert-wrap">
-    <span class="eyebrow" style="background:rgba(255,255,255,.1);color:#fff">👨‍⚕️ رأي الخبراء</span>
-    <h2 class="title" style="color:#fff;margin-bottom:20px">متخصص يشرح ليش جينشان فعّال في تفتيح الشفايف</h2>
-
+    <span class="eyebrow">👨‍⚕️ رأي الخبراء</span>
+    <h2 class="title">متخصص يشرح ليش جينشان فعّال في تفتيح الشفايف</h2>
     <div class="expert-top">
       <div class="expert-av">👨‍⚕️</div>
       <div class="expert-info">
-        <h3>د. محمد الغامدي</h3>
+        <h3>د. وائل حيان</h3>
         <p>متخصص في الطب التجميلي وعلم الجلد</p>
         <span class="expert-badge">✔ خبير معتمد</span>
       </div>
     </div>
-
-    <!--
-    ========================================================
-    TODO: ضع رابط الفيديو هنا
-    استبدل هذا الـ div بـ:
-    <video src="رابط-الفيديو.mp4" controls poster="صورة-الغلاف.jpg" style="width:100%;border-radius:16px"></video>
-    أو:
-    <iframe src="رابط-يوتيوب-مضمّن" style="width:100%;aspect-ratio:16/9;border-radius:16px;border:none"></iframe>
-    ========================================================
-    -->
-    <div class="video-box">
-      <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=760&q=75" alt="تفسير الخبير" />
-      <div class="video-play"></div>
-      <div class="video-note">▶ شرح الخبير — 2:30 دقيقة</div>
+    <!-- Real doctor video -->
+    <div class="video-box" id="videoBox">
+      <video id="docVideo" src="assets/doctor.mp4" preload="metadata" playsinline controls poster="assets/hero.png"></video>
+      <div class="video-cover" id="videoCover">
+        <div class="video-play"></div>
+        <span class="vtext">شاهد شرح الخبير ▶</span>
+      </div>
     </div>
-
     <div class="expert-quote">
       <div class="qmark">"</div>
-      <p>
-        مستخلص <span class="highlight">الجينشان (Ginseng)</span> يحتوي على مركبات الجينسينوسايد التي تعمل على تثبيط إنزيم التيروزيناز، وهو المسؤول الرئيسي عن إنتاج صبغة الميلانين التي تسبب اسمرار الشفايف. بالتركيبة المناسبة مع <span class="highlight">الأربوتين والنياسيناميد</span>، يحدث تفتيح تدريجي آمن دون إتلاف البشرة. هذا المنتج يجمع هذه المكونات بنسب صحيحة تجعله من أكثر الحلول فعالية للشفايف الغامقة.
-      </p>
+      <p>مستخلص <span class="highlight">الجينشان (Ginseng)</span> يحتوي على مركبات الجينسينوسايد التي تثبّط إنزيم التيروزيناز — المسؤول الرئيسي عن إنتاج صبغة الميلانين التي تسبب اسمرار الشفايف. مع <span class="highlight">الأربوتين والنياسيناميد</span> بالنِسب الصحيحة، يحدث تفتيح تدريجي آمن دون إتلاف البشرة. هذا المنتج يجمع هذه المكونات بطريقة تجعله من أكثر الحلول فعالية للشفايف الغامقة.</p>
     </div>
-
-    <div class="blk-title" style="color:rgba(255,255,255,.8)">المكونات الفعّالة في الكريم</div>
+    <div class="blk-title" style="color:rgba(255,255,255,.85)">المكونات الفعّالة في الكريم</div>
     <div class="ingredient-tags">
-      <span class="itag">🌿 جينشان (Ginseng)</span>
-      <span class="itag">🔬 أربوتين</span>
-      <span class="itag">✨ نياسيناميد</span>
-      <span class="itag">💧 هيالورونيك أسيد</span>
-      <span class="itag">🛡️ فيتامين E</span>
+      <span class="itag">🌿 جينشان (Ginseng)</span><span class="itag">🔬 أربوتين</span><span class="itag">✨ نياسيناميد</span><span class="itag">💧 هيالورونيك</span><span class="itag">🛡️ فيتامين E</span>
     </div>
   </div>
 </section>
 
-<!-- ===== CERTIFICATIONS ===== -->
+<!-- CERTS -->
 <section class="section certs-section" id="certs">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">🏅 الاعتمادات والتراخيص</span>
-    <h2 class="title">منتج معتمد ومرخّص رسمياً</h2>
-    <p class="lead">جميع مكونات Cosmarab اجتازت أعلى معايير السلامة في المملكة.</p>
+    <h2 class="title">منتج <span class="gold">معتمد ومرخّص</span> رسمياً</h2>
+    <div class="hairline"></div>
+    <p class="lead">اجتاز أعلى معايير السلامة في المملكة.</p>
   </div>
   <div class="certs-grid">
-    <div class="cert">
-      <div class="cic green">🛡️</div>
-      <h4>هيئة الغذاء والدواء SFDA</h4>
-      <p>منتج مسجّل ومعتمد لدى هيئة الغذاء والدواء السعودية</p>
-    </div>
-    <div class="cert">
-      <div class="cic gold">☪️</div>
-      <h4>حلال معتمد</h4>
-      <p>جميع المكونات حلال — خالي من أي مواد محرّمة</p>
-    </div>
-    <div class="cert">
-      <div class="cic blue">🔬</div>
-      <h4>مختبر جلدياً</h4>
-      <p>اختُبر طبياً من قِبل متخصصين في طب الجلد</p>
-    </div>
-    <div class="cert">
-      <div class="cic red">🐰</div>
-      <h4>خالٍ من التجارب على الحيوانات</h4>
-      <p>منتج نظيف وأخلاقي — Cruelty-Free</p>
-    </div>
-    <div class="cert-full">
-      <div class="cic green" style="flex:none">✅</div>
-      <div>
-        <h4>خالٍ من المواد الضارة</h4>
-        <p>بدون باrabens · بدون sulfates · بدون ملوّنات صناعية · بدون عطور مثيرة للحساسية. آمن للاستخدام اليومي للرجال والنساء.</p>
-      </div>
-    </div>
+    <div class="cert"><div class="cic green">🛡️</div><h4>هيئة الغذاء والدواء SFDA</h4><p>مسجّل ومعتمد لدى هيئة الغذاء والدواء السعودية</p></div>
+    <div class="cert"><div class="cic gold">☪️</div><h4>حلال معتمد</h4><p>جميع المكونات حلال — خالٍ من أي مواد محرّمة</p></div>
+    <div class="cert"><div class="cic blue">🔬</div><h4>مختبر جلدياً</h4><p>اختُبر طبياً من قِبل متخصصين في طب الجلد</p></div>
+    <div class="cert"><div class="cic red">🐰</div><h4>خالٍ من تجارب الحيوانات</h4><p>منتج نظيف وأخلاقي — Cruelty-Free</p></div>
+    <div class="cert-full"><div class="cic green">✅</div><div><h4>خالٍ من المواد الضارة</h4><p>بدون Parabens · بدون Sulfates · بدون ملوّنات صناعية. آمن للاستخدام اليومي للرجال والنساء.</p></div></div>
   </div>
 </section>
 
-<!-- ===== Before / After ===== -->
-<section class="section" style="background:var(--bg-alt)">
+<!-- BEFORE/AFTER (real photo: dark left, pink right) -->
+<section class="section" style="background:var(--paper-2)">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">📸 نتائج حقيقية</span>
-    <h2 class="title">الفرق يبان بنفسك</h2>
-    <p class="lead" style="margin-bottom:22px">صور لعملاء استخدموا الكريم بانتظام.</p>
+    <h2 class="title">الفرق يبان <span class="gold">بنفسك</span></h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:4px">صورة حقيقية لعميل بعد الاستخدام المنتظم.</p>
   </div>
-  <div class="ba-wrap">
-    <div class="ba-card">
-      <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=520&q=80" alt="قبل" />
-      <span class="lbl ba-before">قبل</span>
-    </div>
-    <div class="ba-card">
-      <img src="https://images.unsplash.com/photo-1503236823255-94609f598e71?auto=format&fit=crop&w=520&q=80" alt="بعد" />
-      <span class="lbl ba-after">بعد</span>
-    </div>
+  <div class="ba-photo">
+    <img src="assets/before-after.jpg" alt="قبل وبعد استخدام كريم تفتيح الشفاه" />
+    <span class="ba-lbl before">قبل ❌</span>
+    <span class="ba-lbl after">بعد ✅</span>
   </div>
   <div class="timeline">
     <div class="tl"><b>أسبوع 1</b><span>ترطيب فوري</span></div>
@@ -739,72 +647,34 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
-<!-- ===== COMPARISON TABLE ===== -->
-<section class="section comp-section">
+<!-- COMPARISON -->
+<section class="section" style="background:var(--paper)">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">🆚 المقارنة</span>
-    <h2 class="title">Cosmarab مقابل المنتجات الأخرى</h2>
+    <h2 class="title">Cosmarab مقابل <span class="gold">المنتجات الأخرى</span></h2>
+    <div class="hairline"></div>
     <p class="lead" style="margin-bottom:4px">ليش Cosmarab هو الخيار الأذكى؟</p>
   </div>
   <div class="comp-table">
-    <div class="comp-header">
-      <div class="ch">الميزة</div>
-      <div class="ch ours">Cosmarab ✨</div>
-      <div class="ch">منتجات أخرى</div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">تفتيح فعّال للشفايف</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cpart">جزئي</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">ترطيب عميق</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cyes">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">مستخلص جينشان</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cno">✗</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">أربوتين + نياسيناميد</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cno">✗</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">معتمد SFDA</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cpart">بعضها</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">شهادة حلال</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cno">✗</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">مناسب للمدخنين</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cno">✗</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">دفع عند الاستلام</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cno">✗</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">نتيجة من الأسبوع الأول</div>
-      <div class="comp-cell ours"><span class="cyes">✓</span></div>
-      <div class="comp-cell"><span class="cpart">أشهر</span></div>
-    </div>
+    <div class="comp-header"><div class="ch">الميزة</div><div class="ch ours">Cosmarab ✨</div><div class="ch">منتجات أخرى</div></div>
+    <div class="comp-row"><div class="comp-cell">تفتيح فعّال للشفايف</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cpart">جزئي</span></div></div>
+    <div class="comp-row"><div class="comp-cell">ترطيب عميق</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cyes">✓</span></div></div>
+    <div class="comp-row"><div class="comp-cell">مستخلص جينشان</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
+    <div class="comp-row"><div class="comp-cell">أربوتين + نياسيناميد</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
+    <div class="comp-row"><div class="comp-cell">معتمد SFDA</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cpart">بعضها</span></div></div>
+    <div class="comp-row"><div class="comp-cell">شهادة حلال</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
+    <div class="comp-row"><div class="comp-cell">مناسب للمدخنين</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
+    <div class="comp-row"><div class="comp-cell">دفع عند الاستلام</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
+    <div class="comp-row"><div class="comp-cell">نتيجة من الأسبوع الأول</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cpart">أشهر</span></div></div>
   </div>
 </section>
 
-<!-- ===== Benefits ===== -->
-<section class="section" style="background:var(--bg-alt)">
+<!-- Benefits -->
+<section class="section" style="background:var(--paper-2)">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">✨ ليش الكريم</span>
-    <h2 class="title">كل اللي تحتاجه شفايفك بمنتج واحد</h2>
+    <h2 class="title">كل اللي تحتاجه شفايفك <span class="gold">بمنتج واحد</span></h2>
+    <div class="hairline"></div>
     <p class="lead" style="margin-bottom:22px">معادلة مركّزة تشتغل على السبب مو بس تغطية مؤقتة.</p>
   </div>
   <div class="benefits">
@@ -816,7 +686,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
-<!-- ===== Ingredients ===== -->
+<!-- Ingredients -->
 <section class="section">
   <div class="wrap">
     <div class="ing">
@@ -824,7 +694,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <h2 class="title" style="color:#fff">مكونات فعّالة وآمنة</h2>
       <div class="ing-list">
         <div class="ing-i"><span class="ic">🌿</span><div><b>جينشان (Ginseng)</b><span>يثبّط إنزيم التيروزيناز لتفتيح طبيعي وآمن</span></div></div>
-        <div class="ing-i"><span class="ic">🔬</span><div><b>الأربوتين الطبيعي</b><span>يقلّل الاسمرار والميلانين بشكل مباشر</span></div></div>
+        <div class="ing-i"><span class="ic">🔬</span><div><b>الأربوتين الطبيعي</b><span>يقلّل الاسمرار والميلانين مباشرة</span></div></div>
         <div class="ing-i"><span class="ic">💧</span><div><b>حمض الهيالورونيك</b><span>ترطيب وامتلاء للشفايف</span></div></div>
         <div class="ing-i"><span class="ic">✨</span><div><b>النياسيناميد</b><span>توحيد اللون وتصحيح الصبغة</span></div></div>
         <div class="ing-i"><span class="ic">🛡️</span><div><b>فيتامين E</b><span>إصلاح وحماية وترطيب</span></div></div>
@@ -835,92 +705,82 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
-<!-- ===== How to use ===== -->
-<section class="section" style="background:var(--bg-alt)">
+<!-- How to use -->
+<section class="section" style="background:var(--paper-2)">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">📋 طريقة الاستخدام</span>
-    <h2 class="title">سهل جداً — مرتين باليوم</h2>
+    <h2 class="title">سهل جداً — <span class="gold">مرتين باليوم</span></h2>
+    <div class="hairline"></div>
     <p class="lead" style="margin-bottom:22px">دقيقة وحدة بس صباحاً ومساءً.</p>
   </div>
   <div class="steps">
     <div class="step"><span class="n">1</span><div><b>نظّف شفايفك</b><p>تأكد إنها نظيفة وجافة.</p></div></div>
     <div class="step"><span class="n">2</span><div><b>حط طبقة خفيفة</b><p>وزّع الكريم بالتساوي على الشفايف.</p></div></div>
-    <div class="step"><span class="n">3</span><div><b>دلّك بلطف</b><p>صباحاً ومساءً للحصول على أفضل نتيجة.</p></div></div>
+    <div class="step"><span class="n">3</span><div><b>دلّك بلطف</b><p>صباحاً ومساءً لأفضل نتيجة.</p></div></div>
     <div class="step"><span class="n">4</span><div><b>استمتع بالنتيجة</b><p>النتائج تبدأ تبان خلال أسابيع.</p></div></div>
   </div>
 </section>
 
-<!-- ===== Reviews ===== -->
+<!-- Reviews -->
 <section class="section">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">💬 آراء العملاء</span>
-    <h2 class="title">تجارب من كل السعودية</h2>
+    <h2 class="title">تجارب من <span class="gold">كل السعودية</span></h2>
+    <div class="hairline"></div>
     <p class="lead" style="margin-bottom:22px">⭐ 4.8/5 من أكثر من 2,100 تقييم.</p>
   </div>
-  <div class="review wrap">
-    <div class="top"><div class="av">ن</div><div><div class="nm">نورة <span class="verified">✔ موثّق</span></div><div class="city">الرياض</div></div></div>
-    <div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div>
-    <p>«صدق فرق! شفايفي كانت غامقة من القهوة، بعد شهر صارت وردية وأنعم. أنصح فيه.»</p>
-  </div>
-  <div class="review wrap" style="margin-top:12px">
-    <div class="top"><div class="av">ف</div><div><div class="nm">فهد <span class="verified">✔ موثّق</span></div><div class="city">جدة</div></div></div>
-    <div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div>
-    <p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح. شي ممتاز.»</p>
-  </div>
-  <div class="review wrap" style="margin-top:12px">
-    <div class="top"><div class="av">ر</div><div><div class="nm">ريم <span class="verified">✔ موثّق</span></div><div class="city">الدمام</div></div></div>
-    <div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div>
-    <p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p>
-  </div>
+  <div class="review wrap"><div class="top"><div class="av">ن</div><div><div class="nm">نورة <span class="verified">✔ موثّق</span></div><div class="city">الرياض</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«صدق فرق! شفايفي كانت غامقة من القهوة، بعد شهر صارت وردية وأنعم. أنصح فيه.»</p></div>
+  <div class="review wrap" style="margin-top:12px"><div class="top"><div class="av">ف</div><div><div class="nm">فهد <span class="verified">✔ موثّق</span></div><div class="city">جدة</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح.»</p></div>
+  <div class="review wrap" style="margin-top:12px"><div class="top"><div class="av">ر</div><div><div class="nm">ريم <span class="verified">✔ موثّق</span></div><div class="city">الدمام</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p></div>
 </section>
 
-<!-- ===== Guarantee ===== -->
-<section class="section" style="background:var(--bg-alt)">
+<!-- Guarantee -->
+<section class="section" style="background:var(--paper-2)">
   <div class="wrap">
     <div class="guarantee">
       <div class="seal">🛡️</div>
       <h2>اطلب وانت مطمئن</h2>
-      <p>تدفع <b>عند الاستلام</b> فقط — تشوف المنتج بيدك قبل لا تدفع ريال. منتج آمن ومرخّص، وبياناتك تبقى سرّية تماماً.</p>
+      <p>تدفع <b>عند الاستلام</b> فقط — تشوف المنتج بيدك قبل لا تدفع ريال. منتج آمن ومرخّص، وبياناتك سرّية تماماً.</p>
     </div>
   </div>
 </section>
 
-<!-- ===== FAQ ===== -->
+<!-- FAQ -->
 <section class="section">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">❓ أسئلة شائعة</span>
     <h2 class="title">عندك سؤال؟</h2>
-    <p class="lead" style="margin-bottom:22px"></p>
+    <div class="hairline" style="margin-bottom:22px"></div>
   </div>
   <div class="faq wrap">
     <details open><summary>متى تبان النتيجة؟ <span class="pm">+</span></summary><p>الترطيب من أول استخدام، وتفتيح اللون يبدأ يبان تدريجياً خلال الأسابيع الأولى مع الاستخدام المنتظم.</p></details>
     <details><summary>كيف أدفع؟ <span class="pm">+</span></summary><p>الدفع عند الاستلام (COD) — ما تدفع شي إلا لما يوصلك الطلب لباب البيت.</p></details>
     <details><summary>وش مدة التوصيل؟ <span class="pm">+</span></summary><p>نوصّل لجميع مدن السعودية، عادة خلال 2-4 أيام عمل حسب مدينتك.</p></details>
-    <details><summary>هل المنتج حلال ومعتمد؟ <span class="pm">+</span></summary><p>نعم، تركيبة حلال 100% ومسجّلة لدى هيئة الغذاء والدواء SFDA. جميع المكونات آمنة ومختبرة جلدياً.</p></details>
+    <details><summary>هل المنتج حلال ومعتمد؟ <span class="pm">+</span></summary><p>نعم، تركيبة حلال 100% ومسجّلة لدى هيئة الغذاء والدواء SFDA ومختبرة جلدياً.</p></details>
     <details><summary>مناسب للمدخنين؟ <span class="pm">+</span></summary><p>أكيد — صُمم خصيصاً لمعالجة اسمرار الشفايف الناتج عن التدخين والجفاف والشمس.</p></details>
-    <details><summary>ليش الجينشان مهم؟ <span class="pm">+</span></summary><p>الجينشان (Ginseng) يحتوي على مركبات تثبّط إنزيم التيروزيناز المسؤول عن اسمرار الشفايف — مما يجعله من أقوى مكونات التفتيح الطبيعي.</p></details>
+    <details><summary>ليش الجينشان مهم؟ <span class="pm">+</span></summary><p>الجينشان يحتوي مركبات تثبّط إنزيم التيروزيناز المسؤول عن اسمرار الشفايف — من أقوى مكونات التفتيح الطبيعي.</p></details>
   </div>
 </section>
 
-<!-- ===== Final CTA ===== -->
+<!-- Final -->
 <section class="section final">
   <div class="wrap">
-    <h2>شفايف وردية ورطبة تبدأ بطلب واحد</h2>
+    <h2>شفايف وردية ورطبة تبدأ <span style="color:var(--gold)">بطلب واحد</span></h2>
     <p>عرض اليوم بكمية محدودة — اطلب الحين وادفع عند الاستلام.</p>
-    <button class="btn lg" data-scroll="#offers">اطلب الآن وادفع عند الاستلام 💵</button>
+    <button class="btn lg gold" data-scroll="#offers">اطلب الآن وادفع عند الاستلام 💵</button>
     <p class="micro">🚚 توصيل لكل المدن · 🛡️ معتمد SFDA · ☪️ حلال · 🔒 طلب سرّي</p>
   </div>
 </section>
 
-<!-- ===== Footer ===== -->
+<!-- Footer -->
 <footer>
   <div class="logo"><span class="mark">C</span><span style="color:#fff">COSMARAB</span></div>
   <p>كريم تفتيح الشفاه — عناية متكاملة لشفاه صحية ووردية.</p>
-  <div class="links"><a href="#offers">العروض</a><a href="#">سياسة الخصوصية</a><a href="#">الشروط</a></div>
-  <p style="margin-top:12px;opacity:.45">© <span id="yr"></span> Cosmarab. جميع الحقوق محفوظة. المنتج مسجّل لدى هيئة الغذاء والدواء SFDA.</p>
+  <div class="links"><a href="#offers">العروض</a><a href="privacy.html">سياسة الخصوصية</a><a href="terms.html">الشروط والأحكام</a></div>
+  <p style="margin-top:12px;opacity:.45">© <span id="yr"></span> Cosmarab. جميع الحقوق محفوظة. مسجّل لدى هيئة الغذاء والدواء SFDA.</p>
 </footer>
 
-<!-- ===== Sticky CTA ===== -->
+<!-- Sticky CTA -->
 <div class="sticky-cta" id="stickyCta">
   <div class="row">
     <div class="px">يبدأ من<b>199 ر.س</b></div>
@@ -928,102 +788,63 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </div>
 
-<!-- ===== ORDER FLOW MODAL ===== -->
+<!-- Live order toasts -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ORDER MODAL -->
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal-bg" data-close></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-label="إتمام الطلب">
     <div class="sheet-head">
       <div class="grab"></div>
-      <div class="steps-ind">
-        <span class="d on" id="dot1"></span><span class="d" id="dot2"></span>
-        <span id="stepTxt">الخطوة 1 من 2</span>
-      </div>
+      <div class="steps-ind"><span class="d on" id="dot1"></span><span class="d" id="dot2"></span><span id="stepTxt">الخطوة 1 من 2</span></div>
       <button class="x" data-close aria-label="إغلاق">✕</button>
     </div>
     <div class="sheet-body">
-      <!-- Selected offer (shared) -->
       <div class="sel-offer" id="selOffer">
-        <div class="badge" id="selBadge">1</div>
-        <div>
-          <div class="nm" id="selName">قطعة واحدة <small id="selSub">للتجربة</small></div>
-        </div>
-        <div class="pr"><span id="selPrice">199</span> ر.س</div>
+        <div class="badge"><img src="assets/product.png" alt="" id="selImg" /></div>
+        <div><div class="nm" id="selName">قطعتان <small id="selSub">الثانية بنص السعر</small></div></div>
+        <div class="pr"><span id="selPrice">299</span> ر.س</div>
       </div>
-
-      <!-- Panel 1: Upsells -->
+      <!-- Panel 1 -->
       <div class="panel active" id="panel1">
         <div class="blk-title">⚡ ضيف لطلبك بسعر خاص <span class="tag">خصم اليوم</span></div>
-        <div class="upsell" data-up="boost" data-price="49" data-was="89">
-          <span class="chk">✓</span><span class="uimg">💧</span>
-          <span class="ut"><b>بوستر ترطيب الشفاه</b><span>ترطيب مكثّف ليلي يضاعف النتيجة</span></span>
-          <span class="up">+49<small>89 ر.س</small></span>
-        </div>
-        <div class="upsell" data-up="balm" data-price="59" data-was="99">
-          <span class="chk">✓</span><span class="uimg">🌙</span>
-          <span class="ut"><b>بلسم التفتيح الليلي</b><span>يشتغل أثناء النوم لتسريع التفتيح</span></span>
-          <span class="up">+59<small>99 ر.س</small></span>
-        </div>
-        <div class="upsell" data-up="extra" data-price="119" data-was="199">
-          <span class="chk">✓</span><span class="uimg">💄</span>
-          <span class="ut"><b>وحدة إضافية بخصم خاص</b><span>قطعة زيادة بسعر مخفّض اليوم فقط</span></span>
-          <span class="up">+119<small>199 ر.س</small></span>
-        </div>
+        <div class="upsell" data-up="boost" data-price="49"><span class="chk">✓</span><span class="uimg">💧</span><span class="ut"><b>بوستر ترطيب الشفاه</b><span>ترطيب مكثّف ليلي يضاعف النتيجة</span></span><span class="up">+49<small>89 ر.س</small></span></div>
+        <div class="upsell" data-up="balm" data-price="59"><span class="chk">✓</span><span class="uimg">🌙</span><span class="ut"><b>بلسم التفتيح الليلي</b><span>يشتغل أثناء النوم لتسريع التفتيح</span></span><span class="up">+59<small>99 ر.س</small></span></div>
+        <div class="upsell" data-up="extra" data-price="119"><span class="chk">✓</span><span class="uimg">💄</span><span class="ut"><b>وحدة إضافية بخصم خاص</b><span>قطعة زيادة بسعر مخفّض اليوم</span></span><span class="up">+119<small>199 ر.س</small></span></div>
         <div class="summary" id="sum1"></div>
         <button class="btn lg" id="toStep2">إتمام الطلب ←</button>
         <div class="mini-trust"><span>🔒 طلب آمن</span><span>💵 دفع عند الاستلام</span><span>🚚 توصيل مجاني</span></div>
       </div>
-
-      <!-- Panel 2: Form -->
+      <!-- Panel 2 -->
       <div class="panel" id="panel2">
         <div class="cod-note"><span class="ic">💵</span><span>تدفع <b style="color:var(--ink)">عند الاستلام</b> — عبّي بياناتك وبنتواصل معك لتأكيد الطلب.</span></div>
         <form id="orderForm" novalidate>
-          <div class="field" id="f-name">
-            <label>الاسم الكامل <span class="req">*</span></label>
-            <input type="text" id="name" name="name" placeholder="مثال: محمد العتيبي" autocomplete="name" />
-            <div class="errmsg">رجاءً اكتب اسمك.</div>
-          </div>
-          <div class="field" id="f-phone">
-            <label>رقم الجوال <span class="req">*</span></label>
-            <input type="tel" id="phone" name="phone" class="ltr" placeholder="05XXXXXXXX" inputmode="numeric" autocomplete="tel" maxlength="10" />
-            <div class="hint">نحتاجه للتواصل وتأكيد الطلب.</div>
-            <div class="errmsg">رقم جوال سعودي غير صحيح (يبدأ بـ 05 و10 أرقام).</div>
-          </div>
-          <div class="field" id="f-city">
-            <label>المدينة <span class="req">*</span></label>
-            <input type="text" id="city" name="city" list="cities" placeholder="مثال: الرياض" autocomplete="address-level2" />
-            <datalist id="cities">
-              <option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option>
-              <option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option>
-              <option value="الطائف"></option><option value="تبوك"></option><option value="بريدة"></option>
-              <option value="أبها"></option><option value="خميس مشيط"></option><option value="حائل"></option>
-              <option value="نجران"></option><option value="جازان"></option><option value="ينبع"></option>
-              <option value="الأحساء"></option><option value="القطيف"></option><option value="عرعر"></option>
-            </datalist>
-            <div class="errmsg">رجاءً اكتب مدينتك.</div>
-          </div>
+          <div class="field" id="f-name"><label>الاسم الكامل <span class="req">*</span></label><input type="text" id="name" placeholder="مثال: محمد العتيبي" autocomplete="name" /><div class="errmsg">رجاءً اكتب اسمك.</div></div>
+          <div class="field" id="f-phone"><label>رقم الجوال <span class="req">*</span></label><input type="tel" id="phone" class="ltr" placeholder="05XXXXXXXX" inputmode="numeric" autocomplete="tel" maxlength="10" /><div class="hint">نحتاجه للتواصل وتأكيد الطلب.</div><div class="errmsg">رقم جوال سعودي غير صحيح (يبدأ بـ 05 و10 أرقام).</div></div>
+          <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input type="text" id="city" list="cities" placeholder="مثال: الرياض" autocomplete="address-level2" />
+            <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الطائف"></option><option value="تبوك"></option><option value="بريدة"></option><option value="أبها"></option><option value="خميس مشيط"></option><option value="حائل"></option><option value="نجران"></option><option value="جازان"></option><option value="ينبع"></option><option value="الأحساء"></option><option value="القطيف"></option><option value="عرعر"></option></datalist>
+            <div class="errmsg">رجاءً اكتب مدينتك.</div></div>
           <div class="summary" id="sum2"></div>
-          <button class="btn lg cta-pulse" type="submit" id="confirmBtn">تأكيد الطلب ✅</button>
+          <button class="btn lg cta-pulse" type="submit">تأكيد الطلب ✅</button>
           <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
         </form>
       </div>
-
-      <!-- Panel 3: Thank you -->
+      <!-- Panel 3 -->
       <div class="panel" id="panel3">
         <div class="ty">
           <div class="check">✓</div>
           <h2>تم استلام طلبك! 🎉</h2>
           <p class="lead" style="color:var(--ink-soft)">شكراً لك، طلبك سُجّل بنجاح.</p>
           <div class="oid">رقم الطلب: <b id="orderId">#CSM-0000</b></div>
+          <div class="summary" id="tySummary" style="text-align:right;margin-top:16px"></div>
           <div class="call">📞 <b>بنتصل فيك خلال دقائق</b> لتأكيد العنوان والطلب — جوالك جاهز؟</div>
           <div class="ty-steps">
             <div class="s"><span class="ic">📞</span> نتواصل معك لتأكيد الطلب والعنوان.</div>
             <div class="s"><span class="ic">📦</span> نجهّز طلبك ونشحنه لمدينتك.</div>
-            <div class="s"><span class="ic">💵</span> تستلم وتدفع عند الباب — بدون أي دفع مقدّم.</div>
+            <div class="s"><span class="ic">💵</span> تستلم وتدفع عند الباب — بدون دفع مقدّم.</div>
           </div>
-          <div class="cross">
-            <b>🎁 ترقية اختيارية عند مكالمة التأكيد</b>
-            <p>اسأل المندوب عن إضافة قطعة ثانية بنص السعر أو بوستر الترطيب بخصم خاص.</p>
-          </div>
+          <div class="cross"><b>🎁 ترقية اختيارية عند مكالمة التأكيد</b><p>اسأل المندوب عن إضافة قطعة ثانية بنص السعر أو بوستر الترطيب بخصم خاص.</p></div>
           <button class="btn lg" data-close style="margin-top:20px">تمام، شكراً 🙏</button>
         </div>
       </div>
@@ -1034,284 +855,156 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <script>
 (function(){
 "use strict";
-document.getElementById('yr').textContent = new Date().getFullYear();
+document.getElementById('yr').textContent=new Date().getFullYear();
+function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}try{if(window.ttq)ttq.track(ev,data||{});}catch(e){}try{if(window.fbq)fbq('track',ev,data||{});}catch(e){}}
+document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
 
-/* ---- Pixel helper ---- */
-function track(ev,data){
-  try{if(window.snaptr)window.snaptr('track',ev,data||{});}catch(e){}
-  try{if(window.ttq)window.ttq.track(ev,data||{});}catch(e){}
-  try{if(window.fbq)window.fbq('track',ev,data||{});}catch(e){}
-}
-
-/* ---- Smooth scroll ---- */
-document.querySelectorAll('[data-scroll]').forEach(function(b){
-  b.addEventListener('click',function(){
-    var t=document.querySelector(b.getAttribute('data-scroll'));
-    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
-  });
-});
-
-/* ============================================================
-   COUNTDOWN TIMER (resets daily from midnight, 15-min session)
-   ============================================================ */
+/* TIMER */
 var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts');
-var endTime = Date.now() + (15*60+Math.floor(Math.random()*120))*1000;
-function tickTimer(){
-  var left=Math.max(0,Math.floor((endTime-Date.now())/1000));
-  var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;
-  tH.textContent=String(h).padStart(2,'0');
-  tM.textContent=String(m).padStart(2,'0');
-  tS.textContent=String(s).padStart(2,'0');
-  if(left===0){endTime=Date.now()+(15*60)*1000;}
-}
-tickTimer();
-setInterval(tickTimer,1000);
+var endTime=Date.now()+(15*60+Math.floor(Math.random()*120))*1000;
+function tickTimer(){var left=Math.max(0,Math.floor((endTime-Date.now())/1000));var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;tH.textContent=String(h).padStart(2,'0');tM.textContent=String(m).padStart(2,'0');tS.textContent=String(s).padStart(2,'0');if(left===0)endTime=Date.now()+15*60*1000;}
+tickTimer();setInterval(tickTimer,1000);
 
-/* ============================================================
-   LIVE ORDERS TICKER
-   ============================================================ */
+/* DOCTOR VIDEO */
+var docVideo=document.getElementById('docVideo'),videoCover=document.getElementById('videoCover');
+videoCover.addEventListener('click',function(){videoCover.classList.add('hide');docVideo.play();track('VIDEO_PLAY',{video:'expert'});});
+docVideo.addEventListener('pause',function(){if(docVideo.currentTime>0&&!docVideo.ended)return;});
+
+/* LIVE ORDER TOASTS */
 var ORDERS=[
-  {n:'نورة',c:'الرياض',i:'ن',t:'قبل دقيقتين',o:'3 قطع'},
-  {n:'فهد',c:'جدة',i:'ف',t:'قبل 3 دقائق',o:'قطعتان'},
-  {n:'ريم',c:'الدمام',i:'ر',t:'قبل 4 دقائق',o:'3 قطع'},
-  {n:'سارة',c:'مكة',i:'س',t:'قبل 6 دقائق',o:'قطعة واحدة'},
-  {n:'عبدالله',c:'الخبر',i:'ع',t:'قبل 7 دقائق',o:'قطعتان'},
-  {n:'ميرة',c:'الطائف',i:'م',t:'قبل 9 دقائق',o:'3 قطع'},
-  {n:'يوسف',c:'المدينة',i:'ي',t:'قبل 11 دقيقة',o:'قطعتان'},
-  {n:'هنود',c:'تبوك',i:'ه',t:'قبل 13 دقيقة',o:'3 قطع'},
-  {n:'خالد',c:'أبها',i:'خ',t:'قبل 14 دقيقة',o:'قطعة واحدة'},
-  {n:'لمياء',c:'بريدة',i:'ل',t:'قبل 16 دقيقة',o:'قطعتان'}
+  {n:'نورة',c:'الرياض',i:'ن',o:'3 قطع'},{n:'فهد',c:'جدة',i:'ف',o:'قطعتان'},
+  {n:'ريم',c:'الدمام',i:'ر',o:'3 قطع'},{n:'سارة',c:'مكة',i:'س',o:'قطعة'},
+  {n:'عبدالله',c:'الخبر',i:'ع',o:'قطعتان'},{n:'ميرة',c:'الطائف',i:'م',o:'3 قطع'},
+  {n:'يوسف',c:'المدينة',i:'ي',o:'قطعتان'},{n:'هنود',c:'تبوك',i:'ه',o:'3 قطع'},
+  {n:'خالد',c:'أبها',i:'خ',o:'قطعة'},{n:'لمياء',c:'بريدة',i:'ل',o:'قطعتان'},
+  {n:'محمد',c:'الأحساء',i:'م',o:'3 قطع'},{n:'أمل',c:'القطيف',i:'أ',o:'قطعتان'}
 ];
-var ticker=document.getElementById('ticker');
-var html='';
-// duplicate for seamless loop
-[ORDERS,ORDERS].forEach(function(arr){
-  arr.forEach(function(o){
-    html+='<span class="ticker-item"><span class="av">'+o.i+'</span>'+o.n+' من '+o.c+' طلب '+o.o+' — '+o.t+'</span>';
-  });
-});
-ticker.innerHTML=html;
+var toastWrap=document.getElementById('toastWrap'),oi=0,modal=document.getElementById('modal');
+function showToast(){
+  if(modal.classList.contains('open')){return;}
+  var o=ORDERS[oi%ORDERS.length];oi++;
+  var mins=Math.floor(Math.random()*9)+1;
+  var t=document.createElement('div');t.className='toast';
+  t.innerHTML='<span class="vchk">✔ موثّق</span><span class="av">'+o.i+'</span><div class="tb"><b>'+o.n+' من '+o.c+'</b><span>طلب '+o.o+' · <span class="ago">قبل '+mins+' دقيقة</span></span></div>';
+  toastWrap.appendChild(t);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('in');});});
+  setTimeout(function(){t.classList.remove('in');setTimeout(function(){t.remove();},450);},4500);
+}
+setTimeout(showToast,3500);
+setInterval(showToast,8000);
 
-/* Update live count periodically */
-var liveEl=document.getElementById('liveCount');
-var todayEl=document.getElementById('todayOrders');
-var liveN=23, todayN=147;
-setInterval(function(){
-  var d=Math.floor(Math.random()*3)-1;
-  liveN=Math.max(12,Math.min(41,liveN+d));
-  if(liveEl)liveEl.textContent=liveN;
-  if(Math.random()>.65){todayN++;if(todayEl)todayEl.textContent=todayN;}
-},7000);
+/* live count */
+var liveEl=document.getElementById('liveCount'),todayEl=document.getElementById('todayOrders'),liveN=23,todayN=147;
+setInterval(function(){var d=Math.floor(Math.random()*3)-1;liveN=Math.max(12,Math.min(41,liveN+d));liveEl.textContent=liveN;if(Math.random()>.65){todayN++;todayEl.textContent=todayN;}},7000);
 
-/* ============================================================
-   QUIZ FUNNEL
-   ============================================================ */
-var QUESTIONS=[
-  {q:'وش أكثر شي يزعجك في شفايفك؟',opts:['سواد وتغيير اللون','جفاف وتشققات','الاثنين مع بعض','شفايف باهتة']},
-  {q:'كم صار لك بالمشكلة؟',opts:['بداية ألاحظها','من 3-6 أشهر','من سنة أو أكثر','من طول عمري']},
-  {q:'جربت منتجات قبل؟',opts:['لا ما جربت','كريمات عادية ما فادت','بلسم بس ما حل السواد','جربت كل شي بلا نتيجة']},
-  {q:'وش هدفك من الكريم؟',opts:['لون وردي طبيعي','ترطيب ونعومة','علاج شامل تفتيح+ترطيب','نتيجة سريعة']}
-];
+/* QUIZ */
 var RESULTS=[
-  {rec:1,title:'العرض الأساسي مناسب لك',desc:'حالتك خفيفة وما تحتاج كميات كبيرة. جربي القطعة الواحدة أولاً وشوفي الفرق.',tags:['ترطيب سريع','تجربة آمنة','نتيجة من الأسبوع الأول']},
-  {rec:2,title:'العرض الثنائي هو الأنسب',desc:'حالتك متوسطة وتحتاج علاج منتظم. القطعتان يضمنان استمرارية الاستخدام وتفتيح واضح.',tags:['علاج متواصل','توفير 50%','نتيجة أقوى']},
-  {rec:3,title:'العرض الثلاثي الأفضل لك',desc:'حالتك تحتاج علاج مكثّف وطويل الأمد. 3 قطع تضمن لك علاج كامل وما تقف في المنتصف.',tags:['علاج مكثّف','أفضل قيمة','ثالثة مجاناً 🎁']}
+  {offer:'offer1',title:'العرض الأساسي مناسب لك',desc:'حالتك خفيفة وما تحتاج كميات كبيرة. جرّب القطعة الواحدة أولاً وشوف الفرق.',tags:['ترطيب سريع','تجربة آمنة','نتيجة مبكرة']},
+  {offer:'offer2',title:'العرض الثنائي هو الأنسب',desc:'حالتك متوسطة وتحتاج علاج منتظم. القطعتان يضمنان استمرارية الاستخدام وتفتيح واضح.',tags:['علاج متواصل','توفير 50%','نتيجة أقوى']},
+  {offer:'offer3',title:'العرض الثلاثي الأفضل لك',desc:'حالتك تحتاج علاج مكثّف وطويل. 3 قطع تضمن لك علاج كامل بدون توقّف في المنتصف.',tags:['علاج مكثّف','أفضل قيمة','ثالثة مجاناً 🎁']}
 ];
 var qAnswers=[];
-var qStep=0;
-
-function goToQ(n){
-  document.querySelectorAll('.qcard').forEach(function(c){c.classList.remove('show');});
-  var cards=['qcard0','qcard1','qcard2','qcard3'];
-  if(cards[n])document.getElementById(cards[n]).classList.add('show');
-  // progress
-  for(var i=0;i<4;i++){
-    var p=document.getElementById('qp'+i);
-    if(p){p.className='qp'+(i<n?' done':i===n?' active':'');}
-  }
-  qStep=n;
-}
-
-document.querySelectorAll('.qopt').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    var q=parseInt(btn.getAttribute('data-q'),10);
-    var a=parseInt(btn.getAttribute('data-a'),10);
-    qAnswers[q]=a;
-    if(q<3){goToQ(q+1);}
-    else{showQuizResult();}
-  });
-});
-
-function calcRec(){
-  var score=0;
-  if(qAnswers[0]===2||qAnswers[0]===3)score++;
-  if(qAnswers[1]>=2)score++;
-  if(qAnswers[2]>=2)score++;
-  if(qAnswers[3]===2||qAnswers[3]===3)score++;
-  if(score>=3)return 2;
-  if(score>=1)return 1;
-  return 0;
-}
-
+function goToQ(n){document.querySelectorAll('.qcard').forEach(function(c){c.classList.remove('show');});var el=document.getElementById('qcard'+n);if(el)el.classList.add('show');for(var i=0;i<4;i++){var p=document.getElementById('qp'+i);if(p)p.className='qp'+(i<n?' done':i===n?' active':'');}}
+document.querySelectorAll('.qopt').forEach(function(btn){btn.addEventListener('click',function(){var q=+btn.getAttribute('data-q'),a=+btn.getAttribute('data-a');qAnswers[q]=a;if(q<3)goToQ(q+1);else showQuizResult();});});
+function calcRec(){var s=0;if(qAnswers[0]===2||qAnswers[0]===3)s++;if(qAnswers[1]>=2)s++;if(qAnswers[2]>=2)s++;if(qAnswers[3]===2||qAnswers[3]===3)s++;if(s>=3)return 2;if(s>=1)return 1;return 0;}
 function showQuizResult(){
   document.querySelectorAll('.qcard').forEach(function(c){c.classList.remove('show');});
   for(var i=0;i<4;i++){var p=document.getElementById('qp'+i);if(p)p.className='qp done';}
-  var idx=calcRec();
-  var r=RESULTS[idx];
+  var idx=calcRec(),r=RESULTS[idx];
   document.getElementById('qrMatch').textContent='✅ النتيجة جاهزة — '+['العرض الأساسي','العرض الثنائي','العرض الثلاثي'][idx];
   document.getElementById('qrTitle').textContent=r.title;
   document.getElementById('qrDesc').textContent=r.desc;
-  var tagsEl=document.getElementById('qrTags');
-  tagsEl.innerHTML='';
-  r.tags.forEach(function(t){var s=document.createElement('span');s.className='qr-tag';s.textContent=t;tagsEl.appendChild(s);});
+  var tg=document.getElementById('qrTags');tg.innerHTML='';r.tags.forEach(function(t){var s=document.createElement('span');s.className='qr-tag';s.textContent=t;tg.appendChild(s);});
   document.getElementById('quizResult').classList.add('show');
-  // highlight recommended offer
-  var offerIds=['offer1','offer2','offer3'];
-  document.querySelectorAll('.offer').forEach(function(o){o.classList.remove('quiz-rec');});
-  var rec=document.getElementById(offerIds[idx]);
-  if(rec){
-    rec.classList.add('quiz-rec');
-    var rib=rec.querySelector('.ribbon');
-    if(!rib){rib=document.createElement('span');rib.className='ribbon green';rec.appendChild(rib);}
-    rib.className='ribbon green';
-    rib.textContent='🎯 مناسب لك';
-  }
+  selectOffer(document.getElementById(r.offer),true);
+  var rec=document.getElementById(r.offer),rib=rec.querySelector('.ribbon');
+  if(!rib){rib=document.createElement('span');rib.className='ribbon green';rec.appendChild(rib);}
   track('QUIZ_COMPLETE',{recommended:idx+1});
 }
 
-/* ============================================================
-   MODAL
-   ============================================================ */
-var modal=document.getElementById('modal');
+/* OFFERS — select then order button below */
+var UPSELLS={boost:{name:'بوستر ترطيب الشفاه',price:49},balm:{name:'بلسم التفتيح الليلي',price:59},extra:{name:'وحدة إضافية',price:119}};
+var state={offer:null,qty:0,price:0,label:'',upsells:[]};
+var selectedCard=null;
+function selectOffer(card,scroll){
+  if(!card)return;
+  document.querySelectorAll('.offer').forEach(function(o){o.classList.remove('selected');});
+  card.classList.add('selected');
+  selectedCard=card;
+  document.getElementById('selNote').textContent=card.getAttribute('data-label');
+  if(scroll){/* highlight only */}
+}
+document.querySelectorAll('.offer').forEach(function(card){card.addEventListener('click',function(){selectOffer(card);});});
+/* default select best offer */
+selectOffer(document.getElementById('offer2'));
+
+function openOrder(){
+  var card=selectedCard||document.getElementById('offer2');
+  state.offer=card.getAttribute('data-offer');
+  state.qty=+card.getAttribute('data-qty');
+  state.price=+card.getAttribute('data-price');
+  state.label=card.getAttribute('data-label');
+  state.upsells=[];
+  document.querySelectorAll('.upsell').forEach(function(u){u.classList.remove('on');});
+  document.getElementById('selName').childNodes[0].nodeValue=state.label.split('—')[0].trim()+' ';
+  document.getElementById('selSub').textContent=state.label.indexOf('—')>-1?state.label.split('—')[1].trim():'الدفع عند الاستلام';
+  document.getElementById('selPrice').textContent=state.price;
+  renderSummaries();showPanel(1);openModal();
+  track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
+}
+document.getElementById('orderBtn').addEventListener('click',openOrder);
+
+/* MODAL */
 function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
 function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
 document.querySelectorAll('[data-close]').forEach(function(el){el.addEventListener('click',closeModal);});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
+function showPanel(n){['panel1','panel2','panel3'].forEach(function(id,i){document.getElementById(id).classList.toggle('active',i===n-1);});document.getElementById('dot1').classList.toggle('on',n>=1);document.getElementById('dot2').classList.toggle('on',n>=2);document.getElementById('stepTxt').textContent=n===3?'تم الطلب ✅':'الخطوة '+n+' من 2';document.querySelector('.sheet').scrollTop=0;}
 
-function showPanel(n){
-  ['panel1','panel2','panel3'].forEach(function(id,i){document.getElementById(id).classList.toggle('active',i===(n-1));});
-  document.getElementById('dot1').classList.toggle('on',n>=1);
-  document.getElementById('dot2').classList.toggle('on',n>=2);
-  document.getElementById('stepTxt').textContent=n===3?'تم الطلب ✅':'الخطوة '+n+' من 2';
-  document.querySelector('.sheet').scrollTop=0;
-}
-
-/* ============================================================
-   OFFERS
-   ============================================================ */
-var UPSELLS={boost:{name:'بوستر ترطيب الشفاه',price:49},balm:{name:'بلسم التفتيح الليلي',price:59},extra:{name:'وحدة إضافية',price:119}};
-var state={offer:null,qty:0,price:0,label:'',upsells:[]};
-
-document.querySelectorAll('.offer').forEach(function(card){
-  card.addEventListener('click',function(){
-    state.offer=card.getAttribute('data-offer');
-    state.qty=parseInt(card.getAttribute('data-qty'),10);
-    state.price=parseInt(card.getAttribute('data-price'),10);
-    state.label=card.getAttribute('data-label');
-    state.upsells=[];
-    document.querySelectorAll('.upsell').forEach(function(u){u.classList.remove('on');});
-    document.getElementById('selBadge').textContent=state.qty;
-    document.getElementById('selName').childNodes[0].nodeValue=state.label.split('—')[0].trim()+' ';
-    document.getElementById('selSub').textContent=state.label.indexOf('—')>-1?state.label.split('—')[1].trim():'الدفع عند الاستلام';
-    document.getElementById('selPrice').textContent=state.price;
-    renderSummaries();
-    showPanel(1);
-    openModal();
-    track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
-  });
-});
-
-document.querySelectorAll('.upsell').forEach(function(u){
-  u.addEventListener('click',function(){
-    var key=u.getAttribute('data-up');
-    u.classList.toggle('on');
-    if(u.classList.contains('on')){if(state.upsells.indexOf(key)<0)state.upsells.push(key);}
-    else{state.upsells=state.upsells.filter(function(k){return k!==key;});}
-    renderSummaries();
-  });
-});
-
+document.querySelectorAll('.upsell').forEach(function(u){u.addEventListener('click',function(){var k=u.getAttribute('data-up');u.classList.toggle('on');if(u.classList.contains('on')){if(state.upsells.indexOf(k)<0)state.upsells.push(k);}else state.upsells=state.upsells.filter(function(x){return x!==k;});renderSummaries();});});
 function upsellTotal(){return state.upsells.reduce(function(s,k){return s+UPSELLS[k].price;},0);}
 function grandTotal(){return state.price+upsellTotal();}
-
-function summaryHTML(){
-  var rows='<div class="row"><span>'+state.label.split('—')[0].trim()+'</span><b>'+state.price+' ر.س</b></div>';
-  state.upsells.forEach(function(k){rows+='<div class="row muted"><span>+ '+UPSELLS[k].name+'</span><b>'+UPSELLS[k].price+' ر.س</b></div>';});
-  rows+='<div class="row free"><span>التوصيل</span><b>مجاني 🎉</b></div>';
-  rows+='<hr><div class="row total"><span>الإجمالي (دفع عند الاستلام)</span><span class="v">'+grandTotal()+' ر.س</span></div>';
-  return rows;
-}
+function summaryHTML(){var rows='<div class="row"><span>'+state.label.split('—')[0].trim()+'</span><b>'+state.price+' ر.س</b></div>';state.upsells.forEach(function(k){rows+='<div class="row muted"><span>+ '+UPSELLS[k].name+'</span><b>'+UPSELLS[k].price+' ر.س</b></div>';});rows+='<div class="row free"><span>التوصيل</span><b>مجاني 🎉</b></div><hr><div class="row total"><span>الإجمالي (دفع عند الاستلام)</span><span class="v">'+grandTotal()+' ر.س</span></div>';return rows;}
 function renderSummaries(){var h=summaryHTML();document.getElementById('sum1').innerHTML=h;document.getElementById('sum2').innerHTML=h;}
+document.getElementById('toStep2').addEventListener('click',function(){showPanel(2);track('ADD_TO_CART',{value:grandTotal(),currency:'SAR'});setTimeout(function(){document.getElementById('name').focus();},250);});
 
-document.getElementById('toStep2').addEventListener('click',function(){
-  showPanel(2);
-  track('ADD_TO_CART',{value:grandTotal(),currency:'SAR'});
-  setTimeout(function(){document.getElementById('name').focus();},250);
-});
-
-/* ============================================================
-   FORM VALIDATION & SUBMIT
-   ============================================================ */
+/* VALIDATION */
 document.getElementById('phone').addEventListener('input',function(){this.value=this.value.replace(/[^\d]/g,'').slice(0,10);});
 function setErr(id,on){document.getElementById(id).classList.toggle('invalid',on);var inp=document.querySelector('#'+id+' input');if(inp)inp.classList.toggle('err',on);}
-
 document.getElementById('orderForm').addEventListener('submit',function(e){
   e.preventDefault();
-  var name=document.getElementById('name').value.trim();
-  var phone=document.getElementById('phone').value.trim();
-  var city=document.getElementById('city').value.trim();
-  var ok=true;
+  var name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim(),city=document.getElementById('city').value.trim(),ok=true;
   if(name.length<2){setErr('f-name',true);ok=false;}else setErr('f-name',false);
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-
-  var order={offer:state.offer,qty:state.qty,basePrice:state.price,
-    upsells:state.upsells.map(function(k){return UPSELLS[k];}),
-    total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',ts:new Date().toISOString()};
-
+  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return UPSELLS[k];}),total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',ts:new Date().toISOString()};
   /* ===================================================================
      TODO — CONNECT ORDER DELIVERY HERE
      (A) WhatsApp:
-         var msg=encodeURIComponent('طلب جديد ✅\nالاسم: '+order.name+'\nالجوال: '+order.phone+'\nالمدينة: '+order.city+'\nالعرض: '+order.qty+' قطعة\nالإجمالي: '+order.total+' ر.س');
-         window.open('https://wa.me/9665XXXXXXXX?text='+msg,'_blank');
+       var msg=encodeURIComponent('طلب جديد ✅\nالاسم: '+order.name+'\nالجوال: '+order.phone+'\nالمدينة: '+order.city+'\nالعرض: '+order.qty+' قطعة\nالإجمالي: '+order.total+' ر.س');
+       window.open('https://wa.me/9665XXXXXXXX?text='+msg,'_blank');
      (B) Webhook:
-         fetch('https://YOUR_WEBHOOK_URL',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)});
+       fetch('https://YOUR_WEBHOOK_URL',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)});
      =================================================================== */
   console.log('ORDER:',order);
-  var oid='#CSM-'+String(Math.floor(1000+Math.random()*9000));
-  document.getElementById('orderId').textContent=oid;
+  document.getElementById('orderId').textContent='#CSM-'+String(Math.floor(1000+Math.random()*9000));
+  document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
   showPanel(3);
   track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty});
 });
 
-/* ============================================================
-   STICKY CTA
-   ============================================================ */
+/* STICKY */
 var sticky=document.getElementById('stickyCta');
-window.addEventListener('scroll',function(){
-  sticky.classList.toggle('show',window.scrollY>620&&!modal.classList.contains('open'));
-},{passive:true});
+window.addEventListener('scroll',function(){sticky.classList.toggle('show',window.scrollY>700&&!modal.classList.contains('open'));},{passive:true});
 
-/* ============================================================
-   SCROLL REVEAL
-   ============================================================ */
-var io=new IntersectionObserver(function(entries){
-  entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
-},{threshold:.1});
-document.querySelectorAll('.section>.wrap,.section .benefits,.ba-wrap,.timeline,.comp-table,.certs-grid,.expert-wrap').forEach(function(el){
-  el.classList.add('reveal');io.observe(el);
-});
+/* REVEAL */
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-table,.certs-grid,.expert-wrap,.offer').forEach(function(el){el.classList.add('reveal');io.observe(el);});
 
-/* ============================================================
-   STOCK COUNTER
-   ============================================================ */
-var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill');
-var n=17;
-setInterval(function(){
-  if(n>5&&Math.random()>.5){n--;if(stockN)stockN.textContent=n;if(stockFill)stockFill.style.width=(n/30*100)+'%';}
-},11000);
-
+/* STOCK */
+var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),n=17;
+setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockFill.style.width=(n/30*100)+'%';}},11000);
 })();
 </script>
 </body>
