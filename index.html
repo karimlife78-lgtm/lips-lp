@@ -13,7 +13,9 @@
 <meta property="og:locale" content="ar_SA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="assets/hero.webp" type="image/webp" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" /></noscript>
 <!--
 TODO: Uncomment + add your IDs before going live.
 <script>(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','SNAP_PIXEL_ID',{});snaptr('track','PAGE_VIEW');</script>
@@ -413,7 +415,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <section class="hero">
   <div class="hero-in">
     <div class="hero-photo">
-      <img src="assets/hero.png" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" fetchpriority="high" />
+      <picture>
+        <source srcset="assets/hero.webp" type="image/webp" />
+        <img src="assets/hero.png" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" fetchpriority="high" />
+      </picture>
       <div class="glow"></div>
       <div class="hero-float"><span class="s">★</span> 4.8/5 · +9,400 عميل</div>
     </div>
@@ -529,7 +534,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <!-- Offer 1 -->
     <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة">
       <span class="radio"></span>
-      <div class="imgs"><img src="assets/product.png" alt="كريم تفتيح الشفاه" /></div>
+      <div class="imgs"><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="كريم تفتيح الشفاه" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">قطعة واحدة <small>للتجربة</small></div>
         <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was">299 ر.س</span></div>
@@ -542,7 +547,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="299" data-label="قطعتان — الثانية بنص السعر">
       <span class="ribbon">⭐ الأكثر طلباً</span>
       <span class="radio"></span>
-      <div class="imgs two"><img src="assets/product.png" alt="" /><img src="assets/product.png" alt="" /></div>
+      <div class="imgs two"><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">قطعتان <small>الثانية بنص السعر</small></div>
         <div class="offer-price"><span class="now">299</span><span class="cur">ر.س</span><span class="was">598 ر.س</span></div>
@@ -555,7 +560,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="398" data-label="3 قطع — اشترِ 2 والثالثة مجاناً">
       <span class="ribbon gold">👑 أفضل صفقة</span>
       <span class="radio"></span>
-      <div class="imgs three"><img src="assets/product.png" alt="" /><img src="assets/product.png" alt="" /><img src="assets/product.png" alt="" /></div>
+      <div class="imgs three"><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">3 قطع <small>اشترِ 2 والثالثة مجاناً 🎁</small></div>
         <div class="offer-price"><span class="now">398</span><span class="cur">ر.س</span><span class="was">897 ر.س</span></div>
@@ -593,7 +598,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
     <!-- Real doctor video -->
     <div class="video-box" id="videoBox">
-      <video id="docVideo" src="assets/doctor.mp4" preload="metadata" playsinline controls poster="assets/hero.png"></video>
+      <video id="docVideo" src="assets/doctor.mp4" preload="none" playsinline controls poster="assets/hero.webp" loading="lazy"></video>
       <div class="video-cover" id="videoCover">
         <div class="video-play"></div>
         <span class="vtext">شاهد شرح الخبير ▶</span>
@@ -636,7 +641,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <p class="lead" style="margin-bottom:4px">صورة حقيقية لعميل بعد الاستخدام المنتظم.</p>
   </div>
   <div class="ba-photo">
-    <img src="assets/before-after.jpg" alt="قبل وبعد استخدام كريم تفتيح الشفاه" />
+    <picture>
+      <source srcset="assets/before-after.webp" type="image/webp" />
+      <img src="assets/before-after.jpg" alt="قبل وبعد استخدام كريم تفتيح الشفاه" loading="lazy" />
+    </picture>
     <span class="ba-lbl before">قبل ❌</span>
     <span class="ba-lbl after">بعد ✅</span>
   </div>
@@ -802,7 +810,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
     <div class="sheet-body">
       <div class="sel-offer" id="selOffer">
-        <div class="badge"><img src="assets/product.png" alt="" id="selImg" /></div>
+        <div class="badge"><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" id="selImg" loading="lazy" /></picture></div>
         <div><div class="nm" id="selName">قطعتان <small id="selSub">الثانية بنص السعر</small></div></div>
         <div class="pr"><span id="selPrice">299</span> ر.س</div>
       </div>
