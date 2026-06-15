@@ -154,9 +154,13 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .stock-bar .track{flex:1;height:8px;background:#f1e3e5;border-radius:99px;overflow:hidden}
 .stock-bar .fill{height:100%;width:18%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:99px;transition:width 1s ease}
 
-.offer{position:relative;border:2px solid var(--line);border-radius:var(--r-lg);padding:18px;margin-bottom:14px;background:#fff;transition:all .18s;cursor:pointer;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px}
-.offer:hover{transform:translateY(-2px)}
+.offer{position:relative;border:2px solid var(--line);border-radius:var(--r-lg);padding:18px;margin-bottom:14px;background:#fff;transition:border-color .18s,box-shadow .18s,background .18s;cursor:pointer;box-shadow:var(--shadow-sm);display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.offer:hover{border-color:var(--red-soft)}
 .offer.selected{border-color:var(--red);box-shadow:var(--shadow-red);background:linear-gradient(180deg,#fff,#fffafb)}
+/* inline CTA that reveals inside the selected offer */
+.offer-cta{flex-basis:100%;width:100%;border:0;border-radius:14px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-weight:900;font-size:15.5px;font-family:'Cairo';cursor:pointer;max-height:0;opacity:0;padding:0 18px;margin:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1),opacity .3s ease,padding .4s ease,margin .4s ease}
+.offer.selected .offer-cta{max-height:74px;opacity:1;padding:15px 18px;margin-top:14px;animation:ctaGlow 1.9s ease-in-out infinite}
+@keyframes ctaGlow{0%,100%{box-shadow:0 14px 30px -12px rgba(217,10,44,.5)}50%{box-shadow:0 16px 40px -8px rgba(217,10,44,.78)}}
 .offer .radio{position:absolute;top:14px;left:14px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;transition:all .15s;background:#fff}
 .offer.selected .radio{border-color:var(--red);background:var(--red)}
 .offer .radio::after{content:"✓";color:#fff;font-size:14px;font-weight:900;opacity:0;transform:scale(.4);transition:all .15s}
@@ -186,19 +190,6 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .order-btn-wrap .selnote{text-align:center;font-size:13px;font-weight:800;color:var(--ink-2);margin-bottom:10px}
 .order-btn-wrap .selnote b{color:var(--red)}
 .offers-foot{text-align:center;font-size:12.5px;color:var(--ink-soft);font-weight:700;margin-top:12px}
-
-/* STICKY MOBILE CTA — slides up when offers in view */
-.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:70;display:flex;align-items:center;gap:11px;padding:10px 13px;padding-bottom:calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.93);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);box-shadow:0 -12px 34px -14px rgba(21,17,15,.32);transform:translateY(130%);transition:transform .42s cubic-bezier(.22,1,.36,1);visibility:hidden}
-.sticky-cta.show{transform:translateY(0);visibility:visible}
-.sticky-cta .sc-thumb{flex:none;width:46px;height:46px;border-radius:12px;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center}
-.sticky-cta .sc-thumb img{height:40px;width:auto;object-fit:contain;filter:drop-shadow(0 5px 8px rgba(21,17,15,.18))}
-.sticky-cta .sc-info{flex:1;min-width:0;line-height:1.3}
-.sticky-cta .sc-label{display:block;font-size:13px;font-weight:900;font-family:'Cairo';white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sticky-cta .sc-price{font-size:11.5px;font-weight:800;color:var(--ink-soft)}
-.sticky-cta .sc-price b{color:var(--red);font-size:16px;font-family:'Cairo'}
-.sticky-cta .sc-btn{flex:none;border:0;border-radius:13px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-weight:900;font-size:14.5px;font-family:'Cairo';padding:13px 18px;box-shadow:var(--shadow-red);cursor:pointer;white-space:nowrap;animation:scPulse 1.9s ease-in-out infinite}
-@keyframes scPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
-@media(min-width:760px){.sticky-cta{display:none}}
 
 .order-count{max-width:var(--maxw);margin:18px auto 0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:800;box-shadow:var(--shadow-sm)}
 .order-count .ic{font-size:22px}
@@ -566,6 +557,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <span class="save">وفّر 33%</span>
         <div class="perunit">السعر للقطعة 199 ر.س</div>
       </div>
+      <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 2 best -->
@@ -579,6 +571,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <span class="save">وفّر 299 ر.س</span>
         <div class="perunit">السعر للقطعة 149 ر.س فقط</div>
       </div>
+      <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 3 -->
@@ -592,12 +585,12 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <span class="save">وفّر 499 ر.س</span>
         <div class="perunit">السعر للقطعة 132 ر.س فقط</div>
       </div>
+      <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
-    <!-- Single order button below offers -->
+    <!-- Trust line (order button now lives inside each offer) -->
     <div class="order-btn-wrap">
-      <p class="selnote">المختار: <b id="selNote">قطعتان — الثانية بنص السعر</b></p>
-      <button class="btn lg cta-pulse" id="orderBtn">اطلب الآن وادفع عند الاستلام 💵</button>
+      <p class="selnote">👆 اضغط على العرض اللي يناسبك ويطلع لك زر الطلب فوراً</p>
       <p class="offers-foot">🚚 توصيل مجاني · 💵 دفع عند الاستلام · 🔒 بياناتك سرّية</p>
     </div>
 
@@ -824,16 +817,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- Live order toasts -->
 <div class="toast-wrap" id="toastWrap"></div>
 
-<!-- Sticky mobile order bar (shows when offers in view) -->
-<div class="sticky-cta" id="stickyCta" aria-hidden="true">
-  <div class="sc-thumb"><picture><source srcset="assets/product.webp" type="image/webp" /><img src="assets/product.png" alt="" loading="lazy" /></picture></div>
-  <div class="sc-info">
-    <span class="sc-label" id="scLabel">قطعتان</span>
-    <span class="sc-price"><b id="scPrice">299</b> ر.س · دفع عند الاستلام</span>
-  </div>
-  <button class="sc-btn" id="stickyOrderBtn">اطلب الآن 💵</button>
-</div>
-
 <!-- ORDER MODAL -->
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal-bg" data-close></div>
@@ -990,29 +973,13 @@ function selectOffer(card,scroll){
   document.querySelectorAll('.offer').forEach(function(o){o.classList.remove('selected');});
   card.classList.add('selected');
   selectedCard=card;
-  var label=card.getAttribute('data-label');
-  document.getElementById('selNote').textContent=label;
-  /* sync sticky mobile bar */
-  document.getElementById('scLabel').textContent=label.split('—')[0].trim();
-  document.getElementById('scPrice').textContent=card.getAttribute('data-price');
   if(scroll){/* highlight only */}
 }
 document.querySelectorAll('.offer').forEach(function(card){card.addEventListener('click',function(){selectOffer(card);});});
+/* inline per-offer CTA — opens order directly, no scrolling */
+document.querySelectorAll('.offer-cta').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();selectOffer(btn.closest('.offer'));openOrder();});});
 /* default select best offer */
 selectOffer(document.getElementById('offer2'));
-
-/* STICKY CTA — show when offers visible, hide when inline button visible or modal open */
-(function(){
-  var sticky=document.getElementById('stickyCta'),offersSec=document.getElementById('offers'),inlineBtn=document.getElementById('orderBtn');
-  var offersInView=false,inlineInView=false;
-  function update(){var show=offersInView&&!inlineInView&&!modal.classList.contains('open');sticky.classList.toggle('show',show);sticky.setAttribute('aria-hidden',show?'false':'true');}
-  if('IntersectionObserver'in window){
-    new IntersectionObserver(function(e){offersInView=e[0].isIntersecting;update();},{threshold:0}).observe(offersSec);
-    new IntersectionObserver(function(e){inlineInView=e[0].isIntersecting;update();},{threshold:.4}).observe(inlineBtn);
-  }
-  document.getElementById('stickyOrderBtn').addEventListener('click',openOrder);
-  window.__updateSticky=update;
-})();
 
 function openOrder(){
   var card=selectedCard||document.getElementById('offer2');
@@ -1028,11 +995,10 @@ function openOrder(){
   renderSummaries();showPanel(1);openModal();
   track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
 }
-document.getElementById('orderBtn').addEventListener('click',openOrder);
 
 /* MODAL */
-function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';if(window.__updateSticky)window.__updateSticky();}
-function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';if(window.__updateSticky)window.__updateSticky();}
+function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
 document.querySelectorAll('[data-close]').forEach(function(el){el.addEventListener('click',closeModal);});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
 function showPanel(n){['panel1','panel2','panel3'].forEach(function(id,i){document.getElementById(id).classList.toggle('active',i===n-1);});document.getElementById('dot1').classList.toggle('on',n>=1);document.getElementById('dot2').classList.toggle('on',n>=2);document.getElementById('stepTxt').textContent=n===3?'تم الطلب ✅':'الخطوة '+n+' من 2';document.querySelector('.sheet').scrollTop=0;}
