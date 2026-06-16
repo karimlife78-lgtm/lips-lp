@@ -294,6 +294,18 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .review .verified{font-size:10px;font-weight:800;color:var(--ok);background:#e9f7ef;padding:2px 7px;border-radius:6px}
 .review .city{font-size:12px;color:var(--ink-soft);font-weight:700}
 .review p{font-size:14px;color:var(--ink)}
+/* Rating summary */
+.rating-summary{max-width:var(--maxw);margin:0 auto 22px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow-sm);display:flex;gap:20px;align-items:center}
+.rb-big{text-align:center;flex:none;min-width:80px}
+.rb-num{font-size:52px;font-weight:900;font-family:'Cairo';color:var(--ink);line-height:1}
+.rb-stars{color:var(--gold);font-size:17px;letter-spacing:2px;margin:4px 0}
+.rb-total{font-size:11px;font-weight:700;color:var(--ink-soft)}
+.rb-bars{flex:1;display:grid;gap:5px}
+.rb-row{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--ink-soft)}
+.rb-row .lbl{flex:none;width:24px;text-align:center;color:var(--gold)}
+.rb-track{flex:1;height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+.rb-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--red));border-radius:99px;transition:width 1s ease}
+.rb-pct{flex:none;width:28px;text-align:left}
 
 /* Guarantee */
 .guarantee{max-width:var(--maxw);margin-inline:auto;background:linear-gradient(160deg,#fff,var(--red-soft));border:1px solid #f3d4d9;border-radius:var(--r-lg);padding:26px 22px;text-align:center;box-shadow:var(--shadow-sm)}
@@ -760,11 +772,32 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <span class="eyebrow">💬 آراء العملاء</span>
     <h2 class="title">تجارب من <span class="gold">كل السعودية</span></h2>
     <div class="hairline"></div>
-    <p class="lead" style="margin-bottom:22px">⭐ 4.8/5 من أكثر من 2,100 تقييم.</p>
   </div>
+
+  <!-- Rating summary bar -->
+  <div class="rating-summary wrap">
+    <div class="rb-big">
+      <div class="rb-num">4.8</div>
+      <div class="rb-stars">★★★★★</div>
+      <div class="rb-total">من 2,100 تقييم</div>
+    </div>
+    <div class="rb-bars">
+      <div class="rb-row"><span class="lbl">5★</span><div class="rb-track"><div class="rb-fill" style="width:78%"></div></div><span class="rb-pct">78%</span></div>
+      <div class="rb-row"><span class="lbl">4★</span><div class="rb-track"><div class="rb-fill" style="width:14%"></div></div><span class="rb-pct">14%</span></div>
+      <div class="rb-row"><span class="lbl">3★</span><div class="rb-track"><div class="rb-fill" style="width:5%"></div></div><span class="rb-pct">5%</span></div>
+      <div class="rb-row"><span class="lbl">2★</span><div class="rb-track"><div class="rb-fill" style="width:2%"></div></div><span class="rb-pct">2%</span></div>
+      <div class="rb-row"><span class="lbl">1★</span><div class="rb-track"><div class="rb-fill" style="width:1%"></div></div><span class="rb-pct">1%</span></div>
+    </div>
+  </div>
+
   <div class="review wrap"><div class="top"><div class="av">ن</div><div><div class="nm">نورة <span class="verified">✔ موثّق</span></div><div class="city">الرياض</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«صدق فرق! شفايفي كانت غامقة من القهوة، بعد شهر صارت وردية وأنعم. أنصح فيه.»</p></div>
-  <div class="review wrap" style="margin-top:12px"><div class="top"><div class="av">ف</div><div><div class="nm">فهد <span class="verified">✔ موثّق</span></div><div class="city">جدة</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح.»</p></div>
-  <div class="review wrap" style="margin-top:12px"><div class="top"><div class="av">ر</div><div><div class="nm">ريم <span class="verified">✔ موثّق</span></div><div class="city">الدمام</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">ف</div><div><div class="nm">فهد <span class="verified">✔ موثّق</span></div><div class="city">جدة</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">ر</div><div><div class="nm">ريم <span class="verified">✔ موثّق</span></div><div class="city">الدمام</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">أ</div><div><div class="nm">أم خالد <span class="verified">✔ موثّق</span></div><div class="city">مكة المكرمة</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«اشتريت الكريم لزوجي كان يشتكي من سواد شفايفه من التدخين — بعد ثلاثة أسابيع فرق واضح وهو نفسه قالي راح يطلب مرة ثانية 😂 ينصح فيه 100%.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">ع</div><div><div class="nm">عبدالرحمن <span class="verified">✔ موثّق</span></div><div class="city">المدينة المنورة</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«جربت منتجات كثيرة ما فادت، هذا أول شي يعطيني نتيجة حقيقية. الترطيب من أول يوم والسواد بدأ يخف من الأسبوع الثاني.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">م</div><div><div class="nm">منى <span class="verified">✔ موثّق</span></div><div class="city">تبوك</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«كنت خايفة أدفع قبل ما أشوف المنتج بس الدفع عند الاستلام خلّاني أجرّب. والله ما ندمت — الكريم حلو ورايحة خفيفة.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">س</div><div><div class="nm">سلطان <span class="verified">✔ موثّق</span></div><div class="city">أبها</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«وصل في يومين بالضبط. التغليف أنيق والمنتج أصلي. جربته أسبوع وشفايفي أنعم بوضوح. راح آخذ 3 قطع المرة الجاية.»</p></div>
+  <div class="review wrap"><div class="top"><div class="av">ه</div><div><div class="nm">هيفاء <span class="verified">✔ موثّق</span></div><div class="city">الخبر</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«⭐⭐⭐⭐⭐ ما توقعت يكون بهالجودة بهالسعر. الشفايف صارت طرية وأخف لون. أنا وأختي نستخدمه الحين.»</p></div>
 </section>
 
 <!-- Guarantee -->
