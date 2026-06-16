@@ -37,21 +37,17 @@ module.exports = async function handler(req, res) {
     const source = (src || 'direct').toString().toLowerCase();
     const url  = src ? 'cosmarab.com/' + source : 'cosmarab.com/ksa-18';
     const iso  = new Date().toISOString();
-    const now  = new Date().toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
 
     const rows = [];
 
-    // Columns (must match apps-script.gs HEADERS + admin.html COLS):
-    // timestamp | time_ksa | name | phone | city | page | sku | product | qty | total | currency | note | source
-
-    // Main product row — price = grand total (incl. upsells)
-    rows.push([iso, now, name, phone, city, url, 'COSLIP', 'Jinshan Lip Serum.1', qty, total, curr, '', source]);
+    // Columns: timestamp | name | phone | city | page | sku | product | qty | total | currency | notes | source
+    rows.push([iso, name, phone, city, url, 'COSLIP', 'Jinshan Lip Serum.1', qty, total, curr, '', source]);
 
     // Upsell rows — no price, note links them to the main order
     if (Array.isArray(upsells)) {
       for (const up of upsells) {
         rows.push([
-          iso, now, name, phone, city, url,
+          iso, name, phone, city, url,
           UPSELL_SKUS[up.key] || 'TBD',
           up.name, 1, '', curr,
           'Upsell for COSLIP', source

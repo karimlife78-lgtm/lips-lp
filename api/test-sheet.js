@@ -4,7 +4,6 @@ module.exports = async function handler(req, res) {
 
   const testRows = [[
     new Date().toISOString(),
-    'TEST_ONLY',
     'Test Karim', '0600000000', 'Casablanca',
     'cosmarab.com/ksa-18', 'COSLIP', 'Jinshan Lip Serum.1',
     1, 199, 'SAR', '', 'test'
