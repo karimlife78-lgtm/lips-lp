@@ -154,6 +154,48 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ ok: true, ...data });
     }
 
+    // -------- PAGES: auto-detect all HTML files in the project ---------------
+    if (action === 'pages') {
+      const fs = require('fs');
+      const path = require('path');
+      const root = path.resolve(__dirname, '..');
+      const SKIP = new Set(['admin.html']);
+
+      // page metadata: name, icon, description keyed by path
+      const META = {
+        '/':            { name: 'Homepage',              icon: '🏠', desc: 'Product menu & brand hub' },
+        '/ksa-18':      { name: 'Lip Serum — KSA',      icon: '💄', desc: 'Main COD sales funnel (KSA)' },
+        '/privacy':     { name: 'Privacy Policy',        icon: '🔒', desc: 'Required for ad approval' },
+        '/terms':       { name: 'Terms & Conditions',    icon: '📄', desc: 'Required for ad approval' },
+      };
+
+      const pages = [];
+
+      // root .html files
+      const rootFiles = fs.readdirSync(root).filter(f => f.endsWith('.html') && !SKIP.has(f));
+      rootFiles.forEach(f => {
+        const slug = f === 'index.html' ? '/' : '/' + f.replace(/\.html$/, '');
+        pages.push({ path: slug, ...(META[slug] || { name: slug, icon: '📄', desc: 'Published page' }) });
+      });
+
+      // sub-folder index.html files (e.g. ksa-18/index.html)
+      const dirs = fs.readdirSync(root, { withFileTypes: true })
+        .filter(d => d.isDirectory() && !d.name.startsWith('.') && !['api','assets','node_modules'].includes(d.name));
+      dirs.forEach(d => {
+        const idx = path.join(root, d.name, 'index.html');
+        if (fs.existsSync(idx)) {
+          const slug = '/' + d.name;
+          if (!pages.find(p => p.path === slug)) {
+            pages.push({ path: slug, ...(META[slug] || { name: d.name, icon: '📄', desc: 'Published page' }) });
+          }
+        }
+      });
+
+      // sort: root first, then alphabetical
+      pages.sort((a, b) => (a.path === '/' ? -1 : b.path === '/' ? 1 : a.path.localeCompare(b.path)));
+      return res.status(200).json({ ok: true, pages });
+    }
+
     return res.status(404).json({ error: 'unknown_action' });
 
   } catch (err) {

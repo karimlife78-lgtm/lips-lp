@@ -707,21 +707,22 @@ tr:hover td{background:rgba(230,201,122,.05)}
 
   /* ============ PAGES HUB ============ */
   function renderPages(){
-    var pages=[
-      ['Landing Page','🛍️','Your main COD funnel','/','live'],
-      ['Privacy Policy','🔒','Required for ad approval','/privacy','live'],
-      ['Terms & Conditions','📄','Required for ad approval','/terms','live']
-    ];
-    $('#pagesList').innerHTML=pages.map(function(p){
-      var url=ORIGIN+p[3];
-      return '<div class="lcard"><div class="lh"><div class="li">'+p[1]+'</div><div class="lt"><b>'+p[0]+'</b><span>'+p[2]+'</span></div></div>'+
-        '<div class="lpath">'+url+'</div>'+
-        '<div class="row-btns"><button class="btn-sm red" data-open="'+url+'">↗ Open</button>'+
-        '<button class="btn-sm" data-copy="'+url+'">📋 Copy</button></div></div>';
-    }).join('')+
-    '<div class="lcard" style="border-style:dashed;justify-content:center;align-items:center;text-align:center;color:var(--ink-soft)"><div><div style="font-size:26px">＋</div><b>Add a new page</b><div style="font-size:11.5px;margin-top:4px">Drop any .html in the project root —<br>it publishes automatically on deploy.</div></div></div>';
-    $$('#pagesList [data-open]').forEach(function(b){b.onclick=function(){window.open(b.getAttribute('data-open'),'_blank');};});
-    $$('#pagesList [data-copy]').forEach(function(b){b.onclick=function(){copy(b.getAttribute('data-copy'));};});
+    api('pages').then(function(j){
+      var pages=j.ok?j.pages:[];
+      var html=pages.map(function(p){
+        var url=ORIGIN+p.path;
+        return '<div class="lcard"><div class="lh"><div class="li">'+p.icon+'</div><div class="lt"><b>'+esc(p.name)+'</b><span>'+esc(p.desc)+'</span></div></div>'+
+          '<div class="lpath">'+esc(url)+'</div>'+
+          '<div class="row-btns"><button class="btn-sm red" data-open="'+esc(url)+'">↗ Open</button>'+
+          '<button class="btn-sm" data-copy="'+esc(url)+'">📋 Copy link</button></div></div>';
+      }).join('');
+      html+='<div class="lcard" style="border-style:dashed;justify-content:center;align-items:center;text-align:center;color:var(--ink-soft)"><div><div style="font-size:26px">＋</div><b>Add a new page</b><div style="font-size:11.5px;margin-top:6px">Drop any .html in the project root or a sub-folder.<br>It appears here automatically after the next deploy.</div></div></div>';
+      $('#pagesList').innerHTML=html;
+      $$('#pagesList [data-open]').forEach(function(b){b.onclick=function(){window.open(b.getAttribute('data-open'),'_blank');};});
+      $$('#pagesList [data-copy]').forEach(function(b){b.onclick=function(){copy(b.getAttribute('data-copy'));};});
+    }).catch(function(){
+      $('#pagesList').innerHTML='<div class="card"><div class="empty"><div class="big">📄</div>Could not load pages list.</div></div>';
+    });
   }
 
   /* ============ STATUS / SETTINGS ============ */
