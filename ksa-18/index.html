@@ -324,6 +324,11 @@ footer .logo{justify-content:center;color:#fff;margin-bottom:10px}
 footer .links{margin-top:10px;display:flex;gap:14px;justify-content:center}
 footer a{color:rgba(255,255,255,.8);font-weight:700}
 
+/* WhatsApp float */
+.wa-float{position:fixed;bottom:90px;left:16px;z-index:50;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s;animation:waPulse 3s ease-in-out infinite}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(37,211,102,.55)}
+@keyframes waPulse{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4)}50%{box-shadow:0 6px 36px rgba(37,211,102,.6),0 0 0 8px rgba(37,211,102,.1)}}
+
 /* Sticky CTA */
 .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:46;background:rgba(251,248,245,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:11px 16px calc(11px + env(safe-area-inset-bottom));transform:translateY(120%);transition:transform .3s ease}
 .sticky-cta.show{transform:translateY(0)}
@@ -807,6 +812,8 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   <div class="links"><a href="#offers">العروض</a><a href="/privacy.html">سياسة الخصوصية</a><a href="/terms.html">الشروط والأحكام</a></div>
   <p style="margin-top:12px;opacity:.45">© <span id="yr"></span> Cosmarab. جميع الحقوق محفوظة. مسجّل لدى هيئة الغذاء والدواء SFDA.</p>
 </footer>
+
+<a href="https://wa.me/15707807569" target="_blank" rel="noopener" class="wa-float" aria-label="تواصل معنا على واتساب">💬</a>
 
 <!-- Sticky CTA -->
 <div class="sticky-cta" id="stickyCta">
