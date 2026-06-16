@@ -34,10 +34,10 @@ module.exports = async function handler(req, res) {
     // 3. Parse order body
     const { name, phone, city, qty, total, upsells, currency, src } = req.body;
     const curr = currency || 'SAR';
-    const url  = 'cosmarab.com'; // TODO: update to cosmarab.com/ksa18 later
+    const source = (src || 'direct').toString().toLowerCase();
+    const url  = src ? 'cosmarab.com/' + source : 'cosmarab.com/ksa-18';
     const iso  = new Date().toISOString();
     const now  = new Date().toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
-    const source = (src || 'direct').toString().toLowerCase();
 
     const rows = [];
 
