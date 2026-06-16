@@ -1,6 +1,5 @@
 // GCC countries allowed — add 'AE','KW','BH','QA','OM' when expanding
-// MA temporarily added for testing only
-const ALLOWED = new Set(['SA', 'MA']);
+const ALLOWED = new Set(['SA']);
 
 // Upsell SKU map — update keys when real SKUs are provided
 const UPSELL_SKUS = {
@@ -57,22 +56,13 @@ module.exports = async function handler(req, res) {
 
     // 4. Forward rows to Google Sheet via Apps Script web app
     const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
-    console.log('[submit-order] scriptUrl set:', !!scriptUrl);
     if (scriptUrl) {
-      try {
-        const r = await fetch(scriptUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ rows }),
-          redirect: 'follow'
-        });
-        const text = await r.text();
-        console.log('[sheet-response] status:', r.status, 'body:', text.slice(0, 200));
-      } catch (fetchErr) {
-        console.error('[sheet-fetch-error]', fetchErr.message);
-      }
-    } else {
-      console.log('[submit-order] LEAD (no sheet):', JSON.stringify(rows));
+      await fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rows }),
+        redirect: 'follow'
+      }).catch(function(err) { console.error('[sheet-error]', err.message); });
     }
 
     return res.status(200).json({ success: true });
