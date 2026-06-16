@@ -853,7 +853,8 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
             <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الطائف"></option><option value="تبوك"></option><option value="بريدة"></option><option value="أبها"></option><option value="خميس مشيط"></option><option value="حائل"></option><option value="نجران"></option><option value="جازان"></option><option value="ينبع"></option><option value="الأحساء"></option><option value="القطيف"></option><option value="عرعر"></option></datalist>
             <div class="errmsg">رجاءً اكتب مدينتك.</div></div>
           <div class="summary" id="sum2"></div>
-          <button class="btn lg cta-pulse" type="submit">تأكيد الطلب ✅</button>
+          <button class="btn lg cta-pulse" id="submitBtn" type="submit">تأكيد الطلب ✅</button>
+          <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🇸🇦</div>
           <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
         </form>
       </div>
@@ -1021,20 +1022,26 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return UPSELLS[k];}),total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',ts:new Date().toISOString()};
-  /* ===================================================================
-     TODO — CONNECT ORDER DELIVERY HERE
-     (A) WhatsApp:
-       var msg=encodeURIComponent('طلب جديد ✅\nالاسم: '+order.name+'\nالجوال: '+order.phone+'\nالمدينة: '+order.city+'\nالعرض: '+order.qty+' قطعة\nالإجمالي: '+order.total+' ر.س');
-       window.open('https://wa.me/9665XXXXXXXX?text='+msg,'_blank');
-     (B) Webhook:
-       fetch('https://YOUR_WEBHOOK_URL',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)});
-     =================================================================== */
-  console.log('ORDER:',order);
-  document.getElementById('orderId').textContent='#CSM-'+String(Math.floor(1000+Math.random()*9000));
-  document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
-  showPanel(3);
-  track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty});
+  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',ts:new Date().toISOString()};
+  var submitBtn=document.getElementById('submitBtn');
+  submitBtn.disabled=true;submitBtn.textContent='⏳ جاري الإرسال...';
+  document.getElementById('regionErr').style.display='none';
+  function showSuccess(){
+    document.getElementById('orderId').textContent='#CSM-'+String(Math.floor(1000+Math.random()*9000));
+    document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
+    showPanel(3);
+    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty});
+  }
+  fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
+  .then(function(r){
+    if(r.status===403){
+      submitBtn.disabled=false;submitBtn.textContent='تأكيد الطلب ✅';
+      document.getElementById('regionErr').style.display='block';
+      return;
+    }
+    showSuccess();
+  })
+  .catch(function(){showSuccess();});
 });
 
 /* STICKY */
