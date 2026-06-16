@@ -32,24 +32,29 @@ module.exports = async function handler(req, res) {
     }
 
     // 3. Parse order body
-    const { name, phone, city, qty, total, upsells, currency } = req.body;
+    const { name, phone, city, qty, total, upsells, currency, src } = req.body;
     const curr = currency || 'SAR';
     const url  = 'cosmarab.com'; // TODO: update to cosmarab.com/ksa18 later
+    const iso  = new Date().toISOString();
     const now  = new Date().toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
+    const source = (src || 'direct').toString().toLowerCase();
 
     const rows = [];
 
+    // Columns (must match apps-script.gs HEADERS + admin.html COLS):
+    // timestamp | time_ksa | name | phone | city | page | sku | product | qty | total | currency | note | source
+
     // Main product row — price = grand total (incl. upsells)
-    rows.push([now, name, phone, city, url, 'COSLIP', 'Jinshan Lip Serum.1', qty, total, curr, '']);
+    rows.push([iso, now, name, phone, city, url, 'COSLIP', 'Jinshan Lip Serum.1', qty, total, curr, '', source]);
 
     // Upsell rows — no price, note links them to the main order
     if (Array.isArray(upsells)) {
       for (const up of upsells) {
         rows.push([
-          now, name, phone, city, url,
+          iso, now, name, phone, city, url,
           UPSELL_SKUS[up.key] || 'TBD',
           up.name, 1, '', curr,
-          'Upsell for COSLIP'
+          'Upsell for COSLIP', source
         ]);
       }
     }
