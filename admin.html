@@ -90,6 +90,9 @@ input,select{font-family:inherit;font-size:14px;color:var(--ink)}
 .daterange{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:13px;padding:6px 10px;flex-wrap:wrap}
 .daterange label{font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.12em;text-transform:uppercase}
 .daterange input{border:none;background:transparent;font-size:12.5px;font-weight:600;outline:none;width:120px;color:var(--ink)}
+.prodsel{background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:13px;padding:8px 12px;color:var(--ink);font-family:var(--disp);font-weight:600;font-size:12.5px;outline:none;cursor:pointer;max-width:200px}
+.prodsel:focus{border-color:var(--gold)}
+.prodsel option{background:#1a1512;color:var(--ink)}
 .pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink-2)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ink-soft);position:relative;flex:none}
 .dot.ok{background:var(--ok);box-shadow:0 0 0 0 rgba(58,209,127,.5);animation:pulseDot 2s infinite}
@@ -248,6 +251,7 @@ tr:hover td{background:rgba(230,201,122,.05)}
     <div class="brand"><span class="mk">C</span><div>Cosmarab<small>ADMIN</small></div></div>
     <span class="pill" id="connPill"><span class="dot" id="connDot"></span><span id="connTxt">checking…</span></span>
     <div class="spacer"></div>
+    <select class="prodsel" id="prodFilter" title="Filter by product / campaign"><option value="">🛍️ All products</option></select>
     <div class="daterange">
       <label>From</label><input type="date" id="dFrom" />
       <label>To</label><input type="date" id="dTo" />
@@ -283,9 +287,15 @@ tr:hover td{background:rgba(230,201,122,.05)}
         <div id="channels"></div>
       </div>
     </div>
-    <div class="card" style="margin-top:16px">
-      <div class="section-h"><h2>Top Cities</h2><span class="sub">where your orders come from</span></div>
-      <div id="cities"></div>
+    <div class="cols-2" style="margin-top:16px">
+      <div class="card">
+        <div class="section-h"><h2>Revenue by Product</h2><span class="sub">across all campaigns</span></div>
+        <div id="products"></div>
+      </div>
+      <div class="card">
+        <div class="section-h"><h2>Top Cities</h2><span class="sub">where your orders come from</span></div>
+        <div id="cities"></div>
+      </div>
     </div>
   </div>
 
@@ -441,11 +451,12 @@ tr:hover td{background:rgba(230,201,122,.05)}
     $('#dTo').value=iso(to);$('#dFrom').value=iso(from);
     $('#dFrom').addEventListener('change',renderOrders);
     $('#dTo').addEventListener('change',renderOrders);
+    $('#prodFilter').addEventListener('change',function(){SELECTED_PRODUCT=this.value;renderOrders();renderOverview();});
   }
   $('#refreshBtn').addEventListener('click',function(){loadOrders();loadLinks();checkStatus();toast('Refreshed');});
 
   /* ============ ORDERS ============ */
-  var RAW={headers:[],rows:[]}, ORDERS=[];
+  var RAW={headers:[],rows:[]}, ORDERS=[], SELECTED_PRODUCT='';
   // canonical columns produced by the Apps Script / submit-order
   var COLS=['timestamp','time_ksa','name','phone','city','page','sku','product','qty','total','currency','note','source'];
   function colIndex(h){var m={};(h||[]).forEach(function(name,i){m[String(name).trim().toLowerCase()]=i;});return m;}
@@ -464,10 +475,21 @@ tr:hover td{background:rgba(230,201,122,.05)}
       ORDERS.push({
         date:dt, display:get(row,'time_ksa')||ts,
         name:get(row,'name'),phone:get(row,'phone'),city:String(get(row,'city')||'').trim()||'—',
-        product:get(row,'product'),qty:parseInt(get(row,'qty'))||1,
+        product:String(get(row,'product')||'—').trim()||'—',page:String(get(row,'page')||'').trim(),
+        qty:parseInt(get(row,'qty'))||1,
         total:total,channel:String(get(row,'source')||'direct').toLowerCase().trim()||'direct'
       });
     });
+    populateProducts();
+  }
+  // Build the product / campaign dropdown from live order data
+  function populateProducts(){
+    var sel=$('#prodFilter');if(!sel)return;
+    var names={};ORDERS.forEach(function(o){if(o.product&&o.product!=='—')names[o.product]=(names[o.product]||0)+1;});
+    var list=Object.keys(names).sort(function(a,b){return names[b]-names[a];});
+    var cur=SELECTED_PRODUCT;
+    sel.innerHTML='<option value="">🛍️ All products</option>'+list.map(function(p){return '<option value="'+esc(p)+'">'+esc(p)+' ('+names[p]+')</option>';}).join('');
+    if(list.indexOf(cur)>=0)sel.value=cur;else{SELECTED_PRODUCT='';sel.value='';}
   }
   function loadOrders(){
     setConn('warn','loading orders…');
@@ -478,7 +500,7 @@ tr:hover td{background:rgba(230,201,122,.05)}
     }).catch(function(){setConn('bad','sheet unreachable');renderOrders();renderOverview();});
   }
   function inRange(d){if(!d)return true;var f=$('#dFrom').value,t=$('#dTo').value;var ds=d.toISOString().slice(0,10);return (!f||ds>=f)&&(!t||ds<=t);}
-  function filtered(){var q=($('#ordSearch').value||'').toLowerCase();return ORDERS.filter(function(o){if(!inRange(o.date))return false;if(!q)return true;return (o.name+o.phone+o.city).toLowerCase().indexOf(q)>=0;});}
+  function filtered(){var q=($('#ordSearch').value||'').toLowerCase(),p=SELECTED_PRODUCT;return ORDERS.filter(function(o){if(!inRange(o.date))return false;if(p&&o.product!==p)return false;if(!q)return true;return (o.name+o.phone+o.city).toLowerCase().indexOf(q)>=0;});}
 
   function renderOrders(){
     var list=filtered();
@@ -507,11 +529,12 @@ tr:hover td{background:rgba(230,201,122,.05)}
     var revenue=list.reduce(function(s,o){return s+o.total;},0);
     var units=list.reduce(function(s,o){return s+o.qty;},0);
     var count=list.length, aov=count?revenue/count:0;
-    var byChan={},byDay={},byCity={};
+    var byChan={},byDay={},byCity={},byProd={};
     list.forEach(function(o){
       byChan[o.channel]=(byChan[o.channel]||0)+o.total;
       var k=o.date?o.date.toISOString().slice(0,10):'—';byDay[k]=(byDay[k]||0)+1;
       byCity[o.city]=(byCity[o.city]||0)+1;
+      byProd[o.product]=(byProd[o.product]||0)+o.total;
     });
     var topChan=Object.keys(byChan).sort(function(a,b){return byChan[b]-byChan[a];})[0]||'—';
     $('#kpis').innerHTML=[
@@ -534,6 +557,11 @@ tr:hover td{background:rgba(230,201,122,.05)}
     var cities=Object.keys(byCity).filter(function(c){return c!=='—';}).sort(function(a,b){return byCity[b]-byCity[a];}).slice(0,8);
     var maxC=Math.max.apply(null,cities.map(function(c){return byCity[c];}).concat([1]));
     $('#cities').innerHTML=cities.length?cities.map(function(c){return '<div class="trend-row"><span class="d" style="width:120px">'+esc(c)+'</span><span class="bar"><i style="width:'+(byCity[c]/maxC*100)+'%"></i></span><span class="n">'+byCity[c]+'</span></div>';}).join(''):emptyMini('No city data yet');
+    // products
+    if($('#products')){
+      var prods=Object.keys(byProd).filter(function(p){return p!=='—';}).sort(function(a,b){return byProd[b]-byProd[a];});
+      $('#products').innerHTML=prods.length?prods.map(function(p){return '<div class="chan"><span class="nm"><span class="ci" style="background:var(--gold)"></span>'+esc(p)+'</span><span class="rv">'+fmt(byProd[p])+' SAR</span></div>';}).join(''):emptyMini('No product data yet — orders will group here by product');
+    }
   }
   function kpi(cls,lab,ic,val,sm){return '<div class="card kpi '+cls+'"><div class="lab">'+lab+'<span class="ic">'+ic+'</span></div><div class="val">'+val+'</div><div class="sm">'+sm+'</div></div>';}
   function emptyMini(m){return '<div class="muted" style="padding:14px 0;font-size:12.5px">'+m+'</div>';}
