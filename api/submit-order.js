@@ -57,16 +57,22 @@ module.exports = async function handler(req, res) {
 
     // 4. Forward rows to Google Sheet via Apps Script web app
     const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+    console.log('[submit-order] scriptUrl set:', !!scriptUrl);
     if (scriptUrl) {
-      const r = await fetch(scriptUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rows })
-      });
-      if (!r.ok) console.error('[sheet-error]', await r.text());
+      try {
+        const r = await fetch(scriptUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rows }),
+          redirect: 'follow'
+        });
+        const text = await r.text();
+        console.log('[sheet-response] status:', r.status, 'body:', text.slice(0, 200));
+      } catch (fetchErr) {
+        console.error('[sheet-fetch-error]', fetchErr.message);
+      }
     } else {
-      // Log to Vercel function logs until sheet is connected
-      console.log('[submit-order] LEAD:', JSON.stringify(rows));
+      console.log('[submit-order] LEAD (no sheet):', JSON.stringify(rows));
     }
 
     return res.status(200).json({ success: true });
