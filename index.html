@@ -1,39 +1,644 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#15110F" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#15110F"/>
+<meta name="description" content="Cosmarab — منتجات عناية فاخرة بالشفاه. اطلبي وادفعي عند الاستلام. توصيل سريع لجميع دول الخليج."/>
+<meta property="og:title" content="Cosmarab — Luxury Lip Care"/>
+<meta property="og:description" content="عناية فاخرة بالشفاه — دفع عند الاستلام — توصيل الخليج"/>
+<meta property="og:image" content="/assets/hero.png"/>
 <title>Cosmarab — Luxury Lip Care</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet"/></noscript>
 <style>
+/* ── TOKENS ─────────────────────────────────────────── */
+:root{
+  --red:#D90A2C;--red-2:#A30821;--red-glow:rgba(217,10,44,.35);
+  --gold:#C2A14D;--gold-2:#8f7335;--gold-soft:rgba(194,161,77,.15);
+  --ink:#15110F;--ink-2:#1e1710;--ink-3:#241c16;
+  --paper:#FBF8F5;--line:rgba(255,255,255,.08);
+  --txt:#fff;--txt-muted:rgba(255,255,255,.55);--txt-dim:rgba(255,255,255,.25);
+  --r-sm:12px;--r-md:18px;--r-lg:24px;--r-xl:32px;
+  --shadow-red:0 20px 60px -16px rgba(217,10,44,.5);
+  --shadow-gold:0 20px 60px -16px rgba(194,161,77,.3);
+  --shadow-card:0 8px 40px -8px rgba(0,0,0,.6);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--red:#D90A2C;--gold:#C2A14D;--ink:#15110F}
-body{font-family:'Tajawal',system-ui,Arial,sans-serif;background:var(--ink);color:#fff;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px}
-.logo{font-family:'Cairo',sans-serif;font-size:36px;font-weight:900;letter-spacing:.06em;margin-bottom:8px}
-.logo span{color:var(--gold)}
-.tag{font-size:11px;font-weight:700;letter-spacing:.18em;color:rgba(255,255,255,.45);margin-bottom:48px}
-.products{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px}
-.product-btn{display:block;padding:18px 24px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;color:#fff;text-decoration:none;font-family:'Cairo',sans-serif;font-weight:700;font-size:17px;transition:background .2s,border-color .2s}
-.product-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.25)}
-.product-btn .sub{display:block;font-size:12px;font-weight:400;color:rgba(255,255,255,.5);margin-top:3px;font-family:'Tajawal',sans-serif}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;margin-left:8px;animation:pulse 1.8s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-footer{margin-top:48px;font-size:12px;color:rgba(255,255,255,.25)}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',system-ui,Arial,sans-serif;background:var(--ink);color:var(--txt);overflow-x:hidden;line-height:1.7}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3,.cairo{font-family:'Cairo','Tajawal',sans-serif}
+
+/* ── UTILITIES ───────────────────────────────────────── */
+.wrap{max-width:1100px;margin:auto;padding:0 22px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--gold-soft);border:1px solid rgba(194,161,77,.3);padding:5px 14px;border-radius:999px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+.reveal.delay-1{transition-delay:.1s}
+.reveal.delay-2{transition-delay:.2s}
+.reveal.delay-3{transition-delay:.3s}
+.reveal.delay-4{transition-delay:.4s}
+
+/* ── PARTICLES ───────────────────────────────────────── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;opacity:0;animation:particleFloat linear infinite}
+@keyframes particleFloat{
+  0%{opacity:0;transform:translateY(100vh) scale(0)}
+  10%{opacity:.7}
+  90%{opacity:.3}
+  100%{opacity:0;transform:translateY(-10vh) scale(1) rotate(360deg)}
+}
+
+/* ── NAV ─────────────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(21,17,15,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:var(--line)}
+.nav-in{max-width:1100px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:11px;font-family:'Cairo',sans-serif;font-weight:900;font-size:20px;letter-spacing:.06em}
+.logo-mark{width:36px;height:36px;background:linear-gradient(145deg,var(--red),var(--red-2));border-radius:11px;display:grid;place-items:center;font-size:17px;font-weight:900;box-shadow:var(--shadow-red);flex:none}
+.logo-sub{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.2em;display:block;margin-top:-3px}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{font-size:14px;font-weight:700;color:var(--txt-muted);padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,.08)}
+.nav-cta{font-size:14px;font-weight:800;color:#fff;background:linear-gradient(145deg,var(--red),var(--red-2));padding:10px 22px;border-radius:999px;box-shadow:var(--shadow-red);transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 22px 50px -12px rgba(217,10,44,.6)}
+@media(max-width:680px){.nav-links{display:none}}
+
+/* ── HERO ─────────────────────────────────────────────── */
+.hero{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:100px 22px 60px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(217,10,44,.18) 0%,transparent 65%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 80%,rgba(194,161,77,.08) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%)}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero-eyebrow{margin-bottom:24px;animation:fadeUp .6s ease both}
+.hero h1{font-size:clamp(38px,7vw,82px);font-weight:900;line-height:1.1;margin-bottom:22px;animation:fadeUp .7s ease .1s both}
+.hero h1 .accent{background:linear-gradient(115deg,#fff 30%,var(--gold) 60%,var(--red) 90%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,2.2vw,20px);color:var(--txt-muted);max-width:580px;margin:0 auto 38px;font-weight:500;animation:fadeUp .7s ease .2s both}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s ease .3s both}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;font-family:'Cairo',sans-serif;font-weight:800;font-size:17px;color:#fff;background:linear-gradient(145deg,var(--red),var(--red-2));padding:16px 32px;border-radius:999px;box-shadow:var(--shadow-red);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(to left,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .3s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 28px 60px -14px rgba(217,10,44,.65)}
+.btn-primary:hover::after{opacity:1}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;font-family:'Cairo',sans-serif;font-weight:700;font-size:15px;color:var(--txt-muted);background:rgba(255,255,255,.07);border:1px solid var(--line);padding:14px 26px;border-radius:999px;transition:all .2s}
+.btn-ghost:hover{color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+.hero-badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:42px;animation:fadeUp .7s ease .4s both}
+.hero-badge{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--txt-muted)}
+.hero-badge .ic{font-size:16px}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--txt-dim);letter-spacing:.1em;animation:fadeUp 1s ease .8s both}
+.scroll-dot{width:4px;height:26px;border:1px solid rgba(255,255,255,.2);border-radius:999px;position:relative;overflow:hidden}
+.scroll-dot::after{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:2px;height:8px;background:var(--gold);border-radius:999px;animation:scrollDot 1.6s ease-in-out infinite}
+@keyframes scrollDot{0%,100%{top:4px;opacity:1}100%{top:14px;opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ── TRUST BAR ───────────────────────────────────────── */
+.trust-bar{background:rgba(255,255,255,.03);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:32px 0}
+.trust-bar-in{display:flex;gap:0;justify-content:center;flex-wrap:wrap}
+.trust-stat{flex:1;min-width:160px;text-align:center;padding:12px 24px;position:relative}
+.trust-stat+.trust-stat::before{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--line)}
+.trust-num{font-family:'Cairo',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:900;line-height:1;display:block}
+.trust-num.red{color:var(--red)}
+.trust-num.gold{color:var(--gold)}
+.trust-num.white{color:#fff}
+.trust-lbl{font-size:13px;color:var(--txt-muted);margin-top:5px;display:block;font-weight:500}
+
+/* ── SECTION BASE ────────────────────────────────────── */
+.section{padding:96px 0}
+.section-header{text-align:center;margin-bottom:60px}
+.section-header h2{font-size:clamp(28px,4vw,48px);font-weight:900;margin-top:14px;line-height:1.15}
+.section-header p{color:var(--txt-muted);font-size:16px;margin-top:12px;max-width:520px;margin-left:auto;margin-right:auto}
+
+/* ── PRODUCTS ────────────────────────────────────────── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.product-card{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r-xl);padding:32px 24px 28px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer}
+.product-card:hover{transform:translateY(-6px);border-color:rgba(217,10,44,.4);box-shadow:var(--shadow-red)}
+.product-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(217,10,44,.12),transparent);pointer-events:none}
+.product-card.coming{opacity:.65;cursor:default}
+.product-card.coming:hover{transform:none;border-color:var(--line);box-shadow:none}
+.product-card.featured{border-color:rgba(217,10,44,.35)}
+.product-card.featured::before{background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(217,10,44,.2),transparent)}
+.card-ribbon{position:absolute;top:16px;left:16px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:999px;letter-spacing:.04em}
+.card-ribbon.gold{background:linear-gradient(145deg,var(--gold),var(--gold-2))}
+.card-img-wrap{width:100%;height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;position:relative}
+.card-img-wrap img{height:160px;width:auto;object-fit:contain;filter:drop-shadow(0 12px 24px rgba(217,10,44,.3));transition:transform .4s ease}
+.product-card:hover .card-img-wrap img{transform:translateY(-6px) scale(1.04)}
+.card-coming-icon{font-size:56px;opacity:.3}
+.card-category{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+.card-name{font-family:'Cairo',sans-serif;font-weight:900;font-size:20px;margin-bottom:8px;line-height:1.25}
+.card-desc{font-size:14px;color:var(--txt-muted);margin-bottom:20px;line-height:1.6}
+.card-price{font-family:'Cairo',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:18px}
+.card-price span{font-size:13px;font-weight:500;color:var(--txt-muted);margin-right:4px}
+.card-btn{display:block;text-align:center;font-family:'Cairo',sans-serif;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(145deg,var(--red),var(--red-2));padding:13px 20px;border-radius:14px;box-shadow:var(--shadow-red);transition:transform .2s,box-shadow .2s}
+.card-btn:hover{transform:translateY(-2px);box-shadow:0 22px 40px -10px rgba(217,10,44,.55)}
+.card-btn.disabled{background:rgba(255,255,255,.08);box-shadow:none;color:var(--txt-muted);cursor:default}
+.card-btn.disabled:hover{transform:none}
+.card-countries{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.card-country{font-size:12px;background:rgba(255,255,255,.06);padding:4px 10px;border-radius:999px;color:var(--txt-muted)}
+
+/* ── HOW IT WORKS ────────────────────────────────────── */
+.how-section{background:var(--ink-2)}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;position:relative}
+.steps-grid::before{content:'';position:absolute;top:44px;right:16.6%;left:16.6%;height:1px;background:linear-gradient(to left,transparent,var(--red),transparent);opacity:.4}
+@media(max-width:680px){.steps-grid::before{display:none}}
+.step{text-align:center;padding:36px 24px;position:relative}
+.step-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-2));display:flex;align-items:center;justify-content:center;font-family:'Cairo',sans-serif;font-weight:900;font-size:20px;margin:0 auto 20px;box-shadow:var(--shadow-red);position:relative;z-index:1}
+.step-icon{font-size:22px}
+.step h3{font-family:'Cairo',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px}
+.step p{font-size:14px;color:var(--txt-muted);line-height:1.6}
+
+/* ── BENEFITS ────────────────────────────────────────── */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.benefit{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:var(--r-md);padding:28px 22px;transition:border-color .3s,background .3s}
+.benefit:hover{border-color:rgba(194,161,77,.3);background:rgba(194,161,77,.05)}
+.benefit-icon{width:50px;height:50px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.benefit h3{font-family:'Cairo',sans-serif;font-weight:800;font-size:16px;margin-bottom:6px}
+.benefit p{font-size:13px;color:var(--txt-muted);line-height:1.55}
+
+/* ── COVERAGE ────────────────────────────────────────── */
+.coverage-section{background:linear-gradient(180deg,var(--ink) 0%,var(--ink-3) 50%,var(--ink) 100%)}
+.countries-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:48px}
+.country-card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 20px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.country-card.live{border-color:rgba(217,10,44,.3)}
+.country-card.live::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(217,10,44,.1),transparent 60%);pointer-events:none}
+.country-card.soon{opacity:.6}
+.country-flag{font-size:48px;margin-bottom:12px;display:block;line-height:1}
+.country-name{font-family:'Cairo',sans-serif;font-weight:800;font-size:16px;margin-bottom:6px}
+.country-status{font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;display:inline-block;margin-top:6px}
+.country-status.live{background:rgba(31,157,85,.15);color:#1f9d55}
+.country-status.soon{background:rgba(255,255,255,.07);color:var(--txt-muted)}
+
+/* ── TESTIMONIALS ────────────────────────────────────── */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.review{background:var(--ink-2);border:1px solid var(--line);border-radius:var(--r-xl);padding:28px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.review:hover{border-color:rgba(194,161,77,.25);transform:translateY(-3px)}
+.review::before{content:'"';position:absolute;top:-10px;left:20px;font-size:100px;color:rgba(194,161,77,.08);font-family:'Cairo',sans-serif;line-height:1}
+.stars{color:var(--gold);font-size:15px;letter-spacing:2px;margin-bottom:14px}
+.review p{font-size:15px;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:20px;position:relative;z-index:1}
+.reviewer{display:flex;align-items:center;gap:12px}
+.reviewer-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-2));display:flex;align-items:center;justify-content:center;font-family:'Cairo',sans-serif;font-weight:900;font-size:16px;flex:none}
+.reviewer-name{font-family:'Cairo',sans-serif;font-weight:800;font-size:14px}
+.reviewer-loc{font-size:12px;color:var(--txt-muted)}
+.review-product{font-size:11px;font-weight:700;color:var(--gold);margin-top:4px;letter-spacing:.06em}
+
+/* ── FINAL CTA ────────────────────────────────────────── */
+.cta-section{background:linear-gradient(135deg,var(--ink-2) 0%,rgba(217,10,44,.1) 50%,var(--ink-2) 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:100px 0;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(217,10,44,.12),transparent)}
+.cta-section h2{font-size:clamp(30px,5vw,58px);font-weight:900;margin:16px 0 14px;line-height:1.15}
+.cta-section p{color:var(--txt-muted);font-size:17px;margin-bottom:38px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-trust-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.cta-trust{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--txt-muted)}
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer{background:#0c0907;padding:50px 0 28px;border-top:1px solid rgba(255,255,255,.05)}
+.footer-in{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+@media(max-width:680px){.footer-in{grid-template-columns:1fr}}
+.footer-brand .logo{margin-bottom:12px}
+.footer-brand p{font-size:13.5px;color:var(--txt-muted);line-height:1.7;max-width:240px}
+.footer-col h4{font-family:'Cairo',sans-serif;font-weight:800;font-size:14px;color:var(--txt-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.footer-col a{display:block;font-size:14px;color:var(--txt-muted);margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.05);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12.5px;color:var(--txt-dim)}
+.footer-bottom .links{display:flex;gap:16px}
+.footer-bottom .links a{font-size:12.5px;color:var(--txt-dim);transition:color .2s}
+.footer-bottom .links a:hover{color:var(--txt-muted)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#1f9d55;display:inline-block;margin-left:6px;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── WHATSAPP FLOAT ──────────────────────────────────── */
+.wa-float{position:fixed;bottom:24px;left:24px;z-index:50;width:54px;height:54px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s;animation:waPulse 3s ease-in-out infinite}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(37,211,102,.55)}
+@keyframes waPulse{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4)}50%{box-shadow:0 6px 36px rgba(37,211,102,.6),0 0 0 8px rgba(37,211,102,.1)}}
 </style>
 </head>
 <body>
-<div class="logo">COS<span>MARAB</span></div>
-<div class="tag">LUXURY LIP CARE</div>
-<div class="products">
-  <a href="/ksa-18" class="product-btn">
-    <span class="dot"></span>سيروم تفتيح الشفاه
-    <span class="sub">Jinshan Lip Serum · المملكة العربية السعودية</span>
-  </a>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a href="/" class="logo">
+      <div class="logo-mark">C</div>
+      <div><span>COSMARAB</span><small class="logo-sub">LUXURY LIP CARE</small></div>
+    </a>
+    <div class="nav-links">
+      <a href="#products">المنتجات</a>
+      <a href="#how">كيف يعمل</a>
+      <a href="#coverage">توصيل</a>
+      <a href="#reviews">آراء العملاء</a>
+    </div>
+    <a href="#products" class="nav-cta">اطلبي الآن ←</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="tag">✦ عناية فاخرة بالشفاه</span>
+    </div>
+    <h1>شفايفك تستاهل<br/><span class="accent">الأفضل دايماً</span></h1>
+    <p class="hero-sub">منتجات عناية فاخرة بالشفاه، مصنوعة لتمنحك نتائج حقيقية. اطلبي بدون دفع مقدّم وادفعي عند الاستلام.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">🛍 تسوّقي الآن</a>
+      <a href="#how" class="btn-ghost">كيف يعمل ؟</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge"><span class="ic">💵</span> دفع عند الاستلام فقط</div>
+      <div class="hero-badge"><span class="ic">🚀</span> توصيل خلال 48 ساعة</div>
+      <div class="hero-badge"><span class="ic">🔄</span> إرجاع مجاني</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-dot"></div>
+    <span>اسحبي للأسفل</span>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="wrap">
+    <div class="trust-bar-in">
+      <div class="trust-stat reveal">
+        <span class="trust-num red" data-count="3200" data-suffix="+">0</span>
+        <span class="trust-lbl">طلب مُنجز بنجاح</span>
+      </div>
+      <div class="trust-stat reveal delay-1">
+        <span class="trust-num gold" data-count="49" data-decimal="true" data-suffix="★">0</span>
+        <span class="trust-lbl">تقييم العملاء</span>
+      </div>
+      <div class="trust-stat reveal delay-2">
+        <span class="trust-num white" data-count="48" data-suffix=" ساعة">0</span>
+        <span class="trust-lbl">متوسط وقت التوصيل</span>
+      </div>
+      <div class="trust-stat reveal delay-3">
+        <span class="trust-num gold" data-count="4" data-suffix=" دول">0</span>
+        <span class="trust-lbl">نغطيها في الخليج</span>
+      </div>
+    </div>
+  </div>
 </div>
-<footer>© <span id="y"></span> Cosmarab — جميع الحقوق محفوظة</footer>
-<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="tag">✦ منتجاتنا</span>
+      <h2>اختاري منتجك<br/>وادفعي عند الاستلام</h2>
+      <p>تشكيلة مختارة بعناية لعناية فاخرة بشفتيكِ — نوصّل لك حتى باب البيت</p>
+    </div>
+    <div class="products-grid">
+
+      <!-- LIVE PRODUCT: Lip Serum -->
+      <div class="product-card featured reveal">
+        <div class="card-ribbon">🔥 الأكثر طلباً</div>
+        <div class="card-img-wrap">
+          <picture>
+            <source srcset="/assets/product.webp" type="image/webp"/>
+            <img src="/assets/product.png" alt="سيروم تفتيح الشفاه Cosmarab" loading="eager"/>
+          </picture>
+        </div>
+        <div class="card-category">سيروم الشفاه</div>
+        <div class="card-name">سيروم تفتيح الشفاه الفاخر</div>
+        <div class="card-desc">تركيبة متطورة تُفتّح الشفاه وترطّبها بشكل مرئي خلال أسبوعين فقط</div>
+        <div class="card-price"><span>يبدأ من</span>199 ر.س</div>
+        <a href="/ksa-18" class="card-btn">اطلبي الآن →</a>
+        <div class="card-countries">
+          <span class="card-country">🇸🇦 متاح الآن</span>
+        </div>
+      </div>
+
+      <!-- COMING SOON 1 -->
+      <div class="product-card coming reveal delay-1">
+        <div class="card-ribbon gold">قريباً ✨</div>
+        <div class="card-img-wrap">
+          <div class="card-coming-icon">💄</div>
+        </div>
+        <div class="card-category">ترطيب مكثّف</div>
+        <div class="card-name">بوستر الترطيب الليلي</div>
+        <div class="card-desc">يعمل أثناء نومكِ لترطيب عميق وفاخر يظهر أثره من أول صباح</div>
+        <div class="card-price" style="color:var(--txt-muted)">قريباً</div>
+        <div class="card-btn disabled">أبلغيني عند الإطلاق</div>
+      </div>
+
+      <!-- COMING SOON 2 -->
+      <div class="product-card coming reveal delay-2">
+        <div class="card-ribbon gold">قريباً ✨</div>
+        <div class="card-img-wrap">
+          <div class="card-coming-icon">🌙</div>
+        </div>
+        <div class="card-category">علاج متخصص</div>
+        <div class="card-name">علاج التصبغات الداكنة</div>
+        <div class="card-desc">فورمولا طبية مركّزة تستهدف التصبغات من الجذور للحصول على شفاه أكثر إشراقاً</div>
+        <div class="card-price" style="color:var(--txt-muted)">قريباً</div>
+        <div class="card-btn disabled">أبلغيني عند الإطلاق</div>
+      </div>
+
+      <!-- COMING SOON 3 -->
+      <div class="product-card coming reveal delay-3">
+        <div class="card-ribbon gold">قريباً ✨</div>
+        <div class="card-img-wrap">
+          <div class="card-coming-icon">✨</div>
+        </div>
+        <div class="card-category">حزمة متكاملة</div>
+        <div class="card-name">روتين العناية الكامل</div>
+        <div class="card-desc">مجموعة متكاملة لروتين عناية شامل بالشفاه — الصباح والمساء</div>
+        <div class="card-price" style="color:var(--txt-muted)">قريباً</div>
+        <div class="card-btn disabled">أبلغيني عند الإطلاق</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section" id="how">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="tag">✦ الطريقة</span>
+      <h2>ثلاث خطوات بسيطة<br/>للحصول على طلبكِ</h2>
+      <p>بدون دفع مقدّم، بدون حساب، بدون تعقيدات</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="step-num"><div class="step-icon">🛍</div></div>
+        <h3>اختاري منتجكِ</h3>
+        <p>تصفّحي المنتجات واختاري العرض المناسب لكِ — مفيش دفع مقدّم</p>
+      </div>
+      <div class="step reveal delay-1">
+        <div class="step-num"><div class="step-icon">📞</div></div>
+        <h3>نتواصل لتأكيد الطلب</h3>
+        <p>فريقنا يتصل بكِ خلال ساعات لتأكيد بياناتكِ وعنوان التوصيل</p>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="step-num"><div class="step-icon">💵</div></div>
+        <h3>استلمي وادفعي</h3>
+        <p>يوصل طلبكِ لبابك في 48 ساعة — تدفعين للمندوب نقداً عند الاستلام</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="tag">✦ لماذا Cosmarab</span>
+      <h2>جمعنا كل اللي تحتاجيه<br/>في مكان واحد</h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit reveal">
+        <div class="benefit-icon">💵</div>
+        <h3>دفع عند الاستلام</h3>
+        <p>ما في أي دفع مقدّم — تدفعين فقط لما يوصلك المنتج لبابك</p>
+      </div>
+      <div class="benefit reveal delay-1">
+        <div class="benefit-icon">🚀</div>
+        <h3>توصيل خلال 48 ساعة</h3>
+        <p>نوصّل لجميع مدن المملكة والخليج بسرعة وأمان</p>
+      </div>
+      <div class="benefit reveal delay-2">
+        <div class="benefit-icon">✅</div>
+        <h3>منتجات أصيلة 100%</h3>
+        <p>جميع منتجاتنا أصلية ومعتمدة — ضمان الجودة في كل طلب</p>
+      </div>
+      <div class="benefit reveal delay-3">
+        <div class="benefit-icon">🔄</div>
+        <h3>إرجاع بدون أسئلة</h3>
+        <p>غير راضية؟ نرجع لكِ المنتج مجاناً بدون أي شروط معقدة</p>
+      </div>
+      <div class="benefit reveal">
+        <div class="benefit-icon">🎁</div>
+        <h3>تغليف فاخر</h3>
+        <p>كل طلب يوصل في تغليف فاخر — مثالي كهدية لكِ أو لمن تحبّين</p>
+      </div>
+      <div class="benefit reveal delay-1">
+        <div class="benefit-icon">📱</div>
+        <h3>دعم على مدار الساعة</h3>
+        <p>فريق خدمة العملاء متاح دائماً للإجابة على كل استفساراتكِ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GCC COVERAGE -->
+<section class="section coverage-section" id="coverage">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="tag">✦ تغطية الخليج</span>
+      <h2>نوصّل لكِ أينما كنتِ<br/>في الخليج</h2>
+      <p>نغطي دول الخليج الواحدة تلو الأخرى — الكويت والإمارات وقطر قريباً</p>
+    </div>
+    <div class="countries-grid">
+      <div class="country-card live reveal">
+        <span class="country-flag">🇸🇦</span>
+        <div class="country-name">المملكة العربية السعودية</div>
+        <div style="font-size:13px;color:var(--txt-muted);margin-top:4px">جميع المدن الرئيسية</div>
+        <div class="country-status live">● متاح الآن</div>
+      </div>
+      <div class="country-card soon reveal delay-1">
+        <span class="country-flag">🇦🇪</span>
+        <div class="country-name">الإمارات العربية المتحدة</div>
+        <div style="font-size:13px;color:var(--txt-muted);margin-top:4px">دبي، أبوظبي وأكثر</div>
+        <div class="country-status soon">⏳ قريباً</div>
+      </div>
+      <div class="country-card soon reveal delay-2">
+        <span class="country-flag">🇰🇼</span>
+        <div class="country-name">الكويت</div>
+        <div style="font-size:13px;color:var(--txt-muted);margin-top:4px">جميع المناطق</div>
+        <div class="country-status soon">⏳ قريباً</div>
+      </div>
+      <div class="country-card soon reveal delay-3">
+        <span class="country-flag">🇶🇦</span>
+        <div class="country-name">قطر</div>
+        <div style="font-size:13px;color:var(--txt-muted);margin-top:4px">الدوحة وجميع المناطق</div>
+        <div class="country-status soon">⏳ قريباً</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="reviews">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="tag">✦ آراء عملاؤنا</span>
+      <h2>ماذا قالت عملاؤنا<br/>عن Cosmarab؟</h2>
+      <p>+3,200 عميلة سعيدة في الخليج — هذا ما قلنه</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review reveal">
+        <div class="stars">★★★★★</div>
+        <p>وصل الطلب بعد يومين بالضبط وكان التغليف فاخر جداً. المنتج خف وريحته حلوة وبدأت أشوف فرق من الأسبوع الثاني. نصحت فيه كل صديقاتي!</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">ف</div>
+          <div>
+            <div class="reviewer-name">فاطمة العتيبي</div>
+            <div class="reviewer-loc">الرياض، السعودية</div>
+            <div class="review-product">سيروم تفتيح الشفاه</div>
+          </div>
+        </div>
+      </div>
+      <div class="review reveal delay-1">
+        <div class="stars">★★★★★</div>
+        <p>أحسن شي إني ما دفعت إلا لما وصلني المنتج وفحصته. المنتج طبيعي ومو مزيف وشفتي صارت أنعم بشكل واضح. رح أطلب مرة ثانية بكره إن شاء الله</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">ن</div>
+          <div>
+            <div class="reviewer-name">نورة القحطاني</div>
+            <div class="reviewer-loc">جدة، السعودية</div>
+            <div class="review-product">سيروم تفتيح الشفاه</div>
+          </div>
+        </div>
+      </div>
+      <div class="review reveal delay-2">
+        <div class="stars">★★★★★</div>
+        <p>كنت متخوفة من الطلب أونلاين بس الحمد لله التجربة كانت ممتازة. اتصلوا فيني لتأكيد الطلب وجاء في اليوم الثاني. السيروم يستاهل كل ريال!</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">م</div>
+          <div>
+            <div class="reviewer-name">منى الشمري</div>
+            <div class="reviewer-loc">الكويت</div>
+            <div class="review-product">سيروم تفتيح الشفاه</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="tag">✦ ابدئي رحلتكِ اليوم</span>
+      <h2>شفتيكِ تستحقّ<br/>الأفضل في الخليج</h2>
+      <p>اطلبي الآن بدون أي مخاطرة — تدفعين فقط عند استلام المنتج</p>
+      <a href="/ksa-18" class="btn-primary" style="font-size:19px;padding:18px 40px;display:inline-flex">🛍 اطلبي الآن — مجاناً</a>
+      <div class="cta-trust-row">
+        <div class="cta-trust">✅ بدون دفع مقدّم</div>
+        <div class="cta-trust">🚀 توصيل 48 ساعة</div>
+        <div class="cta-trust">🔄 إرجاع مجاني</div>
+        <div class="cta-trust">📦 تغليف فاخر</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-in">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <div class="logo-mark">C</div>
+          <div><span>COSMARAB</span><small class="logo-sub">LUXURY LIP CARE</small></div>
+        </a>
+        <p style="margin-top:14px">عناية فاخرة بالشفاه للمرأة الخليجية — دفع عند الاستلام في كل الخليج.</p>
+      </div>
+      <div class="footer-col">
+        <h4>المنتجات</h4>
+        <a href="/ksa-18">سيروم تفتيح الشفاه 🇸🇦</a>
+        <a href="#">بوستر الترطيب (قريباً)</a>
+        <a href="#">الروتين الكامل (قريباً)</a>
+      </div>
+      <div class="footer-col">
+        <h4>المعلومات</h4>
+        <a href="/privacy.html">سياسة الخصوصية</a>
+        <a href="/terms.html">الشروط والأحكام</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><span class="status-dot"></span> جميع الأنظمة تعمل — © <span id="y"></span> Cosmarab</p>
+      <div class="links">
+        <a href="/privacy.html">الخصوصية</a>
+        <a href="/terms.html">الشروط</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/9665XXXXXXXX" target="_blank" rel="noopener" class="wa-float" aria-label="تواصلي معنا على واتساب">💬</a>
+
+<script>
+(function(){
+'use strict';
+
+/* ── PARTICLES ─────────────────────────────────── */
+var container=document.getElementById('particles');
+var symbols=['✦','✧','·','◦','⋆'];
+var colors=['rgba(194,161,77,.6)','rgba(217,10,44,.4)','rgba(255,255,255,.3)','rgba(194,161,77,.3)'];
+for(var i=0;i<28;i++){
+  var p=document.createElement('span');
+  p.className='particle';
+  p.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+  p.style.cssText=[
+    'left:'+(Math.random()*100)+'%',
+    'font-size:'+(8+Math.random()*12)+'px',
+    'color:'+colors[Math.floor(Math.random()*colors.length)],
+    'animation-duration:'+(8+Math.random()*18)+'s',
+    'animation-delay:'+(Math.random()*12)+'s'
+  ].join(';');
+  container.appendChild(p);
+}
+
+/* ── NAV SCROLL ────────────────────────────────── */
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){
+  nav.classList.toggle('scrolled',window.scrollY>60);
+},{passive:true});
+
+/* ── COUNT UP ──────────────────────────────────── */
+function animateCount(el){
+  var target=+el.getAttribute('data-count');
+  var suffix=el.getAttribute('data-suffix')||'';
+  var isDecimal=el.getAttribute('data-decimal');
+  var duration=1800;
+  var start=performance.now();
+  function tick(now){
+    var progress=Math.min((now-start)/duration,1);
+    var ease=1-Math.pow(1-progress,3);
+    var value=Math.round(target*ease);
+    if(isDecimal){
+      el.textContent=(target*ease/10).toFixed(1)+suffix;
+    } else {
+      el.textContent=value.toLocaleString('ar-SA')+suffix;
+    }
+    if(progress<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ── SCROLL REVEAL + COUNTUP ───────────────────── */
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      var count=e.target.querySelector('[data-count]')||
+                (e.target.hasAttribute('data-count')?e.target:null);
+      if(e.target.hasAttribute('data-count')){animateCount(e.target);}
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.15});
+
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+document.querySelectorAll('[data-count]').forEach(function(el){io.observe(el);});
+
+/* ── YEAR ──────────────────────────────────────── */
+var y=document.getElementById('y');
+if(y)y.textContent=new Date().getFullYear();
+
+})();
+</script>
 </body>
 </html>
