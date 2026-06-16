@@ -1,5 +1,5 @@
 // GCC countries allowed — add 'AE','KW','BH','QA','OM' when expanding
-const ALLOWED = new Set(['SA']);
+const ALLOWED = new Set(['SA', 'MA']); // MA temp for testing
 
 // Upsell SKU map — update keys when real SKUs are provided
 const UPSELL_SKUS = {
