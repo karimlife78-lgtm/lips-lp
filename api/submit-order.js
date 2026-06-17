@@ -40,17 +40,17 @@ module.exports = async function handler(req, res) {
 
     const rows = [];
 
-    // Columns: timestamp | name | phone | city | page | sku | product | qty | total | currency | notes | source
-    rows.push([iso, name, phone, city, url, 'COSLIP', 'Jinshan Lip Serum.1', qty, total, curr, '', source]);
+    // Columns: OrderDate | country | name | phone | address | url | sku | Product | quantity | price | currency | notes
+    rows.push([iso, country, name, phone, city, url, 'COSLIP', 'Jinshan Lip Serum.1', qty, total, curr, '']);
 
     // Upsell rows — no price, note links them to the main order
     if (Array.isArray(upsells)) {
       for (const up of upsells) {
         rows.push([
-          iso, name, phone, city, url,
+          iso, country, name, phone, city, url,
           UPSELL_SKUS[up.key] || 'TBD',
           up.name, 1, '', curr,
-          'Upsell for COSLIP', source
+          'Upsell for COSLIP'
         ]);
       }
     }
