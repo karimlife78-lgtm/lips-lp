@@ -918,7 +918,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 
 <script>
 /* ── SNAP PIXEL ────────────────────────────────────── */
-(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391');
+(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391');snaptr('track','PAGE_VIEW');
 </script>
 
 <script>
@@ -1085,10 +1085,12 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   submitBtn.disabled=true;submitBtn.textContent='⏳ جاري الإرسال...';
   document.getElementById('regionErr').style.display='none';
   function showSuccess(){
-    document.getElementById('orderId').textContent='#CSM-'+String(Math.floor(1000+Math.random()*9000));
+    var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
+    document.getElementById('orderId').textContent='#'+txId;
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
     showPanel(3);
-    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty});
+    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
+    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
   .then(function(r){
