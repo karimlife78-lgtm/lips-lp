@@ -816,9 +816,9 @@ if(form) form.addEventListener('submit', function(e){
 
 }, true);
 
-/* ── Sticky + hero buttons open the modal directly ── */
+/* ── Sticky button scrolls to offers ── */
 var stickyBtn = document.getElementById('stickyOrderBtn');
-if(stickyBtn) stickyBtn.addEventListener('click', function(){ renderSummary(); showPanel(2); openModal(); });
+if(stickyBtn) stickyBtn.addEventListener('click', function(){ document.getElementById('offers').scrollIntoView({behavior:'smooth',block:'start'}); });
 
 /* ── Auto-select middle offer on load ── */
 var defCard = document.getElementById('off2') || document.querySelector('.offer');
