@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0f0c14" />
+<title>سُكون من Cosmarab — هدوء في كأس ونوم عميق طبيعي</title>
+<meta name="description" content="سُكون من Cosmarab — مشروب استرخاء يومي بالمغنيسيوم + إل-ثيانين + أشواجندا + زعفران. نوم أعمق بطريقة طبيعية. غير مسبب للإدمان، حلال، الدفع عند الاستلام." />
+<link rel="icon" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shop/app.css" />
+<style>
+:root{--tint:#8a7fc7;--tint-glow:rgba(138,127,199,.26)}
+
+/* ── OFFERS — button hidden until card selected ── */
+.offer .order-btn{display:none}
+.offer.selected .order-btn{display:inline-flex}
+
+/* ── HERO PHOTO — taller container for the square person photo ── */
+.hero-photo{aspect-ratio:1/1 !important;max-width:380px !important}
+
+/* ── SACHETS VISUAL ── */
+.sach-row{display:flex;align-items:center;gap:6px;margin:10px 0 4px;justify-content:center}
+.sach{display:inline-block;width:16px;height:24px;background:linear-gradient(160deg,#9d94d4,#6b60b8);border-radius:3px;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 2px 6px rgba(0,0,0,.3);flex:none}
+.sach-label{font-size:.78rem;font-weight:800;color:var(--gold2);letter-spacing:.02em}
+
+/* ── MODAL / BOTTOM SHEET ── */
+.modal{position:fixed;inset:0;z-index:999;display:none}
+.modal.open{display:block}
+.modal-bg{position:absolute;inset:0;background:rgba(8,6,18,.72);backdrop-filter:blur(4px);animation:mbFade .22s ease}
+@keyframes mbFade{from{opacity:0}to{opacity:1}}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-width:600px;margin-inline:auto;background:var(--ink2);border-radius:26px 26px 0 0;max-height:94vh;overflow-y:auto;animation:sheetUp .36s cubic-bezier(.16,.84,.44,1);box-shadow:0 -28px 68px -16px rgba(0,0,0,.8)}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-head{position:sticky;top:0;background:var(--ink2);z-index:5;padding:14px 18px 13px;border-bottom:1px solid var(--line)}
+.grab{width:42px;height:4px;background:var(--line);border-radius:99px;margin:0 auto 13px}
+.steps-ind{display:flex;align-items:center;gap:7px;margin-bottom:10px;font-size:.78rem;color:var(--muted)}
+.steps-ind .d{width:8px;height:8px;border-radius:50%;background:var(--line);transition:.25s}
+.steps-ind .d.on{background:var(--tint)}
+.sheet-sel{display:flex;align-items:center;gap:12px}
+.sheet-ico{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--tint),#4a4080);display:grid;place-items:center;font-size:1.2rem;flex:none}
+.sheet-nm{font-weight:900;font-size:.93rem;color:var(--gold2);line-height:1.3}
+.sheet-sb{font-size:.78rem;color:var(--muted);margin-top:2px}
+.sheet-pr{font-weight:900;font-size:1.05rem;color:var(--gold);margin-right:auto;white-space:nowrap}
+.sheet-close{width:32px;height:32px;border-radius:50%;background:var(--ink3);border:1px solid var(--line);color:var(--text);cursor:pointer;display:grid;place-items:center;font-size:.85rem;flex:none}
+.sheet-body{padding:18px 18px 32px}
+.panel{display:none}.panel.active{display:block;animation:mbFade .25s ease}
+.upsell-title{font-weight:900;font-size:.88rem;color:var(--gold2);margin:16px 0 10px;display:flex;align-items:center;gap:7px}
+.form-upsell{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:13px;padding:11px 13px;cursor:pointer;margin-bottom:9px;transition:.15s;background:var(--ink3)}
+.form-upsell:hover{border-color:var(--gold)}
+.form-upsell.on{border-color:var(--gold);background:rgba(212,170,0,.07)}
+.fu-icon{width:38px;height:38px;border-radius:10px;background:var(--ink2);display:grid;place-items:center;font-size:1.15rem;flex:none}
+.fu-info{flex:1;min-width:0}
+.fu-name{font-weight:800;font-size:.87rem;line-height:1.3}
+.fu-desc{font-size:.76rem;color:var(--muted);margin-top:2px}
+.fu-price{text-align:left;flex:none}
+.fu-price .np{font-weight:900;color:var(--gold);font-size:.92rem}
+.fu-price .op{font-size:.74rem;color:var(--muted);text-decoration:line-through;display:block;text-align:left}
+.fu-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:.78rem;flex:none;transition:.15s}
+.form-upsell.on .fu-check{background:var(--gold);border-color:var(--gold);color:#2a2008}
+.order-summary{background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin:14px 0;font-size:.88rem}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+.sum-row b{color:var(--text)}
+.sum-row.free b{color:var(--ok)}
+.sum-row.total{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-weight:900;font-size:.98rem}
+.sum-row.total .v{color:var(--gold);font-size:1.02rem}
+.cod-note{display:flex;gap:10px;align-items:flex-start;background:rgba(77,182,112,.07);border:1px solid rgba(77,182,112,.2);border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:.85rem;color:var(--muted)}
+.cod-note .ic{flex:none;font-size:1.1rem}
+.mini-trust{display:flex;justify-content:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+.mini-trust span{font-size:.78rem;font-weight:800;color:var(--muted)}
+/* ── MODAL THANK YOU ── */
+.ty{text-align:center;padding:10px 4px 16px}
+.ty .check{width:80px;height:80px;border-radius:50%;background:linear-gradient(145deg,#4db670,#178045);color:#fff;display:grid;place-items:center;font-size:2.4rem;margin:6px auto 18px;animation:pop .4s cubic-bezier(.2,1.2,.4,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.ty h2{font-size:1.5rem;font-weight:900;margin-bottom:8px}
+.ty .oid{display:inline-block;font-size:.82rem;font-weight:800;background:var(--ink3);border:1px solid var(--line);padding:7px 16px;border-radius:99px;margin-top:10px;color:var(--gold2)}
+.ty .call{background:var(--ink3);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:18px;font-size:.87rem;font-weight:800;color:var(--text)}
+.ty-steps{text-align:right;margin-top:16px;display:grid;gap:10px}
+.ty-steps .s{display:flex;gap:10px;align-items:center;font-size:.85rem;font-weight:700}
+.ty-steps .s .ic{flex:none;width:34px;height:34px;border-radius:10px;background:var(--ink3);border:1px solid var(--line);display:grid;place-items:center;font-size:1rem}
+
+/* ── PROOF NUMBERS BAR ── */
+.proof-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--ink2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.proof-stat{padding:18px 14px;text-align:center;border-left:1px solid var(--line)}
+.proof-stat:last-child{border-left:none}
+.proof-stat .pn{font-size:1.6rem;font-weight:900;color:var(--gold);display:block;font-family:var(--fh)}
+.proof-stat .pl{font-size:.78rem;color:var(--muted);margin-top:2px;display:block}
+@media(max-width:600px){.proof-bar{grid-template-columns:1fr 1fr}.proof-stat:nth-child(2){border-left:none}.proof-stat:nth-child(3){border-top:1px solid var(--line)}}
+
+/* ── SPECIALIST / DOCTOR ── */
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;max-width:900px;margin:0 auto}
+@media(max-width:720px){.spec-grid{grid-template-columns:1fr}}
+.spec-video{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,rgba(138,127,199,.28) 0%,rgba(15,12,20,.95) 100%);border:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:.2s}
+.spec-video:hover .spec-play{transform:scale(1.08);background:rgba(255,255,255,.28)}
+.spec-play{width:68px;height:68px;background:rgba(255,255,255,.16);border-radius:50%;display:grid;place-items:center;font-size:1.7rem;backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.22);transition:.2s}
+.spec-soon{font-size:.82rem;color:var(--muted);letter-spacing:.04em}
+.spec-badge{position:absolute;bottom:14px;right:14px;background:var(--gold);color:#1a1000;font-weight:900;font-size:.72rem;padding:5px 12px;border-radius:999px}
+.spec-doc{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.spec-av{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--tint),#4a4080);display:grid;place-items:center;font-size:1.4rem;font-weight:900;color:#fff;flex:none}
+.spec-name{display:block;font-weight:900;font-size:1.05rem}
+.spec-cred{display:block;font-size:.82rem;color:var(--muted);margin-top:2px}
+.spec-quote{border-right:3px solid var(--tint);padding-right:16px;margin:0 0 18px;font-size:.97rem;line-height:1.8;color:var(--muted);font-style:italic}
+.spec-chips{display:flex;flex-wrap:wrap;gap:8px}
+.spec-chips span{background:var(--ink2);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-size:.79rem;color:var(--gold2)}
+
+/* ── WHO IS THIS FOR ── */
+.for-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px;margin:0 auto}
+@media(max-width:600px){.for-grid{grid-template-columns:1fr}}
+.for-card{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:22px 18px}
+.for-card.yes{border-color:rgba(77,182,112,.35)}
+.for-card.no{border-color:rgba(220,70,70,.25)}
+.for-card h4{font-size:.95rem;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.for-card li{padding:7px 0;font-size:.88rem;color:var(--muted);display:flex;gap:9px;align-items:flex-start;border-bottom:1px solid var(--line)}
+.for-card li:last-child{border:none;padding-bottom:0}
+
+/* ── OBJECTION CRUSHER ── */
+.objs{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:840px;margin:0 auto}
+@media(max-width:620px){.objs{grid-template-columns:1fr}}
+.obj{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:22px 18px}
+.obj-q{font-weight:900;font-size:.95rem;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.obj-q .qi{font-size:1.2rem;flex:none}
+.obj-a{font-size:.87rem;color:var(--muted);line-height:1.75}
+.obj-tick{display:inline-block;margin-top:12px;background:rgba(77,182,112,.12);border:1px solid rgba(77,182,112,.3);color:#4db670;border-radius:8px;padding:4px 10px;font-size:.78rem;font-weight:800}
+
+/* ── UGC VIDEO WALL ── */
+.ugc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:860px;margin:0 auto}
+@media(max-width:660px){.ugc-grid{grid-template-columns:1fr 1fr}}
+.ugc-card{background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s}
+.ugc-card:hover{border-color:var(--tint);transform:translateY(-2px)}
+.ugc-thumb{aspect-ratio:9/16;max-height:220px;background:linear-gradient(175deg,rgba(138,127,199,.3),rgba(15,12,20,.9));display:flex;align-items:center;justify-content:center;position:relative}
+.ugc-play{width:46px;height:46px;background:rgba(255,255,255,.18);border-radius:50%;display:grid;place-items:center;font-size:1.1rem;backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.2)}
+.ugc-av{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:var(--tint);display:grid;place-items:center;font-size:.8rem;font-weight:900;color:#fff}
+.ugc-body{padding:12px}
+.ugc-name{font-weight:800;font-size:.88rem}
+.ugc-city{font-size:.76rem;color:var(--muted);margin-top:2px}
+.ugc-stars{color:var(--gold);font-size:.82rem;margin-top:6px;letter-spacing:1px}
+.ugc-coming{font-size:.73rem;color:var(--muted);margin-top:4px;opacity:.7}
+
+/* ── FORM EXTRAS ── */
+.risk-badge{display:flex;align-items:center;gap:14px;background:rgba(77,182,112,.07);border:1px solid rgba(77,182,112,.22);border-radius:12px;padding:14px 16px;margin-bottom:18px}
+.risk-icon{font-size:1.8rem;flex:none}
+.risk-b b{display:block;font-size:.9rem;font-weight:900;color:#4db670;margin-bottom:2px}
+.risk-b span{font-size:.8rem;color:var(--muted)}
+.del-line{display:flex;align-items:center;gap:0;margin:14px 0;overflow-x:auto}
+.del-st{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:54px;text-align:center}
+.del-st .di{font-size:1rem}
+.del-st .dd{font-size:.72rem;font-weight:800;color:var(--gold2)}
+.del-st .ds{font-size:.7rem;color:var(--muted)}
+.del-arr{color:var(--muted);padding:0 2px;margin-bottom:18px;font-size:.7rem;flex:none}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.28);border-radius:12px;padding:13px 16px;margin-top:10px;text-decoration:none;font-weight:900;font-size:.92rem;color:#25d366;transition:.15s}
+.wa-btn:hover{background:rgba(37,211,102,.18)}
+
+/* ── RISK + DELIVERY + WHATSAPP (inside modal) ── */
+.risk-badge{display:flex;align-items:center;gap:12px;background:rgba(77,182,112,.07);border:1px solid rgba(77,182,112,.22);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.risk-icon{font-size:1.5rem;flex:none}
+.risk-b b{display:block;font-size:.85rem;font-weight:900;color:#4db670;margin-bottom:2px}
+.risk-b span{font-size:.78rem;color:var(--muted)}
+.del-line{display:flex;align-items:center;margin:14px 0;overflow-x:auto}
+.del-st{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;min-width:52px;text-align:center}
+.del-st .di{font-size:.95rem}
+.del-st .dd{font-size:.7rem;font-weight:800;color:var(--gold2)}
+.del-st .ds{font-size:.67rem;color:var(--muted)}
+.del-arr{color:var(--line);padding:0 2px;margin-bottom:16px;font-size:.7rem;flex:none}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:9px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);border-radius:12px;padding:12px 14px;margin-top:10px;text-decoration:none;font-weight:900;font-size:.9rem;color:#25d366;transition:.15s}
+.wa-btn:hover{background:rgba(37,211,102,.16)}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar"><div class="in">
+  <a href="/" class="logo"><div class="logo-mark">C</div><div><span class="lt">COSMARAB</span><span class="ls">BEAUTY & WELLNESS</span></div></a>
+  <span class="cod-badge">💵 <span class="t">الدفع عند الاستلام</span> · 🚚 توصيل مجاني</span>
+</div></div>
+
+<!-- HERO + QUIZ -->
+<header class="hero"><div class="wrap"><div class="hero-grid">
+  <div class="hero-copy">
+    <div class="hero-photo">
+      <span class="ph-tag">سُكون</span>
+      <img src="/assets/calm.png" alt="سُكون — مشروب الاسترخاء والنوم من Cosmarab" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+      <div class="ph-fallback">🌙</div>
+      <span class="ph-cosmarab">COSMARAB</span>
+    </div>
+    <span class="eyebrow">⭐ صيحة الاسترخاء الأولى في أمريكا — وصلت السعودية</span>
+    <div class="rating"><span class="stars">★★★★★</span> 4.9/5 · أكثر من 6,000 شخص</div>
+    <h1>هدوء في كأس…<br>و<span class="em">نوم عميق</span> طبيعي</h1>
+    <div class="hairline"></div>
+    <p class="sub">مشروب لذيذ تشربه قبل النوم — يهدّئ ذهنك من كثرة التفكير، يريّح أعصابك، ويأخذك لنوم أعمق بدون حبوب ولا خمول الصباح.</p>
+    <button class="btn lg btn-pulse" data-scroll="#quizSection"><span class="shine"></span>اكتشف برنامجك الآن 🧪</button>
+    <div class="trust-row"><span>☪️ <b>حلال</b></span><span>🚫 <b>غير مسبب للإدمان</b></span><span>🚚 <b>توصيل مجاني</b></span><span>🔄 <b>ضمان</b></span></div>
+  </div>
+
+  <div class="quiz-wrap reveal" id="quizSection">
+    <span class="quiz-badge">🧪 اختبار النوم — 30 ثانية</span>
+    <h3 class="qh">وش يناسب <span class="em">نومك بالضبط؟</span></h3>
+    <p class="qp-sub">جاوب على 4 أسئلة ونحدد لك البرنامج الأنسب فوراً.</p>
+    <div class="quiz-progress"><div class="qp active"></div><div class="qp"></div><div class="qp"></div><div class="qp"></div></div>
+    <div class="qcard show" id="qcard0">
+      <div class="qstep">السؤال 1 من 4</div><h3>وش أكثر شي يتعبك بالليل؟</h3>
+      <div class="qopts">
+        <button class="qopt" data-q="0" data-a="0"><span class="qic">😌</span> أحياناً صعب أنام</button>
+        <button class="qopt" data-q="0" data-a="1"><span class="qic">🧠</span> عقلي ما يهدأ من التفكير</button>
+        <button class="qopt" data-q="0" data-a="2"><span class="qic">🌃</span> أصحى كثير في الليل</button>
+        <button class="qopt" data-q="0" data-a="3"><span class="qic">😩</span> أصحى متعب مو مرتاح</button>
+      </div>
+    </div>
+    <div class="qcard" id="qcard1">
+      <div class="qstep">السؤال 2 من 4</div><h3>كم مرة في الأسبوع؟</h3>
+      <div class="qopts">
+        <button class="qopt" data-q="1" data-a="0"><span class="qic">🌤️</span> نادراً</button>
+        <button class="qopt" data-q="1" data-a="1"><span class="qic">📅</span> 2-3 ليالي</button>
+        <button class="qopt" data-q="1" data-a="2"><span class="qic">🔁</span> غالب الأسبوع</button>
+        <button class="qopt" data-q="1" data-a="3"><span class="qic">⏰</span> كل ليلة تقريباً</button>
+      </div>
+    </div>
+    <div class="qcard" id="qcard2">
+      <div class="qstep">السؤال 3 من 4</div><h3>جربت حلول قبل؟</h3>
+      <div class="qopts">
+        <button class="qopt" data-q="2" data-a="0"><span class="qic">🙅</span> لا، ما جربت</button>
+        <button class="qopt" data-q="2" data-a="1"><span class="qic">🍵</span> أعشاب وشاي بس</button>
+        <button class="qopt" data-q="2" data-a="2"><span class="qic">💊</span> حبوب نوم / ميلاتونين</button>
+        <button class="qopt" data-q="2" data-a="3"><span class="qic">😤</span> جربت كثير بلا فايدة</button>
+      </div>
+    </div>
+    <div class="qcard" id="qcard3">
+      <div class="qstep">السؤال 4 من 4</div><h3>وش هدفك؟</h3>
+      <div class="qopts">
+        <button class="qopt" data-q="3" data-a="0"><span class="qic">🗓️</span> أجرب أول</button>
+        <button class="qopt" data-q="3" data-a="1"><span class="qic">🌙</span> نوم هادئ منتظم</button>
+        <button class="qopt" data-q="3" data-a="2"><span class="qic">📈</span> راحة وتوازن طويل المدى</button>
+        <button class="qopt" data-q="3" data-a="3"><span class="qic">🎁</span> أفضل نتيجة وأوفّر أكثر</button>
+      </div>
+    </div>
+    <div class="quiz-result" id="quizResult">
+      <div class="qr-match" id="qrMatch"></div>
+      <h3 class="qr-title" id="qrTitle"></h3>
+      <p class="qr-desc" id="qrDesc"></p>
+      <div class="qr-tags" id="qrTags"></div>
+      <button class="btn lg gold" data-scroll="#offers">شوف عرضك واطلب الآن ↓</button>
+    </div>
+  </div>
+</div></div></header>
+
+<!-- PROOF NUMBERS BAR -->
+<div class="proof-bar">
+  <div class="proof-stat"><span class="pn">+3,241</span><span class="pl">طلب هذا الشهر</span></div>
+  <div class="proof-stat"><span class="pn">4.9 ★</span><span class="pl">من 842 تقييم</span></div>
+  <div class="proof-stat"><span class="pn">48 ساعة</span><span class="pl">متوسط وقت التوصيل</span></div>
+  <div class="proof-stat"><span class="pn">100%</span><span class="pl">حلال · GMP · مفحوص</span></div>
+</div>
+
+<!-- OFFERS — immediately after quiz so the funnel is quiz → offers → form -->
+<section class="section" id="offers"><div class="wrap center">
+  <span class="eyebrow">🎁 اختر عرضك</span>
+  <h2 class="title">عرض اليوم <span class="em">فقط</span></h2>
+  <div class="hairline"></div>
+  <p class="lead">كل علبة = 30 ساشيه (شهر كامل). كل ما طلبت أكثر، وفّرت أكثر.</p>
+  <div class="timer">
+    <div class="seg"><b id="th">00</b><span>ساعة</span></div>
+    <div class="seg"><b id="tm">14</b><span>دقيقة</span></div>
+    <div class="seg"><b id="ts">59</b><span>ثانية</span></div>
+  </div>
+  <div class="offers">
+
+    <!-- OFFER 1 -->
+    <div class="offer" id="off1" data-offer="1" data-qty="1" data-price="189" data-label="علبة واحدة" data-sub="30 ساشيه — شهر كامل">
+      <div class="qty">علبة واحدة</div>
+      <div class="sach-row">
+        <div class="sach"></div>
+        <span class="sach-label">30 ساشيه</span>
+      </div>
+      <div class="unit">شهر كامل</div>
+      <div class="price">189<small> ر.س</small></div>
+      <div class="was">249 ر.س</div>
+      <div class="perunit">للتجربة الأولى</div>
+      <div class="check">○</div>
+      <button class="btn order-btn">اطلب الآن ↓</button>
+    </div>
+
+    <!-- OFFER 2 -->
+    <div class="offer" id="off2" data-offer="2" data-qty="2" data-price="329" data-label="علبتان" data-sub="60 ساشيه — شهران">
+      <span class="pop">🔥 الأكثر طلباً</span>
+      <span class="save">وفّر 169</span>
+      <div class="qty">علبتان</div>
+      <div class="sach-row">
+        <div class="sach"></div><div class="sach"></div>
+        <span class="sach-label">60 ساشيه</span>
+      </div>
+      <div class="unit">شهران كاملان</div>
+      <div class="price">329<small> ر.س</small></div>
+      <div class="was">498 ر.س</div>
+      <div class="perunit">164 ر.س للعلبة</div>
+      <div class="check">○</div>
+      <button class="btn order-btn">اطلب الآن ↓</button>
+    </div>
+
+    <!-- OFFER 3 -->
+    <div class="offer" id="off3" data-offer="3" data-qty="3" data-price="429" data-label="3 علب + مجانية" data-sub="90 ساشيه + علبة مجانية">
+      <span class="pop">🎁 الأفضل قيمة</span>
+      <span class="save">وفّر 318</span>
+      <div class="qty">3 علب</div>
+      <div class="sach-row">
+        <div class="sach"></div><div class="sach"></div><div class="sach"></div>
+        <span style="color:var(--gold);font-size:.78rem;font-weight:900">+🎁</span>
+        <span class="sach-label">90 ساشيه + علبة مجانية</span>
+      </div>
+      <div class="unit">3 أشهر + علبة مجاناً</div>
+      <div class="price">429<small> ر.س</small></div>
+      <div class="was">747 ر.س</div>
+      <div class="perunit">143 ر.س للعلبة</div>
+      <div class="check">○</div>
+      <button class="btn order-btn">اطلب الآن ↓</button>
+    </div>
+
+  </div>
+  <div class="cod-row"><span>💵 <b>الدفع عند الاستلام</b></span><span>🚚 توصيل مجاني</span><span>🔄 ضمان</span><span>🔒 آمن</span></div>
+  <div class="scarcity reveal">
+    <div class="top"><span>⚡ دفعة محدودة</span><span>متبقّي <b id="stockN">17</b> علبة</span></div>
+    <div class="bar"><div class="fill" id="stockFill" style="width:56%"></div></div>
+  </div>
+</div></section>
+
+<!-- CERT STRIP -->
+<div class="cert-strip"><div class="in">
+  <span class="cert-chip"><span class="cc">☪️</span> حلال معتمد</span>
+  <span class="cert-chip"><span class="cc">🏭</span> تصنيع GMP</span>
+  <span class="cert-chip"><span class="cc">🚫</span> غير مسبب للإدمان</span>
+  <span class="cert-chip"><span class="cc">🌿</span> نباتي 100%</span>
+  <span class="cert-chip"><span class="cc">🔬</span> مفحوص مخبرياً</span>
+</div></div>
+
+<!-- TICKER -->
+<div class="ticker"><div class="ticker-track">
+  <span>🌙 <b>نوم أعمق</b> بطريقة طبيعية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>🧠 يهدّئ كثرة التفكير</span><span>🚚 توصيل مجاني لكل السعودية</span><span>🔄 ضمان استرجاع</span>
+  <span>🌙 <b>نوم أعمق</b> بطريقة طبيعية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>🧠 يهدّئ كثرة التفكير</span><span>🚚 توصيل مجاني لكل السعودية</span><span>🔄 ضمان استرجاع</span>
+</div></div>
+
+<!-- PAIN -->
+<section class="section"><div class="wrap center">
+  <span class="eyebrow">😣 المشكلة</span>
+  <h2 class="title">تتقلّب بالفراش… <span class="em">وعقلك ما يسكت</span></h2>
+  <div class="hairline"></div>
+  <p class="lead">ضغط اليوم، الجوال، والتفكير الزائد يخلّون جسمك متعب بس عقلك صاحي — فتصحي متعب وما عندك طاقة ليومك.</p>
+  <div class="cards">
+    <div class="card reveal"><div class="ico">🧠</div><h3>تفكير ما يهدأ</h3><p>تحط رأسك على المخدّة ويبدأ شريط الأفكار — قلق، مهام، وذكريات اليوم.</p></div>
+    <div class="card reveal"><div class="ico">🌃</div><h3>نوم متقطّع</h3><p>تصحي مرّات في الليل وتصعب عليك العودة للنوم العميق.</p></div>
+    <div class="card reveal"><div class="ico">😩</div><h3>صباح بلا طاقة</h3><p>تصحي متعب وتبدأ يومك بقهوة بعد قهوة بلا فايدة حقيقية.</p></div>
+  </div>
+</div></section>
+
+<!-- WHO IS THIS FOR -->
+<section class="section"><div class="wrap center">
+  <span class="eyebrow">🎯 هل سُكون لك؟</span>
+  <h2 class="title">لمن <span class="em">يناسب</span> — ولمن لا؟</h2>
+  <div class="hairline"></div>
+  <div class="for-grid">
+    <div class="for-card yes reveal">
+      <h4>✅ سُكون مناسب لك إذا…</h4>
+      <ul>
+        <li><span>🧠</span> عقلك ما يهدأ قبل النوم</li>
+        <li><span>😩</span> تصحي متعب رغم النوم الطويل</li>
+        <li><span>📱</span> تقضي وقتاً طويلاً على الشاشات</li>
+        <li><span>💊</span> جربت حبوب نوم وما عجبتك</li>
+        <li><span>⚡</span> تحتاج تركيزاً أفضل في النهار</li>
+      </ul>
+    </div>
+    <div class="for-card no reveal">
+      <h4>⚠️ راجع طبيبك أولاً إذا…</h4>
+      <ul>
+        <li><span>🤰</span> حامل أو مرضع</li>
+        <li><span>💊</span> تأخذ أدوية طبية معينة</li>
+        <li><span>🏥</span> عندك حالة صحية مزمنة</li>
+        <li><span>👶</span> عمرك أقل من 18 سنة</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- HOW -->
+<section class="section"><div class="wrap center">
+  <span class="eyebrow">✨ الحل</span>
+  <h2 class="title">طقس مسائي واحد… <span class="em">يغيّر ليلتك</span></h2>
+  <div class="hairline"></div>
+  <div class="steps">
+    <div class="step reveal"><h3>اشربه قبل النوم</h3><p>ذوّب الساشيه في كوب حليب دافئ أو ماء قبل النوم بنصف ساعة.</p></div>
+    <div class="step reveal"><h3>عقلك يهدأ</h3><p>تركيبة تريّح الجهاز العصبي وتقلّل هرمون التوتر — يخفت شريط الأفكار.</p></div>
+    <div class="step reveal"><h3>نوم عميق</h3><p>تغط بهدوء وتصحي منتعش — بدون خمول الصباح.</p></div>
+  </div>
+  <div class="timeline reveal">
+    <div class="tl-pt"><div class="tl-dot">😌</div><b>أول ليلة</b><span>استرخاء أسرع</span></div>
+    <div class="tl-pt"><div class="tl-dot">🌙</div><b>أسبوع 1</b><span>نوم أعمق</span></div>
+    <div class="tl-pt"><div class="tl-dot">⚡</div><b>أسبوع 2</b><span>طاقة بالنهار</span></div>
+    <div class="tl-pt"><div class="tl-dot">✨</div><b>أسبوع 4</b><span>مزاج وهدوء أثبت</span></div>
+  </div>
+</div></section>
+
+<!-- SPECIALIST / DOCTOR -->
+<section class="section"><div class="wrap">
+  <div class="center">
+    <span class="eyebrow">👨‍⚕️ رأي الخبراء</span>
+    <h2 class="title">ماذا يقول <span class="em">متخصص النوم</span> عن سُكون؟</h2>
+    <div class="hairline"></div>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-video reveal" id="specVideoWrap">
+      <!-- Replace the src with your video file when ready -->
+      <video id="specVideo" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px" playsinline controls></video>
+      <div class="spec-play" id="specPlayBtn">▶</div>
+      <div class="spec-soon" id="specSoonTxt">فيديو المتخصص — قريباً</div>
+      <div class="spec-badge">🎓 رأي طبي</div>
+    </div>
+    <div class="spec-info reveal">
+      <div class="spec-doc">
+        <div class="spec-av">د</div>
+        <div>
+          <span class="spec-name">د. [اسم الطبيب]</span>
+          <span class="spec-cred">أخصائي الطب التكاملي وصحة النوم</span>
+        </div>
+      </div>
+      <blockquote class="spec-quote">
+        "مزيج المغنيسيوم مع الإل-ثيانين يعمل على مستويين في نفس الوقت — يريّح الجسم ويهدّئ الذهن. وإضافة الأشواجندا تعالج الجذر الحقيقي لمشكلة النوم وهو الكورتيزول المرتفع. هذا النوع من التركيبات هو ما أنصح به لمن يعاني من النوم المشتّت بسبب الإجهاد الذهني."
+      </blockquote>
+      <div class="spec-chips">
+        <span>✅ خبرة +15 سنة</span>
+        <span>✅ تركيبة مدروسة علمياً</span>
+        <span>✅ غير مسبب للإدمان</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- NOT A PILL -->
+<section class="section"><div class="wrap">
+  <div class="center"><span class="eyebrow">🚫 الفرق المهم</span><h2 class="title">مو حبوب نوم… <span class="em">استرخاء طبيعي</span></h2><div class="hairline"></div>
+  <p class="lead">أكبر خوف: «بأدمن عليه» أو «بأصحى مخدّر». سُكون مختلف تماماً.</p></div>
+  <div class="ba reveal">
+    <div class="before"><span class="lbl">حبوب النوم</span><div class="face">💊</div><ul><li>• خمول وثِقل بالصباح</li><li>• خطر الاعتياد والإدمان</li><li>• نوم «مخدّر» مو طبيعي</li></ul></div>
+    <div class="after"><span class="lbl">سُكون</span><div class="face">🌙</div><ul><li>• تصحي منتعش وصافي</li><li>• غير مسبب للإدمان نهائياً</li><li>• يساعد جسمك ينام طبيعي</li></ul></div>
+  </div>
+</div></section>
+
+<!-- INGREDIENTS -->
+<section class="section"><div class="wrap">
+  <div class="center"><span class="eyebrow">🧪 المكوّنات الفعّالة</span><h2 class="title">تركيبة <span class="em">مدروسة بجرعات حقيقية</span></h2><div class="hairline"></div></div>
+  <div class="feat">
+    <div class="item reveal"><div class="fi">🧲</div><div><h4>مغنيسيوم جلايسينات</h4><p>«معدن الاسترخاء» — يريّح العضلات والأعصاب ويهيّئ الجسم للنوم من أول ليلة.</p></div></div>
+    <div class="item reveal"><div class="fi">🍵</div><div><h4>إل-ثيانين (L-Theanine)</h4><p>حمض من الشاي الأخضر يهدّئ الذهن خلال 30 دقيقة بدون نعاس ثقيل.</p></div></div>
+    <div class="item reveal"><div class="fi">🌿</div><div><h4>أشواجندا KSM-66</h4><p>عشبة تكيّف تقلّل هرمون التوتر (الكورتيزول) وتوازن المزاج.</p></div></div>
+    <div class="item reveal"><div class="fi">🌸</div><div><h4>خلاصة الزعفران</h4><p>كنز عربي موثوق — يدعم المزاج وجودة النوم. لمسة فاخرة تثق فيها.</p></div></div>
+  </div>
+</div></section>
+
+<!-- COMPARISON -->
+<section class="section"><div class="wrap">
+  <div class="center"><span class="eyebrow">⚖️ المقارنة</span><h2 class="title">ليش <span class="em">سُكون</span>؟</h2><div class="hairline"></div></div>
+  <table class="comp reveal">
+    <tr><th></th><th class="ushead">سُكون</th><th>حبوب النوم</th><th>شاي الأعشاب</th></tr>
+    <tr><td>نوم عميق بدون خمول صباح</td><td class="us">✅</td><td class="them">❌</td><td class="them">جزئي</td></tr>
+    <tr><td>غير مسبب للإدمان</td><td class="us">✅</td><td class="them">❌</td><td class="us">✅</td></tr>
+    <tr><td>جرعات فعّالة مدروسة</td><td class="us">✅</td><td class="them">دواء</td><td class="them">ضعيف</td></tr>
+    <tr><td>يهدّئ التوتر بالنهار أيضاً</td><td class="us">✅</td><td class="them">❌</td><td class="them">❌</td></tr>
+    <tr><td>طعم لذيذ وطقس ممتع</td><td class="us">✅</td><td class="them">❌</td><td class="us">✅</td></tr>
+  </table>
+</div></section>
+
+<!-- OBJECTION CRUSHER -->
+<section class="section"><div class="wrap center">
+  <span class="eyebrow">💬 أسئلة حقيقية</span>
+  <h2 class="title">إجاباتنا على <span class="em">أصعب الأسئلة</span></h2>
+  <div class="hairline"></div>
+  <div class="objs">
+    <div class="obj reveal">
+      <div class="obj-q"><span class="qi">🤔</span>«هل حقاً يشتغل؟ أو مجرد مكملات»</div>
+      <div class="obj-a">المغنيسيوم والإل-ثيانين من أكثر المكملات دراسةً في علم النوم — مئات الأبحاث تثبت فعاليتهما. سُكون يجمعهما بجرعات فعّالة حقيقية وليس جرعات رمزية مثل بعض المنتجات.</div>
+      <span class="obj-tick">✅ مدعوم علمياً</span>
+    </div>
+    <div class="obj reveal">
+      <div class="obj-q"><span class="qi">😟</span>«خايف أدمن عليه أو يأثر على الصبح»</div>
+      <div class="obj-a">سُكون لا يحتوي على ميلاتونين ولا أي مادة تسبب النعاس القسري. يساعد جسمك ينام بشكل طبيعي — تصحي منتعش بدون خمول أو اعتياد. يمكنك تركه في أي وقت بلا أي تأثير.</div>
+      <span class="obj-tick">🚫 غير مسبب للإدمان نهائياً</span>
+    </div>
+    <div class="obj reveal">
+      <div class="obj-q"><span class="qi">🏪</span>«ليش مو موجود في الصيدلية؟»</div>
+      <div class="obj-a">نبيع مباشرة من المصنع للعميل بدون وسطاء — هذا ما يخلّي السعر أقل والجودة أعلى. الصيدلية تضيف هامشاً تجارياً لا داعي له. الدفع عند الاستلام يضمن لك حقك.</div>
+      <span class="obj-tick">📦 مباشر من المصنع</span>
+    </div>
+    <div class="obj reveal">
+      <div class="obj-q"><span class="qi">💸</span>«إذا ما اشتغل معي؟ خسارة فلوس»</div>
+      <div class="obj-a">ضمان 14 ليلة كاملة — جرّبه أسبوعين، وإذا ما حسّيت بأي فرق في نومك تواصل معنا ونرجّع لك المبلغ بالكامل بدون أسئلة. المخاطرة عندنا، مو عندك.</div>
+      <span class="obj-tick">🛡️ ضمان كامل</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- CERTS -->
+<section class="section"><div class="wrap">
+  <div class="center"><span class="eyebrow">🛡️ الجودة والثقة</span><h2 class="title">منتج <span class="em">موثوق ومعتمد</span></h2><div class="hairline"></div></div>
+  <div class="certs">
+    <div class="cert reveal"><div class="ci">☪️</div><b>حلال</b><span>معتمد 100%</span></div>
+    <div class="cert reveal"><div class="ci">🏭</div><b>GMP</b><span>تصنيع معتمد</span></div>
+    <div class="cert reveal"><div class="ci">🔬</div><b>مختبر</b><span>جودة مفحوصة</span></div>
+    <div class="cert reveal"><div class="ci">🚫</div><b>بدون سكر</b><span>تركيبة نظيفة</span></div>
+  </div>
+</div></section>
+
+<!-- TESTIMONIALS -->
+<section class="section"><div class="wrap">
+  <div class="center"><span class="eyebrow">💬 آراء العملاء</span><h2 class="title">انضم لـ <span class="em">آلاف العملاء</span></h2><div class="hairline"></div></div>
+  <div class="revs">
+    <div class="rev reveal"><div class="stars">★★★★★</div><p>"كنت أتقلّب ساعتين قبل ما أنام من كثر التفكير. من أول كوب حسيت أعصابي ارتاحت ونمت بسرعة. صار طقسي كل ليلة."</p><div class="who"><span class="av">ر</span><div><b>ريم — الرياض</b><span>عميل موثّق</span></div><span class="vbadge">✔ موثّق</span></div></div>
+    <div class="rev reveal"><div class="stars">★★★★★</div><p>"جربت حبوب نوم وكنت أصحى مخدّر طول النهار. سُكون عكس تماماً — نوم عميق وأصحى نشيط. ما عاد أستغني عنه."</p><div class="who"><span class="av">خ</span><div><b>خالد — جدة</b><span>عميل موثّق</span></div><span class="vbadge">✔ موثّق</span></div></div>
+    <div class="rev reveal"><div class="stars">★★★★★</div><p>"أعمل في وردية ليلية وكان نومي مدمّر. هالمشروب هدّى أعصابي ونومي صار أحسن بكثير. الطعم لذيذ والتأثير واضح."</p><div class="who"><span class="av">ن</span><div><b>نوال — الدمام</b><span>عميل موثّق</span></div><span class="vbadge">✔ موثّق</span></div></div>
+  </div>
+</div></section>
+
+<!-- UGC VIDEO WALL -->
+<section class="section"><div class="wrap center">
+  <span class="eyebrow">📱 تجارب حقيقية</span>
+  <h2 class="title">شاهد <span class="em">ماذا قالوا</span> بالفيديو</h2>
+  <div class="hairline"></div>
+  <div class="ugc-grid">
+    <div class="ugc-card reveal">
+      <div class="ugc-thumb"><div class="ugc-play">▶</div><div class="ugc-av">ر</div></div>
+      <div class="ugc-body"><div class="ugc-name">ريم — الرياض</div><div class="ugc-city">استخدمت علبتان</div><div class="ugc-stars">★★★★★</div><div class="ugc-coming">الفيديو قريباً</div></div>
+    </div>
+    <div class="ugc-card reveal">
+      <div class="ugc-thumb" style="background:linear-gradient(175deg,rgba(100,127,199,.3),rgba(15,12,20,.9))"><div class="ugc-play">▶</div><div class="ugc-av">خ</div></div>
+      <div class="ugc-body"><div class="ugc-name">خالد — جدة</div><div class="ugc-city">استخدم 3 علب</div><div class="ugc-stars">★★★★★</div><div class="ugc-coming">الفيديو قريباً</div></div>
+    </div>
+    <div class="ugc-card reveal">
+      <div class="ugc-thumb" style="background:linear-gradient(175deg,rgba(138,100,199,.3),rgba(15,12,20,.9))"><div class="ugc-play">▶</div><div class="ugc-av">ن</div></div>
+      <div class="ugc-body"><div class="ugc-name">نوال — الدمام</div><div class="ugc-city">استخدمت علبة</div><div class="ugc-stars">★★★★★</div><div class="ugc-coming">الفيديو قريباً</div></div>
+    </div>
+  </div>
+  <p style="margin-top:20px;color:var(--muted);font-size:.88rem">كلها تجارب حقيقية من عملاء أذنوا بنشر قصصهم · الفيديوهات قيد التحضير</p>
+</div></section>
+
+<!-- GUARANTEE -->
+<section class="section"><div class="wrap"><div class="guarantee reveal">
+  <div class="seal">🛡️</div>
+  <div><h3>ضمان النوم الهادئ أو استرجاع أموالك</h3><p>جرّبه 14 ليلة، وإذا ما حسّيت بفرق في نومك وهدوئك تواصل معنا ونرجّع لك المبلغ كاملاً. بلا مخاطرة.</p></div>
+</div></div></section>
+
+<!-- FAQ -->
+<section class="section"><div class="wrap">
+  <div class="center"><span class="eyebrow">❓ أسئلة شائعة</span><h2 class="title">كل ما يهمّك <span class="em">معرفته</span></h2><div class="hairline"></div></div>
+  <div class="faq">
+    <details class="qa reveal"><summary>متى أحسّ بالفرق؟ <span class="chev">⌄</span></summary><div class="ans">أغلب العملاء يشعرون باسترخاء من أول ليلة، ويتحسّن عمق النوم تدريجياً خلال الأسبوع الأول مع الاستمرار.</div></details>
+    <details class="qa reveal"><summary>هل يسبب الإدمان أو الخمول؟ <span class="chev">⌄</span></summary><div class="ans">لا نهائياً. سُكون مكمّل طبيعي غير مسبب للإدمان، يساعد جسمك على النوم بشكل طبيعي وتصحي منتعش بدون خمول.</div></details>
+    <details class="qa reveal"><summary>هل هو حلال وآمن؟ <span class="chev">⌄</span></summary><div class="ans">نعم 100% حلال، نباتي، بدون سكر، ومصنّع وفق معايير الجودة GMP ومفحوص مخبرياً.</div></details>
+    <details class="qa reveal"><summary>كيف أستخدمه؟ <span class="chev">⌄</span></summary><div class="ans">ذوّب ساشيه واحد في كوب حليب دافئ أو ماء قبل النوم بنصف ساعة. ساشيه واحد يومياً يكفي.</div></details>
+    <details class="qa reveal"><summary>مناسب للحوامل والمرضعات؟ <span class="chev">⌄</span></summary><div class="ans">ننصح باستشارة الطبيب قبل الاستخدام أثناء الحمل أو الرضاعة أو مع أي حالة صحية أو دواء.</div></details>
+    <details class="qa reveal"><summary>كيف أدفع؟ <span class="chev">⌄</span></summary><div class="ans">الدفع عند الاستلام نقداً للمندوب — ما في دفع مسبق. التوصيل مجاني لكل مدن السعودية.</div></details>
+  </div>
+</div></section>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="wrap">
+  <a href="/" class="logo"><div class="logo-mark">C</div><div><span class="lt">COSMARAB</span><span class="ls">BEAUTY & WELLNESS</span></div></a>
+  <div class="pay">💵 الدفع عند الاستلام · 🚚 توصيل مجاني · 🔒 طلب آمن</div>
+  <p>© <span id="yr"></span> Cosmarab — جميع الحقوق محفوظة · <a href="/privacy.html">الخصوصية</a> · <a href="/terms.html">الشروط</a></p>
+</div></footer>
+
+<!-- ORDER MODAL — bottom sheet, same pattern as ksa-18 -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="إتمام الطلب">
+    <div class="sheet-head">
+      <div class="grab"></div>
+      <div class="steps-ind"><span class="d on" id="dot1"></span><span class="d" id="dot2"></span><span id="stepTxt">الخطوة 1 من 2</span></div>
+      <div class="sheet-sel" style="margin-top:10px">
+        <div class="sheet-ico">🌙</div>
+        <div><div class="sheet-nm" id="selName">—</div><div class="sheet-sb" id="selSub">—</div></div>
+        <div class="sheet-pr" id="selPrice">—</div>
+        <button class="sheet-close" data-close aria-label="إغلاق">✕</button>
+      </div>
+    </div>
+    <div class="sheet-body">
+      <div class="panel" id="panel1"></div>
+      <div class="panel" id="panel2">
+        <div class="cod-note"><span class="ic">💵</span><span>تدفع <b>عند الاستلام</b> — عبّي بياناتك وبنتواصل معك لتأكيد الطلب.</span></div>
+
+        <div class="upsell-title">🎁 أضف لطلبك بسعر خاص</div>
+        <div class="form-upsell" id="fu-glow" data-key="glow" data-sku="CSM-GLOW" data-price="149">
+          <div class="fu-icon">☕</div>
+          <div class="fu-info"><div class="fu-name">كولاجين جلو — نوم الجمال</div><div class="fu-desc">نوم عميق + كولاجين = بشرة نضرة</div></div>
+          <div class="fu-price"><span class="np">149 ر.س</span><span class="op">199 ر.س</span></div>
+          <div class="fu-check" id="fuc-glow"></div>
+        </div>
+        <div class="form-upsell" id="fu-gut" data-key="gut" data-sku="CSM-GUT" data-price="149">
+          <div class="fu-icon">🫧</div>
+          <div class="fu-info"><div class="fu-name">جَت جلو — راحة الأمعاء</div><div class="fu-desc">معدة مرتاحة = أعصاب أهدأ ونوم أعمق</div></div>
+          <div class="fu-price"><span class="np">149 ر.س</span><span class="op">179 ر.س</span></div>
+          <div class="fu-check" id="fuc-gut"></div>
+        </div>
+
+        <div class="order-summary" id="orderSummary"></div>
+
+        <div class="del-line">
+          <div class="del-st"><span class="di">✅</span><span class="dd">الآن</span><span class="ds">تأكيد</span></div>
+          <div class="del-arr">›</div>
+          <div class="del-st"><span class="di">📦</span><span class="dd">يوم 1</span><span class="ds">تحضير</span></div>
+          <div class="del-arr">›</div>
+          <div class="del-st"><span class="di">🚚</span><span class="dd">يوم 2-4</span><span class="ds">شحن</span></div>
+          <div class="del-arr">›</div>
+          <div class="del-st"><span class="di">🏠</span><span class="dd">الاستلام</span><span class="ds">ادفع بالباب</span></div>
+        </div>
+
+        <div class="risk-badge">
+          <div class="risk-icon">🛡️</div>
+          <div class="risk-b"><b>ضمان 14 ليلة</b><span>إذا ما حسّيت بفرق نرجّع لك المبلغ كاملاً</span></div>
+        </div>
+
+        <form id="orderForm" novalidate>
+          <div class="field" id="f-name"><label>الاسم الكامل <span class="req">*</span></label><input id="name" type="text" placeholder="مثال: محمد الغامدي" autocomplete="name" /></div>
+          <div class="field" id="f-phone"><label>رقم الجوال <span class="req">*</span></label><input id="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" autocomplete="tel" maxlength="10" /><div class="hint">نتواصل معك لتأكيد الطلب فقط</div></div>
+          <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input id="city" type="text" list="cities" placeholder="مثال: الرياض" autocomplete="address-level2" />
+            <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الطائف"></option><option value="تبوك"></option><option value="أبها"></option><option value="الأحساء"></option></datalist>
+          </div>
+          <div class="region-err" id="regionErr" style="display:none">عذراً، التوصيل متاح داخل السعودية فقط 🇸🇦</div>
+          <button class="btn lg btn-pulse" type="submit" id="submitBtn"><span class="shine"></span>تأكيد الطلب ✅</button>
+          <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
+        </form>
+      </div>
+      <div class="panel" id="panel3">
+        <div class="ty">
+          <div class="check">✓</div>
+          <h2>تم استلام طلبك! 🎉</h2>
+          <p style="color:var(--muted);margin-bottom:6px">شكراً لك، طلبك سُجّل بنجاح.</p>
+          <div class="oid">رقم الطلب: <b id="orderId">#CSM-0000</b></div>
+          <div class="call">📞 <b>بنتصل فيك خلال دقائق</b> لتأكيد العنوان والطلب — جوالك جاهز؟</div>
+          <div class="ty-steps">
+            <div class="s"><span class="ic">📞</span> نتواصل معك لتأكيد الطلب.</div>
+            <div class="s"><span class="ic">📦</span> نجهّز ونشحن لمدينتك.</div>
+            <div class="s"><span class="ic">💵</span> تستلم وتدفع عند الباب.</div>
+          </div>
+          <button class="btn lg" data-close style="margin-top:20px">تمام، شكراً 🙏</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY -->
+<div class="sticky" id="stickyCta">
+  <div class="info"><b>سُكون — مشروب النوم والاسترخاء</b><span>ابتداءً من 189 ر.س · الدفع عند الاستلام</span></div>
+  <button class="btn" data-scroll="#orderSection">اطلب الآن</button>
+</div>
+
+<!-- TOASTS -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- ENGINE CONFIG — quiz results + toasts. No modal, no openOrder.   -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<script>
+window.PRODUCT={
+  sku:'CSM-CALM', name:'Cosmarab Sukoon Calm & Sleep', page:'ksa-calm',
+  currency:'SAR', pixelId:'',
+  quiz:{results:[
+    {match:'✅ العرض الأساسي مناسب لك',title:'علبة واحدة — تجربة شهر',desc:'حالتك خفيفة — جرّب <span class="em">علبة واحدة</span> وحسّ الفرق في نومك بنفسك.',tags:['تجربة مثالية','استرخاء سريع','سعر مناسب']},
+    {match:'✅ العرض الثنائي هو الأنسب',title:'علبتان — الأكثر طلباً',desc:'النوم الهادئ يحتاج <span class="em">انتظام</span> — علبتان تعطيك شهرين من الراحة ونتيجة أثبت.',tags:['الأكثر طلباً','نتيجة أعمق','توفير أكبر']},
+    {match:'✅ العرض الثلاثي الأفضل لك',title:'3 علب + علبة مجانية',desc:'للراحة الكاملة والتوازن المستمر — <span class="em">3 علب</span> مع علبة مجاناً أفضل قيمة وأطول مفعول.',tags:['أفضل قيمة 🎁','علبة مجاناً','هدوء كامل']}
+  ]},
+  upsells:[],
+  toasts:[
+    {n:'ريم',c:'الرياض',i:'ر',o:'علبتان'},{n:'خالد',c:'جدة',i:'خ',o:'3 علب'},
+    {n:'نوال',c:'الدمام',i:'ن',o:'علبة'},{n:'سعد',c:'مكة',i:'س',o:'علبتان'},
+    {n:'سارة',c:'الخبر',i:'س',o:'3 علب'},{n:'محمد',c:'الطائف',i:'م',o:'علبتان'},
+    {n:'لمى',c:'المدينة',i:'ل',o:'علبة'},{n:'دانة',c:'أبها',i:'د',o:'3 علب'}
+  ]
+};
+</script>
+<script src="/shop/app.js"></script>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- CUSTOM ORDER ENGINE — bottom sheet modal, same as ksa-18  -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+'use strict';
+
+var sel = null;   /* selected offer state */
+var ups = {};     /* active upsells */
+var UPSELLS = {
+  glow:{sku:'CSM-GLOW',name:'كولاجين جلو — نوم الجمال',price:149},
+  gut: {sku:'CSM-GUT', name:'جَت جلو — راحة الأمعاء',  price:149}
+};
+
+/* ── Modal ── */
+var modal = document.getElementById('modal');
+function openModal(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+function closeModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+document.querySelectorAll('[data-close]').forEach(function(el){ el.addEventListener('click', closeModal); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+
+function showPanel(n){
+  ['panel1','panel2','panel3'].forEach(function(id,i){ document.getElementById(id).classList.toggle('active', i===n-1); });
+  var d1=document.getElementById('dot1'), d2=document.getElementById('dot2'), st=document.getElementById('stepTxt');
+  if(d1) d1.classList.toggle('on', n>=1);
+  if(d2) d2.classList.toggle('on', n>=2);
+  if(st) st.textContent = n===3 ? 'تم الطلب ✅' : 'الخطوة '+n+' من 2';
+  document.querySelector('.sheet').scrollTop = 0;
+}
+
+/* ── Offer selection ── */
+function selectOffer(card){
+  document.querySelectorAll('.offer').forEach(function(c){ c.classList.remove('selected'); });
+  card.classList.add('selected');
+  sel = {
+    offer: card.dataset.offer,
+    qty:   +card.dataset.qty,
+    price: +card.dataset.price,
+    label: card.dataset.label,
+    sub:   card.dataset.sub
+  };
+}
+
+document.querySelectorAll('.offer').forEach(function(card){
+  card.addEventListener('click', function(){ selectOffer(card); });
+});
+
+/* ── "اطلب الآن" opens modal ── */
+document.querySelectorAll('.order-btn').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    selectOffer(btn.closest('.offer'));
+    ups = {};
+    document.querySelectorAll('.form-upsell').forEach(function(u){
+      u.classList.remove('on');
+      var chk = document.getElementById('fuc-'+u.dataset.key);
+      if(chk) chk.textContent='';
+    });
+    renderSummary();
+    showPanel(2);
+    openModal();
+  });
+});
+
+/* ── Upsell toggles ── */
+document.querySelectorAll('.form-upsell').forEach(function(u){
+  u.addEventListener('click', function(){
+    var key = u.dataset.key;
+    var chk = document.getElementById('fuc-'+key);
+    if(ups[key]){ delete ups[key]; u.classList.remove('on'); if(chk) chk.textContent=''; }
+    else { ups[key]=UPSELLS[key]; u.classList.add('on'); if(chk) chk.textContent='✓'; }
+    renderSummary();
+  });
+});
+
+/* ── Summary ── */
+function grandTotal(){ var t=sel?sel.price:0; Object.keys(ups).forEach(function(k){t+=ups[k].price;}); return t; }
+function renderSummary(){
+  if(!sel) return;
+  document.getElementById('selName').textContent  = sel.label;
+  document.getElementById('selSub').textContent   = sel.sub;
+  document.getElementById('selPrice').textContent = sel.price+' ر.س';
+  var h = '<div class="sum-row"><span>'+sel.label+'</span><b>'+sel.price+' ر.س</b></div>';
+  Object.keys(ups).forEach(function(k){ h+='<div class="sum-row"><span>+ '+ups[k].name+'</span><b>'+ups[k].price+' ر.س</b></div>'; });
+  h += '<div class="sum-row free"><span>التوصيل</span><b>مجاني 🎉</b></div>';
+  h += '<hr style="border-color:var(--line);margin:7px 0">';
+  h += '<div class="sum-row total"><span>الإجمالي</span><span class="v">'+grandTotal()+' ر.س</span></div>';
+  document.getElementById('orderSummary').innerHTML = h;
+}
+
+/* ── Phone digits only ── */
+var phoneEl = document.getElementById('phone');
+if(phoneEl) phoneEl.addEventListener('input',function(){ this.value=this.value.replace(/[^\d]/g,'').slice(0,10); });
+
+/* ── Form validation ── */
+function setErr(id,on){ var f=document.getElementById(id);if(!f)return;f.classList.toggle('invalid',on);var i=f.querySelector('input');if(i)i.classList.toggle('err',on); }
+
+/* ── Form submit ── */
+var form = document.getElementById('orderForm');
+if(form) form.addEventListener('submit', function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  var name  = (document.getElementById('name').value||'').trim();
+  var phone = (document.getElementById('phone').value||'').trim();
+  var city  = (document.getElementById('city').value||'').trim();
+  var ok=true;
+  if(name.length<2){setErr('f-name',true);ok=false;}else setErr('f-name',false);
+  if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
+  if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
+  if(!ok) return;
+
+  var upsellArr = Object.keys(ups).map(function(k){ return {key:k,sku:ups[k].sku,name:ups[k].name,price:ups[k].price,qty:1}; });
+  var src='direct'; try{src=localStorage.getItem('cos_src')||'direct';}catch(x){}
+  var order = {
+    product:{sku:'CSM-CALM',name:'Cosmarab Sukoon Calm & Sleep',page:'ksa-calm'},
+    offer:sel.offer, qty:sel.qty, basePrice:sel.price,
+    upsells:upsellArr, total:grandTotal(),
+    name:name, phone:phone, city:city,
+    currency:'SAR', src:src, ts:new Date().toISOString()
+  };
+
+  var btn=document.getElementById('submitBtn');
+  if(btn){btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';}
+  document.getElementById('regionErr').style.display='none';
+
+  function onSuccess(){
+    var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
+    document.getElementById('orderId').textContent='#'+txId;
+    showPanel(3);
+  }
+
+  fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
+  .then(function(r){
+    if(r.status===403){if(btn){btn.disabled=false;btn.textContent='تأكيد الطلب ✅';}document.getElementById('regionErr').style.display='block';return;}
+    onSuccess();
+  }).catch(function(){ onSuccess(); });
+
+}, true);
+
+/* ── Auto-select middle offer on load ── */
+var defCard = document.getElementById('off2') || document.querySelector('.offer');
+if(defCard) selectOffer(defCard);
+
+})();
+
+/* ── Doctor video: click to play when src is set ── */
+(function(){
+  var wrap = document.getElementById('specVideoWrap');
+  var vid  = document.getElementById('specVideo');
+  var btn  = document.getElementById('specPlayBtn');
+  var txt  = document.getElementById('specSoonTxt');
+  if(!wrap || !vid || !btn) return;
+  wrap.addEventListener('click', function(){
+    if(!vid.src || vid.src === window.location.href){ return; }
+    vid.style.display = 'block';
+    btn.style.display = 'none';
+    if(txt) txt.style.display = 'none';
+    vid.play();
+  });
+})();
+</script>
+</body>
+</html>
