@@ -719,30 +719,25 @@ tr:hover td{background:rgba(230,201,122,.05)}
 
       var html = pages.map(function(p){
         var url = ORIGIN + p.path;
-        /* find any redirect pointing to this page */
-        var myLink = links.find(function(l){ return l.target && l.target.indexOf(p.path) >= 0; });
-        var slugVal = myLink ? myLink.slug : '';
-        var redirUrl = myLink ? (ORIGIN+'/r/'+myLink.slug) : '';
-
-        var redirRow = myLink
-          ? '<div class="lpath" style="color:var(--gold-2)">🔗 cosmarab.com/r/'+esc(slugVal)+'  →  '+esc(myLink.target)+'</div>'
-          : '<div class="lpath" style="color:var(--ink-soft);font-style:italic">No redirect linked</div>';
-
-        var pageOpts = pages.map(function(pg){
-          return '<option value="'+esc(ORIGIN+pg.path)+'"'+(myLink&&myLink.target===ORIGIN+pg.path?' selected':'')+'>'+pg.path+'</option>';
-        }).join('');
-
-        var editArea = '<div class="redir-edit" id="redit-'+esc(p.path.replace(/\//g,'_'))+'" style="display:none;margin-top:6px">'
-          +'<div style="font-size:11px;color:var(--ink2);margin-bottom:5px">Slug — cosmarab.com/r/<input style="background:#111;border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:var(--gold);font-size:12px;width:130px" placeholder="lips-tk" id="rslug-'+esc(p.path.replace(/\//g,'_'))+'" value="'+esc(slugVal)+'" /></div>'
-          +'<div style="font-size:11px;color:var(--ink2);margin-bottom:8px">Points to: <select style="background:#111;border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:#fff;font-size:12px" id="rtgt-'+esc(p.path.replace(/\//g,'_'))+'">'+pageOpts+'</select></div>'
-          +'<div style="display:flex;gap:7px">'
-          +'<button class="btn-sm red" data-rsave="'+esc(p.path.replace(/\//g,'_'))+'">💾 Save</button>'
-          +(myLink?'<button class="btn-sm danger" data-rdel="'+esc(slugVal)+'">🗑 Delete</button>':'')
-          +'<button class="btn-sm" data-rcancel="'+esc(p.path.replace(/\//g,'_'))+'">Cancel</button>'
-          +'</div></div>';
-
         var pid = p.path.replace(/\//g,'_')||'root';
-        var nameEdit = '<div class="redir-edit" id="nedit-'+pid+'" style="display:none;margin-top:6px">'
+
+        /* custom URLs = redirects whose target is this page's internal path */
+        var aliases = links.filter(function(l){
+          if(!l.target) return false;
+          var t = l.target.replace(ORIGIN,'');
+          return t === p.path || l.target === p.path;
+        });
+
+        var aliasRows = aliases.length
+          ? aliases.map(function(a){
+              return '<div class="lpath" style="display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--gold-2)">'
+                +'<span>🔗 cosmarab.com/<b>'+esc(a.slug)+'</b></span>'
+                +'<button class="btn-sm danger" data-adel="'+esc(a.slug)+'" style="padding:4px 9px">🗑</button></div>';
+            }).join('')
+          : '';
+
+        /* rename form */
+        var nameEdit = '<div class="redir-edit" id="nedit-'+pid+'" style="display:none;margin-top:8px">'
           +'<div style="display:flex;gap:7px;margin-bottom:8px">'
           +'<input style="width:54px;background:#111;border:1px solid var(--line);border-radius:8px;padding:7px 8px;color:#fff;font-size:18px;text-align:center" id="nico-'+pid+'" value="'+esc(p.icon)+'" />'
           +'<input style="flex:1;background:#111;border:1px solid var(--line);border-radius:8px;padding:7px 10px;color:#fff;font-size:13px" placeholder="Page name" id="nname-'+pid+'" value="'+esc(p.name)+'" />'
@@ -752,13 +747,24 @@ tr:hover td{background:rgba(230,201,122,.05)}
           +'<button class="btn-sm" data-ncancel="'+pid+'">Cancel</button>'
           +'</div></div>';
 
+        /* add-custom-URL form */
+        var urlEdit = '<div class="redir-edit" id="uedit-'+pid+'" style="display:none;margin-top:8px">'
+          +'<div style="font-size:11px;color:var(--ink-soft);margin-bottom:6px">cosmarab.com/<input style="background:#111;border:1px solid var(--line);border-radius:8px;padding:7px 10px;color:var(--gold);font-size:13px;width:160px" placeholder="ksa-80" id="uslug-'+pid+'" /></div>'
+          +'<div style="display:flex;gap:7px">'
+          +'<button class="btn-sm red" data-usave="'+pid+'" data-path="'+esc(p.path)+'">＋ Create URL</button>'
+          +'<button class="btn-sm" data-ucancel="'+pid+'">Cancel</button>'
+          +'</div></div>';
+
         return '<div class="lcard">'
           +'<div class="lh"><div class="li" id="lico-'+pid+'">'+p.icon+'</div><div class="lt"><b id="lname-'+pid+'">'+esc(p.name)+'</b><span>'+esc(p.path)+'</span></div></div>'
           +'<div class="lpath">'+esc(url)+'</div>'
+          + aliasRows
           + nameEdit
+          + urlEdit
           +'<div class="row-btns">'
           +'<button class="btn-sm red" data-open="'+esc(url)+'">↗ Open</button>'
-          +'<button class="btn-sm" data-copy="'+esc(url)+'">📋 Copy link</button>'
+          +'<button class="btn-sm" data-copy="'+esc(url)+'">📋 Copy</button>'
+          +'<button class="btn-sm" data-uedit="'+pid+'">🔗 Custom URL</button>'
           +'<button class="btn-sm" data-nedit="'+pid+'">✏️ Rename</button>'
           +'</div></div>';
       }).join('');
@@ -769,31 +775,46 @@ tr:hover td{background:rgba(230,201,122,.05)}
       $$('#pagesList [data-open]').forEach(function(b){ b.onclick=function(){ window.open(b.getAttribute('data-open'),'_blank'); }; });
       $$('#pagesList [data-copy]').forEach(function(b){ b.onclick=function(){ copy(b.getAttribute('data-copy')); }; });
 
-      /* toggle rename form */
-      $$('#pagesList [data-nedit]').forEach(function(b){
-        b.onclick = function(){
-          var id = b.getAttribute('data-nedit');
-          var el = $('#nedit-'+id);
-          el.style.display = el.style.display==='none'||!el.style.display ? 'block' : 'none';
-        };
-      });
-      $$('#pagesList [data-ncancel]').forEach(function(b){
-        b.onclick = function(){ $('#nedit-'+b.getAttribute('data-ncancel')).style.display='none'; };
-      });
+      /* toggle rename / custom-url forms */
+      $$('#pagesList [data-nedit]').forEach(function(b){ b.onclick=function(){ var e=$('#nedit-'+b.getAttribute('data-nedit')); e.style.display=e.style.display==='block'?'none':'block'; }; });
+      $$('#pagesList [data-ncancel]').forEach(function(b){ b.onclick=function(){ $('#nedit-'+b.getAttribute('data-ncancel')).style.display='none'; }; });
+      $$('#pagesList [data-uedit]').forEach(function(b){ b.onclick=function(){ var e=$('#uedit-'+b.getAttribute('data-uedit')); e.style.display=e.style.display==='block'?'none':'block'; }; });
+      $$('#pagesList [data-ucancel]').forEach(function(b){ b.onclick=function(){ $('#uedit-'+b.getAttribute('data-ucancel')).style.display='none'; }; });
 
       /* save rename (localStorage) */
       $$('#pagesList [data-nsave]').forEach(function(b){
         b.onclick = function(){
-          var id = b.getAttribute('data-nsave');
-          var path = b.getAttribute('data-path');
-          var name = $('#nname-'+id).value.trim();
-          var icon = $('#nico-'+id).value.trim();
+          var id=b.getAttribute('data-nsave'), path=b.getAttribute('data-path');
+          var name=$('#nname-'+id).value.trim(), icon=$('#nico-'+id).value.trim();
           if(!name){ toast('Enter a name'); return; }
-          savePageMeta(path, name, icon||'📄');
-          $('#lname-'+id).textContent = name;
-          $('#lico-'+id).textContent = icon||'📄';
-          $('#nedit-'+id).style.display='none';
-          toast('Renamed ✓');
+          savePageMeta(path,name,icon||'📄');
+          $('#lname-'+id).textContent=name; $('#lico-'+id).textContent=icon||'📄';
+          $('#nedit-'+id).style.display='none'; toast('Renamed ✓');
+        };
+      });
+
+      /* create custom URL (saves a redirect: slug → internal page path) */
+      $$('#pagesList [data-usave]').forEach(function(b){
+        b.onclick = function(){
+          var id=b.getAttribute('data-usave'), path=b.getAttribute('data-path');
+          var slug=$('#uslug-'+id).value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
+          if(!slug){ toast('Enter a URL name'); return; }
+          b.disabled=true; b.textContent='Saving…';
+          api('saveRedirect',{method:'POST',body:{slug:slug,target:path,note:'custom-url'}}).then(function(j){
+            if(j.ok){ toast('Custom URL created: /'+slug+' ✓'); renderPages(); }
+            else { b.disabled=false; b.textContent='＋ Create URL'; toast('Error: '+(j.error||'unknown')); }
+          });
+        };
+      });
+
+      /* delete custom URL */
+      $$('#pagesList [data-adel]').forEach(function(b){
+        b.onclick = function(){
+          var slug=b.getAttribute('data-adel');
+          if(!confirm('Delete custom URL cosmarab.com/'+slug+' ?')) return;
+          api('deleteRedirect',{method:'POST',body:{slug:slug}}).then(function(j){
+            if(j.ok){ toast('Deleted'); renderPages(); }
+          });
         };
       });
 

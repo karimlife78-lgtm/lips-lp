@@ -3,7 +3,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/r/:slug", "destination": "/api/go?s=:slug" }
+    { "source": "/r/:slug", "destination": "/api/go?s=:slug" },
+    { "source": "/:path((?!api/|r/|assets/|shop/|_next/).+)", "destination": "/api/alias?path=:path" }
   ],
   "headers": [
     {
