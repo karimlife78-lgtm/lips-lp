@@ -772,18 +772,22 @@ tr:hover td{background:rgba(230,201,122,.05)}
           +'<button class="btn-sm" data-rucancel="'+pid+'">Cancel</button>'
           +'</div></div>';
 
+        /* video-bot is locked — no URL renaming */
+        var locked = p.path === '/video-bot';
+        var urlBtns = locked ? '' :
+            '<button class="btn-sm" data-ruedit="'+pid+'">🏷️ Rename URL</button>'
+          +'<button class="btn-sm" data-uedit="'+pid+'">🔗 Add URL</button>';
+
         return '<div class="lcard">'
           +'<div class="lh"><div class="li" id="lico-'+pid+'">'+p.icon+'</div><div class="lt"><b id="lname-'+pid+'">'+esc(p.name)+'</b><span>'+esc(p.path)+(primary?' → /'+esc(primary):'')+'</span></div></div>'
           +'<div class="lpath">'+esc(url)+'</div>'
           + aliasRows
           + nameEdit
-          + urlEdit
-          + renUrlEdit
+          + (locked ? '' : urlEdit + renUrlEdit)
           +'<div class="row-btns">'
           +'<button class="btn-sm red" data-open="'+esc(url)+'">↗ Open</button>'
           +'<button class="btn-sm" data-copy="'+esc(url)+'">📋 Copy</button>'
-          +'<button class="btn-sm" data-ruedit="'+pid+'">🏷️ Rename URL</button>'
-          +'<button class="btn-sm" data-uedit="'+pid+'">🔗 Add URL</button>'
+          + urlBtns
           +'<button class="btn-sm" data-nedit="'+pid+'">✏️ Name</button>'
           +'</div></div>';
       }).join('');
