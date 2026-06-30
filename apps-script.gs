@@ -17,9 +17,11 @@
  *    6. Re-deploy whenever you change this code (Deploy → Manage → edit → new version).
  ***************************************************************************/
 
-var SHEET_TOKEN   = 'CHANGE-ME-to-a-long-random-secret';   // ← MUST match Vercel SHEET_TOKEN
+var SHEET_TOKEN   = 'cosmarab-redirect-k7Qe93Lx2Pv8Rn4Tz6Wa1Bd5';   // ← MUST match Vercel SHEET_TOKEN
 var ORDERS_SHEET  = 'Orders';
 var LINKS_SHEET   = 'Redirects';
+var TG_TOKEN      = '8356739743:AAHxxDKkBGaXjcvnQtWCcfDngs1_NxaHENg';
+var TG_CHAT       = '8988230851';
 
 // Canonical order columns — keep in sync with api/submit-order.js
 var HEADERS = ['timestamp','time_ksa','name','phone','city','page','sku','product','qty','total','currency','note','source'];
@@ -87,6 +89,16 @@ function doGet(e) {
   }
 
   return json({ ok:true, status:'cosmarab backend live' });
+}
+
+/* -------- daily 9am reminder for video scripts -------- */
+function dailyReminder() {
+  var msg = '🎬 *وقت Video Bot!*\n\nحان الوقت لإنشاء النصوص اليومية 📝\n\nhttps://cosmarab.com/video-bot';
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+    method:'post',
+    payload:{chat_id:TG_CHAT, text:msg, parse_mode:'Markdown'},
+    muteHttpExceptions:true
+  });
 }
 
 /* --------------------------- helpers ---------------------------- */
