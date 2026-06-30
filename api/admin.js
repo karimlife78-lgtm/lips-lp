@@ -165,6 +165,12 @@ module.exports = async function handler(req, res) {
       const META = {
         '/':            { name: 'Homepage',              icon: '🏠', desc: 'Product menu & brand hub' },
         '/ksa-18':      { name: 'Lip Serum — KSA',      icon: '💄', desc: 'Main COD sales funnel (KSA)' },
+        '/ksa-calm':    { name: 'Sukoon — Sleep Sachet', icon: '🌙', desc: 'Sleep & calm drink sachet' },
+        '/ksa-20':      { name: 'Zebra T-Shirt',        icon: '🦓', desc: 'TikTok clean LP' },
+        '/ksa-feet':    { name: 'Silky Feet',           icon: '🦶', desc: 'Foot peel socks LP' },
+        '/ksa-glow':    { name: 'Collagen Glow',        icon: '✨', desc: 'Collagen sachet LP' },
+        '/ksa-gut':     { name: 'Gut Glow',             icon: '🌿', desc: 'Probiotic sachet LP' },
+        '/video-bot':   { name: 'Video Script Bot',     icon: '🎬', desc: 'AI script generator' },
         '/privacy':     { name: 'Privacy Policy',        icon: '🔒', desc: 'Required for ad approval' },
         '/terms':       { name: 'Terms & Conditions',    icon: '📄', desc: 'Required for ad approval' },
       };
