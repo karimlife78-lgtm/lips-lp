@@ -33,8 +33,10 @@ module.exports = async function handler(req, res) {
   const map = await loadMap();
   let target = map[slug] || fallback;
 
-  // forward any extra query params (utm, click ids) onto the destination
-  const extras = { ...(req.query || {}) }; delete extras.s;
+  // forward utm/click params but strip internal routing params
+  const extras = { ...(req.query || {}) };
+  delete extras.s;
+  delete extras.slug;
   const qs = new URLSearchParams(extras).toString();
   if (qs && target.indexOf('http') === 0) {
     target += (target.indexOf('?') < 0 ? '?' : '&') + qs;
