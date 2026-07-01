@@ -1095,7 +1095,7 @@ function openOrder(){
   document.getElementById('selSub').textContent=state.label.indexOf('—')>-1?state.label.split('—')[1].trim():'الدفع عند الاستلام';
   document.getElementById('selPrice').textContent=state.price;
   renderSummaries();showPanel(2);openModal();
-  track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
+  track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price,content_id:'lip-serum',content_type:'product',value:state.price,currency:'SAR'});
 }
 
 /* MODAL */
@@ -1129,7 +1129,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
     showPanel(3);
     try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
-    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});
+    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId,content_id:'lip-serum',content_type:'product',quantity:order.qty});
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
   .then(function(r){
