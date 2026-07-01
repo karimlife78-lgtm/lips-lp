@@ -1,5 +1,5 @@
 // GCC countries allowed — add 'AE','KW','BH','QA','OM' when expanding
-const ALLOWED = new Set(['SA']); // KSA only — add 'AE','KW','BH','QA','OM' when expanding
+const ALLOWED = new Set(['SA','MA']); // MA = Morocco (TEMP TEST — revert after pixel test)
 
 // Map ISO codes to friendly labels written to the sheet
 const COUNTRY_LABELS = { SA: 'KSA', AE: 'UAE', KW: 'Kuwait', BH: 'Bahrain', QA: 'Qatar', OM: 'Oman' };
