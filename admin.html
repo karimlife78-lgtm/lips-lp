@@ -362,7 +362,7 @@ tr:hover td{background:rgba(230,201,122,.05)}
     </div>
     <div class="card" style="margin-bottom:16px">
       <div class="inputs-grid">
-        <div class="field"><label>Slug (the link path)</label><div class="hint">becomes cosmarab.com/r/<b>your-slug</b></div><input id="rkSlug" placeholder="snap-oct" /></div>
+        <div class="field"><label>Slug (the link path)</label><div class="hint">becomes cosmarab.com/<b>your-slug</b></div><input id="rkSlug" placeholder="snap-oct" /></div>
         <div class="field"><label>Target URL (where it points)</label><div class="hint">your landing page or any URL</div><input id="rkTarget" placeholder="https://cosmarab.com/" /></div>
         <div class="field"><label>Note (optional)</label><div class="hint">remind yourself which campaign</div><input id="rkNote" placeholder="Snapchat — October promo" /></div>
       </div>
@@ -680,10 +680,10 @@ tr:hover td{background:rgba(230,201,122,.05)}
   }
   function renderLinks(){
     var el=$('#linksList');
-    if(!LINKS.length){el.innerHTML='<div class="card"><div class="empty"><div class="big">🔗</div>No smart-links yet. Create one above — then put <b>cosmarab.com/r/your-slug</b> in your ad.</div></div>';return;}
+    if(!LINKS.length){el.innerHTML='<div class="card"><div class="empty"><div class="big">🔗</div>No smart-links yet. Create one above — then put <b>cosmarab.com/your-slug</b> in your ad.</div></div>';return;}
     el.innerHTML=LINKS.map(function(r){
-      var url=ORIGIN+'/r/'+r.slug;
-      return '<div class="lcard"><div class="lh"><div class="li">🔗</div><div class="lt"><b>/r/'+esc(r.slug)+'</b><span>'+esc(r.note||'no note')+'</span></div></div>'+
+      var url=ORIGIN+'/'+r.slug;
+      return '<div class="lcard"><div class="lh"><div class="li">🔗</div><div class="lt"><b>/'+esc(r.slug)+'</b><span>'+esc(r.note||'no note')+'</span></div></div>'+
         '<div class="lpath">→ '+esc(r.target)+'</div>'+
         '<div class="row-btns"><button class="btn-sm red" data-copy="'+esc(url)+'">📋 Copy link</button>'+
         '<button class="btn-sm" data-open="'+esc(url)+'">↗ Test</button>'+
@@ -693,7 +693,7 @@ tr:hover td{background:rgba(230,201,122,.05)}
     $$('[data-copy]').forEach(function(b){b.onclick=function(){copy(b.getAttribute('data-copy'));};});
     $$('[data-open]').forEach(function(b){b.onclick=function(){window.open(b.getAttribute('data-open'),'_blank');};});
     $$('[data-edit]').forEach(function(b){b.onclick=function(){var r=LINKS.filter(function(x){return x.slug===b.getAttribute('data-edit');})[0];if(r){$('#rkSlug').value=r.slug;$('#rkTarget').value=r.target;$('#rkNote').value=r.note||'';window.scrollTo({top:0,behavior:'smooth'});}};});
-    $$('[data-del]').forEach(function(b){b.onclick=function(){var s=b.getAttribute('data-del');if(!confirm('Delete smart-link /r/'+s+' ?'))return;api('deleteRedirect',{method:'POST',body:{slug:s}}).then(function(){toast('Deleted');loadLinks();});};});
+    $$('[data-del]').forEach(function(b){b.onclick=function(){var s=b.getAttribute('data-del');if(!confirm('Delete smart-link /'+s+' ?'))return;api('deleteRedirect',{method:'POST',body:{slug:s}}).then(function(){toast('Deleted');loadLinks();});};});
   }
   $('#rkSave').addEventListener('click',function(){
     var slug=$('#rkSlug').value.trim(),target=$('#rkTarget').value.trim();
