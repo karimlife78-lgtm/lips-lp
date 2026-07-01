@@ -19,7 +19,6 @@
 
 var SHEET_TOKEN   = 'cosmarab-redirect-k7Qe93Lx2Pv8Rn4Tz6Wa1Bd5';   // ← MUST match Vercel SHEET_TOKEN
 var ORDERS_SHEET  = 'Orders';
-var LINKS_SHEET   = 'Redirects';
 var TG_TOKEN      = '8356739743:AAHxxDKkBGaXjcvnQtWCcfDngs1_NxaHENg';
 var TG_CHAT       = '8988230851';
 
@@ -42,20 +41,18 @@ function doPost(e) {
   if (body.token !== SHEET_TOKEN) return json({ ok:false, error:'unauthorized' });
 
   if (body.action === 'saveRedirect') {
-    var sh = sheet(LINKS_SHEET, ['slug','target','note','updated']);
-    var data = sh.getDataRange().getValues();
-    var row = -1;
-    for (var i = 1; i < data.length; i++) { if (String(data[i][0]) === body.slug) { row = i + 1; break; } }
-    var values = [body.slug, body.target, body.note || '', new Date().toISOString()];
-    if (row > 0) sh.getRange(row, 1, 1, 4).setValues([values]);
-    else sh.appendRow(values);
+    var props = PropertiesService.getScriptProperties();
+    var all = JSON.parse(props.getProperty('REDIRECTS') || '{}');
+    all[body.slug] = { slug: body.slug, target: body.target, note: body.note || '', updated: new Date().toISOString() };
+    props.setProperty('REDIRECTS', JSON.stringify(all));
     return json({ ok:true });
   }
 
   if (body.action === 'deleteRedirect') {
-    var sh = sheet(LINKS_SHEET, ['slug','target','note','updated']);
-    var data = sh.getDataRange().getValues();
-    for (var j = data.length - 1; j >= 1; j--) { if (String(data[j][0]) === body.slug) sh.deleteRow(j + 1); }
+    var props = PropertiesService.getScriptProperties();
+    var all = JSON.parse(props.getProperty('REDIRECTS') || '{}');
+    delete all[body.slug];
+    props.setProperty('REDIRECTS', JSON.stringify(all));
     return json({ ok:true });
   }
 
@@ -69,13 +66,9 @@ function doGet(e) {
   // redirects are read by /api/go too — require token
   if (p.action === 'redirects') {
     if (p.token !== SHEET_TOKEN) return json({ ok:false, error:'unauthorized' });
-    var sh = sheet(LINKS_SHEET, ['slug','target','note','updated']);
-    var data = sh.getDataRange().getValues();
-    var out = [];
-    for (var i = 1; i < data.length; i++) {
-      if (!data[i][0]) continue;
-      out.push({ slug:String(data[i][0]), target:String(data[i][1]), note:String(data[i][2]||'') });
-    }
+    var props = PropertiesService.getScriptProperties();
+    var all = JSON.parse(props.getProperty('REDIRECTS') || '{}');
+    var out = Object.values(all).filter(function(r){ return r.slug; });
     return json({ ok:true, redirects: out });
   }
 
