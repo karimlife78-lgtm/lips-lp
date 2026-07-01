@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmarab — Video Script Bot</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,'Segoe UI',sans-serif;background:#080808;color:#fff;min-height:100vh;padding:20px 16px 50px}
+.wrap{max-width:460px;margin:0 auto}
+
+.hd{text-align:center;padding:28px 0 18px}
+.logo{font-size:11px;font-weight:900;letter-spacing:.22em;color:#c0392b;margin-bottom:9px}
+.hd h1{font-size:22px;font-weight:900;line-height:1.3}
+.hd h1 span{color:#c0392b}
+.hd p{color:#444;font-size:13px;margin-top:5px}
+
+.steps{display:flex;gap:8px;margin-bottom:22px}
+.step-dot{flex:1;height:4px;border-radius:99px;background:#1a1a1a;transition:background .3s}
+.step-dot.done{background:#c0392b}
+.step-dot.active{background:#c0392b88}
+
+.slbl{font-size:11px;font-weight:900;letter-spacing:.12em;color:#c0392b;margin:20px 0 11px;text-transform:uppercase}
+
+/* Product selector cards */
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.prod-card{background:#0f0f0f;border:2px solid #1e1e1e;border-radius:15px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:6px}
+.prod-card:active{transform:scale(.97)}
+.prod-card.on{background:#130505;border-color:#c0392b}
+.prod-em{font-size:28px}
+.prod-name{font-size:12px;font-weight:900;color:#666;line-height:1.3}
+.prod-card.on .prod-name{color:#fff}
+.prod-sub{font-size:10px;color:#333;line-height:1.3}
+.prod-card.on .prod-sub{color:#c0392b88}
+
+/* Selected product info strip */
+.pcard{background:linear-gradient(135deg,#120606,#180f0f);border:1px solid #c0392b2a;border-radius:16px;padding:17px 18px;margin-bottom:4px;display:none}
+.pcard.show{display:block}
+.plbl{font-size:10px;font-weight:900;letter-spacing:.16em;color:#c0392b;margin-bottom:7px}
+.pname{font-size:15px;font-weight:900;margin-bottom:11px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11px;font-weight:800;background:#ffffff08;border:1px solid #ffffff14;padding:4px 10px;border-radius:999px;color:#aaa}
+
+/* Gender & tone chips */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:4px}
+.chip{background:#111;border:2px solid #1e1e1e;border-radius:13px;padding:13px 9px;text-align:center;cursor:pointer;color:#666;font-size:13px;font-weight:800;font-family:inherit;width:100%;transition:all .14s}
+.chip:active{transform:scale(.97)}
+.chip.on{background:#1c0606;border-color:#c0392b;color:#fff}
+.chip .em{display:block;font-size:20px;margin-bottom:5px}
+.chip.w{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:9px}
+.chip.w .em{margin:0;font-size:17px}
+
+/* Angle cards */
+.angle-card{background:#0f0f0f;border:2px solid #1e1e1e;border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .15s}
+.angle-card.on{border-color:#c0392b;background:#130505}
+.angle-head{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer}
+.angle-check{width:22px;height:22px;border-radius:6px;border:2px solid #333;background:#111;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s}
+.angle-card.on .angle-check{background:#c0392b;border-color:#c0392b}
+.angle-info{flex:1;min-width:0}
+.angle-name{font-size:13px;font-weight:900;color:#ccc;line-height:1.3}
+.angle-card.on .angle-name{color:#fff}
+.angle-hook{font-size:11px;color:#444;font-style:italic;margin-top:3px;line-height:1.4}
+.angle-card.on .angle-hook{color:#666}
+
+.angle-count{display:none;padding:0 15px 13px;gap:7px}
+.angle-card.on .angle-count{display:flex}
+.cnt{flex:1;background:#1a1a1a;border:1px solid #252525;border-radius:9px;padding:9px 6px;text-align:center;cursor:pointer;color:#555;font-size:13px;font-weight:900;font-family:inherit;transition:all .13s}
+.cnt.on{background:#1c0606;border-color:#c0392b;color:#fff}
+.cnt-lbl{font-size:10px;color:#444;display:flex;align-items:center;padding-top:10px;font-weight:800;white-space:nowrap}
+
+.summary{background:#111;border:1px solid #1e1e1e;border-radius:12px;padding:13px 15px;margin:18px 0 6px;font-size:13px;color:#666;display:none}
+.summary.show{display:block}
+.summary b{color:#c0392b}
+
+.btn{width:100%;background:linear-gradient(145deg,#c0392b,#8e1e14);color:#fff;border:none;border-radius:13px;padding:17px;font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;letter-spacing:.01em;margin-top:10px}
+.btn:active{opacity:.9;transform:scale(.98)}
+.btn.ghost{background:#111;border:1px solid #222;color:#666;font-size:14px;padding:13px}
+
+.loading{display:none;text-align:center;padding:50px 20px}
+.sp{width:36px;height:36px;border:3px solid #1a1a1a;border-top:3px solid #c0392b;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:#444;font-size:14px;line-height:1.8}
+.prog{font-size:12px;color:#c0392b;margin-top:8px;font-weight:800}
+
+.success{display:none;text-align:center;padding:40px 20px}
+.success .ic{font-size:56px;margin-bottom:14px}
+.success h2{font-size:20px;margin-bottom:8px}
+.success p{color:#444;font-size:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <div class="logo">✦ COSMARAB</div>
+    <h1>🎬 <span>Video Script</span> Bot</h1>
+    <p id="stepLabel">خطوة 1 — اختار المنتج والإعداد</p>
+  </div>
+
+  <div class="steps">
+    <div class="step-dot active" id="d1"></div>
+    <div class="step-dot" id="d2"></div>
+    <div class="step-dot" id="d3"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div id="step1">
+
+    <div class="slbl">🛍 اختار المنتج</div>
+    <div class="prod-grid" id="prodGrid"></div>
+
+    <!-- Selected product details strip -->
+    <div class="pcard" id="pcard">
+      <div class="plbl">📋 تفاصيل المنتج</div>
+      <div class="pname" id="pcardName"></div>
+      <div class="tags" id="pcardTags"></div>
+    </div>
+
+    <div class="slbl">👥 الجنس المستهدف</div>
+    <div class="grid">
+      <button class="chip" onclick="pick('g','رجال فقط',this)"><span class="em">👨</span>رجال فقط</button>
+      <button class="chip" onclick="pick('g','نساء فقط',this)"><span class="em">👩</span>نساء فقط</button>
+      <button class="chip w" onclick="pick('g','رجال ونساء',this)"><span class="em">👫</span>رجال ونساء</button>
+    </div>
+
+    <div class="slbl">🎭 أسلوب الإعلان</div>
+    <div class="grid">
+      <button class="chip" onclick="pick('t','صادم ومباشر',this)"><span class="em">⚡</span>صادم ومباشر</button>
+      <button class="chip" onclick="pick('t','عاطفي وحساس',this)"><span class="em">💝</span>عاطفي وحساس</button>
+      <button class="chip" onclick="pick('t','فكاهي وخفيف',this)"><span class="em">😂</span>فكاهي وخفيف</button>
+      <button class="chip" onclick="pick('t','فخم وراقي',this)"><span class="em">👑</span>فخم وراقي</button>
+      <button class="chip w" onclick="pick('t','علمي وموثوق',this)"><span class="em">🔬</span>علمي وموثوق</button>
+    </div>
+
+    <br>
+    <button class="btn" onclick="generateAngles()">🚀 اكتشف أفضل 7 زوايا</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="sp"></div>
+    <p id="loadingText">Gemini يحلل المنتج<br>ويقترح 7 زوايا إعلانية...<br><br>⏳ 20-30 ثانية</p>
+    <div class="prog" id="prog"></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step2" style="display:none">
+    <div class="slbl">🎯 اختار الزوايا — يمكنك اختيار أكثر من واحدة</div>
+    <div id="anglesList"></div>
+    <div id="summary" class="summary"></div>
+    <button class="btn" onclick="generateScripts()">✨ اكتب السكريبتات</button>
+    <button class="btn ghost" style="margin-top:10px" onclick="backToStep1()">↩ تغيير المنتج / الإعداد</button>
+  </div>
+
+  <!-- Success -->
+  <div class="success" id="success">
+    <div class="ic">🚀</div>
+    <h2>السكريبتات جاهزة!</h2>
+    <p id="successText">وصلتك على تيليغرام 🎬</p>
+    <br><br>
+    <button class="btn ghost" onclick="backToStep2()">🔄 اختار زوايا ثانية</button>
+    <button class="btn" style="margin-top:10px" onclick="backToStep1()">🆕 جلسة جديدة</button>
+  </div>
+
+</div>
+<script>
+var GEMINI_KEY = 'AQ.Ab8RN6K3EYFz6VWlLeaMlygTfzJbIvRhQA0pIhbDS1mrRqs2hg';
+var TG_TOKEN   = '8356739743:AAHxxDKkBGaXjcvnQtWCcfDngs1_NxaHENg';
+var TG_CHAT    = '8988230851';
+
+// ── PRODUCTS ── Add new products here when you launch on cosmarab.com/shop
+var PRODUCTS = [
+  {
+    id: 'lips',
+    em: '💄',
+    name: 'كريم الشفاه',
+    sub: 'تفتيح + ترطيب',
+    fullName: 'كريم تفتيح الشفاه — Cosmarab',
+    desc: 'كريم طبي يفتّح اسمرار الشفاه تدريجياً ويعيد اللون الوردي الطبيعي. يرطّب بعمق ويعالج الجفاف والتشققات. مكوّن من الجينشان والأربوتين الطبيعي وفيتامين E. مناسب للمدخنين وأصحاب الشفايف الغامقة. نتائج تبدأ من الأسبوع الأول.',
+    age: '18-50',
+    pain: 'سواد الشفايف من التدخين والقهوة والشاي — جفاف وتشققات — اللون الغامق والاسمرار الزائد',
+    tags: ['🚬 سواد التدخين','☕ سواد القهوة','💧 جفاف وتشققات','🌸 يعيد اللون الوردي','⚗️ جينشان + أربوتين','✅ نتيجة من أسبوع 1'],
+    extra: 'السعر 199 ريال — الدفع عند الاستلام — متوفر في جميع مدن السعودية — نتيجة من الأسبوع الأول — حلال معتمد'
+  },
+  {
+    id: 'feet',
+    em: '🦶',
+    name: 'سيلكي فيت',
+    sub: 'تقشير القدمين',
+    fullName: 'سيلكي فيت — Cosmarab',
+    desc: 'ماسك تقشير القدمين يزيل الجلد الميت والتشققات ويمنح أقدام ناعمة كالأطفال خلال 5-7 أيام. بدون كشط، بدون ألم، بدون صالون. مكوّن من حمض اللاكتيك والجليكوليك وترطيب عميق.',
+    age: '18-50',
+    pain: 'خشونة القدمين وكعب متشقق — جلد ميت متراكم — إحراج من الصنادل والعرض',
+    tags: ['🪨 خشونة وتشققات','🦶 كعب متشقق مزمن','💧 ترطيب عميق','✨ ناعمة كالأطفال','⚗️ حمض لاكتيك + جليكوليك','✅ نتيجة من يوم 3'],
+    extra: 'الدفع عند الاستلام — متوفر في جميع مدن السعودية — حلال — ترتديه ساعة واحدة فقط'
+  },
+  {
+    id: 'glow',
+    em: '✨',
+    name: 'كولاجين جلو',
+    sub: 'بشرة + شعر + أظافر',
+    fullName: 'كولاجين جلو — Cosmarab',
+    desc: 'مشروب كولاجين بحري يُضاف للقهوة الصباحية لبشرة مشرقة وشعر أكثف وأظافر أقوى. مكوّن من الكولاجين البحري + البيوتين + فيتامين C. نتائج تظهر خلال 4 أسابيع.',
+    age: '18-50',
+    pain: 'بشرة باهتة وجافة وتفقد نضارتها — شعر ضعيف وخفيف يتساقط — أظافر هشة تتكسر',
+    tags: ['☕ يُضاف للقهوة','🌟 بشرة مشرقة','💇‍♀️ شعر أكثف','💅 أظافر أقوى','⚗️ كولاجين بحري + بيوتين','✅ حلال معتمد'],
+    extra: 'الدفع عند الاستلام — متوفر في جميع مدن السعودية — حلال — يومي مع القهوة الصباحية'
+  },
+  {
+    id: 'gut',
+    em: '🌿',
+    name: 'جَت جلو',
+    sub: 'هضم + إشراقة',
+    fullName: 'جَت جلو — Cosmarab',
+    desc: 'مشروب بروبيوتيك يومي يريّح المعدة من الانتفاخ ويمنح البشرة إشراقة من الداخل. مكوّن من البروبيوتيك + البريبايوتيك + إنزيمات الهضم. نتائج تبدأ من الأسبوع الأول.',
+    age: '18-50',
+    pain: 'انتفاخ المعدة والثقل بعد الأكل — هضم بطيء ومشاكل في القولون — بشرة باهتة بسبب الهضم السيء',
+    tags: ['🌿 بروبيوتيك يومي','🫁 بدون انتفاخ','🌟 إشراقة من الداخل','⚗️ بريبايوتيك + إنزيمات','✅ حلال معتمد'],
+    extra: 'الدفع عند الاستلام — متوفر في جميع مدن السعودية — حلال — مشروب يومي سهل'
+  }
+  // ── لإضافة منتج جديد: انسخ الكتلة أعلاه وعدّل البيانات ──
+];
+
+var sel      = {g:'', t:'', prod: null};
+var anglesRaw = '';
+var selectedAngles = {};
+
+// ── Build product selector ──
+(function buildProds() {
+  var grid = document.getElementById('prodGrid');
+  PRODUCTS.forEach(function(p) {
+    var btn = document.createElement('button');
+    btn.className = 'prod-card';
+    btn.dataset.id = p.id;
+    btn.innerHTML = '<div class="prod-em">' + p.em + '</div>'
+      + '<div class="prod-name">' + p.name + '</div>'
+      + '<div class="prod-sub">' + p.sub + '</div>';
+    btn.onclick = function() {
+      document.querySelectorAll('.prod-card').forEach(function(b){ b.classList.remove('on'); });
+      btn.classList.add('on');
+      sel.prod = p;
+      // Update info strip
+      document.getElementById('pcardName').textContent = p.fullName;
+      document.getElementById('pcardTags').innerHTML = p.tags.map(function(t){
+        return '<span class="tag">' + t + '</span>';
+      }).join('');
+      document.getElementById('pcard').className = 'pcard show';
+    };
+    grid.appendChild(btn);
+  });
+})();
+
+// ── Restore state on return from Telegram ──
+(function restoreState() {
+  if (localStorage.getItem('cos_step') !== '2') return;
+  var pid = localStorage.getItem('cos_prod');
+  var prod = PRODUCTS.find(function(p){ return p.id === pid; });
+  if (!prod) return;
+  sel.prod = prod;
+  sel.g    = localStorage.getItem('cos_g') || '';
+  sel.t    = localStorage.getItem('cos_t') || '';
+  anglesRaw = localStorage.getItem('cos_angles') || '';
+  if (!anglesRaw) return;
+  window.addEventListener('DOMContentLoaded', function() {
+    buildAnglesList(anglesRaw);
+    show('step2'); setStep(2);
+    document.getElementById('stepLabel').textContent = 'خطوة 2 — اختار الزوايا';
+  });
+})();
+
+function pick(k, v, el) {
+  sel[k] = v;
+  el.parentElement.querySelectorAll('.chip').forEach(function(b){ b.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+function show(id) {
+  ['step1','step2','loading','success'].forEach(function(s){ document.getElementById(s).style.display='none'; });
+  document.getElementById(id).style.display = 'block';
+}
+
+function setStep(n) {
+  ['d1','d2','d3'].forEach(function(d,i){
+    var el = document.getElementById(d);
+    el.className = 'step-dot' + (i<n?' done':i===n?' active':'');
+  });
+}
+
+function updateSummary() {
+  var keys   = Object.keys(selectedAngles);
+  var sumEl  = document.getElementById('summary');
+  if (keys.length === 0) { sumEl.className = 'summary'; return; }
+  var total  = keys.reduce(function(a,k){ return a + selectedAngles[k]; }, 0);
+  sumEl.className = 'summary show';
+  sumEl.innerHTML = '✅ اخترت <b>' + keys.length + '</b> زاوية — إجمالي <b>' + total + '</b> سكريبت سيتم إرسالها على تيليغرام';
+}
+
+function buildAnglesList(raw) {
+  selectedAngles = {};
+  var items = raw.match(/ANGLE \d+[:\-][^\n]*/g) || [];
+  var hooks = raw.match(/HOOK[:\-][^\n]*/g) || [];
+  var list  = document.getElementById('anglesList');
+  list.innerHTML = '';
+
+  items.forEach(function(item, i) {
+    var name = item.replace(/ANGLE \d+[:\-]\s*/, '').trim();
+    var hook = hooks[i] ? hooks[i].replace(/HOOK[:\-]\s*/, '').trim() : '';
+    var card = document.createElement('div');
+    card.className = 'angle-card';
+    card.dataset.angle = name;
+    card.innerHTML =
+      '<div class="angle-head" onclick="toggleAngle(this.parentElement)">'
+        + '<div class="angle-check"></div>'
+        + '<div class="angle-info">'
+          + '<div class="angle-name">' + name + '</div>'
+          + (hook ? '<div class="angle-hook">"' + hook + '"</div>' : '')
+        + '</div>'
+      + '</div>'
+      + '<div class="angle-count">'
+        + '<div class="cnt-lbl">عدد السكريبتات:</div>'
+        + [1,3,5,7].map(function(n){
+            return '<button class="cnt' + (n===3?' on':'') + '" onclick="pickCnt(event,\'' + name + '\',' + n + ',this)">' + n + '</button>';
+          }).join('')
+      + '</div>';
+    list.appendChild(card);
+  });
+  updateSummary();
+}
+
+function toggleAngle(card) {
+  var name = card.dataset.angle;
+  card.classList.toggle('on');
+  if (card.classList.contains('on')) {
+    var defBtn = card.querySelector('.cnt.on');
+    selectedAngles[name] = defBtn ? parseInt(defBtn.textContent) : 3;
+  } else {
+    delete selectedAngles[name];
+  }
+  updateSummary();
+}
+
+function pickCnt(e, name, n, btn) {
+  e.stopPropagation();
+  var card = btn.closest('.angle-card');
+  if (!card.classList.contains('on')) { card.classList.add('on'); }
+  card.querySelectorAll('.cnt').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  selectedAngles[name] = n;
+  updateSummary();
+}
+
+async function gemini(prompt) {
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + GEMINI_KEY;
+  var r = await fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+  });
+  var j = await r.json();
+  if (j.error) throw new Error('Gemini: ' + j.error.message);
+  return j.candidates[0].content.parts[0].text;
+}
+
+async function tg(text) {
+  await fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendMessage', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({chat_id:TG_CHAT, text:text, parse_mode:'Markdown', disable_web_page_preview:true})
+  });
+}
+
+async function tgFile(content, filename) {
+  var blob = new Blob([content], {type:'text/plain'});
+  var fd   = new FormData();
+  fd.append('chat_id', TG_CHAT);
+  fd.append('document', blob, filename);
+  fd.append('caption', '📄 ' + filename);
+  await fetch('https://api.telegram.org/bot' + TG_TOKEN + '/sendDocument', {method:'POST', body:fd});
+}
+
+async function generateAngles() {
+  if (!sel.prod) { alert('اختار المنتج أولاً'); return; }
+  if (!sel.g)    { alert('اختار الجنس المستهدف'); return; }
+  if (!sel.t)    { alert('اختار أسلوب الإعلان'); return; }
+
+  show('loading'); setStep(1);
+  document.getElementById('stepLabel').textContent   = 'جاري توليد الزوايا...';
+  document.getElementById('loadingText').innerHTML   = 'Gemini يحلل المنتج<br>ويقترح 7 زوايا إعلانية...<br><br>⏳ 20-30 ثانية';
+
+  var p = sel.prod;
+  try {
+    var prompt =
+      'أنت أفضل كاتب إعلانات في العالم العربي. متخصص في إعلانات سناب شات وتيك توك للسوق السعودي عام 2026.\n\n'
+      + '══ المنتج ══\n'
+      + 'الاسم: ' + p.fullName + '\nالوصف: ' + p.desc + '\nالجنس: ' + sel.g
+      + '\nالعمر: ' + p.age + '\nنقطة الألم: ' + p.pain + '\nالأسلوب: ' + sel.t + '\n\n'
+      + '══ المهمة ══\n'
+      + 'اقترح 7 زوايا إعلانية KILLER لفيديو مدته 8 ثواني بالضبط.\n\n'
+      + '══ قواعد صارمة جداً ══\n'
+      + '🔴 اللغة: عامية سعودية خالصة 100% — ممنوع الفصحى تماماً\n'
+      + '🔴 الوقت: 8 ثواني بالضبط — الجملة لازم تُقال في أقل من 8 ثواني\n'
+      + '🔴 الصدمة: الثانية الأولى لازم تجمّد إصبع المستخدم فوراً\n'
+      + '🔴 2026: استخدم أسلوب الجيل Z السعودي — مباشر، سريع، بلا مجاملة\n'
+      + '🔴 UGC فقط: كل زاوية تُنفَّذ كـ UGC (user-generated content) — شخص حقيقي بجواله — مش إعلان فخم\n'
+      + '🔴 UGC يتفوق على الإعلانات المصقولة بـ 40-60% في السناب والتيك توك في السعودية\n'
+      + '🔴 الشراء: كل زاوية تضغط على نقطة ألم حقيقية تدفع للشراء الفوري\n\n'
+      + 'أنواع الزوايا الأقوى في UGC 2026 (استلهم منها):\n'
+      + '• Problem/Agitation — شخص يشتكي من المشكلة ثم يكتشف الحل\n'
+      + '• Before/After — التحول بثواني\n'
+      + '• Honest Review — "أنا جربته وما توقعت"\n'
+      + '• POV Discovery — كأنك أنت اللي اكتشفته\n'
+      + '• Social Proof — "كل الناس اللي حولي"\n'
+      + '• Talking Head Direct — يكلم الكاميرا مباشرة بصدق\n'
+      + '• Hands Demo — close-up تطبيق المنتج\n\n'
+      + 'لكل زاوية اكتب:\n'
+      + 'ANGLE [رقم]: [اسم الزاوية]\n'
+      + 'FORMAT: [نوع UGC المناسب — talking head / before-after / hands demo / POV / honest review]\n'
+      + 'WHY: [لماذا هذه الزاوية تكسر وتبيع في 2026 - جملة واحدة]\n'
+      + 'HOOK: [الجملة الأولى الصادمة بالعامية السعودية — لازم تكون قصيرة وتضرب فوراً]\n\n'
+      + 'فكر خارج الصندوق — تجنب الزوايا التقليدية المملة.';
+
+    anglesRaw = await gemini(prompt);
+
+    localStorage.setItem('cos_step',   '2');
+    localStorage.setItem('cos_prod',   p.id);
+    localStorage.setItem('cos_g',      sel.g);
+    localStorage.setItem('cos_t',      sel.t);
+    localStorage.setItem('cos_angles', anglesRaw);
+
+    await tg(
+      '🎯 *الزوايا المقترحة*\n'
+      + '🛍 ' + p.fullName + '\n'
+      + '👥 ' + sel.g + ' | 🎭 ' + sel.t + '\n\n'
+      + anglesRaw
+      + '\n\n━━━━━━━━━━━━━━━\n👆 *اختر زاوية أو أكثر من الصفحة:*\nhttps://cosmarab.com/video-bot'
+    );
+
+    buildAnglesList(anglesRaw);
+    show('step2'); setStep(2);
+    document.getElementById('stepLabel').textContent = 'خطوة 2 — اختار الزوايا';
+
+  } catch(e) {
+    alert('خطأ: ' + e.message);
+    show('step1'); setStep(0);
+  }
+}
+
+async function generateScripts() {
+  var angles = Object.keys(selectedAngles);
+  if (angles.length === 0) { alert('اختار زاوية واحدة على الأقل'); return; }
+
+  show('loading'); setStep(2);
+  var total = angles.length;
+  document.getElementById('stepLabel').textContent = 'جاري الكتابة...';
+
+  var p   = sel.prod;
+  var now = new Date().toLocaleString('ar-SA', {timeZone:'Asia/Riyadh'});
+  var allFileContent =
+    'COSMARAB VIDEO SCRIPTS\n' + '='.repeat(60) + '\n'
+    + 'Product: ' + p.fullName + '\n'
+    + 'Gender: '  + sel.g + ' | Tone: ' + sel.t + '\nGenerated: ' + now + '\n'
+    + '='.repeat(60) + '\n\n';
+
+  try {
+    for (var i = 0; i < angles.length; i++) {
+      var angle = angles[i];
+      var count = selectedAngles[angle];
+      document.getElementById('loadingText').innerHTML =
+        'جاري كتابة الزاوية ' + (i+1) + ' من ' + total + '...<br><br>'
+        + '🎯 ' + angle + '<br>(' + count + ' سكريبتات)<br><br>⏳ 30-60 ثانية';
+      document.getElementById('prog').textContent = (i+1) + ' / ' + total;
+
+      var prompt =
+        'أنت أفضل كاتب إعلانات في العالم العربي. متخصص في إعلانات فيديو للسوق السعودي عام 2026.\n\n'
+        + '══ تفاصيل الحملة ══\n'
+        + 'المنتج: ' + p.fullName + '\nالوصف: ' + p.desc + '\nالجنس: ' + sel.g
+        + '\nالعمر: ' + p.age + '\nنقطة الألم: ' + p.pain + '\nالأسلوب: ' + sel.t
+        + '\nالزاوية: ' + angle + '\nمعلومات إضافية: ' + p.extra + '\n\n'
+        + '══ المهمة ══\n'
+        + 'اكتب ' + count + ' سكريبتات KILLER لفيديو مدته 8 ثواني بالضبط.\n\n'
+        + '══ قواعد حديدية لا تُكسر ══\n'
+        + '🔴 اللغة: عامية سعودية خالصة 100% — ممنوع أي كلمة فصحى\n'
+        + '🔴 المدة: 8 ثواني بالضبط — اكتب فقط ما يُقال في 8 ثواني (≈ 25-35 كلمة)\n'
+        + '🔴 الثانية 1-2: صدمة أو سؤال يجمّد الإصبع — لا مقدمات أبداً\n'
+        + '🔴 الثانية 3-6: الفائدة + الألم + الدليل — بسرعة وبدون حشو\n'
+        + '🔴 الثانية 7-8: CTA عدواني ومحدد — "اطلبه الحين" / "تأخرت كفاية" / "قبل ما ينتهي"\n'
+        + '🔴 أسلوب 2026: جيل Z سعودي — بدون مجاملة — مباشر وعدواني وصادق\n'
+        + '🔴 كل سكريبت مختلف تماماً في الأسلوب والتنفيذ\n\n'
+        + '══ الصيغة المطلوبة لكل سكريبت ══\n\n'
+        + '🎬 SCRIPT [رقم]: [اسم مميز للسكريبت]\n'
+        + '[النص الكامل بالعامية السعودية — 25 إلى 35 كلمة فقط — لا أكثر]\n\n'
+        + '⏱ TIMING [رقم]:\n'
+        + 'ث1-2: [ما يُقال في الثانية 1-2]\n'
+        + 'ث3-6: [ما يُقال في الثانية 3-6]\n'
+        + 'ث7-8: [CTA في الثانية 7-8]\n\n'
+        + '🎥 VIDEO_PROMPT [رقم]:\n'
+        + '[إنجليزي فقط — هذا prompt لـ Google Flow Veo3 — أسلوب UGC 2026 للسناب شات والتيك توك في السعودية]\n\n'
+        + 'قواعد VIDEO_PROMPT الصارمة:\n'
+        + '✅ ابدأ دائماً بـ: "UGC-style vertical 9:16 video, 8 seconds, Saudi Arabia 2026, Snapchat/TikTok ad"\n'
+        + '✅ الأسلوب: phone-shot quality — يبدو كأن شخص حقيقي صوّره بجواله — مش استوديو — مش إعلان تقليدي\n'
+        + '✅ الشخص: khaleeji Saudi person — real face — genuine reaction — NOT model face\n'
+        + '✅ الإضاءة: natural daylight OR simple ring light — مش إضاءة استوديو احترافية\n'
+        + '✅ الخلفية: real home environment (bathroom, bedroom, kitchen) — مش خلفية بيضاء أو ستوديو\n'
+        + '✅ الكاميرا: handheld shaky feel OR selfie angle OR close-up hands demo — مش كاميرا ثابتة سينمائية\n'
+        + '✅ اختر format مناسب للزاوية:\n'
+        + '   - TALKING HEAD: شخص يتكلم مع الكاميرا مباشرة بصدق\n'
+        + '   - BEFORE/AFTER: split screen أو transition سريع قبل وبعد\n'
+        + '   - HANDS DEMO: close-up يدين يطبقان المنتج — مناسب للكريمات\n'
+        + '   - POV REACTION: كأنك أنت تشوف نتيجة المنتج لأول مرة\n'
+        + '   - PROBLEM MOMENT: لقطة تجسّد المشكلة ثم ظهور المنتج\n'
+        + '✅ المنتج لازم يظهر بوضوح في الفيديو\n'
+        + '✅ لا رسوم متحركة — لا special effects — لا خلفيات خيالية\n'
+        + '✅ اكتب كل تفاصيل الثواني الـ 8 بدقة\n\n'
+        + '🖼 IMAGE_PROMPT [رقم]:\n'
+        + '[إنجليزي فقط — هذا prompt لـ Gemini Imagen — يُستخدم كـ first frame في Google Flow]\n\n'
+        + 'قواعد IMAGE_PROMPT الصارمة:\n'
+        + '✅ ابدأ دائماً بـ: "UGC-style photo, Saudi Arabia 2026, smartphone photography quality"\n'
+        + '✅ نفس الشخص والمكان والإضاءة من VIDEO_PROMPT\n'
+        + '✅ يجب أن تكون اللحظة الأولى من الفيديو (hook moment)\n'
+        + '✅ raw authentic look — NOT retouched — NOT commercial photography\n'
+        + '✅ المنتج ظاهر في الإطار\n'
+        + '✅ 9:16 vertical composition\n\n'
+        + '🔍 TIKTOK_SEARCH [رقم]:\n'
+        + 'اقترح 3 كلمات بحث مختلفة للتيك توك — كلمة واحدة أو عبارة قصيرة لكل واحدة — تساعد في إيجاد فيديوهات UGC حقيقية لاستخدامها في المونتاج\n'
+        + 'الصيغة:\n'
+        + 'SEARCH_1: [كلمة أو عبارة بالعربي أو الإنجليزي]\n'
+        + 'SEARCH_2: [كلمة أو عبارة بالعربي أو الإنجليزي]\n'
+        + 'SEARCH_3: [كلمة أو عبارة بالعربي أو الإنجليزي]\n\n'
+        + '━━━━━━━━━━━━━━━━━━━━━━━';
+
+      var scripts = await gemini(prompt);
+
+      // Extract TIKTOK_SEARCH terms and build clickable links
+      var tiktokLinks = '';
+      var searchBlocks = scripts.match(/TIKTOK_SEARCH \d+[\s\S]*?(?=TIKTOK_SEARCH \d+|$)/g) || [];
+      if (searchBlocks.length === 0) searchBlocks = [scripts]; // fallback: scan whole text
+      var allSearchTerms = [];
+      var searchMatches = scripts.match(/SEARCH_\d+:\s*([^\n]+)/g) || [];
+      searchMatches.forEach(function(m) {
+        var term = m.replace(/SEARCH_\d+:\s*/, '').trim();
+        if (term) allSearchTerms.push(term);
+      });
+      if (allSearchTerms.length > 0) {
+        tiktokLinks = '\n\n🎬 *فيديوهات للمونتاج — ابحث على تيك توك:*\n';
+        allSearchTerms.forEach(function(term, idx) {
+          var encoded = encodeURIComponent(term);
+          tiktokLinks += (idx+1) + '. [' + term + '](https://www.tiktok.com/search?q=' + encoded + ')\n';
+        });
+      }
+
+      await tg(
+        '🎯 *زاوية ' + (i+1) + '/' + total + ':* ' + angle + '\n'
+        + '🛍 ' + p.fullName + '\n'
+        + '👥 ' + sel.g + ' | 🎭 ' + sel.t + '\n\n'
+        + scripts
+        + tiktokLinks
+        + '\n\n━━━━━━━━━━━━━━━\n1️⃣ VIDEO\\_PROMPT → Google Flow Veo3\n2️⃣ IMAGE\\_PROMPT → Gemini Imagen\n3️⃣ الصورة = first frame\n4️⃣ SCRIPT = النص الصوتي\n5️⃣ روابط تيك توك = مصدر المونتاج'
+      );
+
+      allFileContent +=
+        '='.repeat(60) + '\nZAWIYA ' + (i+1) + ': ' + angle + '\n(' + count + ' scripts)\n'
+        + '='.repeat(60) + '\n\n' + scripts + '\n\n';
+    }
+
+    await tgFile(allFileContent, 'cosmarab_scripts_' + Date.now() + '.txt');
+
+    localStorage.removeItem('cos_step');
+    localStorage.removeItem('cos_prod');
+    localStorage.removeItem('cos_g');
+    localStorage.removeItem('cos_t');
+    localStorage.removeItem('cos_angles');
+
+    show('success'); setStep(3);
+    document.getElementById('stepLabel').textContent = '✅ جاهز!';
+    document.getElementById('successText').innerHTML =
+      'وصلتك على تيليغرام — <b style="color:#c0392b">' + total + ' زاوية</b><br>'
+      + 'كل زاوية برسالة منفصلة + ملف .txt واحد شامل 🎬';
+
+  } catch(e) {
+    alert('خطأ: ' + e.message);
+    show('step2');
+  }
+}
+
+function backToStep1() {
+  localStorage.removeItem('cos_step');
+  selectedAngles = {};
+  sel = {g:'', t:'', prod: null};
+  anglesRaw = '';
+  show('step1'); setStep(0);
+  document.getElementById('stepLabel').textContent = 'خطوة 1 — اختار المنتج والإعداد';
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
+  document.querySelectorAll('.prod-card').forEach(function(c){ c.classList.remove('on'); });
+  document.getElementById('pcard').className = 'pcard';
+}
+
+function backToStep2() {
+  selectedAngles = {};
+  show('step2'); setStep(2);
+  document.getElementById('stepLabel').textContent = 'خطوة 2 — اختار الزوايا';
+  updateSummary();
+}
+</script>
+</body>
+</html>
