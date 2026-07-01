@@ -1129,6 +1129,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
     showPanel(3);
     try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
+    try{if(window.ttq){var ttPhone='+966'+order.phone.replace(/^0/,'');ttq.identify({'phone_number':ttPhone});}}catch(e){}
     track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId,content_id:'lip-serum',content_type:'product',quantity:order.qty});
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
