@@ -1157,5 +1157,17 @@ var stockN=document.getElementById('stockN'),stockFill=document.getElementById('
 setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockFill.style.width=(n/30*100)+'%';}},11000);
 })();
 </script>
+<!-- light anti-copy deterrent (desktop): right-click + view-source/devtools shortcuts -->
+<script>
+(function(){
+  document.addEventListener('contextmenu',function(e){e.preventDefault();},{capture:true});
+  document.addEventListener('keydown',function(e){
+    var k=e.keyCode;
+    if(k===123 /*F12*/
+      || (e.ctrlKey&&e.shiftKey&&(k===73||k===74||k===67)) /*Ctrl+Shift+I/J/C*/
+      || (e.ctrlKey&&(k===85||k===83)) /*Ctrl+U / Ctrl+S*/){ e.preventDefault(); return false; }
+  },{capture:true});
+})();
+</script>
 </body>
 </html>
