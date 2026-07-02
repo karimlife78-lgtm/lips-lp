@@ -20,29 +20,32 @@ function blocked() {
   });
 }
 
-// Real pages (folders) that must render INSTANTLY — they skip the Google Apps
-// Script redirect lookup entirely, so no slow network call blocks their TTFB.
-// Add any new page folder here so it stays fast. Smart-links (any slug NOT in
-// this set) still consult the redirect map below.
-const REAL_PAGES = new Set([
-  'ksa-18','ksa-22','ksa-20','ksa-calm','ksa-feet','ksa-glow','ksa-gut',
-  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico'
+// Utility pages that are NEVER redirected — they skip the redirect lookup so
+// they stay instant. ALL ksa-* product pages are intentionally NOT here: they
+// must remain redirectable via smart-links (important business feature).
+const NEVER_REDIRECT = new Set([
+  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml'
 ]);
 
 let _cache = { at: 0, map: {} };
-const TTL = 300_000; // 5 min — the redirect map rarely changes; fewer slow GAS hits
+const TTL = 300_000; // 5 min — once an edge isolate is warm it serves the map from memory (fast)
 
 async function loadMap() {
-  if (Date.now() - _cache.at < TTL && Object.keys(_cache.map).length) return _cache.map;
+  // serve from memory within TTL — cache EMPTY maps too, so pages with no active
+  // redirect don't re-hit slow GAS on every request (the old bug that made TTFB ~1.7s)
+  if (_cache.at && Date.now() - _cache.at < TTL) return _cache.map;
   try {
     const base = process.env.GOOGLE_SCRIPT_URL;
     const token = process.env.SHEET_TOKEN || '';
-    const r = await fetch(`${base}?action=redirects&token=${encodeURIComponent(token)}`);
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 1500); // don't let a slow GAS hang the page
+    const r = await fetch(`${base}?action=redirects&token=${encodeURIComponent(token)}`, { signal: ctrl.signal });
+    clearTimeout(t);
     const data = await r.json();
     const map = {};
     (data.redirects || []).forEach(rd => { if (rd.slug) map[String(rd.slug).toLowerCase()] = rd.target; });
     _cache = { at: Date.now(), map };
-  } catch (_) { /* keep stale cache on failure */ }
+  } catch (_) { _cache.at = Date.now(); /* cache the failure briefly to avoid hammering GAS */ }
   return _cache.map;
 }
 
@@ -56,8 +59,8 @@ export default async function middleware(request) {
   const slug = url.pathname.replace(/^\/+/, '').replace(/\/+$/, '').split('/')[0].toLowerCase();
   if (!slug) return; // homepage — never redirect
 
-  // known real page → render immediately, no slow redirect-map lookup
-  if (REAL_PAGES.has(slug)) return;
+  // utility page that's never redirected → render immediately
+  if (NEVER_REDIRECT.has(slug)) return;
 
   const map = await loadMap();
   const target = map[slug];
