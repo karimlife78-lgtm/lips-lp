@@ -20,8 +20,17 @@ function blocked() {
   });
 }
 
+// Real pages (folders) that must render INSTANTLY — they skip the Google Apps
+// Script redirect lookup entirely, so no slow network call blocks their TTFB.
+// Add any new page folder here so it stays fast. Smart-links (any slug NOT in
+// this set) still consult the redirect map below.
+const REAL_PAGES = new Set([
+  'ksa-18','ksa-22','ksa-20','ksa-calm','ksa-feet','ksa-glow','ksa-gut',
+  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico'
+]);
+
 let _cache = { at: 0, map: {} };
-const TTL = 60_000;
+const TTL = 300_000; // 5 min — the redirect map rarely changes; fewer slow GAS hits
 
 async function loadMap() {
   if (Date.now() - _cache.at < TTL && Object.keys(_cache.map).length) return _cache.map;
@@ -46,6 +55,9 @@ export default async function middleware(request) {
 
   const slug = url.pathname.replace(/^\/+/, '').replace(/\/+$/, '').split('/')[0].toLowerCase();
   if (!slug) return; // homepage — never redirect
+
+  // known real page → render immediately, no slow redirect-map lookup
+  if (REAL_PAGES.has(slug)) return;
 
   const map = await loadMap();
   const target = map[slug];
