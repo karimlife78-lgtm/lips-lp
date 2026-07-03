@@ -8,7 +8,7 @@
 //  fall back to a 302 redirect. Cached 60s to stay fast.
 // ============================================================================
 let CACHE = { at: 0, map: {} };
-const TTL = 60 * 1000;
+const TTL = 15 * 1000; // short — admin changes reflect within ~15s
 
 async function loadMap() {
   if (Date.now() - CACHE.at < TTL && Object.keys(CACHE.map).length) return CACHE.map;

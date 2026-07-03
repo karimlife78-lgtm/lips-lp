@@ -27,29 +27,52 @@ const NEVER_REDIRECT = new Set([
   'video-bot','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml'
 ]);
 
+// ── redirect map cache — "stale-while-revalidate" ──────────────────────────
+// FRESH window is short so your admin changes (add/remove a smart-link) show up
+// in ~10s instead of up to 5 min. But we NEVER make a visitor wait for Google:
+// once we have a map, a stale one is served instantly while a fresh copy is
+// fetched in the background (event.waitUntil). Result: snappy changes AND fast pages.
 let _cache = { at: 0, map: {} };
-const TTL = 300_000; // 5 min — once an edge isolate is warm it serves the map from memory (fast)
+let _refreshAt = 0;                 // guards against duplicate/stuck background refreshes
+const FRESH = 10_000;              // serve from memory with no refresh for 10s
+const REFRESH_GUARD = 5_000;      // max time a single background refresh may hold the lock
 
-async function loadMap() {
-  // serve from memory within TTL — cache EMPTY maps too, so pages with no active
-  // redirect don't re-hit slow GAS on every request (the old bug that made TTFB ~1.7s)
-  if (_cache.at && Date.now() - _cache.at < TTL) return _cache.map;
-  try {
-    const base = process.env.GOOGLE_SCRIPT_URL;
-    const token = process.env.SHEET_TOKEN || '';
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 1500); // don't let a slow GAS hang the page
-    const r = await fetch(`${base}?action=redirects&token=${encodeURIComponent(token)}`, { signal: ctrl.signal });
-    clearTimeout(t);
-    const data = await r.json();
-    const map = {};
-    (data.redirects || []).forEach(rd => { if (rd.slug) map[String(rd.slug).toLowerCase()] = rd.target; });
-    _cache = { at: Date.now(), map };
-  } catch (_) { _cache.at = Date.now(); /* cache the failure briefly to avoid hammering GAS */ }
+async function fetchMap() {
+  const base = process.env.GOOGLE_SCRIPT_URL;
+  const token = process.env.SHEET_TOKEN || '';
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 1500); // don't let a slow GAS hang the page
+  const r = await fetch(`${base}?action=redirects&token=${encodeURIComponent(token)}`, { signal: ctrl.signal });
+  clearTimeout(t);
+  const data = await r.json();
+  const map = {};
+  (data.redirects || []).forEach(rd => { if (rd.slug) map[String(rd.slug).toLowerCase()] = rd.target; });
+  return map;
+}
+
+function refresh(event) {
+  // one refresh in flight at a time; auto-release the lock after REFRESH_GUARD
+  // so a suspended isolate can't wedge refreshes forever.
+  if (Date.now() - _refreshAt < REFRESH_GUARD) return _cache._p;
+  _refreshAt = Date.now();
+  const p = fetchMap()
+    .then(map => { _cache = { at: Date.now(), map }; })
+    .catch(() => { _cache = { at: Date.now(), map: _cache.map }; }) // keep old map, back off ~FRESH
+    .finally(() => { _refreshAt = 0; });
+  _cache._p = p;
+  if (event && typeof event.waitUntil === 'function') { try { event.waitUntil(p); } catch (_) {} }
+  return p;
+}
+
+async function loadMap(event) {
+  const age = Date.now() - _cache.at;
+  if (_cache.at && age < FRESH) return _cache.map;   // fresh → instant
+  if (!_cache.at) { await refresh(event); return _cache.map; } // first-ever load must block
+  refresh(event);                                    // stale → refresh in background, serve stale now
   return _cache.map;
 }
 
-export default async function middleware(request) {
+export default async function middleware(request, event) {
   const url = new URL(request.url);
 
   // --- anti-scraper gate: block obvious site-copiers / empty user agents ---
@@ -62,7 +85,7 @@ export default async function middleware(request) {
   // utility page that's never redirected → render immediately
   if (NEVER_REDIRECT.has(slug)) return;
 
-  const map = await loadMap();
+  const map = await loadMap(event);
   const target = map[slug];
   if (!target) return; // no smart-link → serve the real page/alias normally
 
