@@ -18,22 +18,12 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
   try {
-    // 1. Get client IP (Vercel always sets x-forwarded-for)
-    const ip = (req.headers['x-forwarded-for'] || '')
-      .split(',')[0].trim() || req.socket?.remoteAddress || '';
+    // 1. Geo-check via Vercel's built-in header (free, no rate-limit, no API call)
+    //    Falls back to x-vercel-ip-country-region or allows through if header missing (dev/local)
+    const country = (req.headers['x-vercel-ip-country'] || '').toUpperCase();
 
-    // 2. Geo-check — block outside GCC
-    let country = '';
-    try {
-      const geo = await fetch(`https://ipapi.co/${ip}/json/`, {
-        headers: { 'User-Agent': 'cosmarab-lp/1.0' }
-      }).then(r => r.json());
-      country = geo.country_code || '';
-    } catch (_) {
-      return res.status(403).json({ error: 'geo_unavailable' });
-    }
-
-    if (!ALLOWED.has(country)) {
+    // 2. Block outside allowed region — allow empty country (local dev / header absent)
+    if (country && !ALLOWED.has(country)) {
       return res.status(403).json({ error: 'region_blocked', country });
     }
 

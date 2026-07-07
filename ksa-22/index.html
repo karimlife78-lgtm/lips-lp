@@ -1119,7 +1119,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
+  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',src:getSrc(),product:{sku:'COSLIP-22',name:'Jinshan Lip Serum',page:'ksa-22'},ts:new Date().toISOString()};
   var submitBtn=document.getElementById('submitBtn');
   submitBtn.disabled=true;submitBtn.textContent='⏳ جاري الإرسال...';
   document.getElementById('regionErr').style.display='none';
