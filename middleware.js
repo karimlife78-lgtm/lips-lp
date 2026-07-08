@@ -24,8 +24,7 @@ function blocked() {
 // they stay instant. ALL ksa-* product pages are intentionally NOT here: they
 // must remain redirectable via smart-links (important business feature).
 const NEVER_REDIRECT = new Set([
-  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml',
-  'ksa-22'
+  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml'
 ]);
 
 // ── redirect map cache — "stale-while-revalidate" ──────────────────────────
@@ -89,6 +88,13 @@ export default async function middleware(request, event) {
   const map = await loadMap(event);
   const target = map[slug];
   if (!target) return; // no smart-link → serve the real page/alias normally
+
+  // self-redirect guard: if target points back to the same slug, serve the page directly
+  // (lets admin "clear" a redirect by setting it to /same-slug without causing a loop)
+  const targetPath = /^https?:\/\//.test(target)
+    ? new URL(target).pathname.replace(/^\/+/, '').replace(/\/+$/, '').split('/')[0]
+    : target.replace(/^\/+/, '').replace(/\/+$/, '').split('/')[0];
+  if (targetPath === slug) return;
 
   const dest = /^https?:\/\//.test(target)
     ? target
