@@ -24,7 +24,8 @@ function blocked() {
 // they stay instant. ALL ksa-* product pages are intentionally NOT here: they
 // must remain redirectable via smart-links (important business feature).
 const NEVER_REDIRECT = new Set([
-  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml'
+  'video-bot','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml',
+  'ksa-22'
 ]);
 
 // ── redirect map cache — "stale-while-revalidate" ──────────────────────────
