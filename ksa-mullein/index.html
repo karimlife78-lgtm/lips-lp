@@ -2,8 +2,146 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>ksa-mullein — coming soon</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>مولين — كوسماراب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --red:#2e7d32;--red2:#1b5e20;
+      --gold:#C2A14D;
+      --ink:#0a130b;--ink2:#111a12;--ink3:#1a2a1b;
+      --line:rgba(255,255,255,.1);
+      --muted:rgba(255,255,255,.45);
+    }
+    body{background:var(--ink);color:#fff;font-family:'Tajawal',sans-serif;direction:rtl}
+    h1,h2,h3{font-family:'Cairo',sans-serif}
+
+    /* TOPBAR */
+    .topbar{background:var(--ink2);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+    .logo-mark{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#e11235,#A30821);display:grid;place-items:center;font-family:'Cairo',sans-serif;font-weight:900;font-size:1.1rem;color:#fff;flex-shrink:0}
+    .logo-text{font-family:'Cairo',sans-serif;font-weight:900;font-size:1rem;color:#fff}
+    .logo-text span{color:var(--gold);font-size:.72rem;display:block;font-weight:700;margin-top:-3px}
+
+    /* SECTIONS */
+    .section{padding:48px 20px;max-width:860px;margin:0 auto}
+    .sec-label{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+    .sec-title{font-family:'Cairo',sans-serif;font-size:1.6rem;font-weight:900;margin-bottom:6px}
+    .sec-sub{color:var(--muted);font-size:.95rem;line-height:1.6;margin-bottom:28px}
+
+    /* DOCTOR VIDEO */
+    .spec-wrap{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,rgba(46,125,50,.25),rgba(10,19,11,.95));border:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+    .spec-wrap:hover .spec-play{transform:scale(1.08);background:rgba(255,255,255,.28)}
+    .spec-play{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:1.8rem;backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.25);transition:.2s}
+    .spec-label{font-family:'Cairo',sans-serif;font-weight:700;font-size:.95rem;color:rgba(255,255,255,.7)}
+    .spec-wrap video{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px}
+
+    /* UGC REVIEWS */
+    .ugc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:500px){.ugc-grid{grid-template-columns:1fr}}
+    .ugc-card{background:var(--ink2);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer}
+    .ugc-card:hover{border-color:var(--red)}
+    .ugc-thumb{aspect-ratio:9/16;max-height:260px;background:linear-gradient(175deg,rgba(46,125,50,.3),rgba(10,19,11,.9));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .ugc-thumb video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .ugc-play-btn{width:50px;height:50px;background:rgba(255,255,255,.2);border-radius:50%;display:grid;place-items:center;font-size:1.2rem;backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.25);position:relative;z-index:2;transition:.2s}
+    .ugc-card:hover .ugc-play-btn{background:rgba(255,255,255,.35)}
+    .ugc-body{padding:14px}
+    .ugc-name{font-family:'Cairo',sans-serif;font-weight:800;font-size:.9rem}
+    .ugc-city{font-size:.78rem;color:var(--muted);margin-top:2px}
+    .ugc-stars{color:var(--gold);font-size:.85rem;margin-top:6px;letter-spacing:1px}
+
+    /* DIVIDER */
+    .divider{border:none;border-top:1px solid var(--line);margin:0}
+  </style>
 </head>
 <body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="logo-mark">C</div>
+  <div class="logo-text">Cosmarab <span>طبيعي · موثوق · فعّال</span></div>
+</header>
+
+<!-- DOCTOR VIDEO -->
+<section class="section">
+  <div class="sec-label">رأي المختص</div>
+  <h2 class="sec-title">ماذا يقول الخبراء عن مولين؟</h2>
+  <p class="sec-sub">اكتشف لماذا أصبح مستخلص مولين الخيار الأول للعناية بالجهاز التنفسي طبيعياً</p>
+
+  <div class="spec-wrap" id="doctorWrap">
+    <video id="doctorVideo" src="doctor.mp4" playsinline controls></video>
+    <div class="spec-play" id="doctorPlay">▶</div>
+    <div class="spec-label">اضغط للتشغيل</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- REVIEW VIDEOS -->
+<section class="section">
+  <div class="sec-label">تجارب حقيقية</div>
+  <h2 class="sec-title">ماذا قال عملاؤنا؟</h2>
+  <p class="sec-sub">تجارب حقيقية من عملاء كوسماراب في المملكة العربية السعودية</p>
+
+  <div class="ugc-grid">
+    <div class="ugc-card" id="rev1Card">
+      <div class="ugc-thumb">
+        <video id="rev1Video" src="review1.mp4" playsinline loop></video>
+        <div class="ugc-play-btn" id="rev1Play">▶</div>
+      </div>
+      <div class="ugc-body">
+        <div class="ugc-name">سارة — الرياض</div>
+        <div class="ugc-city">مستخدمة منذ شهر</div>
+        <div class="ugc-stars">★★★★★</div>
+      </div>
+    </div>
+
+    <div class="ugc-card" id="rev2Card">
+      <div class="ugc-thumb">
+        <video id="rev2Video" src="review2.mp4" playsinline loop></video>
+        <div class="ugc-play-btn" id="rev2Play">▶</div>
+      </div>
+      <div class="ugc-body">
+        <div class="ugc-name">محمد — جدة</div>
+        <div class="ugc-city">مستخدم منذ 3 أسابيع</div>
+        <div class="ugc-stars">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Doctor video toggle
+  var doctorWrap = document.getElementById('doctorWrap');
+  var doctorVid  = document.getElementById('doctorVideo');
+  var doctorPlay = document.getElementById('doctorPlay');
+  doctorVid.style.display = 'block';
+  doctorPlay.style.display = 'grid';
+  doctorWrap.addEventListener('click', function(){
+    if(doctorVid.paused){ doctorVid.play(); doctorPlay.style.display='none'; }
+    else { doctorVid.pause(); doctorPlay.style.display='grid'; }
+  });
+  doctorVid.addEventListener('click', function(e){ e.stopPropagation(); });
+
+  // Review 1
+  var r1v = document.getElementById('rev1Video');
+  var r1p = document.getElementById('rev1Play');
+  r1v.style.display = 'block';
+  document.getElementById('rev1Card').addEventListener('click', function(){
+    if(r1v.paused){ r1v.play(); r1p.style.display='none'; }
+    else { r1v.pause(); r1p.style.display='grid'; }
+  });
+
+  // Review 2
+  var r2v = document.getElementById('rev2Video');
+  var r2p = document.getElementById('rev2Play');
+  r2v.style.display = 'block';
+  document.getElementById('rev2Card').addEventListener('click', function(){
+    if(r2v.paused){ r2v.play(); r2p.style.display='none'; }
+    else { r2v.pause(); r2p.style.display='grid'; }
+  });
+</script>
+
 </body>
 </html>
