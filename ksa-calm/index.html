@@ -679,6 +679,9 @@ window.PRODUCT={
 </script>
 <script src="/shop/app.js"></script>
 
+<!-- SNAP PIXEL -->
+<script>(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391');snaptr('track','PAGE_VIEW');</script>
+
 <!-- ══════════════════════════════════════════════════════════ -->
 <!-- CUSTOM ORDER ENGINE — bottom sheet modal, same as ksa-18  -->
 <!-- ══════════════════════════════════════════════════════════ -->
@@ -807,6 +810,8 @@ if(form) form.addEventListener('submit', function(e){
   function onSuccess(){
     var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
     document.getElementById('orderId').textContent='#'+txId;
+    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
+    try{snaptr('track','PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
     showPanel(3);
   }
 
