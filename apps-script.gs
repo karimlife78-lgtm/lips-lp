@@ -32,7 +32,8 @@ function doPost(e) {
 
   // --- append orders (no action key) ---
   if (body.rows && !body.action) {
-    var sh = sheet(ORDERS_SHEET, HEADERS);
+    var tabName = body.tab || ORDERS_SHEET;
+    var sh = sheet(tabName, HEADERS);
     body.rows.forEach(function(r){ sh.appendRow(r); });
     return json({ ok: true, added: body.rows.length });
   }

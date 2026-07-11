@@ -59,12 +59,15 @@ module.exports = async function handler(req, res) {
     }
 
     // 4. Forward rows to Google Sheet via Apps Script web app
+    // tab: route ksa-calm to its own sheet tab; all others go to default 'Orders'
     const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
     if (scriptUrl) {
+      const payload = { rows };
+      if (page === 'ksa-calm') payload.tab = 'ksa-calm';
       await fetch(scriptUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rows }),
+        body: JSON.stringify(payload),
         redirect: 'follow'
       }).catch(function(err) { console.error('[sheet-error]', err.message); });
     }
