@@ -585,7 +585,7 @@
       <div class="grab"></div>
       <div class="steps-ind"><span class="d on" id="dot1"></span><span class="d" id="dot2"></span><span id="stepTxt">الخطوة 1 من 2</span></div>
       <div class="sheet-sel" style="margin-top:10px">
-        <div class="sheet-ico">🌙</div>
+        <div class="sheet-ico" style="background:var(--ink3);overflow:hidden;padding:2px"><img src="/assets/calm-offer-product.png" style="width:100%;height:100%;object-fit:contain" /></div>
         <div><div class="sheet-nm" id="selName">—</div><div class="sheet-sb" id="selSub">—</div></div>
         <div class="sheet-pr" id="selPrice">—</div>
         <button class="sheet-close" data-close aria-label="إغلاق">✕</button>
@@ -594,7 +594,21 @@
     <div class="sheet-body">
       <div class="panel" id="panel1"></div>
       <div class="panel" id="panel2">
-        <div class="cod-note"><span class="ic">💵</span><span>تدفع <b>عند الاستلام</b> — عبّي بياناتك وبنتواصل معك لتأكيد الطلب.</span></div>
+
+        <!-- FORM FIRST — visible without scroll -->
+        <form id="orderForm" novalidate>
+          <div class="field" id="f-name"><label>الاسم الكامل <span class="req">*</span></label><input id="name" type="text" placeholder="مثال: محمد الغامدي" autocomplete="name" /></div>
+          <div class="field" id="f-phone"><label>رقم الجوال <span class="req">*</span></label><input id="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" autocomplete="tel" maxlength="10" /><div class="hint">نتواصل معك لتأكيد الطلب فقط</div></div>
+          <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input id="city" type="text" list="cities" placeholder="مثال: الرياض" autocomplete="address-level2" />
+            <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الطائف"></option><option value="تبوك"></option><option value="أبها"></option><option value="الأحساء"></option></datalist>
+          </div>
+          <div class="region-err" id="regionErr" style="display:none">عذراً، التوصيل متاح داخل السعودية فقط 🇸🇦</div>
+          <button class="btn lg btn-pulse" type="submit" id="submitBtn"><span class="shine"></span>تأكيد الطلب ✅</button>
+          <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
+        </form>
+
+        <!-- SECONDARY INFO — below fold -->
+        <div class="cod-note" style="margin-top:16px"><span class="ic">💵</span><span>تدفع <b>عند الاستلام</b> — عبّي بياناتك وبنتواصل معك لتأكيد الطلب.</span></div>
 
         <div class="order-summary" id="orderSummary"></div>
 
@@ -613,16 +627,6 @@
           <div class="risk-b"><b>ضمان 14 ليلة</b><span>إذا ما حسّيت بفرق نرجّع لك المبلغ كاملاً</span></div>
         </div>
 
-        <form id="orderForm" novalidate>
-          <div class="field" id="f-name"><label>الاسم الكامل <span class="req">*</span></label><input id="name" type="text" placeholder="مثال: محمد الغامدي" autocomplete="name" /></div>
-          <div class="field" id="f-phone"><label>رقم الجوال <span class="req">*</span></label><input id="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" autocomplete="tel" maxlength="10" /><div class="hint">نتواصل معك لتأكيد الطلب فقط</div></div>
-          <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input id="city" type="text" list="cities" placeholder="مثال: الرياض" autocomplete="address-level2" />
-            <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الطائف"></option><option value="تبوك"></option><option value="أبها"></option><option value="الأحساء"></option></datalist>
-          </div>
-          <div class="region-err" id="regionErr" style="display:none">عذراً، التوصيل متاح داخل السعودية فقط 🇸🇦</div>
-          <button class="btn lg btn-pulse" type="submit" id="submitBtn"><span class="shine"></span>تأكيد الطلب ✅</button>
-          <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
-        </form>
       </div>
       <div class="panel" id="panel3">
         <div class="ty">
