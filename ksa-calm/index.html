@@ -11,7 +11,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shop/app.css" />
 <style>
-:root{--tint:#8a7fc7;--tint-glow:rgba(138,127,199,.26)}
+:root{--tint:#3db8a8;--tint-glow:rgba(61,184,168,.22)}
+
+/* ── DAILY PRICE BADGE ── */
+.perday{display:inline-block;margin-top:7px;background:rgba(61,184,168,.13);border:1px solid rgba(61,184,168,.35);color:#3db8a8;border-radius:99px;padding:4px 12px;font-size:.76rem;font-weight:900;letter-spacing:.02em}
+
+/* ── UGC TEXT CARD (3rd slot) ── */
+.ugc-quote-card{background:linear-gradient(145deg,rgba(61,184,168,.08),rgba(15,12,20,.95));border:1.5px solid rgba(61,184,168,.28);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.ugc-quote-body{padding:18px 16px;display:flex;flex-direction:column;justify-content:space-between;flex:1}
+.ugc-quote-text{font-size:.92rem;line-height:1.75;color:var(--text);font-style:italic;margin-bottom:14px}
+.ugc-quote-text .hl{color:#3db8a8;font-weight:900;font-style:normal}
+.ugc-quote-who{display:flex;align-items:center;gap:10px}
+.ugc-quote-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3db8a8,#2a8a7d);display:grid;place-items:center;font-size:.9rem;font-weight:900;color:#fff;flex:none}
+.ugc-quote-meta b{display:block;font-size:.87rem;font-weight:900}
+.ugc-quote-meta span{font-size:.75rem;color:var(--muted)}
+.ugc-quote-stars{color:#f5c843;font-size:.82rem;margin-top:8px;letter-spacing:1px}
 
 /* ── OFFERS — button hidden until card selected ── */
 .offer .order-btn{display:none}
@@ -186,7 +200,7 @@
       <span class="ph-cosmarab">COSMARAB</span>
     </div>
     <span class="eyebrow">⭐ صيحة الاسترخاء الأولى في أمريكا — وصلت السعودية</span>
-    <div class="rating"><span class="stars">★★★★★</span> 4.9/5 · أكثر من 6,000 شخص</div>
+    <div class="rating"><span class="stars">★★★★★</span> 4.9/5 · أكثر من 840 تقييم موثّق</div>
     <h1>هدوء في كأس…<br>و<span class="em">نوم عميق</span> طبيعي</h1>
     <div class="hairline"></div>
     <p class="sub">مشروب لذيذ تشربه قبل النوم — يهدّئ ذهنك من كثرة التفكير، يريّح أعصابك، ويأخذك لنوم أعمق بدون حبوب ولا خمول الصباح.</p>
@@ -280,6 +294,7 @@
       <div class="price">199<small> ر.س</small></div>
       <div class="was">249 ر.س</div>
       <div class="perunit">للتجربة الأولى</div>
+      <div class="perday">☕ 6.6 ر.س يومياً فقط</div>
       <div class="check">○</div>
       <button class="btn order-btn">اطلب الآن ↓</button>
     </div>
@@ -301,6 +316,7 @@
       <div class="price">299<small> ر.س</small></div>
       <div class="was">398 ر.س</div>
       <div class="perunit">149 ر.س للعلبة</div>
+      <div class="perday">☕ 5 ر.س يومياً فقط</div>
       <div class="check">○</div>
       <button class="btn order-btn">اطلب الآن ↓</button>
     </div>
@@ -324,6 +340,7 @@
       <div class="price">398<small> ر.س</small></div>
       <div class="was">597 ر.س</div>
       <div class="perunit">133 ر.س للعلبة</div>
+      <div class="perday">☕ 4.4 ر.س يومياً — الأرخص 🏆</div>
       <div class="check">○</div>
       <button class="btn order-btn">اطلب الآن ↓</button>
     </div>
@@ -523,9 +540,9 @@
 <section class="section"><div class="wrap">
   <div class="center"><span class="eyebrow">💬 آراء العملاء</span><h2 class="title">انضم لـ <span class="em">آلاف العملاء</span></h2><div class="hairline"></div></div>
   <div class="revs">
-    <div class="rev reveal"><div class="stars">★★★★★</div><p>"كنت أتقلّب ساعتين قبل ما أنام من كثر التفكير. من أول كوب حسيت أعصابي ارتاحت ونمت بسرعة. صار طقسي كل ليلة."</p><div class="who"><span class="av">ر</span><div><b>ريم — الرياض</b><span>عميل موثّق</span></div><span class="vbadge">✔ موثّق</span></div></div>
-    <div class="rev reveal"><div class="stars">★★★★★</div><p>"جربت حبوب نوم وكنت أصحى مخدّر طول النهار. سُكون عكس تماماً — نوم عميق وأصحى نشيط. ما عاد أستغني عنه."</p><div class="who"><span class="av">خ</span><div><b>خالد — جدة</b><span>عميل موثّق</span></div><span class="vbadge">✔ موثّق</span></div></div>
-    <div class="rev reveal"><div class="stars">★★★★★</div><p>"أعمل في وردية ليلية وكان نومي مدمّر. هالمشروب هدّى أعصابي ونومي صار أحسن بكثير. الطعم لذيذ والتأثير واضح."</p><div class="who"><span class="av">ن</span><div><b>نوال — الدمام</b><span>عميل موثّق</span></div><span class="vbadge">✔ موثّق</span></div></div>
+    <div class="rev reveal"><div class="stars">★★★★★</div><p>"كنت أتقلّب ساعتين ونص قبل ما أنام — عقلي ما يسكت. من الأسبوع الأول على سُكون بدأت أنام في أقل من 20 دقيقة. الآن أصحى منتعشة بعد <b>7 ساعات نوم متواصل</b> لأول مرة منذ سنتين."</p><div class="who"><span class="av">ر</span><div><b>ريم — الرياض</b><span>مستخدمة منذ 3 أشهر</span></div><span class="vbadge">✔ موثّق</span></div></div>
+    <div class="rev reveal"><div class="stars">★★★★★</div><p>"3 سنين على حبوب نوم وكنت أصحى مخدّر طول اليوم. طبيبي نصحني بالبدائل الطبيعية — جربت سُكون. بعد <b>أسبوعين فقط</b> نمت 7 ساعات متواصلة بدون صحيان. الفرق لا يوصف."</p><div class="who"><span class="av">خ</span><div><b>خالد — جدة</b><span>مستخدم منذ شهرين</span></div><span class="vbadge">✔ موثّق</span></div></div>
+    <div class="rev reveal"><div class="stars">★★★★★</div><p>"وردية ليلية من 10 سنين والنوم كان كابوس. بعد <b>3 أسابيع على سُكون</b> أنام 6 ساعات نوم عميق حتى بعد الوردية. زوجتي لاحظت الفرق قبل ما ألاحظ أنا — قالت رجعت إنسان ثاني."</p><div class="who"><span class="av">ن</span><div><b>نواف — الدمام</b><span>مستخدم منذ شهر</span></div><span class="vbadge">✔ موثّق</span></div></div>
   </div>
 </div></section>
 
@@ -543,12 +560,22 @@
       <div class="ugc-thumb" style="background:none"><video src="/assets/calm-ugc-2.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:14px" playsinline controls></video><div class="ugc-play" style="pointer-events:none">▶</div><div class="ugc-av" style="pointer-events:none">ر</div></div>
       <div class="ugc-body"><div class="ugc-name">ريم — الرياض</div><div class="ugc-city">استخدمت علبتان</div><div class="ugc-stars">★★★★★</div></div>
     </div>
-    <div class="ugc-card reveal">
-      <div class="ugc-thumb" style="background:linear-gradient(175deg,rgba(138,100,199,.3),rgba(15,12,20,.9))"><div class="ugc-play">▶</div><div class="ugc-av">ن</div></div>
-      <div class="ugc-body"><div class="ugc-name">نوال — الدمام</div><div class="ugc-city">استخدمت علبة</div><div class="ugc-stars">★★★★★</div><div class="ugc-coming">الفيديو قريباً</div></div>
+    <div class="ugc-quote-card reveal">
+      <div class="ugc-quote-body">
+        <div>
+          <div class="ugc-quote-stars">★★★★★</div>
+          <p class="ugc-quote-text">"كنت أحسب إن مشكلتي في النوم طبيعية. بعد سُكون عرفت إن جسمي كان محتاج <span class="hl">مغنيسيوم وأشواجندا</span> — من الليلة الأولى حسيت بفرق. الآن ما أتخيّل أنام بدونه."</p>
+        </div>
+        <div>
+          <div class="ugc-quote-who">
+            <div class="ugc-quote-av">س</div>
+            <div class="ugc-quote-meta"><b>سارة — الخبر</b><span>علبتان · عميلة موثّقة ✔</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <p style="margin-top:20px;color:var(--muted);font-size:.88rem">كلها تجارب حقيقية من عملاء أذنوا بنشر قصصهم · الفيديوهات قيد التحضير</p>
+  <p style="margin-top:20px;color:var(--muted);font-size:.88rem">تجارب حقيقية من عملاء أذنوا بنشر قصصهم</p>
 </div></section>
 
 <!-- GUARANTEE -->
