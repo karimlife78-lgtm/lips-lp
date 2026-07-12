@@ -254,7 +254,7 @@
       <h3 class="qr-title" id="qrTitle"></h3>
       <p class="qr-desc" id="qrDesc"></p>
       <div class="qr-tags" id="qrTags"></div>
-      <button class="btn lg gold" data-scroll="#offers">شوف عرضك واطلب الآن ↓</button>
+      <button class="btn lg gold" id="quizScrollBtn">شوف عرضك واطلب الآن ↓</button>
     </div>
   </div>
 </div></div></header>
@@ -845,6 +845,21 @@ if(stickyBtn) stickyBtn.addEventListener('click', function(){ document.getElemen
 var defCard = document.getElementById('off2') || document.querySelector('.offer');
 if(defCard) selectOffer(defCard);
 
+})();
+
+/* ── Quiz result button → scroll to the recommended offer card ── */
+(function(){
+  var btn = document.getElementById('quizScrollBtn');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var target = document.querySelector('.offer.selected') || document.getElementById('off2');
+    if(target){
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      target.style.transition = 'box-shadow .3s';
+      target.style.boxShadow = '0 0 0 3px var(--tint)';
+      setTimeout(function(){ target.style.boxShadow = ''; }, 1200);
+    }
+  });
 })();
 
 /* ── Doctor video: click to play when src is set ── */
