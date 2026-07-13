@@ -3,18 +3,100 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-<meta name="theme-color" content="#130e0c" />
-<title>كولاجين جلو من Cosmarab — قهوة الجمال للبشرة والشعر والأظافر</title>
-<meta name="description" content="كولاجين جلو من Cosmarab — أضيفيه لقهوتكِ الصباحية لبشرة مشرقة وشعر أكثف وأظافر أقوى. كولاجين بحري + بيوتين + فيتامين C، حلال، الدفع عند الاستلام في كل السعودية." />
+<meta name="theme-color" content="#D6156B" />
+<title>كولاجين جلو من Cosmarab — 11,000 ملغم يومياً · 5 أنواع كولاجين</title>
+<meta name="description" content="كولاجين جلو من Cosmarab — 11,000 ملغم ببتيدات كولاجين مُحلّلة (5 أنواع) في ساشيه واحد. للبشرة والشعر والأظافر والمفاصل. حلال، بلا سكر، الدفع عند الاستلام في كل السعودية." />
 <link rel="icon" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/shop/app.css" />
-<style>:root{
-  --red:#ec4899;--red2:#be185d;--glow:rgba(236,72,153,.42);
-  --tint:#f9a8d4;--tint-glow:rgba(249,168,212,.24);
-  --ink:#1b0e17;--ink2:#291423;--ink3:#371a2e;--line:rgba(249,168,212,.16);
-}</style>
+<link rel="stylesheet" href="/shop/glow.css" />
+
+<style>
+/* ── SIGNATURE ANIMATION: dissolving collagen granules ───────────────
+   The product's whole promise is "it dissolves instantly, no clumps".
+   So the signature motion IS the dissolve: granules fall, hit the
+   liquid line, and bloom into a ripple. Runs behind the hero photo. */
+.dissolve{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;border-radius:22px}
+.gr{position:absolute;top:-8%;width:7px;height:7px;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 30% 30%,#fff,var(--brand3) 45%,var(--brand) 100%);
+  box-shadow:0 0 10px rgba(214,21,107,.55);
+  animation:grFall 3.6s cubic-bezier(.35,.05,.5,1) infinite}
+@keyframes grFall{
+  0%{opacity:0;transform:translateY(0) scale(.5)}
+  12%{opacity:.95}
+  62%{opacity:.9;transform:translateY(150px) scale(1)}
+  78%{opacity:0;transform:translateY(190px) scale(1.7)}
+  100%{opacity:0;transform:translateY(190px) scale(1.7)}
+}
+.rp{position:absolute;top:60%;width:14px;height:14px;border-radius:50%;opacity:0;
+  border:1.5px solid var(--brand3);animation:rpBloom 3.6s ease-out infinite}
+@keyframes rpBloom{
+  0%,58%{opacity:0;transform:scale(.35)}
+  70%{opacity:.55;transform:scale(1.4)}
+  100%{opacity:0;transform:scale(3.6)}
+}
+@media(prefers-reduced-motion:reduce){.gr,.rp{animation:none;opacity:0}}
+
+/* ── HERO POLISH ─────────────────────────────────────────────────── */
+.hero-photo{position:relative}
+.hero-photo .ph-cosmarab{
+  position:absolute;bottom:12px;inset-inline-end:14px;z-index:2;
+  font-family:var(--fh);font-weight:900;font-size:.62rem;letter-spacing:.26em;
+  color:rgba(61,11,38,.34);direction:ltr;
+}
+/* the headline number — the single most persuasive element on the page */
+.mgline{
+  display:inline-flex;align-items:baseline;gap:8px;margin:14px 0 4px;
+  font-family:var(--fh);font-weight:900;line-height:1;
+}
+.mgline .n{
+  font-size:clamp(2.4rem,9vw,3.4rem);
+  background:linear-gradient(105deg,var(--brand),var(--brand3));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.mgline .u{font-size:1rem;color:var(--plum2);font-weight:800}
+.mgsub{color:var(--plum2);font-size:.94rem;font-weight:700;margin-bottom:14px}
+.mgsub b{color:var(--brand2)}
+
+/* ── SECTION REVEAL (premium easing, no JS lib needed) ───────────── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+/* ── 5-BENEFIT RING (matches the 5 icons printed on the pouch) ───── */
+.b5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:26px}
+@media(max-width:760px){.b5{grid-template-columns:repeat(2,1fr)}}
+.b5 .b{
+  background:var(--paper);border:1px solid var(--line-l);border-radius:18px;
+  padding:20px 12px;text-align:center;box-shadow:var(--shadow-sm);
+  transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s;
+}
+.b5 .b:hover{transform:translateY(-4px);box-shadow:0 22px 44px -20px rgba(214,21,107,.34);border-color:var(--blush2)}
+.b5 .bi{
+  width:52px;height:52px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;
+  font-size:1.5rem;background:linear-gradient(150deg,var(--blush),var(--cream2));
+  border:1px solid var(--blush2);
+}
+.b5 .b b{display:block;font-family:var(--fh);font-size:.96rem;color:var(--plum)}
+.b5 .b span{display:block;font-size:.78rem;color:var(--plum2);margin-top:3px}
+
+/* ── SHIPPING CUTOFF (believable urgency, replaces fake stock) ───── */
+.cutoff{
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  background:linear-gradient(100deg,var(--blush),var(--paper));
+  border:1px solid var(--blush2);border-radius:16px;padding:14px 18px;
+  margin-top:18px;font-weight:800;color:var(--plum2);font-size:.94rem;
+}
+.cutoff b{color:var(--brand2)}
+.cutoff .lv{display:inline-flex;align-items:center;gap:6px}
+.cutoff .lv i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:blip 1.6s ease-in-out infinite}
+@keyframes blip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+
+/* ── REVIEW GRID with photo slots ───────────────────────────────── */
+.rev{display:flex;flex-direction:column}
+</style>
+
 <!-- SNAP PIXEL -->
 <script>(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391');snaptr('track','PAGE_VIEW');</script>
 </head>
@@ -26,45 +108,80 @@
   <span class="cod-badge">💵 <span class="t">الدفع عند الاستلام</span> · 🚚 توصيل مجاني</span>
 </div></div>
 
-<!-- HERO + QUIZ -->
+<!-- ═══════════ HERO ═══════════ -->
 <header class="hero"><div class="wrap"><div class="hero-grid">
   <div class="hero-copy">
-    <div class="hero-photo">
+
+    <!-- PHOTO SLOT 1 — hero pouch shot -->
+    <div class="ph hero-photo">
       <span class="ph-tag">كولاجين جلو</span>
-      <img src="/assets/glow.png" alt="كولاجين جلو — قهوة الجمال من Cosmarab" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
-      <div class="ph-fallback" style="display:grid">☕</div>
+      <div class="dissolve">
+        <span class="gr" style="left:22%;animation-delay:0s"></span>
+        <span class="gr" style="left:38%;animation-delay:.7s"></span>
+        <span class="gr" style="left:56%;animation-delay:1.4s"></span>
+        <span class="gr" style="left:71%;animation-delay:2.1s"></span>
+        <span class="gr" style="left:47%;animation-delay:2.8s"></span>
+        <span class="rp" style="left:20%;animation-delay:0s"></span>
+        <span class="rp" style="left:54%;animation-delay:1.4s"></span>
+        <span class="rp" style="left:69%;animation-delay:2.1s"></span>
+      </div>
+      <img src="/assets/glow-hero.png" alt="كولاجين جلو — علبة 30 ساشيه من Cosmarab"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+      <div class="ph-empty" style="display:none">
+        <span class="pi">📦</span>
+        <span>صورة المنتج الرئيسية</span>
+        <span class="pn">/assets/glow-hero.png</span>
+      </div>
       <span class="ph-cosmarab">COSMARAB</span>
     </div>
-    <span class="eyebrow">⭐ صيحة الجمال الأولى عالمياً — جديد في السعودية</span>
+
+    <span class="eyebrow">⭐ الصيغة الأقوى — 5 أنواع كولاجين في ساشيه واحد</span>
     <div class="rating"><span class="stars">★★★★★</span> 4.9/5 · أكثر من 9,000 عميلة</div>
-    <h1>قهوتكِ الصباحية… <span class="em">تخلّيكِ أصغر</span></h1>
+
+    <h1>ما تحتاجين إبر… <span class="em">تحتاجين الجرعة الصحيحة</span></h1>
+
+    <div class="mgline"><span class="n">11,000</span><span class="u">ملغم في الساشيه الواحد</span></div>
+    <p class="mgsub">حبوب الكولاجين في الصيدلية تعطيكِ <b>500 ملغم</b>. ساشيه واحد من جلو يعطيكِ <b>11,000 ملغم</b> — أي <b>22 ضعفاً</b>.</p>
+
     <div class="hairline"></div>
-    <p class="sub">ساشيه واحد تضيفينه لقهوتكِ أو حليبكِ كل صباح، يمنحكِ كولاجين بحري نقي لبشرة مشرقة، شعر أكثف، وأظافر أقوى — بدون حبوب ولا إبر، طعمه لذيذ ويذوب فوراً.</p>
+    <p class="sub">ببتيدات كولاجين مُحلّلة (Hydrolyzed) من الأنواع I · II · III · V · X — تذوب فوراً في قهوتكِ بلا تكتّل ولا طعم، وتصل لجسمكِ جاهزة للامتصاص.</p>
+
     <button class="btn lg btn-pulse" data-open-order><span class="shine"></span>اطلبي الآن — الدفع عند الاستلام 💵</button>
-    <div class="trust-row"><span>☪️ <b>حلال</b></span><span>🐟 <b>كولاجين بحري</b></span><span>🚚 <b>توصيل مجاني</b></span><span>🔄 <b>ضمان</b></span></div>
+
+    <div class="trust-row"><span>☪️ <b>حلال</b></span><span>🚫 <b>بلا سكر</b></span><span>🚚 <b>توصيل مجاني</b></span><span>🔄 <b>ضمان 60 يوم</b></span></div>
+
+    <!-- PROOF BAR — the numbers that justify the price -->
+    <div class="proof-bar reveal">
+      <div class="pb"><b>11,000</b><span>ملغم / ساشيه</span></div>
+      <div class="pb"><b>5</b><span>أنواع كولاجين</span></div>
+      <div class="pb"><b>30</b><span>ساشيه / علبة</span></div>
+      <div class="pb"><b>0</b><span>سكر · نكهات</span></div>
+    </div>
   </div>
 
+  <!-- QUIZ -->
   <div class="quiz-wrap reveal" id="quizWrap">
     <span class="quiz-badge">🧪 اختبار سريع — 30 ثانية</span>
-    <h3 class="qh">وش يناسبكِ <span class="em">بالضبط؟</span></h3>
-    <p class="qp-sub">جاوبي على 4 أسئلة ونحدد لكِ العرض الأنسب فوراً.</p>
+    <h3 class="qh">كم علبة <span class="em">تحتاجين فعلاً؟</span></h3>
+    <p class="qp-sub">4 أسئلة ونحدد لكِ الجرعة الصحيحة — لا أقل ولا أكثر.</p>
     <div class="quiz-progress"><div class="qp active"></div><div class="qp"></div><div class="qp"></div><div class="qp"></div></div>
+
     <div class="qcard show" id="qcard0">
       <div class="qstep">السؤال 1 من 4</div><h3>وش أكثر شي تبين تحسّنينه؟</h3>
       <div class="qopts">
         <button class="qopt" data-q="0" data-a="0"><span class="qic">✨</span> إشراقة البشرة فقط</button>
         <button class="qopt" data-q="0" data-a="1"><span class="qic">💇‍♀️</span> كثافة الشعر</button>
-        <button class="qopt" data-q="0" data-a="2"><span class="qic">💅</span> قوة الأظافر</button>
-        <button class="qopt" data-q="0" data-a="3"><span class="qic">🌟</span> كل شي: بشرة وشعر وأظافر</button>
+        <button class="qopt" data-q="0" data-a="2"><span class="qic">💅</span> الأظافر والمفاصل</button>
+        <button class="qopt" data-q="0" data-a="3"><span class="qic">🌟</span> كل شي — بشرة وشعر وأظافر ومفاصل</button>
       </div>
     </div>
     <div class="qcard" id="qcard1">
-      <div class="qstep">السؤال 2 من 4</div><h3>كيف تصفين بشرتكِ حالياً؟</h3>
+      <div class="qstep">السؤال 2 من 4</div><h3>كم عمركِ؟</h3>
       <div class="qopts">
-        <button class="qopt" data-q="1" data-a="0"><span class="qic">😊</span> بحالة جيدة</button>
-        <button class="qopt" data-q="1" data-a="1"><span class="qic">🌤️</span> بدأت تفقد نضارتها</button>
-        <button class="qopt" data-q="1" data-a="2"><span class="qic">😔</span> باهتة ومتعبة</button>
-        <button class="qopt" data-q="1" data-a="3"><span class="qic">⏳</span> علامات واضحة للعمر</button>
+        <button class="qopt" data-q="1" data-a="0"><span class="qic">🌷</span> أقل من 25</button>
+        <button class="qopt" data-q="1" data-a="1"><span class="qic">🌸</span> 25 — 34</button>
+        <button class="qopt" data-q="1" data-a="2"><span class="qic">🌺</span> 35 — 44</button>
+        <button class="qopt" data-q="1" data-a="3"><span class="qic">👑</span> 45 وأكثر</button>
       </div>
     </div>
     <div class="qcard" id="qcard2">
@@ -73,18 +190,19 @@
         <button class="qopt" data-q="2" data-a="0"><span class="qic">🙅</span> لا أبداً</button>
         <button class="qopt" data-q="2" data-a="1"><span class="qic">💊</span> حبوب وما كملت</button>
         <button class="qopt" data-q="2" data-a="2"><span class="qic">🧴</span> كريمات بس</button>
-        <button class="qopt" data-q="2" data-a="3"><span class="qic">😤</span> جربت كثير بلا التزام</button>
+        <button class="qopt" data-q="2" data-a="3"><span class="qic">😤</span> جربت كثير بلا نتيجة</button>
       </div>
     </div>
     <div class="qcard" id="qcard3">
-      <div class="qstep">السؤال 4 من 4</div><h3>وش هدفكِ من الاستخدام؟</h3>
+      <div class="qstep">السؤال 4 من 4</div><h3>متى تبين تشوفين النتيجة؟</h3>
       <div class="qopts">
-        <button class="qopt" data-q="3" data-a="0"><span class="qic">🗓️</span> تجربة شهر</button>
-        <button class="qopt" data-q="3" data-a="1"><span class="qic">🔁</span> روتين منتظم</button>
-        <button class="qopt" data-q="3" data-a="2"><span class="qic">📈</span> نتيجة طويلة المدى</button>
+        <button class="qopt" data-q="3" data-a="0"><span class="qic">🗓️</span> أبي أجرّب بس</button>
+        <button class="qopt" data-q="3" data-a="1"><span class="qic">🔁</span> خلال شهرين</button>
+        <button class="qopt" data-q="3" data-a="2"><span class="qic">📈</span> نتيجة كاملة وثابتة</button>
         <button class="qopt" data-q="3" data-a="3"><span class="qic">🎁</span> أفضل نتيجة وأوفّر أكثر</button>
       </div>
     </div>
+
     <div class="quiz-result" id="quizResult">
       <div class="qr-match" id="qrMatch"></div>
       <h3 class="qr-title" id="qrTitle"></h3>
@@ -99,158 +217,359 @@
 <div class="cert-strip"><div class="in">
   <span class="cert-chip"><span class="cc">☪️</span> حلال معتمد</span>
   <span class="cert-chip"><span class="cc">🏭</span> تصنيع GMP</span>
-  <span class="cert-chip"><span class="cc">🐟</span> كولاجين بحري نقي</span>
-  <span class="cert-chip"><span class="cc">🚫</span> بدون سكر</span>
-  <span class="cert-chip"><span class="cc">🔬</span> مختبر الجودة</span>
+  <span class="cert-chip"><span class="cc">🔬</span> مفحوص مخبرياً</span>
+  <span class="cert-chip"><span class="cc">🚫</span> بلا سكر · بلا نكهات</span>
+  <span class="cert-chip"><span class="cc">🐟</span> ببتيدات مُحلّلة</span>
 </div></div>
 
 <!-- TICKER -->
 <div class="ticker"><div class="ticker-track">
-  <span>🚚 <b>توصيل مجاني</b> لكل السعودية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>✨ بشرة + شعر + أظافر</span><span>🔄 ضمان استرجاع</span>
-  <span>🚚 <b>توصيل مجاني</b> لكل السعودية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>✨ بشرة + شعر + أظافر</span><span>🔄 ضمان استرجاع</span>
+  <span>🚚 <b>توصيل مجاني</b> لكل السعودية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>✨ 11,000 ملغم يومياً</span><span>🔄 ضمان 60 يوم</span>
+  <span>🚚 <b>توصيل مجاني</b> لكل السعودية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>✨ 11,000 ملغم يومياً</span><span>🔄 ضمان 60 يوم</span>
 </div></div>
 
-<!-- PAIN -->
+<!-- ═══════════ PAIN ═══════════ -->
 <section class="section"><div class="wrap center">
-  <span class="eyebrow">😣 المشكلة</span>
-  <h2 class="title">الكريمات تعمل <span class="em">على السطح فقط</span></h2>
+  <span class="eyebrow">😣 الحقيقة اللي ما يقولونها لكِ</span>
+  <h2 class="title">الكريم يشتغل على <span class="em">3% من بشرتكِ</span></h2>
   <div class="hairline"></div>
-  <p class="lead">مع العمر يقلّ الكولاجين في جسمكِ، فتفقد البشرة نضارتها، يخفّ الشعر، وتضعف الأظافر — والحل يبدأ من الداخل.</p>
+  <p class="lead">الكولاجين موجود في <b>الأدمة</b> — الطبقة العميقة. أي كريم يوقف عند الطبقة السطحية ولا يوصلها. لهذا تحسّين إن نتيجته تختفي بمجرد ما تتوقفين.</p>
   <div class="cards">
-    <div class="card reveal"><div class="ico">😔</div><h3>بشرة باهتة ومرهقة</h3><p>فقدان النضارة والإشراقة وظهور علامات التعب مبكراً.</p></div>
-    <div class="card reveal"><div class="ico">💇‍♀️</div><h3>شعر خفيف وضعيف</h3><p>تساقط وقلة كثافة تؤثر على ثقتكِ بإطلالتكِ.</p></div>
-    <div class="card reveal"><div class="ico">💅</div><h3>أظافر هشّة تتكسّر</h3><p>أظافر ضعيفة تتقصّف بسهولة ولا تطول.</p></div>
+    <div class="card reveal"><div class="ico">📉</div><h3>تفقدين 1% كل سنة</h3><p>من عمر 25، إنتاج الكولاجين في جسمكِ يقلّ سنوياً — والنتيجة تظهر أول شي على البشرة.</p></div>
+    <div class="card reveal d1"><div class="ico">💊</div><h3>الحبوب جرعتها ضعيفة</h3><p>معظم كبسولات الكولاجين 500 ملغم. الدراسات تستخدم <b>2.5 — 10 غرام</b> يومياً. الفرق شاسع.</p></div>
+    <div class="card reveal d2"><div class="ico">🧴</div><h3>الكريم لا يخترق</h3><p>جزيء الكولاجين في الكريمات كبير جداً ليعبر حاجز البشرة — يبقى على السطح ويُغسل.</p></div>
   </div>
 </div></section>
 
-<!-- HOW -->
-<section class="section" id="how"><div class="wrap center">
-  <span class="eyebrow">✨ الحل</span>
-  <h2 class="title">روتين صباحي… <span class="em">بنتائج مذهلة</span></h2>
+<!-- ═══════════ MECHANISM — the "why it works" that justifies price ═══════════ -->
+<section class="section paper" id="how"><div class="wrap center">
+  <span class="eyebrow">🔬 كيف يشتغل فعلاً</span>
+  <h2 class="title">مو أي كولاجين… <span class="em">ببتيدات مُحلّلة</span></h2>
   <div class="hairline"></div>
-  <div class="steps">
-    <div class="step reveal"><h3>افتحي الساشيه</h3><p>أضيفي الساشيه لقهوتكِ، حليبكِ، أو الماء — يذوب فوراً بدون تكتّل.</p></div>
-    <div class="step reveal"><h3>استمتعي بالطعم</h3><p>نكهة لذيذة تحوّل مشروبكِ اليومي لجرعة جمال تنتظرينها كل صباح.</p></div>
-    <div class="step reveal"><h3>شاهدي التحوّل</h3><p>خلال أسابيع: إشراقة أوضح، شعر أكثف، وأظافر أقوى.</p></div>
+  <p class="lead">الكولاجين العادي جزيء ضخم جسمكِ ما يقدر يمتصّه. نحن نكسره مسبقاً إلى <b>ببتيدات صغيرة</b> — تدخل الدم كاملة وتوصل الرسالة لخلايا بشرتكِ.</p>
+
+  <div class="mech">
+    <div class="mech-step reveal">
+      <div class="mn">1</div>
+      <h4>يذوب ويُمتصّ</h4>
+      <p>الببتيدات المُحلّلة صغيرة بما يكفي لتعبر جدار الأمعاء وتدخل مجرى الدم — بلا هضم صعب ولا انتفاخ.</p>
+    </div>
+    <div class="mech-step reveal d1">
+      <div class="mn">2</div>
+      <h4>يوصل الإشارة</h4>
+      <p>الببتيدات تنبّه خلايا <b>الفايبروبلاست</b> في بشرتكِ: "الكولاجين ناقص — ابدأوا الإنتاج".</p>
+    </div>
+    <div class="mech-step reveal d2">
+      <div class="mn">3</div>
+      <h4>جسمكِ يبني</h4>
+      <p>بشرتكِ تبدأ تصنع كولاجينها الطبيعي من جديد — النتيجة من الداخل، وتبقى معكِ.</p>
+    </div>
   </div>
-  <div class="timeline reveal">
-    <div class="tl-pt"><div class="tl-dot">⚡</div><b>أسبوع 1</b><span>طاقة وترطيب</span></div>
-    <div class="tl-pt"><div class="tl-dot">✨</div><b>أسبوع 3</b><span>إشراقة البشرة</span></div>
-    <div class="tl-pt"><div class="tl-dot">💇‍♀️</div><b>أسبوع 6</b><span>شعر أكثف</span></div>
-    <div class="tl-pt"><div class="tl-dot">💅</div><b>أسبوع 8</b><span>أظافر أقوى</span></div>
+
+  <div class="mech-note reveal">
+    💡 <b>لهذا النتيجة تحتاج وقت:</b> جسمكِ ما "يستلم" كولاجين جاهز — هو يعيد بناءه. ودورة تجديد خلايا البشرة الكاملة تستغرق <b>حوالي 90 يوماً</b>.
   </div>
 </div></section>
 
-<!-- BEFORE/AFTER -->
+<!-- ═══════════ 90-DAY PROTOCOL — reframes the 3-box as the correct dose ═══════════ -->
+<section class="section tint"><div class="wrap center">
+  <span class="eyebrow">🗓️ بروتوكول الـ 90 يوم</span>
+  <h2 class="title">ليش علبة واحدة <span class="em">ما تكفي</span></h2>
+  <div class="hairline"></div>
+  <p class="lead">هذا مو كلام مبيعات — هذي بيولوجيا. خلايا بشرتكِ تحتاج دورة كاملة عشان تبني كولاجين جديد ويظهر على السطح.</p>
+
+  <div class="protocol">
+    <div class="pmonth reveal">
+      <div class="pm-h">الشهر الأول · علبة 1</div>
+      <div class="pm-i">💧</div>
+      <b>الترطيب فقط</b>
+      <p>تحسّين ترطيب أعمق ونعومة — لكن البناء لسه ما بدأ يظهر. <b>لو وقفتِ هنا، تخسرين كل شي.</b></p>
+    </div>
+    <div class="pmonth reveal d1">
+      <div class="pm-h">الشهر الثاني · علبة 2</div>
+      <div class="pm-i">✨</div>
+      <b>الإشراقة تبان</b>
+      <p>البشرة تبدأ تعكس الضوء بشكل مختلف. الأظافر تقوى. الشعر يبدأ يتحسّن.</p>
+    </div>
+    <div class="pmonth full reveal d2">
+      <span class="pm-flag">👑 البروتوكول الكامل</span>
+      <div class="pm-h">الشهر الثالث · علبة 3</div>
+      <div class="pm-i">🌟</div>
+      <b>النتيجة الحقيقية</b>
+      <p>هنا تشوفين المرونة والامتلاء اللي جيتِ عشانه. <b>90 يوم = الدورة الكاملة.</b></p>
+    </div>
+  </div>
+
+  <div class="mech-note reveal" style="margin-top:24px">
+    ⚠️ <b>بصراحة:</b> لو ميزانيتكِ تسمح بعلبة واحدة بس — خذيها وجرّبي. بس اعرفي إنكِ راح تشوفين الترطيب مو التحوّل. <b>العلبة الثالثة هي اللي تعطيكِ النتيجة.</b>
+  </div>
+</div></section>
+
+<!-- ═══════════ 5 BENEFITS (matches the 5 icons on the pouch) ═══════════ -->
 <section class="section"><div class="wrap center">
-  <span class="eyebrow">🔄 قبل وبعد</span>
-  <h2 class="title">جمال <span class="em">من الداخل للخارج</span></h2>
+  <span class="eyebrow">🎯 5 فوائد — لا 3</span>
+  <h2 class="title">الكولاجين مو <span class="em">للبشرة فقط</span></h2>
   <div class="hairline"></div>
-  <div class="ba reveal">
-    <div class="before"><span class="lbl">قبل</span><div class="face">😞</div><ul><li>• بشرة باهتة</li><li>• شعر خفيف</li><li>• أظافر متكسّرة</li></ul></div>
-    <div class="after"><span class="lbl">بعد</span><div class="face">🤩</div><ul><li>• إشراقة طبيعية</li><li>• شعر أكثف وأقوى</li><li>• أظافر صحية</li></ul></div>
+  <p class="lead">الكولاجين هو البروتين الأكثر وفرة في جسمكِ — موجود في بشرتكِ وشعركِ وأظافركِ ومفاصلكِ وبطانة أمعائكِ.</p>
+  <div class="b5">
+    <div class="b reveal"><div class="bi">✨</div><b>البشرة</b><span>مرونة وإشراقة</span></div>
+    <div class="b reveal d1"><div class="bi">💇‍♀️</div><b>الشعر</b><span>كثافة ولمعان</span></div>
+    <div class="b reveal d2"><div class="bi">💅</div><b>الأظافر</b><span>قوة بلا تكسّر</span></div>
+    <div class="b reveal d1"><div class="bi">🫧</div><b>الأمعاء</b><span>بطانة صحية</span></div>
+    <div class="b reveal d2"><div class="bi">🦴</div><b>المفاصل</b><span>راحة ومرونة</span></div>
   </div>
 </div></section>
 
-<!-- FEATURES -->
-<section class="section"><div class="wrap">
-  <div class="center"><span class="eyebrow">🧪 المكوّنات</span><h2 class="title">تركيبة <span class="em">الجمال الكاملة</span></h2><div class="hairline"></div></div>
-  <div class="feat">
-    <div class="item reveal"><div class="fi">🐟</div><div><h4>كولاجين بحري (نوع I & III)</h4><p>سريع الامتصاص لدعم نضارة البشرة ومرونتها.</p></div></div>
-    <div class="item reveal"><div class="fi">💧</div><div><h4>حمض الهيالورونيك</h4><p>ترطيب عميق يملأ البشرة من الداخل.</p></div></div>
-    <div class="item reveal"><div class="fi">🌿</div><div><h4>البيوتين</h4><p>يقوّي الشعر والأظافر ويقلّل التكسّر.</p></div></div>
-    <div class="item reveal"><div class="fi">🍊</div><div><h4>فيتامين C</h4><p>يحفّز إنتاج الكولاجين الطبيعي ويزيد الإشراقة.</p></div></div>
+<!-- ═══════════ DOSE TABLE — real numbers ═══════════ -->
+<section class="section paper"><div class="wrap">
+  <div class="center">
+    <span class="eyebrow">🧪 التركيبة الكاملة</span>
+    <h2 class="title">كل ساشيه… <span class="em">بالأرقام</span></h2>
+    <div class="hairline"></div>
+    <p class="lead">نعرض لكِ الجرعات لأننا نقدر. أغلب المنتجات تخفيها لسبب.</p>
+  </div>
+  <table class="dose reveal">
+    <thead>
+      <tr><th>المكوّن</th><th>الجرعة</th><th>الدور</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>ببتيدات كولاجين مُحلّلة (I·II·III·V·X)</td><td class="mg">11,000 ملغم</td><td>البناء الأساسي للبشرة والشعر والمفاصل</td></tr>
+      <tr><td>فيتامين C</td><td class="mg">80 ملغم</td><td>ضروري لتصنيع الكولاجين — بدونه العملية تتوقف</td></tr>
+      <tr><td>البيوتين (B7)</td><td class="mg">2,500 ميكروغرام</td><td>كثافة الشعر وقوة الأظافر</td></tr>
+      <tr><td>حمض الهيالورونيك</td><td class="mg">50 ملغم</td><td>يحبس الرطوبة داخل البشرة</td></tr>
+      <tr><td>الزنك</td><td class="mg">10 ملغم</td><td>يدعم التئام البشرة وصحة الشعر</td></tr>
+      <tr><td>سكر مضاف</td><td class="mg">0</td><td>بلا سكر · بلا ألوان · بلا نكهات صناعية</td></tr>
+    </tbody>
+  </table>
+  <div class="mech-note reveal" style="margin-top:20px">
+    🔍 <b>قارني بنفسكِ:</b> افتحي أي علبة كولاجين في الصيدلية واقرأي الجرعة على الظهر. لو ما لقيتيها مكتوبة — هذا جوابكِ.
   </div>
 </div></section>
 
-<!-- COMPARISON -->
+<!-- ═══════════ PRICE ANCHOR — makes the price feel small ═══════════ -->
 <section class="section"><div class="wrap">
+  <div class="center">
+    <span class="eyebrow">💸 المقارنة الصادقة</span>
+    <h2 class="title">وش تكلفتكِ <span class="em">في اليوم؟</span></h2>
+    <div class="hairline"></div>
+    <p class="lead">مو السؤال "كم سعر العلبة" — السؤال "كم تدفعين يومياً مقابل بشرة أفضل".</p>
+  </div>
+
+  <div class="anchor reveal">
+    <div class="arow">
+      <div class="al"><span class="ae">💉</span><div class="at"><b>جلسة فيلر أو بوتوكس</b><span>نتيجة مؤقتة · تحتاج إعادة</span></div></div>
+      <div class="av">1,500+ ر.س</div>
+    </div>
+    <div class="arow">
+      <div class="al"><span class="ae">🏥</span><div class="at"><b>جلسة عناية في عيادة</b><span>تعمل على السطح فقط</span></div></div>
+      <div class="av">500 ر.س / جلسة</div>
+    </div>
+    <div class="arow">
+      <div class="al"><span class="ae">🧴</span><div class="at"><b>سيروم كولاجين موضعي</b><span>لا يخترق الطبقة العميقة</span></div></div>
+      <div class="av">300 ر.س</div>
+    </div>
+    <div class="arow">
+      <div class="al"><span class="ae">☕</span><div class="at"><b>قهوتكِ اليومية من الكافيه</b><span>كل يوم · بلا نتيجة</span></div></div>
+      <div class="av">18 ر.س / يوم</div>
+    </div>
+    <div class="arow us">
+      <div class="al"><span class="ae">💗</span><div class="at"><b>كولاجين جلو — بروتوكول 90 يوم</b><span>11,000 ملغم يومياً · من الداخل</span></div></div>
+      <div class="av">5.7 ر.س / يوم</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══════════ COMPARISON ═══════════ -->
+<section class="section paper"><div class="wrap">
   <div class="center"><span class="eyebrow">⚖️ المقارنة</span><h2 class="title">ليش <span class="em">كولاجين جلو</span>؟</h2><div class="hairline"></div></div>
   <table class="comp reveal">
     <tr><th></th><th class="ushead">كولاجين جلو</th><th>حبوب الكولاجين</th><th>الكريمات</th></tr>
-    <tr><td>يعمل من داخل الجسم</td><td class="us">✅</td><td class="us">✅</td><td class="them">❌ سطحي</td></tr>
-    <tr><td>طعم لذيذ وسهل</td><td class="us">✅ مشروب</td><td class="them">حبوب</td><td class="them">—</td></tr>
-    <tr><td>بشرة + شعر + أظافر</td><td class="us">✅ 3 في 1</td><td class="them">جزئي</td><td class="them">❌</td></tr>
-    <tr><td>يندمج بروتينكِ اليومي</td><td class="us">✅</td><td class="them">❌</td><td class="them">❌</td></tr>
+    <tr><td>الجرعة اليومية</td><td class="us">✅ 11,000 ملغم</td><td class="them">500 ملغم</td><td class="them">—</td></tr>
+    <tr><td>أنواع الكولاجين</td><td class="us">✅ 5 أنواع</td><td class="them">نوع واحد غالباً</td><td class="them">❌</td></tr>
+    <tr><td>يصل للطبقة العميقة</td><td class="us">✅</td><td class="us">✅</td><td class="them">❌ سطحي</td></tr>
+    <tr><td>سهل الالتزام يومياً</td><td class="us">✅ مع قهوتكِ</td><td class="them">حبوب تُنسى</td><td class="them">—</td></tr>
+    <tr><td>بشرة + شعر + أظافر + مفاصل</td><td class="us">✅ 5 في 1</td><td class="them">جزئي</td><td class="them">❌</td></tr>
+    <tr><td>الجرعة مكتوبة بوضوح</td><td class="us">✅</td><td class="them">نادراً</td><td class="them">❌</td></tr>
   </table>
 </div></section>
 
-<!-- CERTS -->
-<section class="section"><div class="wrap">
-  <div class="center"><span class="eyebrow">🛡️ الجودة والثقة</span><h2 class="title">منتج <span class="em">موثوق ومعتمد</span></h2><div class="hairline"></div></div>
-  <div class="certs">
-    <div class="cert reveal"><div class="ci">☪️</div><b>حلال</b><span>كولاجين بحري</span></div>
-    <div class="cert reveal"><div class="ci">🏭</div><b>GMP</b><span>تصنيع معتمد</span></div>
-    <div class="cert reveal"><div class="ci">🔬</div><b>مختبر</b><span>جودة مفحوصة</span></div>
-    <div class="cert reveal"><div class="ci">🚫</div><b>بدون سكر</b><span>تركيبة نظيفة</span></div>
-  </div>
-</div></section>
-
-<!-- TESTIMONIALS -->
-<section class="section"><div class="wrap">
-  <div class="center"><span class="eyebrow">💬 آراء العميلات</span><h2 class="title">انضمي لـ <span class="em">آلاف العميلات</span></h2><div class="hairline"></div></div>
-  <div class="revs">
-    <div class="rev reveal"><div class="stars">★★★★★</div><p>"صديقاتي بدأن يسألوني وش سوّيتي لبشرتكِ! صار روتيني الصباحي المفضّل."</p><div class="who"><span class="av">ل</span><div><b>لمياء — الرياض</b><span>عميلة موثّقة</span></div><span class="vbadge">✔ موثّق</span></div></div>
-    <div class="rev reveal"><div class="stars">★★★★★</div><p>"أظافري كانت تتكسّر دائماً، بعد شهر صارت أقوى وأطول. والطعم لذيذ مع الحليب."</p><div class="who"><span class="av">د</span><div><b>دانة — جدة</b><span>عميلة موثّقة</span></div><span class="vbadge">✔ موثّق</span></div></div>
-    <div class="rev reveal"><div class="stars">★★★★★</div><p>"بشرتي صارت أنضر وأنا بعمر 44! الناس يظنّوني أصغر. أنصح فيه كل بنت."</p><div class="who"><span class="av">ه</span><div><b>هنوف — الخبر</b><span>عميلة موثّقة</span></div><span class="vbadge">✔ موثّق</span></div></div>
-  </div>
-</div></section>
-
-<!-- OFFERS -->
-<section class="section" id="offers"><div class="wrap center">
-  <span class="eyebrow">🎁 اختاري عرضكِ</span>
-  <h2 class="title">عرض اليوم <span class="em">فقط</span></h2>
+<!-- ═══════════ HOW TO USE ═══════════ -->
+<section class="section"><div class="wrap center">
+  <span class="eyebrow">☕ طريقة الاستخدام</span>
+  <h2 class="title">3 ثواني… <span class="em">وخلصتِ</span></h2>
   <div class="hairline"></div>
-  <p class="lead">العلبة = 30 ساشيه (شهر كامل). كل ما طلبتِ أكثر، وفّرتِ أكثر.</p>
+
+  <!-- PHOTO SLOT 2 — usage / pouring shot -->
+  <div class="ph reveal" style="aspect-ratio:16/9;max-width:760px;margin:24px auto 0">
+    <img src="/assets/glow-use.png" alt="طريقة استخدام كولاجين جلو — يذوب في القهوة"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+    <div class="ph-empty" style="display:none">
+      <span class="pi">☕</span>
+      <span>صورة الاستخدام — سكب الساشيه في القهوة</span>
+      <span class="pn">/assets/glow-use.png</span>
+    </div>
+  </div>
+
+  <div class="steps" style="margin-top:26px">
+    <div class="step reveal"><h3>افتحي الساشيه</h3><p>مسحوق ناعم بلا لون ولا رائحة.</p></div>
+    <div class="step reveal d1"><h3>اسكبيه في مشروبكِ</h3><p>قهوة · حليب · ماء · عصير — بارد أو ساخن.</p></div>
+    <div class="step reveal d2"><h3>حرّكي واشربي</h3><p>يذوب فوراً بلا تكتّل ولا يغيّر الطعم إطلاقاً.</p></div>
+  </div>
+</div></section>
+
+<!-- ═══════════ TESTIMONIALS ═══════════ -->
+<section class="section tint"><div class="wrap">
+  <div class="center"><span class="eyebrow">💬 آراء العميلات</span><h2 class="title">انضمي لـ <span class="em">9,000+ عميلة</span></h2><div class="hairline"></div></div>
+
+  <div class="revs">
+    <div class="rev reveal">
+      <!-- PHOTO SLOT 3 — customer photo/result -->
+      <div class="ph rev-ph">
+        <img src="/assets/glow-rev1.png" alt="نتيجة عميلة — كولاجين جلو"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+        <div class="ph-empty" style="display:none"><span class="pi">📸</span><span>صورة عميلة 1</span><span class="pn">/assets/glow-rev1.png</span></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <p>"كنت أشرب كولاجين حبوب سنة كاملة بلا فرق. لما شفت إن الساشيه فيه 11,000 ملغم وحبوبي 500 بس — فهمت المشكلة. الشهر الثالث كان الفرق."</p>
+      <div class="who"><span class="av">ل</span><div><b>لمياء — الرياض</b><span>أكملت 90 يوم</span></div><span class="vbadge">✔ موثّق</span></div>
+    </div>
+
+    <div class="rev reveal d1">
+      <div class="ph rev-ph">
+        <img src="/assets/glow-rev2.png" alt="نتيجة عميلة — كولاجين جلو"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+        <div class="ph-empty" style="display:none"><span class="pi">📸</span><span>صورة عميلة 2</span><span class="pn">/assets/glow-rev2.png</span></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <p>"أظافري كانت تتكسّر كل أسبوع. بعد شهرين صارت تطول لأول مرة في حياتي. والطعم؟ ما تحسّينه أبداً في القهوة — هذا اللي خلاني ألتزم."</p>
+      <div class="who"><span class="av">د</span><div><b>دانة — جدة</b><span>الشهر الثاني</span></div><span class="vbadge">✔ موثّق</span></div>
+    </div>
+
+    <div class="rev reveal d2">
+      <div class="ph rev-ph">
+        <img src="/assets/glow-rev3.png" alt="نتيجة عميلة — كولاجين جلو"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+        <div class="ph-empty" style="display:none"><span class="pi">📸</span><span>صورة عميلة 3</span><span class="pn">/assets/glow-rev3.png</span></div>
+      </div>
+      <div class="stars">★★★★★</div>
+      <p>"عمري 44. أخذت الـ 3 علب من البداية لأني قريت إن الدورة 90 يوم. أفضل قرار — بنتي سألتني وش سويتي في وجهك."</p>
+      <div class="who"><span class="av">ه</span><div><b>هنوف — الخبر</b><span>أكملت البروتوكول</span></div><span class="vbadge">✔ موثّق</span></div>
+    </div>
+  </div>
+
+  <!-- WhatsApp-style proof — highest-trust format in KSA -->
+  <div class="revs" style="margin-top:20px">
+    <div class="wa reveal">
+      <div class="wa-h"><span class="dot"></span> رسالة من عميلة</div>
+      <div class="wa-b">والله ما توقعت 😍 الشهر الثالث بشرتي صارت شكل ثاني، حتى المكياج صار يمشي أحلى</div>
+      <span class="wa-t">10:42 ✓✓</span>
+    </div>
+    <div class="wa reveal d1">
+      <div class="wa-h"><span class="dot"></span> رسالة من عميلة</div>
+      <div class="wa-b">أبي أطلب 3 علب مرة ثانية 🙏 خلصت وما أبي أوقف</div>
+      <span class="wa-t">21:07 ✓✓</span>
+    </div>
+    <div class="wa reveal d2">
+      <div class="wa-h"><span class="dot"></span> رسالة من عميلة</div>
+      <div class="wa-b">شعري كان يتساقط بشكل مخيف، الحين وقف تقريباً. شكراً من قلبي ❤️</div>
+      <span class="wa-t">14:23 ✓✓</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══════════ OFFERS ═══════════ -->
+<section class="section" id="offers"><div class="wrap center">
+  <span class="eyebrow">🎁 اختاري بروتوكولكِ</span>
+  <h2 class="title">العلبة = <span class="em">30 ساشيه · شهر كامل</span></h2>
+  <div class="hairline"></div>
+  <p class="lead">تذكّري: دورة تجديد البشرة <b>90 يوماً</b>. البروتوكول الكامل هو 3 علب — وهو الأرخص لليوم الواحد.</p>
+
   <div class="timer">
     <div class="seg"><b id="th">00</b><span>ساعة</span></div>
     <div class="seg"><b id="tm">14</b><span>دقيقة</span></div>
     <div class="seg"><b id="ts">59</b><span>ثانية</span></div>
   </div>
+
   <div class="offers">
-    <div class="offer" data-offer="1" data-qty="1" data-price="199" data-label="علبة واحدة" data-sub="30 ساشيه — شهر">
-      <div class="qty">علبة واحدة</div><div class="unit">30 ساشيه — شهر كامل</div>
-      <div class="price">199<small> ر.س</small></div><div class="was">269 ر.س</div><div class="perunit">للتجربة الأولى</div>
+    <div class="offer" data-offer="1" data-qty="1" data-price="249" data-label="علبة واحدة" data-sub="30 ساشيه — شهر تجربة">
+      <div class="qty">علبة واحدة</div><div class="unit">30 ساشيه — شهر</div>
+      <div class="price">249<small> ر.س</small></div><div class="was">349 ر.س</div>
+      <div class="perunit">للتجربة — ترطيب فقط</div>
+      <span class="daily">8.3 ر.س / يوم</span>
       <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
     </div>
-    <div class="offer" data-default data-offer="2" data-qty="2" data-price="349" data-label="علبتان" data-sub="الأكثر طلباً — شهرين">
-      <span class="pop">🔥 الأكثر طلباً</span><span class="save">وفّري 189</span>
+
+    <div class="offer" data-offer="2" data-qty="2" data-price="399" data-label="علبتان" data-sub="60 ساشيه — شهرين">
+      <span class="pop">🔥 الأكثر طلباً</span><span class="save">وفّري 299</span>
       <div class="qty">علبتان</div><div class="unit">60 ساشيه — شهرين</div>
-      <div class="price">349<small> ر.س</small></div><div class="was">538 ر.س</div><div class="perunit">174 ر.س للعلبة</div>
+      <div class="price">399<small> ر.س</small></div><div class="was">698 ر.س</div>
+      <div class="perunit">199 ر.س للعلبة</div>
+      <span class="daily">6.6 ر.س / يوم</span>
       <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
     </div>
-    <div class="offer" data-offer="3" data-qty="3" data-price="449" data-label="3 علب" data-sub="الأفضل + علبة مجانية">
-      <span class="pop">🎁 الأفضل قيمة</span><span class="save">وفّري 358</span>
-      <div class="qty">3 علب</div><div class="unit">90 ساشيه — علبة مجاناً</div>
-      <div class="price">449<small> ر.س</small></div><div class="was">807 ر.س</div><div class="perunit">149 ر.س للعلبة</div>
+
+    <div class="offer" data-default data-offer="3" data-qty="3" data-price="519" data-label="3 علب — البروتوكول الكامل" data-sub="90 ساشيه — الدورة الكاملة">
+      <span class="pop">👑 البروتوكول الكامل</span><span class="save">وفّري 528</span>
+      <div class="qty">3 علب</div><div class="unit">90 ساشيه — 90 يوم</div>
+      <div class="price">519<small> ر.س</small></div><div class="was">1,047 ر.س</div>
+      <div class="perunit">173 ر.س للعلبة</div>
+      <span class="daily">⭐ 5.7 ر.س / يوم — الأوفر</span>
       <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
     </div>
   </div>
-  <div class="cod-row"><span>💵 <b>الدفع عند الاستلام</b></span><span>🚚 توصيل مجاني</span><span>🔄 ضمان استرجاع</span><span>🔒 طلب آمن</span></div>
+
+  <div class="cod-row"><span>💵 <b>الدفع عند الاستلام</b></span><span>🚚 توصيل مجاني</span><span>🔄 ضمان 60 يوم</span><span>🔒 طلب آمن</span></div>
+
+  <!-- Believable urgency: shipping cutoff, not a fake resetting timer -->
+  <div class="cutoff reveal">
+    <span class="lv"><i></i> <b id="liveCount">23</b> عميلة تتصفّح هالصفحة الآن</span>
+    <span>·</span>
+    <span>📦 الطلبات قبل <b>5:00 م</b> تُشحن اليوم</span>
+  </div>
+
   <div class="scarcity reveal">
-    <div class="top"><span>⚡ دفعة محدودة</span><span>متبقّي <b id="stockN">17</b> علبة</span></div>
+    <div class="top"><span>⚡ دفعة يوليو — كمية محدودة</span><span>متبقّي <b id="stockN">17</b> علبة</span></div>
     <div class="bar"><div class="fill" id="stockFill" style="width:56%"></div></div>
   </div>
 </div></section>
 
-<!-- GUARANTEE -->
-<section class="section"><div class="wrap"><div class="guarantee reveal">
+<!-- ═══════════ GUARANTEE ═══════════ -->
+<section class="section paper"><div class="wrap"><div class="guarantee reveal">
   <div class="seal">🛡️</div>
-  <div><h3>ضمان النتيجة أو استرجاع أموالكِ</h3><p>استخدميه شهراً كاملاً، وإذا ما لاحظتِ فرقاً تواصلي معنا ونرجّع لكِ المبلغ. بلا مخاطرة.</p></div>
+  <div>
+    <h3>ضمان 60 يوم — أو نرجّع فلوسكِ</h3>
+    <p>استخدميه 60 يوماً كاملة. إذا ما لاحظتِ فرقاً حقيقياً، تواصلي معنا ونرجّع لكِ المبلغ — بدون أسئلة، وبدون ترجيع العلبة. <b>المخاطرة علينا، مو عليكِ.</b></p>
+  </div>
 </div></div></section>
 
-<!-- FAQ -->
-<section class="section"><div class="wrap">
+<!-- ═══════════ FOUNDER ═══════════ -->
+<section class="section"><div class="wrap"><div class="founder reveal">
+  <!-- PHOTO SLOT 4 — founder -->
+  <div class="ph fph">
+    <img src="/assets/glow-founder.png" alt="مؤسِّسة Cosmarab"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+    <div class="ph-empty" style="display:none"><span class="pi">👩</span><span class="pn">/assets/glow-founder.png</span></div>
+  </div>
+  <div>
+    <p class="fq">"بدأت أبحث عن كولاجين بجرعة حقيقية بعد ما جربت 4 منتجات ما نفعت. اكتشفت إن المشكلة مو في الكولاجين — المشكلة في الجرعة. كل المنتجات كانت تعطي جرعة رمزية عشان يقولون 'يحتوي على كولاجين'. صنعنا جلو بالجرعة اللي تستخدمها الدراسات فعلاً. وكتبناها على العلبة — لأننا نقدر."</p>
+    <div class="fn">فريق Cosmarab<span>الرياض · السعودية</span></div>
+  </div>
+</div></div></section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="section tint"><div class="wrap">
   <div class="center"><span class="eyebrow">❓ أسئلة شائعة</span><h2 class="title">كل ما يهمّكِ <span class="em">معرفته</span></h2><div class="hairline"></div></div>
   <div class="faq">
-    <details class="qa reveal"><summary>هل طعمه يغيّر طعم القهوة؟ <span class="chev">⌄</span></summary><div class="ans">لا، يذوب تماماً بدون تكتّل ونكهته خفيفة ولذيذة تتناسب مع القهوة والحليب والعصير.</div></details>
-    <details class="qa reveal"><summary>متى أشوف النتيجة؟ <span class="chev">⌄</span></summary><div class="ans">الترطيب والطاقة من الأسبوع الأول، والبشرة والشعر والأظافر خلال 3-8 أسابيع مع الاستمرار.</div></details>
-    <details class="qa reveal"><summary>هل هو حلال؟ <span class="chev">⌄</span></summary><div class="ans">نعم 100%. الكولاجين بحري المصدر (من الأسماك) ومعتمد حلال.</div></details>
-    <details class="qa reveal"><summary>كيف أدفع؟ <span class="chev">⌄</span></summary><div class="ans">الدفع عند الاستلام نقداً للمندوب. التوصيل مجاني لكل مدن السعودية.</div></details>
+    <details class="qa reveal" open><summary>ليش سعره أغلى من اللي في الصيدلية؟ <span class="chev">⌄</span></summary><div class="ans">لأن الجرعة أعلى بـ 22 ضعفاً. علبة الصيدلية تعطيكِ 500 ملغم — جلو يعطيكِ 11,000 ملغم. لو حسبتِ تكلفة الملغم الواحد، جلو <b>أرخص</b>. الفرق إننا نكتب الجرعة، وهم يخفونها.</div></details>
+    <details class="qa reveal"><summary>هل طعمه يغيّر طعم القهوة؟ <span class="chev">⌄</span></summary><div class="ans">أبداً. المسحوق بلا نكهة وبلا رائحة (Unflavored) ويذوب تماماً بدون تكتّل — في القهوة، الحليب، الماء، أو العصير، بارد أو ساخن.</div></details>
+    <details class="qa reveal"><summary>متى أشوف النتيجة بالضبط؟ <span class="chev">⌄</span></summary><div class="ans">الترطيب من الأسبوع 2-3. الأظافر والشعر من الأسبوع 6-8. أما مرونة البشرة والامتلاء فتحتاج <b>دورة كاملة 90 يوم</b> — لأن هذي مدة تجديد خلايا البشرة. لهذا نوصي بالبروتوكول الكامل.</div></details>
+    <details class="qa reveal"><summary>هل هو حلال؟ <span class="chev">⌄</span></summary><div class="ans">نعم 100%. الكولاجين بحري المصدر (من الأسماك) ومعتمد حلال، ومُصنّع في منشأة معتمدة GMP.</div></details>
+    <details class="qa reveal"><summary>هل يسبب زيادة وزن أو انتفاخ؟ <span class="chev">⌄</span></summary><div class="ans">لا. جلو بروتين نقي — بلا سكر، بلا كربوهيدرات، بلا ألوان أو نكهات صناعية. والببتيدات المُحلّلة سهلة الهضم ولا تسبب انتفاخ.</div></details>
+    <details class="qa reveal"><summary>كيف أدفع؟ <span class="chev">⌄</span></summary><div class="ans">الدفع عند الاستلام نقداً للمندوب — ما في دفع مسبق إطلاقاً. التوصيل مجاني لكل مدن السعودية خلال 2-4 أيام.</div></details>
   </div>
 </div></section>
 
-<!-- FOOTER -->
+<!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer"><div class="wrap">
   <a href="/" class="logo"><div class="logo-mark">C</div><div><span class="lt">COSMARAB</span><span class="ls">BEAUTY & WELLNESS</span></div></a>
   <div class="pay">💵 الدفع عند الاستلام · 🚚 توصيل مجاني · 🔒 طلب آمن</div>
@@ -259,22 +578,25 @@
 
 <!-- STICKY -->
 <div class="sticky" id="stickyCta">
-  <div class="info"><b>كولاجين جلو — قهوة الجمال</b><span>ابتداءً من 199 ر.س · الدفع عند الاستلام</span></div>
+  <div class="info"><b>كولاجين جلو — 11,000 ملغم</b><span>من 5.7 ر.س / يوم · الدفع عند الاستلام</span></div>
   <button class="btn" data-open-order>اطلبي الآن</button>
 </div>
 
 <!-- TOASTS -->
 <div class="toast-wrap" id="toastWrap"></div>
 
-<!-- MODAL -->
+<!-- ═══════════ MODAL ═══════════ -->
 <div class="modal" id="modal" aria-hidden="true"><div class="sheet">
   <div class="sheet-head"><span class="step-txt" id="stepTxt">الخطوة 2 من 2</span><button class="x" data-close>×</button></div>
   <div class="dots"><i id="dot1" class="on"></i><i id="dot2"></i></div>
+
   <div class="panel active" id="panel2">
-    <div class="sel-card"><div class="badge">☕</div><div><div class="nm" id="selName">علبتان</div><div class="sub" id="selSub">الأكثر طلباً</div></div><div class="pr" id="selPrice">349 ر.س</div></div>
+    <div class="sel-card"><div class="badge">💗</div><div><div class="nm" id="selName">3 علب</div><div class="sub" id="selSub">البروتوكول الكامل</div></div><div class="pr" id="selPrice">519 ر.س</div></div>
+
     <div class="upsell-title">🎁 أضيفي لطلبكِ بسعر خاص</div>
-    <div class="upsell" data-key="gut"><div class="ue">🫧</div><div class="ut"><b>جَت جلو — بروبيوتيك</b><span>وداعاً للانتفاخ، إشراقة من الداخل</span></div><div class="uprice">139 ر.س<s>179</s></div><div class="ubox"></div></div>
+    <div class="upsell" data-key="gut"><div class="ue">🫧</div><div class="ut"><b>جَت جلو — بروبيوتيك</b><span>أمعاء صحية = امتصاص أفضل للكولاجين</span></div><div class="uprice">139 ر.س<s>179</s></div><div class="ubox"></div></div>
     <div class="upsell" data-key="feet"><div class="ue">👣</div><div class="ut"><b>سيلكي فيت — تقشير القدمين</b><span>أقدام ناعمة كالأطفال خلال أيام</span></div><div class="uprice">99 ر.س<s>149</s></div><div class="ubox"></div></div>
+
     <form id="orderForm" novalidate>
       <div class="field" id="f-name"><label>الاسم الكامل</label><input id="name" type="text" placeholder="مثال: لمياء القحطاني" autocomplete="name" /></div>
       <div class="field" id="f-phone"><label>رقم الجوال</label><input id="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" autocomplete="tel" /><div class="hint">نتواصل معكِ لتأكيد الطلب فقط</div></div>
@@ -285,6 +607,7 @@
       <p class="hint center" style="margin-top:10px">🔒 بياناتكِ آمنة · 💵 الدفع عند الاستلام · ما في دفع مسبق</p>
     </form>
   </div>
+
   <div class="panel" id="panel3"><div class="ty">
     <div class="big">🎉</div><h3>تم استلام طلبكِ!</h3><p>سنتواصل معكِ خلال دقائق لتأكيد الطلب.</p>
     <div class="oid" id="orderId">#CSM-0000</div><div id="tySummary"></div>
@@ -297,15 +620,15 @@
   </div></div>
 </div></div>
 
-<!-- CONFIG + ENGINE -->
+<!-- ═══════════ CONFIG + ENGINE ═══════════ -->
 <script>
 window.PRODUCT={
   sku:'CSM-GLOW', name:'Cosmarab Collagen Glow', page:'ksa-glow',
   currency:'SAR', pixelId:'bb229a11-695c-4629-a21b-e424a8b1e391',
   quiz:{results:[
-    {match:'✅ العرض الأساسي مناسب لكِ',title:'علبة واحدة — شهر تجربة',desc:'ابدئي بـ<span class="em">علبة واحدة</span> (30 ساشيه) وشوفي الفرق على بشرتكِ خلال شهر.',tags:['تجربة شهر','بداية مثالية','سعر مناسب']},
-    {match:'✅ العرض الثنائي هو الأنسب',title:'علبتان — شهرين للنتيجة',desc:'الكولاجين يحتاج <span class="em">انتظام شهرين</span> لأفضل نتيجة — <span class="em">علبتان</span> الخيار الأذكى.',tags:['الأكثر طلباً','نتيجة أوضح','توفير أكبر']},
-    {match:'✅ العرض الثلاثي الأفضل لكِ',title:'3 علب + علبة مجانية',desc:'للنتيجة الكاملة والمتواصلة — <span class="em">3 علب</span> (مع علبة مجاناً) أفضل قيمة وأطول مفعول.',tags:['أفضل قيمة 🎁','علبة مجاناً','نتيجة كاملة']}
+    {match:'✅ ابدئي بعلبة واحدة',title:'علبة واحدة — شهر تجربة',desc:'ابدئي بـ<span class="em">علبة واحدة</span> وشوفي الترطيب. بس تذكّري — <span class="em">التحوّل الحقيقي يبدأ من الشهر الثالث</span>.',tags:['تجربة شهر','ترطيب فقط','8.3 ر.س/يوم']},
+    {match:'✅ العلبتان هي حدّكِ الأدنى',title:'علبتان — شهرين',desc:'مع عمركِ وحالة بشرتكِ، <span class="em">شهرين</span> هو الحد الأدنى لتشوفين إشراقة واضحة وأظافر أقوى.',tags:['الأكثر طلباً','إشراقة واضحة','6.6 ر.س/يوم']},
+    {match:'👑 تحتاجين البروتوكول الكامل',title:'3 علب — دورة الـ 90 يوم',desc:'إجاباتكِ تشير إن هدفكِ <span class="em">تحوّل حقيقي</span>، مو تجربة. وهذا يحتاج <span class="em">دورة تجديد كاملة — 90 يوماً</span>. وهو الأوفر لليوم الواحد.',tags:['البروتوكول الكامل 👑','نتيجة كاملة','5.7 ر.س/يوم — الأوفر']}
   ]},
   upsells:[
     {key:'gut', sku:'CSM-GUT', name:'جَت جلو — بروبيوتيك',price:139,was:179},
@@ -313,7 +636,7 @@ window.PRODUCT={
   ],
   toasts:[
     {n:'لمياء',c:'الرياض',i:'ل',o:'3 علب'},{n:'دانة',c:'جدة',i:'د',o:'علبتان'},
-    {n:'هنوف',c:'الخبر',i:'ه',o:'علبة'},{n:'ريما',c:'مكة',i:'ر',o:'علبتان'},
+    {n:'هنوف',c:'الخبر',i:'ه',o:'3 علب'},{n:'ريما',c:'مكة',i:'ر',o:'علبتان'},
     {n:'العنود',c:'الدمام',i:'ا',o:'3 علب'},{n:'شهد',c:'الطائف',i:'ش',o:'علبتان'},
     {n:'وفاء',c:'المدينة',i:'و',o:'علبة'},{n:'جود',c:'أبها',i:'ج',o:'3 علب'}
   ]
