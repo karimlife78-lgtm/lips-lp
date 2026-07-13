@@ -42,9 +42,22 @@ function getSrc(){
   }catch(e){return 'direct';}
 }
 
-/* ── smooth scroll triggers ── */
+/* ── smooth scroll triggers ──
+   Scrolling to #offers targets the currently-selected offer card (set by
+   the quiz or the default pick) instead of the section top, so a shopper
+   who just answered the quiz lands exactly on her recommended offer. */
 document.querySelectorAll('[data-scroll]').forEach(function(b){
-  b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});
+  b.addEventListener('click',function(){
+    var sel=b.getAttribute('data-scroll');
+    var t=document.querySelector(sel);
+    if(!t)return;
+    if(sel==='#offers'){
+      var chosen=t.querySelector('.offer.selected')||t;
+      chosen.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
 });
 
 /* ── countdown timer ── */
