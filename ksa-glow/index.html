@@ -146,7 +146,7 @@
     <div class="hairline"></div>
     <p class="sub">ببتيدات كولاجين مُحلّلة (Hydrolyzed) من الأنواع I · II · III · V · X — تذوب فوراً في قهوتكِ بلا تكتّل ولا طعم، وتصل لجسمكِ جاهزة للامتصاص.</p>
 
-    <button class="btn lg btn-pulse" data-open-order><span class="shine"></span>اطلبي الآن — الدفع عند الاستلام 💵</button>
+    <button class="btn lg btn-pulse" data-scroll="#offers"><span class="shine"></span>اطلبي الآن — الدفع عند الاستلام 💵</button>
 
     <div class="trust-row"><span>☪️ <b>حلال</b></span><span>🚫 <b>بلا سكر</b></span><span>🚚 <b>توصيل مجاني</b></span><span>🔄 <b>ضمان 60 يوم</b></span></div>
 
@@ -227,6 +227,62 @@
   <span>🚚 <b>توصيل مجاني</b> لكل السعودية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>✨ 11,000 ملغم يومياً</span><span>🔄 ضمان 60 يوم</span>
   <span>🚚 <b>توصيل مجاني</b> لكل السعودية</span><span>💵 <b>الدفع عند الاستلام</b></span><span>✨ 11,000 ملغم يومياً</span><span>🔄 ضمان 60 يوم</span>
 </div></div>
+
+<!-- ═══════════ OFFERS ═══════════ -->
+<section class="section" id="offers"><div class="wrap center">
+  <span class="eyebrow">🎁 اختاري بروتوكولكِ</span>
+  <h2 class="title">العلبة = <span class="em">30 ساشيه · شهر كامل</span></h2>
+  <div class="hairline"></div>
+  <p class="lead">تذكّري: دورة تجديد البشرة <b>90 يوماً</b>. البروتوكول الكامل هو 3 علب — وهو الأرخص لليوم الواحد.</p>
+
+  <div class="timer">
+    <div class="seg"><b id="th">00</b><span>ساعة</span></div>
+    <div class="seg"><b id="tm">14</b><span>دقيقة</span></div>
+    <div class="seg"><b id="ts">59</b><span>ثانية</span></div>
+  </div>
+
+  <div class="offers">
+    <div class="offer" data-offer="1" data-qty="1" data-price="249" data-label="علبة واحدة" data-sub="30 ساشيه — شهر تجربة">
+      <div class="qty">علبة واحدة</div><div class="unit">30 ساشيه — شهر</div>
+      <div class="price">249<small> ر.س</small></div><div class="was">349 ر.س</div>
+      <div class="perunit">للتجربة — ترطيب فقط</div>
+      <span class="daily">8.3 ر.س / يوم</span>
+      <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
+    </div>
+
+    <div class="offer" data-offer="2" data-qty="2" data-price="399" data-label="علبتان" data-sub="60 ساشيه — شهرين">
+      <span class="pop">🔥 الأكثر طلباً</span><span class="save">وفّري 299</span>
+      <div class="qty">علبتان</div><div class="unit">60 ساشيه — شهرين</div>
+      <div class="price">399<small> ر.س</small></div><div class="was">698 ر.س</div>
+      <div class="perunit">199 ر.س للعلبة</div>
+      <span class="daily">6.6 ر.س / يوم</span>
+      <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
+    </div>
+
+    <div class="offer" data-default data-offer="3" data-qty="3" data-price="519" data-label="3 علب — البروتوكول الكامل" data-sub="90 ساشيه — الدورة الكاملة">
+      <span class="pop">👑 البروتوكول الكامل</span><span class="save">وفّري 528</span>
+      <div class="qty">3 علب</div><div class="unit">90 ساشيه — 90 يوم</div>
+      <div class="price">519<small> ر.س</small></div><div class="was">1,047 ر.س</div>
+      <div class="perunit">173 ر.س للعلبة</div>
+      <span class="daily">⭐ 5.7 ر.س / يوم — الأوفر</span>
+      <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
+    </div>
+  </div>
+
+  <div class="cod-row"><span>💵 <b>الدفع عند الاستلام</b></span><span>🚚 توصيل مجاني</span><span>🔄 ضمان 60 يوم</span><span>🔒 طلب آمن</span></div>
+
+  <!-- Believable urgency: shipping cutoff, not a fake resetting timer -->
+  <div class="cutoff reveal">
+    <span class="lv"><i></i> <b id="liveCount">23</b> عميلة تتصفّح هالصفحة الآن</span>
+    <span>·</span>
+    <span>📦 الطلبات قبل <b>5:00 م</b> تُشحن اليوم</span>
+  </div>
+
+  <div class="scarcity reveal">
+    <div class="top"><span>⚡ دفعة يوليو — كمية محدودة</span><span>متبقّي <b id="stockN">17</b> علبة</span></div>
+    <div class="bar"><div class="fill" id="stockFill" style="width:56%"></div></div>
+  </div>
+</div></section>
 
 <!-- ═══════════ PAIN ═══════════ -->
 <section class="section"><div class="wrap center">
@@ -477,62 +533,6 @@
   </div>
 </div></section>
 
-<!-- ═══════════ OFFERS ═══════════ -->
-<section class="section" id="offers"><div class="wrap center">
-  <span class="eyebrow">🎁 اختاري بروتوكولكِ</span>
-  <h2 class="title">العلبة = <span class="em">30 ساشيه · شهر كامل</span></h2>
-  <div class="hairline"></div>
-  <p class="lead">تذكّري: دورة تجديد البشرة <b>90 يوماً</b>. البروتوكول الكامل هو 3 علب — وهو الأرخص لليوم الواحد.</p>
-
-  <div class="timer">
-    <div class="seg"><b id="th">00</b><span>ساعة</span></div>
-    <div class="seg"><b id="tm">14</b><span>دقيقة</span></div>
-    <div class="seg"><b id="ts">59</b><span>ثانية</span></div>
-  </div>
-
-  <div class="offers">
-    <div class="offer" data-offer="1" data-qty="1" data-price="249" data-label="علبة واحدة" data-sub="30 ساشيه — شهر تجربة">
-      <div class="qty">علبة واحدة</div><div class="unit">30 ساشيه — شهر</div>
-      <div class="price">249<small> ر.س</small></div><div class="was">349 ر.س</div>
-      <div class="perunit">للتجربة — ترطيب فقط</div>
-      <span class="daily">8.3 ر.س / يوم</span>
-      <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
-    </div>
-
-    <div class="offer" data-offer="2" data-qty="2" data-price="399" data-label="علبتان" data-sub="60 ساشيه — شهرين">
-      <span class="pop">🔥 الأكثر طلباً</span><span class="save">وفّري 299</span>
-      <div class="qty">علبتان</div><div class="unit">60 ساشيه — شهرين</div>
-      <div class="price">399<small> ر.س</small></div><div class="was">698 ر.س</div>
-      <div class="perunit">199 ر.س للعلبة</div>
-      <span class="daily">6.6 ر.س / يوم</span>
-      <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
-    </div>
-
-    <div class="offer" data-default data-offer="3" data-qty="3" data-price="519" data-label="3 علب — البروتوكول الكامل" data-sub="90 ساشيه — الدورة الكاملة">
-      <span class="pop">👑 البروتوكول الكامل</span><span class="save">وفّري 528</span>
-      <div class="qty">3 علب</div><div class="unit">90 ساشيه — 90 يوم</div>
-      <div class="price">519<small> ر.س</small></div><div class="was">1,047 ر.س</div>
-      <div class="perunit">173 ر.س للعلبة</div>
-      <span class="daily">⭐ 5.7 ر.س / يوم — الأوفر</span>
-      <div class="check">○</div><button class="btn offer-cta">اطلبي الآن</button>
-    </div>
-  </div>
-
-  <div class="cod-row"><span>💵 <b>الدفع عند الاستلام</b></span><span>🚚 توصيل مجاني</span><span>🔄 ضمان 60 يوم</span><span>🔒 طلب آمن</span></div>
-
-  <!-- Believable urgency: shipping cutoff, not a fake resetting timer -->
-  <div class="cutoff reveal">
-    <span class="lv"><i></i> <b id="liveCount">23</b> عميلة تتصفّح هالصفحة الآن</span>
-    <span>·</span>
-    <span>📦 الطلبات قبل <b>5:00 م</b> تُشحن اليوم</span>
-  </div>
-
-  <div class="scarcity reveal">
-    <div class="top"><span>⚡ دفعة يوليو — كمية محدودة</span><span>متبقّي <b id="stockN">17</b> علبة</span></div>
-    <div class="bar"><div class="fill" id="stockFill" style="width:56%"></div></div>
-  </div>
-</div></section>
-
 <!-- ═══════════ GUARANTEE ═══════════ -->
 <section class="section paper"><div class="wrap"><div class="guarantee reveal">
   <div class="seal">🛡️</div>
@@ -569,6 +569,16 @@
   </div>
 </div></section>
 
+<!-- ═══════════ FINAL CTA — for readers who scrolled all the way ═══════════ -->
+<section class="section paper"><div class="wrap center">
+  <span class="eyebrow">💗 جاهزة تبدئين؟</span>
+  <h2 class="title">دورة الـ <span class="em">90 يوم</span> تبدأ اليوم</h2>
+  <div class="hairline"></div>
+  <p class="lead">11,000 ملغم يومياً · 5 أنواع كولاجين · من 5.7 ر.س في اليوم — والدفع عند الاستلام.</p>
+  <button class="btn lg btn-pulse" data-scroll="#offers" style="margin-top:18px"><span class="shine"></span>اختاري عرضكِ الآن ↑</button>
+  <div class="cod-row" style="margin-top:16px"><span>💵 <b>الدفع عند الاستلام</b></span><span>🚚 توصيل مجاني</span><span>🔄 ضمان 60 يوم</span></div>
+</div></section>
+
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer"><div class="wrap">
   <a href="/" class="logo"><div class="logo-mark">C</div><div><span class="lt">COSMARAB</span><span class="ls">BEAUTY & WELLNESS</span></div></a>
@@ -579,7 +589,7 @@
 <!-- STICKY -->
 <div class="sticky" id="stickyCta">
   <div class="info"><b>كولاجين جلو — 11,000 ملغم</b><span>من 5.7 ر.س / يوم · الدفع عند الاستلام</span></div>
-  <button class="btn" data-open-order>اطلبي الآن</button>
+  <button class="btn" data-scroll="#offers">اطلبي الآن</button>
 </div>
 
 <!-- TOASTS -->
