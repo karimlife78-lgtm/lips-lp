@@ -289,6 +289,10 @@ h1,h2,h3,h4{color:var(--plum)}
 /* review photo slot */
 .rev-ph{aspect-ratio:1/1;border-radius:16px;margin-bottom:14px}
 
+/* 2-up testimonial photos (scoped so the 3-up WhatsApp proof row below stays untouched) */
+.revs.revs-2{grid-template-columns:repeat(2,1fr);max-width:640px;margin-inline:auto}
+@media(max-width:640px){.revs.revs-2{grid-template-columns:1fr}}
+
 /* WhatsApp-style proof card */
 .wa{
   background:#E6F0E4;border:1px solid #CBE0C8;border-radius:20px;padding:18px;
@@ -305,6 +309,8 @@ h1,h2,h3,h4{color:var(--plum)}
 /* ── OFFERS ─────────────────────────────────────────────────── */
 .offers{margin-top:26px}
 .offer{background:var(--paper);border:1.5px solid var(--line-l)}
+.offer-pics{display:flex;justify-content:center;align-items:flex-end;gap:6px;margin-bottom:10px}
+.offer-pics img{width:54px;height:54px;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(61,11,38,.18))}
 .offer .qty{color:var(--plum)}
 .offer .unit{color:var(--plum2)}
 .offer .price{color:var(--plum)}
@@ -361,6 +367,15 @@ h1,h2,h3,h4{color:var(--plum)}
 }
 @media(max-width:640px){.founder{grid-template-columns:1fr;text-align:center}}
 .founder .fph{aspect-ratio:1/1;border-radius:50%}
+.founder .fph-logo{
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--brand),var(--brand2));
+  box-shadow:0 14px 30px -12px rgba(214,21,107,.5);
+}
+.founder .fph-logo .logo-mark{
+  width:auto;height:auto;background:transparent;box-shadow:none;
+  font-size:52px;color:#fff;
+}
 .founder .fq{font-size:1.04rem;line-height:1.85;color:var(--plum);font-weight:600}
 .founder .fn{margin-top:12px;font-family:var(--fh);font-weight:900;color:var(--brand2)}
 .founder .fn span{display:block;font-size:.8rem;font-weight:700;color:var(--plum2)}
