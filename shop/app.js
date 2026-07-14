@@ -19,9 +19,10 @@ var CUR = P.currency || 'SAR', CURT = 'ر.س';
 var yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
 
 /* ── multi-pixel tracking ── */
+var TT_EV={'PURCHASE':'CompletePayment','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart'};
 function track(ev,data){
   try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}
-  try{if(window.ttq)ttq.track(ev,data||{});}catch(e){}
+  try{if(window.ttq)ttq.track(TT_EV[ev]||ev,data||{});}catch(e){}
   try{if(window.fbq)fbq('track',ev,data||{});}catch(e){}
 }
 
@@ -293,6 +294,7 @@ if(form)form.addEventListener('submit',function(e){
     var ts=document.getElementById('tySummary');if(ts)ts.innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
     showPanel(3);
     try{if(P.pixelId)snaptr('init',P.pixelId,{'user_phone_number':order.phone});}catch(e){}
+    try{if(window.ttq){var ttPhone='+966'+order.phone.replace(/^0/,'');ttq.identify({'phone_number':ttPhone});}}catch(e){}
     track('PURCHASE',{value:order.total,currency:CUR,num_items:order.qty,transaction_id:txId});
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
