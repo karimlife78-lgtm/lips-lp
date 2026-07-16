@@ -42,8 +42,14 @@ module.exports = async function handler(req, res) {
 
     const rows = [];
 
+    // Surface upsells on the main order row too (not just their own row below) so
+    // they're visible at a glance without scrolling to the next line in the sheet.
+    const upsellNote = Array.isArray(upsells) && upsells.length
+      ? 'Upsell: ' + upsells.map(function(u) { return (u.name || u.sku) + ' x' + (u.qty || 1); }).join(', ')
+      : '';
+
     // Columns: OrderDate | country | name | phone | address | url | sku | Product | quantity | price | currency | notes
-    rows.push([iso, countryLabel, name, phone, city, url, prod.sku, prod.name, qty, total, curr, '']);
+    rows.push([iso, countryLabel, name, phone, city, url, prod.sku, prod.name, qty, total, curr, upsellNote]);
 
     // Upsell rows — no price column, note links them to the main order.
     // Prefer an explicit sku/name from the page (cross-sell products), fall back to legacy map.
@@ -58,17 +64,20 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // 4. Forward rows to Google Sheet via Apps Script web app
-    // ksa-calm → its own separate sheet (GOOGLE_SCRIPT_URL_CALM)
-    // everything else → main sheet (GOOGLE_SCRIPT_URL)
-    const scriptUrl = page === 'ksa-calm'
+    // 4. Forward rows to Google Sheet via Apps Script web app.
+    // ksa-calm and ksa-glow share the calm spreadsheet (GOOGLE_SCRIPT_URL_CALM), each in its own tab.
+    // everything else → main sheet (GOOGLE_SCRIPT_URL), default 'Orders' tab.
+    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow']);
+    const TAB_BY_PAGE = { 'ksa-glow': 'Glow' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
+    const scriptUrl = CALM_SHEET_PAGES.has(page)
       ? (process.env.GOOGLE_SCRIPT_URL_CALM || process.env.GOOGLE_SCRIPT_URL)
       : process.env.GOOGLE_SCRIPT_URL;
+    const tab = TAB_BY_PAGE[page];
     if (scriptUrl) {
       await fetch(scriptUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rows }),
+        body: JSON.stringify({ rows, tab }),
         redirect: 'follow'
       }).catch(function(err) { console.error('[sheet-error]', err.message); });
     }
