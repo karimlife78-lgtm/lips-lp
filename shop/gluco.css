@@ -253,8 +253,11 @@ h1,h2,h3,h4{color:var(--text)}
 /* ── OFFERS ─────────────────────────────────────────────────── */
 .offers{margin-top:26px}
 .offer{background:var(--paper);border:1.5px solid var(--line)}
-.offer-pics{display:flex;justify-content:center;align-items:flex-end;gap:6px;margin-bottom:10px}
-.offer-pics img{width:46px;height:74px;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55))}
+.offer-pics{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:10px;margin-bottom:14px;padding:14px 0 6px}
+.offer-pics::before{content:'';position:absolute;inset:0;margin:auto;width:70%;height:70%;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(224,154,46,.28),rgba(217,180,90,.10) 45%,transparent 70%);filter:blur(4px);z-index:0}
+.offer-pics img{position:relative;z-index:1;width:auto;height:104px;object-fit:contain;filter:drop-shadow(0 10px 16px rgba(0,0,0,.6))}
+@media(max-width:640px){.offer-pics img{height:92px}}
 .offer .qty{color:var(--text)}
 .offer .unit{color:var(--muted)}
 .offer .price{color:var(--text)}
