@@ -22,13 +22,6 @@ module.exports = async function handler(req, res) {
     //    Falls back to x-vercel-ip-country-region or allows through if header missing (dev/local)
     const country = (req.headers['x-vercel-ip-country'] || '').toUpperCase();
 
-    // 2. Block outside allowed region — allow empty country (local dev / header absent)
-    if (country && !ALLOWED.has(country)) {
-      return res.status(403).json({ error: 'region_blocked', country });
-    }
-
-    const countryLabel = COUNTRY_LABELS[country] || country;
-
     // 3. Parse order body
     const { name, phone, city, qty, total, upsells, currency, src, product } = req.body;
     const curr = currency || 'SAR';
@@ -37,6 +30,17 @@ module.exports = async function handler(req, res) {
     // Resolve product — defaults to lip serum so ksa-18 keeps working unchanged
     const prod = product && product.sku ? product : DEFAULT_PRODUCT;
     const page = (product && product.page) || DEFAULT_PRODUCT.page;
+
+    // TEMP: geo-block lifted for ksa-glow only, to test the new sheet routing from outside KSA.
+    // REMOVE this ksa-glow exception once testing is confirmed — everything else stays KSA-only.
+    const TEMP_BYPASS_PAGES = new Set(['ksa-glow']);
+
+    // 2. Block outside allowed region — allow empty country (local dev / header absent)
+    if (country && !ALLOWED.has(country) && !TEMP_BYPASS_PAGES.has(page)) {
+      return res.status(403).json({ error: 'region_blocked', country });
+    }
+
+    const countryLabel = COUNTRY_LABELS[country] || country;
     const url  = src ? 'cosmarab.com/' + source : 'cosmarab.com/' + page;
     const iso  = new Date().toISOString();
 
