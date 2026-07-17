@@ -340,6 +340,11 @@ h1,h2,h3,h4{color:var(--text)}
 .dots i.on{background:var(--amber)}
 .sel-card{background:var(--paper);border:1px solid var(--line)}
 .sel-card .badge{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff}
+.sel-card .badge-photo{
+  width:64px;height:64px;background:radial-gradient(circle at 35% 28%,#FCE9C4,#F0D48A 70%);
+  padding:5px;box-shadow:0 6px 16px -6px rgba(0,0,0,.5);
+}
+.sel-card .badge-photo img{width:100%;height:100%;object-fit:contain}
 .sel-card .nm{color:var(--text)}
 .sel-card .sub{color:var(--muted)}
 .sel-card .pr{color:var(--gold2)}
