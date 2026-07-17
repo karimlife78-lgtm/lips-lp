@@ -109,8 +109,8 @@ h1,h2,h3,h4{color:var(--text)}
   font-size:.74rem;padding:6px 13px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(181,84,30,.6);
 }
 /* hero = real UGC photo → fill the frame, no crop padding */
-.hero-photo{aspect-ratio:1/1;margin-bottom:18px}
-.hero-photo img{object-fit:cover;object-position:50% 22%;padding:0}
+.hero-photo{aspect-ratio:auto;margin-bottom:18px}
+.hero-photo img{width:100%;height:auto;object-fit:contain;padding:0}
 .hero p.sub{color:var(--muted)}
 
 /* ── PROOF BAR ──────────────────────────────────────────────── */
