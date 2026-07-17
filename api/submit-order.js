@@ -65,10 +65,10 @@ module.exports = async function handler(req, res) {
     }
 
     // 4. Forward rows to Google Sheet via Apps Script web app.
-    // ksa-calm and ksa-glow share the calm spreadsheet (GOOGLE_SCRIPT_URL_CALM), each in its own tab.
+    // ksa-calm / ksa-glow / ksa-gluco share the calm spreadsheet (GOOGLE_SCRIPT_URL_CALM), each in its own tab.
     // everything else → main sheet (GOOGLE_SCRIPT_URL), default 'Orders' tab.
-    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow']);
-    const TAB_BY_PAGE = { 'ksa-glow': 'Glow' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
+    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco']);
+    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
     const scriptUrl = CALM_SHEET_PAGES.has(page)
       ? (process.env.GOOGLE_SCRIPT_URL_CALM || process.env.GOOGLE_SCRIPT_URL)
       : process.env.GOOGLE_SCRIPT_URL;
