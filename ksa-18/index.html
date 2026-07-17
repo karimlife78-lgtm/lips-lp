@@ -951,11 +951,17 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
           <div class="oid">رقم الطلب: <b id="orderId">#CSM-0000</b></div>
           <div class="summary" id="tySummary" style="text-align:right;margin-top:16px"></div>
           <div class="call" id="callMsg">📞 <b>بنتصل فيك خلال دقائق</b> لتأكيد العنوان والطلب — جوالك جاهز؟</div>
-          <div style="margin-top:12px;background:linear-gradient(135deg,#fdf6e3,#fbf0d4);border:1.5px solid #e6c97a;border-radius:13px;padding:13px 15px;text-align:right">
-            <b style="font-size:14px;color:#7a5c14">💵 جهّز <span id="codAmount">—</span> ر.س كاش عند الباب</b>
-            <span style="display:block;font-size:12.5px;color:#8a7040;margin-top:4px">⚡ ردّك على مكالمة التأكيد = طلبك يطير للشحن بنفس اليوم</span>
+          <div id="deliveryCard" style="margin-top:14px;background:linear-gradient(150deg,#fffdf7,#fdf4dd);border:2px solid #C2A14D;border-radius:15px;padding:0;text-align:right;overflow:hidden">
+            <div style="background:#C2A14D;color:#fff;font-weight:900;font-size:13.5px;padding:9px 15px">🎫 بطاقة استلام طلبك — احتفظ فيها</div>
+            <div style="padding:13px 15px">
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px"><span style="color:#8a7040">رقم الطلب</span><b id="cardOrderId" style="color:#5c4408">—</b></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;border-top:1px dashed #e6c97a"><span style="color:#8a7040">المبلغ عند الباب (كاش)</span><b style="color:#5c4408">💵 <span id="codAmount">—</span> ر.س</b></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;border-top:1px dashed #e6c97a"><span style="color:#8a7040">وصول متوقع</span><b id="etaRange" style="color:#5c4408">خلال 2-4 أيام</b></div>
+              <div style="margin-top:10px;background:rgba(194,161,77,.14);border-radius:10px;padding:9px 12px;font-size:12.5px;line-height:1.7;color:#6b5010;font-weight:700">📸 خذ لقطة شاشة لهالبطاقة — وقل لأهل البيت إن طلب باسمك جاي، عشان لو كنت مشغول يستلمونه ويدفعون عنك 🏠</div>
+            </div>
           </div>
           <button id="receivePledge" style="width:100%;margin-top:12px;padding:13px;border-radius:13px;border:1.5px dashed #1f9d55;background:#f2faf5;color:#1a5c36;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;transition:.25s">✋ أتعهد باستلام طلبي من المندوب</button>
+          <a id="waConfirm" target="_blank" rel="noopener" style="display:none;width:100%;margin-top:10px;padding:13px;border-radius:13px;border:none;background:#25d366;color:#fff;font-weight:900;font-size:14px;text-align:center;text-decoration:none;box-sizing:border-box">💬 أكّد طلبك بضغطة واتساب — أسرع من المكالمة</a>
           <div class="ty-steps">
             <div class="s"><span class="ic">📞</span> نتواصل معك لتأكيد الطلب والعنوان.</div>
             <div class="s"><span class="ic">📦</span> نجهّز طلبك ونشحنه لمدينتك.</div>
@@ -977,6 +983,8 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <script>
 (function(){
 "use strict";
+/* WhatsApp business number for order confirmation — intl format, digits only, e.g. '9665XXXXXXXX'. Empty = button hidden */
+var WA_NUMBER='';
 document.getElementById('yr').textContent=new Date().getFullYear();
 function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}try{if(window.ttq)ttq.track(ev,data||{});}catch(e){}try{if(window.fbq)fbq('track',ev,data||{});}catch(e){}}
 /* Traffic source for the admin "Revenue by Channel" report — captured once, kept across the funnel */
@@ -1151,7 +1159,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     var working=!(ksaH>=2&&ksaH<9);
     if(working){
       el.className='call call-active';
-      el.innerHTML='<span class="call-live-dot"></span><div style="flex:1"><b style="font-size:15px">فريق التأكيد متاح الآن ✅</b><span style="display:block;margin-top:5px">سيتصل بك أحد ممثلينا <b>خلال 5 دقائق</b> لتأكيد طلبك 📱</span><span style="display:block;margin-top:3px;font-size:12px;opacity:.75">جوالك جاهز؟ نأمل منك التواجد</span></div>';
+      el.innerHTML='<span class="call-live-dot"></span><div style="flex:1"><b style="font-size:15px">فريق التأكيد متاح الآن ✅</b><span style="display:block;margin-top:5px">سيتصل بك أحد ممثلينا <b>خلال 5 دقائق</b> لتأكيد طلبك 📱</span><span style="display:block;margin-top:6px;font-size:12px;background:rgba(31,157,85,.09);border:1px solid rgba(31,157,85,.28);border-radius:8px;padding:5px 10px;font-weight:700">📵 تنبيه: المكالمة بتجيك من رقم جديد عليك — لا تطنّشها، ردّك يثبّت حجز توصيلك</span></div>';
     }else{
       var minsUntil=((9-ksaH)*60-ksaMin+1440)%1440;
       var h=Math.floor(minsUntil/60),m=minsUntil%60;
@@ -1165,6 +1173,12 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     document.getElementById('orderId').textContent='#'+txId;
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
     var codEl=document.getElementById('codAmount');if(codEl)codEl.textContent=grandTotal();
+    var cardId=document.getElementById('cardOrderId');if(cardId)cardId.textContent='#'+txId;
+    try{
+      var d1=new Date(Date.now()+2*864e5),d2=new Date(Date.now()+4*864e5);
+      var fmt=function(d){return d.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});};
+      var etaEl=document.getElementById('etaRange');if(etaEl)etaEl.textContent=fmt(d1)+' — '+fmt(d2);
+    }catch(e){}
     var rp=document.getElementById('receivePledge');
     if(rp&&!rp.dataset.wired){rp.dataset.wired='1';rp.addEventListener('click',function(){
       var first=(name.split(/\s+/)[0]||'').trim();

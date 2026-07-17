@@ -23,7 +23,8 @@ module.exports = async function handler(req, res) {
     const country = (req.headers['x-vercel-ip-country'] || '').toUpperCase();
 
     // 3. Parse order body
-    const { name, phone, city, qty, total, upsells, currency, src, product } = req.body;
+    const { name, phone, city, qty, total, upsells, currency, src, product, note } = req.body;
+    const orderNote = (note || '').toString().slice(0, 120); // call-time preference etc.
     const curr = currency || 'SAR';
     const source = (src || 'direct').toString().toLowerCase();
 
@@ -53,7 +54,8 @@ module.exports = async function handler(req, res) {
       : '';
 
     // Columns: OrderDate | country | name | phone | address | url | sku | Product | quantity | price | currency | notes
-    rows.push([iso, countryLabel, name, phone, city, url, prod.sku, prod.name, qty, total, curr, upsellNote]);
+    const mainNote = [orderNote, upsellNote].filter(Boolean).join(' | ');
+    rows.push([iso, countryLabel, name, phone, city, url, prod.sku, prod.name, qty, total, curr, mainNote]);
 
     // Upsell rows — no price column, note links them to the main order.
     // Prefer an explicit sku/name from the page (cross-sell products), fall back to legacy map.
