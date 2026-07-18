@@ -71,8 +71,11 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
     <!-- PHOTO SLOT 1 — hero image -->
     <div class="ph hero-photo">
-      <img src="/assets/ceylora-hero.jpg" alt="سيلورا — قرفة سيلان الذهبية بزيت MCT من Cosmarab"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+      <picture>
+        <source srcset="/assets/ceylora-hero.webp" type="image/webp" />
+        <img src="/assets/ceylora-hero.jpg" alt="سيلورا — قرفة سيلان الذهبية بزيت MCT من Cosmarab"
+             onerror="this.parentElement.style.display='none';this.closest('.ph').querySelector('.ph-empty').style.display='grid'" />
+      </picture>
       <div class="ph-empty" style="display:none">
         <span class="pi">🧴</span>
         <span>صورة المنتج الرئيسية</span>
@@ -455,8 +458,11 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
   <div class="use-photo-wrap reveal">
     <div class="ph use-ph">
-      <img src="/assets/ceylora-use.jpg" alt="طريقة استخدام سيلورا — 3 كبسولات يومياً مع الماء"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
+      <picture>
+        <source srcset="/assets/ceylora-use.webp" type="image/webp" />
+        <img src="/assets/ceylora-use.jpg" alt="طريقة استخدام سيلورا — 3 كبسولات يومياً مع الماء" loading="lazy"
+             onerror="this.parentElement.style.display='none';this.closest('.ph').querySelector('.ph-empty').style.display='grid'" />
+      </picture>
       <div class="ph-empty" style="display:none">
         <span class="pi">💊</span>
         <span>صورة الاستخدام — كبسولات مع الماء</span>
@@ -480,10 +486,10 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <div class="hairline"></div>
   <p class="lead">مضادات الأكسدة الطبيعية في قرفة سيلان معروفة تاريخياً بدعمها لصحة الأوعية والدورة الدموية العامة — جزء من الصورة الكاملة لتوازن الجسم.</p>
   <div class="ba-visual reveal">
-    <video autoplay muted loop playsinline webkit-playsinline="true" preload="auto"
+    <video id="baVideo" muted loop playsinline webkit-playsinline="true" preload="none"
            poster="/assets/ceylora-beforeafter-poster.jpg"
            aria-label="توضيح تقريبي لدعم الدورة الدموية">
-      <source src="/assets/ceylora-beforeafter.mp4" type="video/mp4" />
+      <source data-src="/assets/ceylora-beforeafter.mp4" type="video/mp4" />
     </video>
   </div>
   <div class="mech-note reveal" style="margin-top:16px">💡 توضيح تقريبي عام لآلية الدعم — سيلورا مكمّل غذائي وليس علاجاً لأي حالة مرضية.</div>
@@ -642,16 +648,24 @@ window.PRODUCT={
 };
 </script>
 <script>
-// Fallback: some mobile browsers (low-power mode, in-app webviews) silently block the
-// autoplay attribute. Force .play() once the video scrolls into view as a safety net.
+// Lazy-load: video has no src until it's about to enter view, so it never costs
+// bandwidth for visitors who don't scroll this far. Loads a bit early (200px root
+// margin) so playback is ready by the time it's actually visible.
 (function(){
-  var v = document.querySelector('.ba-visual video');
+  var v = document.getElementById('baVideo');
   if(!v) return;
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting){ v.play().catch(function(){}); }
+      if(e.isIntersecting){
+        if(!v.dataset.loaded){
+          v.dataset.loaded = '1';
+          var src = v.querySelector('source[data-src]');
+          if(src){ src.src = src.getAttribute('data-src'); v.load(); }
+        }
+        v.play().catch(function(){});
+      }
     });
-  }, {threshold:.25});
+  }, {rootMargin:'200px', threshold:.25});
   io.observe(v);
 })();
 </script>
