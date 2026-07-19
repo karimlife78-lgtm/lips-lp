@@ -1,9 +1,8 @@
 // GCC countries allowed — add 'AE','KW','BH','QA','OM' when expanding
-// TEMP: 'MA' (Morocco) added so the thank-you-page flow can be tested from outside KSA — REMOVE once testing is done.
-const ALLOWED = new Set(['SA', 'MA']); // KSA only — add 'AE','KW','BH','QA','OM' when expanding
+const ALLOWED = new Set(['SA']); // KSA only — add 'AE','KW','BH','QA','OM' when expanding
 
 // Map ISO codes to friendly labels written to the sheet
-const COUNTRY_LABELS = { SA: 'KSA', AE: 'UAE', KW: 'Kuwait', BH: 'Bahrain', QA: 'Qatar', OM: 'Oman', MA: 'Morocco' };
+const COUNTRY_LABELS = { SA: 'KSA', AE: 'UAE', KW: 'Kuwait', BH: 'Bahrain', QA: 'Qatar', OM: 'Oman' };
 
 // Legacy upsell SKU map (ksa-18 lip serum funnel) — kept for backward compatibility
 const UPSELL_SKUS = {
