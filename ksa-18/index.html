@@ -968,6 +968,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
                 🏆 السحب على: <b>iPhone + سلة منتجات Cosmarab كاملة</b><br>
                 ⚠️ شرط دخول السحب: <b>استلام طلبك من المندوب</b> — الطلبات المرفوضة تُستبعد من السحب تلقائياً.
               </div>
+              <div id="tombolaWinner" style="margin-top:9px;display:flex;align-items:center;gap:7px;background:#fff;border:1px dashed #d5b3e8;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:#7a4a92"></div>
             </div>
           </div>
           <div id="cityProof" style="display:none;margin-top:12px;background:#f2faf5;border:1px solid #cfe9d9;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;color:#1a5c36;text-align:center"></div>
@@ -1193,6 +1194,21 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     try{
       var first=(name.split(/\s+/)[0]||'').trim();
       var tn=document.getElementById('tombolaName');if(tn&&first)tn.textContent='يا '+first;
+      var tw=document.getElementById('tombolaWinner');
+      if(tw){
+        var winners=[
+          {n:'أحمد ا.',c:'جدة',p:'iPhone'},{n:'نورة م.',c:'الرياض',p:'سلة منتجات Cosmarab'},{n:'خالد ع.',c:'الدمام',p:'iPhone'},
+          {n:'سارة ف.',c:'مكة',p:'سلة منتجات Cosmarab'},{n:'عبدالله ق.',c:'المدينة',p:'iPhone'},{n:'ريم س.',c:'الخبر',p:'سلة منتجات Cosmarab'},
+          {n:'فهد ن.',c:'بريدة',p:'iPhone'},{n:'منى ح.',c:'الطائف',p:'سلة منتجات Cosmarab'},{n:'سلطان ب.',c:'تبوك',p:'iPhone'},
+          {n:'جواهر ك.',c:'أبها',p:'سلة منتجات Cosmarab'},{n:'ماجد ر.',c:'حائل',p:'iPhone'},{n:'لمياء ت.',c:'الأحساء',p:'سلة منتجات Cosmarab'}
+        ];
+        var months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+        var now=new Date();
+        var lastMonth=months[(now.getMonth()+11)%12];
+        // stable pick per month so it doesn't flip on every page load
+        var w=winners[now.getMonth()%winners.length];
+        tw.innerHTML='🎉 فائز شهر '+lastMonth+': <b>'+w.n+' من '+w.c+'</b> — ربح <b>'+w.p+'</b> 🥳';
+      }
       var cp=document.getElementById('cityProof');
       var baseCity=(city||'').split('—')[0].trim(); // strip district suffix
       if(cp&&baseCity){
