@@ -32,9 +32,9 @@ module.exports = async function handler(req, res) {
     const prod = product && product.sku ? product : DEFAULT_PRODUCT;
     const page = (product && product.page) || DEFAULT_PRODUCT.page;
 
-    // TEMP: geo-block lifted for these pages to allow testing from outside KSA.
-    // REMOVE each exception once testing is confirmed — everything else stays KSA-only.
-    const TEMP_BYPASS_PAGES = new Set(['ksa-gluco', 'ksa-ceylora']);
+    // TEMP: geo-block lifted for ksa-gluco only, to test the new sheet routing from outside KSA.
+    // REMOVE this exception once testing is confirmed — everything else stays KSA-only.
+    const TEMP_BYPASS_PAGES = new Set(['ksa-gluco']);
 
     // 2. Block outside allowed region — allow empty country (local dev / header absent)
     if (country && !ALLOWED.has(country) && !TEMP_BYPASS_PAGES.has(page)) {
