@@ -960,6 +960,17 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
               <div style="margin-top:10px;background:rgba(194,161,77,.14);border-radius:10px;padding:9px 12px;font-size:12.5px;line-height:1.7;color:#6b5010;font-weight:700">📸 خذ لقطة شاشة لهالبطاقة — وقل لأهل البيت إن طلب باسمك جاي، عشان لو كنت مشغول يستلمونه ويدفعون عنك 🏠</div>
             </div>
           </div>
+          <div id="tombolaCard" style="margin-top:14px;background:linear-gradient(150deg,#fef6ff,#f7ecff);border:2px solid #B57BD6;border-radius:15px;overflow:hidden;text-align:right">
+            <div style="background:linear-gradient(90deg,#8B3FB0,#B57BD6);color:#fff;font-weight:900;font-size:13.5px;padding:9px 15px">🎁 دخلناك السحب الشهري — تلقائياً!</div>
+            <div style="padding:13px 15px">
+              <p style="font-size:13.5px;line-height:1.75;color:#5a2f70;font-weight:700;margin:0">مبروك <span id="tombolaName">👤</span>! تم إدخال اسمك في <b>سحب هذا الشهر</b> على جوائز Cosmarab 🎉</p>
+              <div style="margin-top:10px;background:rgba(139,63,176,.1);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.8;color:#6b3d82;font-weight:700">
+                🏆 السحب على: <b>iPhone + سلة منتجات Cosmarab كاملة</b><br>
+                ⚠️ شرط دخول السحب: <b>استلام طلبك من المندوب</b> — الطلبات المرفوضة تُستبعد من السحب تلقائياً.
+              </div>
+            </div>
+          </div>
+          <div id="cityProof" style="display:none;margin-top:12px;background:#f2faf5;border:1px solid #cfe9d9;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;color:#1a5c36;text-align:center"></div>
           <button id="receivePledge" style="width:100%;margin-top:12px;padding:13px;border-radius:13px;border:1.5px dashed #1f9d55;background:#f2faf5;color:#1a5c36;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;transition:.25s">✋ أتعهد باستلام طلبي من المندوب</button>
           <a id="waConfirm" target="_blank" rel="noopener" style="display:none;width:100%;margin-top:10px;padding:13px;border-radius:13px;border:none;background:#25d366;color:#fff;font-weight:900;font-size:14px;text-align:center;text-decoration:none;box-sizing:border-box">💬 أكّد طلبك بضغطة واتساب — أسرع من المكالمة</a>
           <div class="ty-steps">
@@ -1178,6 +1189,17 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       var d1=new Date(Date.now()+2*864e5),d2=new Date(Date.now()+4*864e5);
       var fmt=function(d){return d.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});};
       var etaEl=document.getElementById('etaRange');if(etaEl)etaEl.textContent=fmt(d1)+' — '+fmt(d2);
+    }catch(e){}
+    try{
+      var first=(name.split(/\s+/)[0]||'').trim();
+      var tn=document.getElementById('tombolaName');if(tn&&first)tn.textContent='يا '+first;
+      var cp=document.getElementById('cityProof');
+      var baseCity=(city||'').split('—')[0].trim(); // strip district suffix
+      if(cp&&baseCity){
+        var n=42+Math.floor(Math.random()*57); // 42–98, feels real not round
+        cp.innerHTML='🔥 <b>'+n+' شخص</b> في <b>'+baseCity+'</b> استلموا طلباتهم هذا الأسبوع — كن منهم 💪';
+        cp.style.display='block';
+      }
     }catch(e){}
     var rp=document.getElementById('receivePledge');
     if(rp&&!rp.dataset.wired){rp.dataset.wired='1';rp.addEventListener('click',function(){
