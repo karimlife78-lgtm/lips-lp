@@ -37,13 +37,10 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <header class="hero"><div class="wrap"><div class="hero-grid">
   <div class="hero-copy">
 
-    <!-- ┌─ PHOTO SLOT 1 · HERO — ضع هنا فيديو/صورة المصباح وهو يعكس النقش على الجدار ─┐ -->
-    <div class="ph-slot square reveal" data-slot="hero">
-      <span class="pi">🖼️</span>
-      <span class="pt">صورة/فيديو المصباح ليلاً</span>
-      <span class="pn">/assets/noorglow-hero.jpg</span>
+    <!-- PHOTO SLOT 1 · HERO -->
+    <div class="hero-photo reveal">
+      <img src="/assets/noorglow-hero.jpg" alt="نورقلو — تركيب إضاءة ماندالا شمسية على جدار خارجي" loading="eager" />
     </div>
-    <!-- └─────────────────────────────────────────────────────────────────────────┘ -->
 
     <span class="eyebrow">✨ أول مرة في السعودية</span>
     <div class="rating"><span class="stars">★★★★★</span> 4.8/5 · أكثر من 3,200 عميل سعودي</div>
@@ -143,17 +140,12 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <div class="hairline"></div>
   <p class="lead">النقش الهندسي مقصوص بالليزر من معدن مقوّى — فلما يضيء من الداخل، الضوء الذهبي الدافئ يمرّ من الفتحات ويعكس ماندالا متحركة على أي سطح قريب.</p>
 
-  <!-- ┌─ PHOTO SLOT 2 · SHOWCASE — أفضل لقطة: مقارنة جدار عادي مقابل جدار عليه النقش ─┐ -->
-  <div class="showcase reveal" data-slot="showcase">
-    <div class="ph-slot wide">
-      <span class="pi">🌌</span>
-      <span class="pt">لقطة النقش على الجدار (الأهم)</span>
-      <span class="pn">/assets/noorglow-showcase.jpg</span>
-    </div>
+  <!-- PHOTO SLOT 2 · SHOWCASE -->
+  <div class="showcase reveal">
+    <img src="/assets/noorglow-showcase.jpg" alt="نقش ماندالا نورقلو منعكس على جدار خشبي بألوان متعددة" loading="lazy" style="width:100%;display:block" />
     <div class="sc-glow"></div>
     <div class="sc-cap"><b>نفس الإنارة — بجو ما تعطيه أي إضاءة عادية</b><span>نقش ماندالا يتحرّك على الجدار والأرض طول الليل</span></div>
   </div>
-  <!-- └───────────────────────────────────────────────────────────────────────────┘ -->
 </div></section>
 
 <!-- ═══════════ HOW IT WORKS — 3 glowing steps ═══════════ -->
@@ -230,8 +222,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <div class="offers">
     <!-- OFFER 1 · 2 قطع · 199 -->
     <div class="offer" data-offer="1" data-qty="2" data-price="199" data-label="قطعتان" data-sub="مثالية لركن واحد">
-      <!-- ┌ صور المنتج تنحط تلقائياً هنا لاحقاً — الحين placeholder نظيف ┐ -->
-      <div class="ph-mini">🕯️ صورة القطعتين</div>
+      <div class="offer-pics"><img src="/assets/noorglow-product.svg" alt="نورقلو" loading="lazy" /></div>
       <div class="qty">قطعتان</div><div class="unit">ركن أو مدخل واحد</div>
       <div class="price">199<small> ر.س</small></div>
       <div class="perunit">99.5 ر.س للقطعة</div>
@@ -242,7 +233,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     <!-- OFFER 2 · 4 قطع · 299 (default / most popular) -->
     <div class="offer" data-default data-offer="2" data-qty="4" data-price="299" data-label="4 قطع" data-sub="تغطية متوسطة — الأكثر طلباً">
       <span class="pop">🔥 الأكثر طلباً</span>
-      <div class="ph-mini">🕯️ صورة الـ4 قطع</div>
+      <div class="offer-pics"><img src="/assets/noorglow-product.svg" alt="نورقلو" loading="lazy" /></div>
       <div class="qty">4 قطع</div><div class="unit">تغطية حديقة أو مجلس متوسط</div>
       <div class="price">299<small> ر.س</small></div>
       <div class="perunit">74.75 ر.س للقطعة</div>
@@ -253,7 +244,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     <!-- OFFER 3 · 8 قطع · 390 (best value) -->
     <div class="offer" data-offer="3" data-qty="8" data-price="390" data-label="8 قطع — التغطية الكاملة" data-sub="جو من كل الجهات">
       <span class="pop">👑 الأوفر</span><span class="save">أوفر قيمة</span>
-      <div class="ph-mini">🕯️ صورة الـ8 قطع</div>
+      <div class="offer-pics"><img src="/assets/noorglow-product.svg" alt="نورقلو" loading="lazy" /></div>
       <div class="qty">8 قطع</div><div class="unit">تغطية كاملة لكل الجهات</div>
       <div class="price">390<small> ر.س</small></div>
       <div class="perunit">48.75 ر.س للقطعة</div>
@@ -282,13 +273,10 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <h2 class="title">دقيقة وحدة… <span class="em">وخلصت</span></h2>
   <div class="hairline"></div>
 
-  <!-- ┌─ PHOTO SLOT 3 · INSTALL — صورة/فيديو شخص يغرز القطعة بالأرض ─┐ -->
-  <div class="ph-slot wide reveal" data-slot="install" style="max-width:560px;margin:26px auto 0">
-    <span class="pi">🎬</span>
-    <span class="pt">صورة/فيديو التركيب</span>
-    <span class="pn">/assets/noorglow-install.jpg</span>
+  <!-- PHOTO SLOT 3 · INSTALL -->
+  <div class="showcase reveal" style="max-width:560px;margin:26px auto 0">
+    <img src="/assets/noorglow-install.jpg" alt="تركيب نورقلو على جدار خارجي في فيلا سعودية" loading="lazy" style="width:100%;display:block" />
   </div>
-  <!-- └──────────────────────────────────────────────────────────────┘ -->
 
   <div class="howsteps" style="margin-top:26px">
     <div class="hstep reveal"><div class="hn">1</div><h4>اختر المكان</h4><p>أي تراب، عشب، أو جدار يوصله ضوء الشمس بالنهار.</p></div>
@@ -442,7 +430,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <div class="dots"><i id="dot1" class="on"></i><i id="dot2"></i></div>
 
   <div class="panel active" id="panel2">
-    <div class="sel-card"><div class="badge">🕯️</div><div><div class="nm" id="selName">4 قطع</div><div class="sub" id="selSub">تغطية متوسطة</div></div><div class="pr" id="selPrice">299 ر.س</div></div>
+    <div class="sel-card"><div class="badge badge-photo"><img src="/assets/noorglow-product.svg" alt="نورقلو" /></div><div><div class="nm" id="selName">4 قطع</div><div class="sub" id="selSub">تغطية متوسطة</div></div><div class="pr" id="selPrice">299 ر.س</div></div>
 
     <form id="orderForm" novalidate>
       <div class="field" id="f-name"><label>الاسم الكامل</label><input id="name" type="text" placeholder="مثال: خالد القحطاني" autocomplete="name" /></div>

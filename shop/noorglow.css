@@ -248,8 +248,9 @@ body::before{
 }
 .showcase .sc-glow{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(circle at 50% 60%,rgba(233,190,110,.28),transparent 55%)}
-.showcase .sc-cap{position:absolute;inset-inline:0;bottom:0;padding:22px;
-  background:linear-gradient(0deg,rgba(8,6,20,.92),transparent);text-align:center}
+.showcase .sc-cap{position:relative;inset-inline:0;bottom:0;padding:20px 22px;
+  background:linear-gradient(180deg,rgba(8,6,20,.97),rgba(8,6,20,.9));
+  border-top:1px solid var(--ng-glass-line);text-align:center}
 .showcase .sc-cap b{color:var(--ng-gold-hi);font-size:1.05rem}
 .showcase .sc-cap span{display:block;color:var(--muted);font-size:.86rem;margin-top:3px}
 
