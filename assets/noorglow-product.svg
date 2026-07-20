@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 300" width="260" height="300">
+  <defs>
+    <linearGradient id="pl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F5D488"/>
+      <stop offset="0.5" stop-color="#E8B23D"/>
+      <stop offset="1" stop-color="#8A6216"/>
+    </linearGradient>
+    <linearGradient id="pp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4A3D9E"/>
+      <stop offset="1" stop-color="#251C5C"/>
+    </linearGradient>
+    <radialGradient id="pglow" cx="0.5" cy="0.4" r="0.5">
+      <stop offset="0" stop-color="#E8B23D" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#E8B23D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="130" cy="120" rx="120" ry="120" fill="url(#pglow)"/>
+  <!-- ground stake -->
+  <path d="M120,220 L140,220 L130,280 Z" fill="url(#pp)"/>
+  <!-- pole -->
+  <rect x="122" y="90" width="16" height="132" rx="6" fill="url(#pp)"/>
+  <!-- solar panel cap -->
+  <rect x="80" y="52" width="100" height="38" rx="12" fill="url(#pp)"/>
+  <rect x="90" y="60" width="80" height="22" rx="6" fill="#1C1440"/>
+  <!-- mandala disc face -->
+  <circle cx="130" cy="40" r="38" fill="url(#pl)"/>
+  <circle cx="130" cy="40" r="38" fill="none" stroke="#8A6216" stroke-width="2" opacity="0.55"/>
+  <g stroke="#8A6216" stroke-width="1.5" opacity="0.65">
+    <circle cx="130" cy="40" r="25"/>
+    <circle cx="130" cy="40" r="12"/>
+    <line x1="92" y1="40" x2="168" y2="40"/>
+    <line x1="130" y1="2" x2="130" y2="78"/>
+    <line x1="103" y1="13" x2="157" y2="67"/>
+    <line x1="157" y1="13" x2="103" y2="67"/>
+  </g>
+</svg>
