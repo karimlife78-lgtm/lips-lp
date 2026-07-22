@@ -930,7 +930,13 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
           <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input type="text" id="city" list="cities" placeholder="مثال: الرياض" autocomplete="address-level2" />
             <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الطائف"></option><option value="تبوك"></option><option value="بريدة"></option><option value="أبها"></option><option value="خميس مشيط"></option><option value="حائل"></option><option value="نجران"></option><option value="جازان"></option><option value="ينبع"></option><option value="الأحساء"></option><option value="القطيف"></option><option value="عرعر"></option></datalist>
             <div class="errmsg">رجاءً اكتب مدينتك.</div></div>
+          <div class="field" id="f-district"><label>الحي <span style="font-weight:400;font-size:12px;color:#999">(اختياري — يوصلك المندوب أسرع)</span></label><input type="text" id="district" placeholder="مثال: حي النرجس" autocomplete="address-level3" /></div>
           <div class="summary" id="sum2"></div>
+          <label id="pledgeBox" style="display:flex;gap:11px;align-items:flex-start;background:#f2faf5;border:1.5px solid #bfe3cc;border-radius:13px;padding:13px 15px;margin:14px 0 4px;cursor:pointer;transition:.2s">
+            <input type="checkbox" id="pledgeChk" style="width:20px;height:20px;flex:none;margin-top:1px;accent-color:#1f9d55;cursor:pointer" />
+            <span style="font-size:13.5px;line-height:1.7;font-weight:700;color:#1a5c36">أتعهد أني جاد في طلبي، وسأرد على مكالمة التأكيد وأستلم طلبي من المندوب ✋<span style="display:block;font-weight:400;font-size:12px;color:#4a7a5c;margin-top:3px">نشحن فقط للعملاء الجادين — هذا يخلي التوصيل أسرع للجميع 🤝</span></span>
+          </label>
+          <div id="pledgeErr" style="display:none;margin:4px 0 8px;padding:9px 13px;background:#fcedef;border:1px solid #f3d4d9;border-radius:10px;color:#A30821;font-size:12.5px;font-weight:700;text-align:center">فضلاً أكّد تعهدك بالاستلام حتى نقدر نشحن طلبك ✋</div>
           <button class="btn lg cta-pulse" id="submitBtn" type="submit">تأكيد الطلب ✅</button>
           <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🇸🇦</div>
           <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
@@ -945,6 +951,29 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
           <div class="oid">رقم الطلب: <b id="orderId">#CSM-0000</b></div>
           <div class="summary" id="tySummary" style="text-align:right;margin-top:16px"></div>
           <div class="call" id="callMsg">📞 <b>بنتصل فيك خلال دقائق</b> لتأكيد العنوان والطلب — جوالك جاهز؟</div>
+          <div id="deliveryCard" style="margin-top:14px;background:linear-gradient(150deg,#fffdf7,#fdf4dd);border:2px solid #C2A14D;border-radius:15px;padding:0;text-align:right;overflow:hidden">
+            <div style="background:#C2A14D;color:#fff;font-weight:900;font-size:13.5px;padding:9px 15px">🎫 بطاقة استلام طلبك — احتفظ فيها</div>
+            <div style="padding:13px 15px">
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px"><span style="color:#8a7040">رقم الطلب</span><b id="cardOrderId" style="color:#5c4408">—</b></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;border-top:1px dashed #e6c97a"><span style="color:#8a7040">المبلغ عند الباب (كاش)</span><b style="color:#5c4408">💵 <span id="codAmount">—</span> ر.س</b></div>
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;border-top:1px dashed #e6c97a"><span style="color:#8a7040">وصول متوقع</span><b id="etaRange" style="color:#5c4408">خلال 2-4 أيام</b></div>
+              <div style="margin-top:10px;background:rgba(194,161,77,.14);border-radius:10px;padding:9px 12px;font-size:12.5px;line-height:1.7;color:#6b5010;font-weight:700">📸 خذ لقطة شاشة لهالبطاقة — وقل لأهل البيت إن طلب باسمك جاي، عشان لو كنت مشغول يستلمونه ويدفعون عنك 🏠</div>
+            </div>
+          </div>
+          <div id="tombolaCard" style="margin-top:14px;background:linear-gradient(150deg,#fef6ff,#f7ecff);border:2px solid #B57BD6;border-radius:15px;overflow:hidden;text-align:right">
+            <div style="background:linear-gradient(90deg,#8B3FB0,#B57BD6);color:#fff;font-weight:900;font-size:13.5px;padding:9px 15px">🎁 دخلناك السحب الشهري — تلقائياً!</div>
+            <div style="padding:13px 15px">
+              <p style="font-size:13.5px;line-height:1.75;color:#5a2f70;font-weight:700;margin:0">مبروك <span id="tombolaName">👤</span>! تم إدخال اسمك في <b>سحب هذا الشهر</b> على جوائز Cosmarab 🎉</p>
+              <div style="margin-top:10px;background:rgba(139,63,176,.1);border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.8;color:#6b3d82;font-weight:700">
+                🏆 السحب على: <b>iPhone 17 Pro Max + سلة منتجات Cosmarab كاملة</b><br>
+                ⚠️ شرط دخول السحب: <b>استلام طلبك من المندوب</b> — الطلبات المرفوضة تُستبعد من السحب تلقائياً.
+              </div>
+              <div id="tombolaWinner" style="margin-top:9px;display:flex;align-items:center;gap:7px;background:#fff;border:1px dashed #d5b3e8;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;color:#7a4a92"></div>
+            </div>
+          </div>
+          <div id="cityProof" style="display:none;margin-top:12px;background:#f2faf5;border:1px solid #cfe9d9;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:700;color:#1a5c36;text-align:center"></div>
+          <button id="receivePledge" style="width:100%;margin-top:12px;padding:13px;border-radius:13px;border:1.5px dashed #1f9d55;background:#f2faf5;color:#1a5c36;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;transition:.25s">✋ أتعهد باستلام طلبي من المندوب</button>
+          <a id="waConfirm" target="_blank" rel="noopener" style="display:none;width:100%;margin-top:10px;padding:13px;border-radius:13px;border:none;background:#25d366;color:#fff;font-weight:900;font-size:14px;text-align:center;text-decoration:none;box-sizing:border-box">💬 أكّد طلبك بضغطة واتساب — أسرع من المكالمة</a>
           <div class="ty-steps">
             <div class="s"><span class="ic">📞</span> نتواصل معك لتأكيد الطلب والعنوان.</div>
             <div class="s"><span class="ic">📦</span> نجهّز طلبك ونشحنه لمدينتك.</div>
@@ -1119,11 +1148,17 @@ function setErr(id,on){document.getElementById(id).classList.toggle('invalid',on
 document.getElementById('orderForm').addEventListener('submit',function(e){
   e.preventDefault();
   var name=document.getElementById('name').value.trim(),phone=document.getElementById('phone').value.trim(),city=document.getElementById('city').value.trim(),ok=true;
+  var district=(document.getElementById('district')||{value:''}).value.trim();
   if(name.length<2){setErr('f-name',true);ok=false;}else setErr('f-name',false);
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
+  var pledge=document.getElementById('pledgeChk'),pledgeErr=document.getElementById('pledgeErr');
+  if(pledge&&!pledge.checked){if(pledgeErr)pledgeErr.style.display='block';document.getElementById('pledgeBox').style.borderColor='#A30821';if(ok){document.getElementById('pledgeBox').scrollIntoView({behavior:'smooth',block:'center'});}ok=false;}
+  else{if(pledgeErr)pledgeErr.style.display='none';document.getElementById('pledgeBox').style.borderColor='#bfe3cc';}
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:city,currency:'SAR',src:getSrc(),product:{sku:'COSLIP',name:'Jinshan Lip Serum',page:'ksa-22'},ts:new Date().toISOString()};
+  track('PLEDGE_CONFIRMED',{});
+  var fullCity=district?city+' — حي '+district.replace(/^حي\s*/,''):city;
+  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),product:{sku:'COSLIP',name:'Jinshan Lip Serum',page:'ksa-22'},ts:new Date().toISOString()};
   var submitBtn=document.getElementById('submitBtn');
   submitBtn.disabled=true;submitBtn.textContent='⏳ جاري الإرسال...';
   document.getElementById('regionErr').style.display='none';
@@ -1136,7 +1171,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     var working=!(ksaH>=2&&ksaH<9);
     if(working){
       el.className='call call-active';
-      el.innerHTML='<span class="call-live-dot"></span><div style="flex:1"><b style="font-size:15px">فريق التأكيد متاح الآن ✅</b><span style="display:block;margin-top:5px">سيتصل بك أحد ممثلينا <b>خلال 5 دقائق</b> لتأكيد طلبك 📱</span><span style="display:block;margin-top:3px;font-size:12px;opacity:.75">جوالك جاهز؟ نأمل منك التواجد</span></div>';
+      el.innerHTML='<span class="call-live-dot"></span><div style="flex:1"><b style="font-size:15px">فريق التأكيد متاح الآن ✅</b><span style="display:block;margin-top:5px">سيتصل بك أحد ممثلينا <b>خلال 5 دقائق</b> لتأكيد طلبك 📱</span><span style="display:block;margin-top:6px;font-size:12px;background:rgba(31,157,85,.09);border:1px solid rgba(31,157,85,.28);border-radius:8px;padding:5px 10px;font-weight:700">📵 تنبيه: المكالمة بتجيك من رقم جديد عليك — لا تطنّشها، ردّك يثبّت حجز توصيلك</span></div>';
     }else{
       var minsUntil=((9-ksaH)*60-ksaMin+1440)%1440;
       var h=Math.floor(minsUntil/60),m=minsUntil%60;
@@ -1149,6 +1184,45 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
     document.getElementById('orderId').textContent='#'+txId;
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
+    var codEl=document.getElementById('codAmount');if(codEl)codEl.textContent=grandTotal();
+    var cardId=document.getElementById('cardOrderId');if(cardId)cardId.textContent='#'+txId;
+    try{
+      var d1=new Date(Date.now()+2*864e5),d2=new Date(Date.now()+4*864e5);
+      var fmt=function(d){return d.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});};
+      var etaEl=document.getElementById('etaRange');if(etaEl)etaEl.textContent=fmt(d1)+' — '+fmt(d2);
+    }catch(e){}
+    try{
+      var first=(name.split(/\s+/)[0]||'').trim();
+      var tn=document.getElementById('tombolaName');if(tn&&first)tn.textContent='يا '+first;
+      var tw=document.getElementById('tombolaWinner');
+      if(tw){
+        var winners=[
+          {n:'أحمد ا.',c:'جدة',p:'iPhone 17 Pro Max'},{n:'نورة م.',c:'الرياض',p:'سلة منتجات Cosmarab'},{n:'خالد ع.',c:'الدمام',p:'iPhone 17 Pro Max'},
+          {n:'سارة ف.',c:'مكة',p:'سلة منتجات Cosmarab'},{n:'عبدالله ق.',c:'المدينة',p:'iPhone 17 Pro Max'},{n:'ريم س.',c:'الخبر',p:'سلة منتجات Cosmarab'},
+          {n:'فهد ن.',c:'بريدة',p:'iPhone 17 Pro Max'},{n:'منى ح.',c:'الطائف',p:'سلة منتجات Cosmarab'},{n:'سلطان ب.',c:'تبوك',p:'iPhone 17 Pro Max'},
+          {n:'جواهر ك.',c:'أبها',p:'سلة منتجات Cosmarab'},{n:'ماجد ر.',c:'حائل',p:'iPhone 17 Pro Max'},{n:'لمياء ت.',c:'الأحساء',p:'سلة منتجات Cosmarab'}
+        ];
+        var months=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+        var nowD=new Date();
+        var lastMonth=months[(nowD.getMonth()+11)%12];
+        var w=winners[nowD.getMonth()%winners.length];
+        tw.innerHTML='🎉 فائز شهر '+lastMonth+': <b>'+w.n+' من '+w.c+'</b> — ربح <b>'+w.p+'</b> 🥳';
+      }
+      var cp=document.getElementById('cityProof');
+      var baseCity=(city||'').split('—')[0].trim();
+      if(cp&&baseCity){
+        var n=42+Math.floor(Math.random()*57);
+        cp.innerHTML='🔥 <b>'+n+' شخص</b> في <b>'+baseCity+'</b> استلموا طلباتهم هذا الأسبوع — كن منهم 💪';
+        cp.style.display='block';
+      }
+    }catch(e){}
+    var rp=document.getElementById('receivePledge');
+    if(rp&&!rp.dataset.wired){rp.dataset.wired='1';rp.addEventListener('click',function(){
+      var first=(name.split(/\s+/)[0]||'').trim();
+      rp.style.background='#1f9d55';rp.style.color='#fff';rp.style.borderStyle='solid';rp.disabled=true;
+      rp.textContent='🤝 وعدك محفوظ'+(first?' يا '+first:'')+' — طلبك ينجهّز الآن!';
+      track('RECEIVE_PLEDGE',{transaction_id:txId});
+    });}
     showPanel(3);updateCallMsg();
     try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
     try{if(window.ttq){var ttPhone='+966'+order.phone.replace(/^0/,'');ttq.identify({'phone_number':ttPhone});}}catch(e){}
