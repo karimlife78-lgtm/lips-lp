@@ -172,6 +172,11 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .offer{position:relative;border:2px solid var(--line);border-radius:var(--r-lg);padding:18px;margin-bottom:14px;background:#fff;transition:border-color .18s,box-shadow .18s,background .18s;cursor:pointer;box-shadow:var(--shadow-sm);display:flex;flex-wrap:wrap;align-items:center;gap:14px}
 .offer:hover{border-color:var(--red-soft)}
 .offer.selected{border-color:var(--red);box-shadow:var(--shadow-red);background:linear-gradient(180deg,#fff,#fffafb)}
+/* quiz-matched offer — extra "recommended for you" emphasis */
+.offer.quiz-rec{border-color:var(--ok);box-shadow:0 0 0 2px rgba(31,157,85,.25),var(--shadow)}
+.offer.quiz-rec.selected{border-color:var(--ok);box-shadow:0 0 0 2px var(--ok),var(--shadow-red)}
+.offer .ribbon.rec{background:linear-gradient(145deg,var(--ok),#178045);animation:recPulse 1.8s ease-in-out infinite}
+@keyframes recPulse{0%,100%{box-shadow:var(--shadow-sm)}50%{box-shadow:0 6px 18px -4px rgba(31,157,85,.75)}}
 /* inline CTA that reveals inside the selected offer */
 .offer-cta{flex-basis:100%;width:100%;border:0;border-radius:14px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-weight:900;font-size:15.5px;font-family:'Cairo';cursor:pointer;max-height:0;opacity:0;padding:0 18px;margin:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1),opacity .3s ease,padding .4s ease,margin .4s ease}
 .offer.selected .offer-cta{max-height:74px;opacity:1;padding:15px 18px;margin-top:14px;animation:ctaGlow 1.9s ease-in-out infinite}
@@ -326,6 +331,9 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .guarantee .seal{width:68px;height:68px;border-radius:50%;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;display:grid;place-items:center;font-size:32px;margin:0 auto 12px;box-shadow:var(--shadow-red)}
 .guarantee h2{font-size:22px;font-weight:900}
 .guarantee p{font-size:14px;color:var(--ink-soft);margin-top:8px}
+.guarantee p b{color:var(--red)}
+.grtee-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.gr-pill{font-size:12px;font-weight:800;background:#fff;border:1px solid #f3d4d9;color:var(--ink);padding:8px 13px;border-radius:999px;box-shadow:var(--shadow-sm)}
 
 /* FAQ — premium accordion */
 .faq{max-width:var(--maxw);margin-inline:auto}
@@ -842,8 +850,13 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   <div class="wrap">
     <div class="guarantee">
       <div class="seal">🛡️</div>
-      <h2>اطلب وانت مطمئن</h2>
-      <p>تدفع <b>عند الاستلام</b> فقط — تشوف المنتج بيدك قبل لا تدفع ريال. منتج آمن ومرخّص، وبياناتك سرّية تماماً.</p>
+      <h2>ضمان 30 يوم — أو نرجّع فلوسك</h2>
+      <p>استخدم الكريم <b>30 يوم كاملة</b>. إذا ما لاحظت فرق حقيقي، تواصل معنا و<b>نرجّع لك المبلغ كامل</b> — بدون أسئلة. المخاطرة علينا، مو عليك.</p>
+      <div class="grtee-row">
+        <span class="gr-pill">💵 دفع عند الاستلام</span>
+        <span class="gr-pill">↩️ استرجاع خلال 30 يوم</span>
+        <span class="gr-pill">🔒 بياناتك سرّية</span>
+      </div>
     </div>
   </div>
 </section>
@@ -862,6 +875,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <details class="fq"><summary><span class="fic">🚚</span><span class="qtext">وش مدة التوصيل؟</span><span class="pm">+</span></summary><div class="fans"><div><p>نوصّل لجميع مدن السعودية، عادة خلال <span class="hl">2-4 أيام عمل</span> حسب مدينتك.</p></div></div></details>
     <details class="fq"><summary><span class="fic">🛡️</span><span class="qtext">هل المنتج حلال ومعتمد؟</span><span class="pm">+</span></summary><div class="fans"><div><p>نعم، تركيبة <span class="hl">حلال 100%</span> ومسجّلة لدى هيئة الغذاء والدواء SFDA ومختبرة جلدياً.</p></div></div></details>
     <details class="fq"><summary><span class="fic">🚬</span><span class="qtext">مناسب للمدخنين؟</span><span class="pm">+</span></summary><div class="fans"><div><p>أكيد — صُمم <span class="hl">خصيصاً</span> لمعالجة اسمرار الشفايف الناتج عن التدخين والجفاف والشمس.</p></div></div></details>
+    <details class="fq"><summary><span class="fic">📦</span><span class="qtext">هل الطلب يوصل بخصوصية؟</span><span class="pm">+</span></summary><div class="fans"><div><p>نعم — يوصلك بـ<span class="hl">غلاف عادي محايد</span> بدون أي اسم منتج أو تفاصيل ظاهرة على الطرد. لا أحد يعرف محتواه غيرك.</p></div></div></details>
     <details class="fq"><summary><span class="fic">🌿</span><span class="qtext">ليش الجينشان مهم؟</span><span class="pm">+</span></summary><div class="fans"><div><p>الجينشان يحتوي مركبات تثبّط <span class="hl">إنزيم التيروزيناز</span> المسؤول عن اسمرار الشفايف — من أقوى مكونات التفتيح الطبيعي.</p></div></div></details>
   </div>
 
@@ -924,6 +938,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <!-- Panel 2 -->
       <div class="panel" id="panel2">
         <div class="cod-note"><span class="ic">💵</span><span>تدفع <b style="color:var(--ink)">عند الاستلام</b> — عبّي بياناتك وبنتواصل معك لتأكيد الطلب.</span></div>
+        <div class="cod-note" style="background:#f2faf5;border-color:#cfe9d9"><span class="ic">📦</span><span>يوصلك بـ<b style="color:var(--ink)">غلاف عادي محايد</b> — بدون أي اسم منتج على الطرد. خصوصيتك محفوظة تماماً.</span></div>
         <form id="orderForm" novalidate>
           <div class="field" id="f-name"><label>الاسم الكامل <span class="req">*</span></label><input type="text" id="name" placeholder="مثال: محمد العتيبي" autocomplete="name" /><div class="errmsg">رجاءً اكتب اسمك.</div></div>
           <div class="field" id="f-phone"><label>رقم الجوال <span class="req">*</span></label><input type="tel" id="phone" class="ltr" placeholder="05XXXXXXXX" inputmode="numeric" autocomplete="tel" maxlength="10" /><div class="hint">نحتاجه للتواصل وتأكيد الطلب.</div><div class="errmsg">رقم جوال سعودي غير صحيح (يبدأ بـ 05 و10 أرقام).</div></div>
@@ -1084,8 +1099,14 @@ function showQuizResult(){
   burstConfetti(resEl);
   setTimeout(function(){resEl.scrollIntoView({behavior:'smooth',block:'center'});},120);
   selectOffer(document.getElementById(r.offer),true);
-  var rec=document.getElementById(r.offer),rib=rec.querySelector('.ribbon');
-  if(!rib){rib=document.createElement('span');rib.className='ribbon green';rec.appendChild(rib);}
+  /* clear any previous quiz recommendation, then flag the matched offer */
+  document.querySelectorAll('.offer.quiz-rec').forEach(function(o){o.classList.remove('quiz-rec');var er=o.querySelector('.ribbon.rec');if(er)er.remove();});
+  var rec=document.getElementById(r.offer);
+  rec.classList.add('quiz-rec');
+  var rib=rec.querySelector('.ribbon');
+  if(rib){rib.className='ribbon rec';}
+  else{rib=document.createElement('span');rib.className='ribbon rec';rec.appendChild(rib);}
+  rib.textContent='✅ اخترناه لك';
   track('QUIZ_COMPLETE',{recommended:idx+1});
 }
 function burstConfetti(host){
