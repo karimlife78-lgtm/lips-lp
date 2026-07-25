@@ -315,6 +315,9 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .review .verified{font-size:10px;font-weight:800;color:var(--ok);background:#e9f7ef;padding:2px 7px;border-radius:6px}
 .review .city{font-size:12px;color:var(--ink-soft);font-weight:700}
 .review p{font-size:14px;color:var(--ink)}
+.revpix{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 auto 18px;max-width:var(--maxw)}
+.revpix img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+@media(max-width:400px){.revpix{gap:6px}}
 /* Rating summary */
 .rating-summary{max-width:var(--maxw);margin:0 auto 22px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow-sm);display:flex;gap:20px;align-items:center}
 .rb-big{text-align:center;flex:none;min-width:80px}
@@ -836,6 +839,14 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <div class="rb-row"><span class="lbl">2★</span><div class="rb-track"><div class="rb-fill" style="width:2%"></div></div><span class="rb-pct">2%</span></div>
       <div class="rb-row"><span class="lbl">1★</span><div class="rb-track"><div class="rb-fill" style="width:1%"></div></div><span class="rb-pct">1%</span></div>
     </div>
+  </div>
+
+  <!-- Real customer photos strip -->
+  <div class="revpix wrap">
+    <img src="/assets/mullein-rev4.webp" alt="عميل يستخدم قطرات المولين" loading="lazy" />
+    <img src="/assets/mullein-rev2.webp" alt="عبوات المولين الأصلية" loading="lazy" />
+    <img src="/assets/mullein-rev1.webp" alt="قطّارة المولين" loading="lazy" />
+    <img src="/assets/mullein-rev3.webp" alt="حقائق المكمّل على العبوة" loading="lazy" />
   </div>
 
   <div class="review wrap"><div class="top"><div class="av">ف</div><div><div class="nm">فهد <span class="verified">✔ موثّق</span></div><div class="city">الرياض</div></div></div><div class="stars" style="color:var(--gold);font-size:13px">★★★★★</div><p>«أنا مدخّن شيشة من سنين وصدري دايم ثقيل الصبح. بعد أسبوعين على القطرات حسّيت نفَسي أخف والكحّة الصباحية قلّت. أنصح فيه.»</p></div>
