@@ -590,7 +590,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <h3 class="qr-title" id="qrTitle">العرض المناسب لك</h3>
       <p class="qr-desc" id="qrDesc"></p>
       <div class="qr-tags" id="qrTags"></div>
-      <button class="btn lg cta-pulse" data-scroll="#offers">شوف عرضك المناسب ↓</button>
+      <button class="btn lg cta-pulse" id="qrCta">شوف عرضك المناسب ↓</button>
     </div>
   </div>
 </section>
@@ -1107,8 +1107,20 @@ function showQuizResult(){
   if(rib){rib.className='ribbon rec';}
   else{rib=document.createElement('span');rib.className='ribbon rec';rec.appendChild(rib);}
   rib.textContent='✅ اخترناه لك';
+  recOfferId=r.offer;
   track('QUIZ_COMPLETE',{recommended:idx+1});
 }
+/* scroll the chosen offer into view, offset for the sticky header */
+var recOfferId='offer2';
+function scrollToRecOffer(){
+  var el=document.getElementById(recOfferId)||document.getElementById('offers');
+  if(!el)return;
+  var headH=(document.querySelector('header.bar')||{}).offsetHeight||64;
+  var y=el.getBoundingClientRect().top+window.scrollY-headH-14;
+  window.scrollTo({top:y,behavior:'smooth'});
+}
+var qrCtaBtn=document.getElementById('qrCta');
+if(qrCtaBtn)qrCtaBtn.addEventListener('click',scrollToRecOffer);
 function burstConfetti(host){
   var colors=['#D90A2C','#C2A14D','#1f9d55','#A30821','#f0b429','#fff'];
   for(var i=0;i<24;i++){
