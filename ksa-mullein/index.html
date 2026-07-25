@@ -189,16 +189,16 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .offer .ribbon{position:absolute;top:-13px;right:18px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;font-size:11.5px;font-weight:900;padding:5px 14px;border-radius:999px;box-shadow:var(--shadow-sm);z-index:2}
 .offer .ribbon.gold{background:linear-gradient(145deg,var(--ink),#2a221c)}
 .offer .ribbon.green{background:linear-gradient(145deg,var(--ok),#178045)}
-.offer .imgs{flex:none;width:84px;height:84px;position:relative;display:flex;align-items:center;justify-content:center}
-.offer .imgs picture{position:absolute;display:block}
-.offer .imgs img{height:78px;width:auto;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(21,17,15,.18));display:block}
+.offer .imgs{flex:none;width:92px;height:92px;display:flex;align-items:center;justify-content:center;gap:0}
+.offer .imgs img{height:84px;width:auto;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(20,35,26,.22));display:block}
+.offer .imgs.two{width:100px}
+.offer .imgs.two img{height:74px;margin-inline:-9px}
+.offer .imgs.three{width:104px}
+.offer .imgs.three img{height:64px;margin-inline:-11px}
+.offer .imgs img:nth-child(1){z-index:3}
+.offer .imgs img:nth-child(2){z-index:2}
+.offer .imgs img:nth-child(3){z-index:1}
 .offer .imgs .ph-mini{width:64px;height:78px;border-radius:12px;border:1.5px dashed rgba(46,107,69,.35);display:flex;align-items:center;justify-content:center;font-size:26px;background:repeating-linear-gradient(135deg,rgba(46,107,69,.05) 0 9px,transparent 9px 18px)}
-.offer .imgs picture:nth-child(1){z-index:3}
-.offer .imgs.two picture:nth-child(1){transform:translateX(11px) rotate(4deg)}
-.offer .imgs.two picture:nth-child(2){transform:translateX(-11px) rotate(-4deg);z-index:2}
-.offer .imgs.three picture:nth-child(1){transform:translateX(0) rotate(0)}
-.offer .imgs.three picture:nth-child(2){transform:translateX(15px) rotate(7deg);z-index:2}
-.offer .imgs.three picture:nth-child(3){transform:translateX(-15px) rotate(-7deg);z-index:1}
 .offer .obody{flex:1;min-width:0}
 .offer-qty{font-size:18px;font-weight:900;font-family:'Cairo'}
 .offer-qty small{display:block;font-size:12px;font-weight:800;color:var(--red);margin-top:1px}
