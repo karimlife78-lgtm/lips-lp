@@ -7,7 +7,8 @@ var PRODUCT_LABELS = {
   'Glow':     'كولاجين جلو',
   'Gluco':    'جلوكو',
   'Ceylora':  'سيلورا',
-  'NoorGlow': 'نورقلو'
+  'NoorGlow': 'نورقلو',
+  'Mullein':  'المولين'
 };
 
 function doPost(e) {
