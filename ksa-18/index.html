@@ -414,6 +414,9 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .x{width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:17px;color:var(--ink-soft);font-weight:900}
 .sheet-body{padding:18px 18px 24px}
 .panel{display:none}.panel.active{display:block;animation:fade .25s ease}
+/* sticky checkout action bar — keeps the submit button always reachable, no scrolling */
+.cta-sticky{position:sticky;bottom:0;margin:10px -18px 0;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));background:var(--paper);box-shadow:0 -10px 22px -10px rgba(0,0,0,.22);z-index:6}
+.cta-sticky .btn{margin:0}
 .sel-offer{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--red-soft);border-radius:16px;padding:13px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
 .sel-offer .badge{flex:none;width:54px;height:54px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;padding:5px}
 .sel-offer .badge img{height:46px;width:auto}
@@ -952,9 +955,11 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
             <span style="font-size:13.5px;line-height:1.7;font-weight:700;color:#1a5c36">أتعهد أني جاد في طلبي، وسأرد على مكالمة التأكيد وأستلم طلبي من المندوب ✋<span style="display:block;font-weight:400;font-size:12px;color:#4a7a5c;margin-top:3px">نشحن فقط للعملاء الجادين — هذا يخلي التوصيل أسرع للجميع 🤝</span></span>
           </label>
           <div id="pledgeErr" style="display:none;margin:4px 0 8px;padding:9px 13px;background:#fcedef;border:1px solid #f3d4d9;border-radius:10px;color:#A30821;font-size:12.5px;font-weight:700;text-align:center">فضلاً أكّد تعهدك بالاستلام حتى نقدر نشحن طلبك ✋</div>
-          <button class="btn lg cta-pulse" id="submitBtn" type="submit">تأكيد الطلب ✅</button>
           <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🇸🇦</div>
           <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
+          <div class="cta-sticky">
+            <button class="btn lg cta-pulse" id="submitBtn" type="submit">تأكيد الطلب ✅</button>
+          </div>
         </form>
       </div>
       <!-- Panel 3 -->
@@ -1187,10 +1192,10 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
   var pledge=document.getElementById('pledgeChk'),pledgeErr=document.getElementById('pledgeErr');
-  if(pledgeErr)pledgeErr.style.display='none';
-  document.getElementById('pledgeBox').style.borderColor='#bfe3cc';
+  if(pledge&&!pledge.checked){if(pledgeErr)pledgeErr.style.display='block';document.getElementById('pledgeBox').style.borderColor='#A30821';if(ok){document.getElementById('pledgeBox').scrollIntoView({behavior:'smooth',block:'center'});}ok=false;}
+  else{if(pledgeErr)pledgeErr.style.display='none';document.getElementById('pledgeBox').style.borderColor='#bfe3cc';}
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-  if(pledge&&pledge.checked)track('PLEDGE_CONFIRMED',{});
+  track('PLEDGE_CONFIRMED',{});
   var fullCity=district?city+' — حي '+district.replace(/^حي\s*/,''):city;
   var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
   var submitBtn=document.getElementById('submitBtn');
