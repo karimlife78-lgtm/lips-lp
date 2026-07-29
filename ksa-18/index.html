@@ -1187,10 +1187,10 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
   var pledge=document.getElementById('pledgeChk'),pledgeErr=document.getElementById('pledgeErr');
-  if(pledge&&!pledge.checked){if(pledgeErr)pledgeErr.style.display='block';document.getElementById('pledgeBox').style.borderColor='#A30821';if(ok){document.getElementById('pledgeBox').scrollIntoView({behavior:'smooth',block:'center'});}ok=false;}
-  else{if(pledgeErr)pledgeErr.style.display='none';document.getElementById('pledgeBox').style.borderColor='#bfe3cc';}
+  if(pledgeErr)pledgeErr.style.display='none';
+  document.getElementById('pledgeBox').style.borderColor='#bfe3cc';
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-  track('PLEDGE_CONFIRMED',{});
+  if(pledge&&pledge.checked)track('PLEDGE_CONFIRMED',{});
   var fullCity=district?city+' — حي '+district.replace(/^حي\s*/,''):city;
   var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
   var submitBtn=document.getElementById('submitBtn');
