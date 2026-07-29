@@ -1191,11 +1191,22 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   if(name.length<2){setErr('f-name',true);ok=false;}else setErr('f-name',false);
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
-  var pledge=document.getElementById('pledgeChk'),pledgeErr=document.getElementById('pledgeErr');
+  var pledge=document.getElementById('pledgeChk'),pledgeErr=document.getElementById('pledgeErr'),pledgeBox=document.getElementById('pledgeBox');
   if(pledgeErr)pledgeErr.style.display='none';
-  document.getElementById('pledgeBox').style.borderColor='#bfe3cc';
+  if(pledgeBox)pledgeBox.style.borderColor='#bfe3cc';
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
-  if(pledge&&pledge.checked)track('PLEDGE_CONFIRMED',{});
+  /* Soft delivery pledge (non-blocking): at the moment of confirming, scroll the
+     commitment into view, auto-affirm it, and pulse it green so the customer
+     registers the promise — while the order proceeds to thank-you in parallel. */
+  if(pledge&&!pledge.checked)pledge.checked=true;
+  if(pledgeBox){
+    pledgeBox.scrollIntoView({behavior:'smooth',block:'center'});
+    pledgeBox.style.transition='box-shadow .3s,border-color .3s';
+    pledgeBox.style.borderColor='#1f9d55';
+    pledgeBox.style.boxShadow='0 0 0 3px rgba(31,157,85,.4)';
+    setTimeout(function(){if(pledgeBox)pledgeBox.style.boxShadow='';},1600);
+  }
+  track('PLEDGE_CONFIRMED',{});
   var fullCity=district?city+' — حي '+district.replace(/^حي\s*/,''):city;
   var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,name:UPSELLS[k].name,price:UPSELLS[k].price};}),total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
   var submitBtn=document.getElementById('submitBtn');
@@ -1262,9 +1273,11 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       rp.textContent='🤝 وعدك محفوظ'+(first?' يا '+first:'')+' — طلبك ينجهّز الآن!';
       track('RECEIVE_PLEDGE',{transaction_id:txId});
     });}
-    showPanel(3);updateCallMsg();
+    // fire conversion pixels immediately — don't wait for the pledge-view beat
     try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
     track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});
+    // brief beat so the pledge the customer just affirmed stays visible before thank-you replaces it
+    setTimeout(function(){showPanel(3);updateCallMsg();},1000);
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
   .then(function(r){
