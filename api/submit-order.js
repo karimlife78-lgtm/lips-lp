@@ -34,7 +34,7 @@ module.exports = async function handler(req, res) {
 
     // TEMP: geo-block lifted for these pages to allow testing from outside KSA.
     // REMOVE each exception once testing is confirmed — everything else stays KSA-only.
-    const TEMP_BYPASS_PAGES = new Set(['ksa-gluco', 'ksa-glow']);
+    const TEMP_BYPASS_PAGES = new Set(['ksa-gluco', 'ksa-glow', 'ksa-22']);
 
     // 2. Block outside allowed region — allow empty country (local dev / header absent)
     if (country && !ALLOWED.has(country) && !TEMP_BYPASS_PAGES.has(page)) {
