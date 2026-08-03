@@ -295,6 +295,114 @@ function extractJson(text) {
 }
 
 // ============================================================================
+//  PRODUCT IMAGES
+//  Gemini cannot see images, so it gives us a product page URL and we pull the
+//  Open Graph image from that page ourselves. Many big retailers (Sephora,
+//  Amazon) block datacenter IPs, so this is best-effort by design: a product
+//  with no image renders a placeholder rather than a broken <img>.
+// ============================================================================
+const IMG_TIMEOUT = 6000;
+const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+  + '(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+
+// Only allow real image URLs over https — never data:, never javascript:.
+function safeImageUrl(raw, base) {
+  if (!raw) return null;
+  let u;
+  try { u = new URL(String(raw).trim(), base); } catch (_) { return null; }
+  if (u.protocol !== 'https:') return null;           // http images break on our HTTPS page
+  if (/\.(svg)(\?|$)/i.test(u.pathname)) return null; // svg logos are usually not the product
+  return u.toString();
+}
+
+function extractOgImage(html, pageUrl) {
+  // og:image / twitter:image, attribute order agnostic
+  const patterns = [
+    /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]*content=["']([^"']+)["']/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]*property=["']og:image(?::secure_url)?["']/i,
+    /<meta[^>]+name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i
+  ];
+  for (const re of patterns) {
+    const m = html.match(re);
+    if (m && m[1]) {
+      const url = safeImageUrl(decodeXml(m[1]), pageUrl);
+      if (url) return url;
+    }
+  }
+  // JSON-LD Product.image as a fallback
+  const ld = html.match(/"image"\s*:\s*"(https:\/\/[^"]+)"/i);
+  if (ld && ld[1]) return safeImageUrl(ld[1].replace(/\\\//g, '/'), pageUrl);
+  return null;
+}
+
+async function fetchProductImage(pageUrl) {
+  if (!pageUrl) return null;
+  let target;
+  try { target = new URL(pageUrl); } catch (_) { return null; }
+  if (target.protocol !== 'https:') return null;
+
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), IMG_TIMEOUT);
+  try {
+    const r = await fetch(target.toString(), {
+      signal: ctrl.signal,
+      redirect: 'follow',
+      headers: { 'User-Agent': BROWSER_UA, 'Accept': 'text/html,application/xhtml+xml' }
+    });
+    if (!r.ok) return null;
+    const ct = r.headers.get('content-type') || '';
+    if (!/text\/html/i.test(ct)) return null;
+    // Only need the <head>; cap the read so a huge page cannot stall the request.
+    const html = (await r.text()).slice(0, 200000);
+    return extractOgImage(html, r.url || target.toString());
+  } catch (_) {
+    return null;                       // blocked, timed out, or no OG tag — fine
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Bing's thumbnail service renders an image for a plain search term. No key, no
+ * HTML scraping, no bot-protection to fight — and because the browser loads the
+ * URL directly, it adds nothing to this request's latency.
+ * The trade-off is honest and worth stating in the UI: it is a *search result*
+ * for the product name, not a verified photo of that exact SKU.
+ */
+function bingThumbUrl(query, size) {
+  const s = size || 400;
+  return 'https://tse2.mm.bing.net/th?q=' + encodeURIComponent(query)
+    + '&w=' + s + '&h=' + s + '&c=7&rs=1&p=0&dpr=2&pid=1.7';
+}
+
+/**
+ * Attach a thumbnail to every product immediately, then try to upgrade to a real
+ * Open Graph photo from the product page. OG is the better image when we can get
+ * it (it is the actual SKU), but most large retailers serve JS shells with no OG
+ * tag, so it only lands maybe a third of the time — hence thumb-first.
+ */
+async function attachImages(products) {
+  // 1. Guaranteed baseline for every product, costs no time.
+  products.forEach(p => {
+    p.image_url = bingThumbUrl(p.name);
+    p.image_source = 'search';
+  });
+
+  // 2. Opportunistic upgrade, hard-capped so slow retailers cannot stall us.
+  const budget = new Promise(resolve => setTimeout(resolve, 7000));
+  await Promise.race([
+    Promise.allSettled(products.map(async p => {
+      const og = await fetchProductImage(p.product_url);
+      if (og) { p.image_url = og; p.image_source = 'og'; }
+    })),
+    budget
+  ]);
+
+  return products;
+}
+
+// ============================================================================
 //  ACTION: discover  —  trending products for a market + niche + period
 // ============================================================================
 async function actionDiscover(req, res) {
@@ -337,6 +445,7 @@ Return ONLY a JSON array, no commentary, in this exact shape:
     "why_trending": "the actual reason demand is rising right now",
     "evidence": "what the source said, briefly",
     "est_price_usd": number or null,
+    "product_url": "a real retailer or brand product page URL for THIS product that you actually found in search results, or null",
     "confidence": "high" | "medium" | "low"
   }
 ]`;
@@ -356,7 +465,15 @@ Return ONLY a JSON array, no commentary, in this exact shape:
     aiError = e.message;
   }
 
-  // 3. Score each product with our own deterministic GCC rules
+  // 3. Product photos: search thumbnail for all, upgraded to the real product
+  //    page image where the retailer exposes one.
+  let imagesVerified = 0;
+  try {
+    products = await attachImages(products);
+    imagesVerified = products.filter(p => p.image_source === 'og').length;
+  } catch (_) { /* images are a nicety — never fail the whole request */ }
+
+  // 4. Score each product with our own deterministic GCC rules
   const scored = products.map(prod => ({
     ...prod,
     gcc: scoreGccFit(prod)
@@ -375,6 +492,8 @@ Return ONLY a JSON array, no commentary, in this exact shape:
       grounded,
       trendsError,
       aiError,
+      imagesVerified,
+      imagesTotal: scored.length,
       // Explicit so the UI never implies precision we don't have
       dataNote: grounded
         ? 'Products researched via Google Search grounding. GCC scores computed locally from your 2026 research rules.'

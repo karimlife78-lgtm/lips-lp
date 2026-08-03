@@ -91,6 +91,20 @@ select.inp option{background:var(--paper);color:var(--ink)}
 .card:hover{border-color:var(--line);transform:translateY(-2px)}
 .card.blocked{opacity:.62}
 .card-top{display:flex;justify-content:space-between;gap:11px;align-items:flex-start}
+
+/* product photo */
+.shot{position:relative;width:100%;aspect-ratio:16/10;border-radius:var(--r-sm);
+  overflow:hidden;background:var(--surface);border:1px solid var(--line-2);flex:none}
+.shot img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.shot .ph{position:absolute;inset:0;display:grid;place-items:center;
+  font-size:30px;opacity:.25}
+.shot .tag{position:absolute;left:7px;bottom:7px;font-size:9.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:5px;
+  background:rgba(10,7,5,.78);backdrop-filter:blur(4px);color:var(--ink-2)}
+.shot .tag.ok{color:var(--ok)}
+.shot a.zoom{position:absolute;right:7px;bottom:7px;font-size:9.5px;font-weight:700;
+  padding:3px 7px;border-radius:5px;background:rgba(10,7,5,.78);
+  backdrop-filter:blur(4px);color:var(--gold)}
 .card h3{font-family:var(--disp);font-size:15.5px;font-weight:700;line-height:1.3}
 .card .cat{font-size:11px;color:var(--ink-soft);margin-top:3px}
 
@@ -367,6 +381,14 @@ function render(d){
   if (d.meta.trendsError) {
     b += '<div class="note note-warn">⚠️ <div>Google Trends unavailable ('+esc(d.meta.trendsError)+') — the sidebar is empty.</div></div>';
   }
+  if (d.meta.imagesTotal) {
+    var ver = d.meta.imagesVerified || 0;
+    b += '<div class="note note-info">🖼️ <div>'
+      + '<b>'+ver+' of '+d.meta.imagesTotal+'</b> photos come from the actual product page '
+      + '(marked <b>✓ product page</b>). The rest are image-search results for the product '
+      + 'name — close, but not guaranteed to be that exact SKU. Click <b>source ↗</b> to check.'
+      + '</div></div>';
+  }
   $('banner').innerHTML = b;
 
   if (!d.products.length) {
@@ -420,7 +442,22 @@ function card(p, i){
     return '<div class="reason '+k+'"><span class="p">'+pts+'</span><span>'+esc(r.text)+'</span></div>';
   }).join('');
 
+  var verified = p.image_source === 'og';
+  var shot = '<div class="shot">'
+    + '<div class="ph">📦</div>'
+    + (p.image_url
+        ? '<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" '
+          + 'referrerpolicy="no-referrer" onerror="this.remove()">'
+        : '')
+    + '<span class="tag'+(verified?' ok':'')+'">'
+      + (verified ? '✓ product page' : 'search image') + '</span>'
+    + (p.product_url
+        ? '<a class="zoom" href="'+esc(p.product_url)+'" target="_blank" rel="noopener">source ↗</a>'
+        : '')
+    + '</div>';
+
   return '<div class="card '+(g.blocked?'blocked':'')+'">'
+    + shot
     + '<div class="card-top"><div>'
       + '<h3>'+esc(p.name)+'</h3>'
       + (p.category?'<div class="cat">'+esc(p.category)+'</div>':'')
@@ -481,7 +518,15 @@ function renderAnalysis(d, p){
   }).join('');
 
   $('sheet').innerHTML =
-      '<h2>'+esc(p.name)+'</h2>'
+      (p.image_url
+        ? '<div class="shot" style="aspect-ratio:16/7;margin-bottom:15px">'
+          + '<div class="ph">📦</div>'
+          + '<img src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" '
+          + 'referrerpolicy="no-referrer" onerror="this.remove()">'
+          + (p.product_url ? '<a class="zoom" href="'+esc(p.product_url)+'" target="_blank" rel="noopener">source ↗</a>' : '')
+          + '</div>'
+        : '')
+    + '<h2>'+esc(p.name)+'</h2>'
     + '<div class="sh-sub">'+(d.gcc.unscored
         ? 'GCC fit: no rule matched — judge this one on the analysis below'
         : 'GCC fit '+d.gcc.score+'/100 — '+esc(d.gcc.verdict))+'</div>'
