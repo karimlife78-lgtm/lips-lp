@@ -172,6 +172,7 @@ module.exports = async function handler(req, res) {
         '/ksa-glow':    { name: 'Collagen Glow',        icon: '✨', desc: 'Collagen sachet LP' },
         '/ksa-gut':     { name: 'Gut Glow',             icon: '🌿', desc: 'Probiotic sachet LP' },
         '/video-bot':   { name: 'Video Script Bot',     icon: '🎬', desc: 'AI script generator' },
+        '/trends':      { name: 'Product Radar',        icon: '📡', desc: 'Trend discovery + GCC scoring + LP builder' },
         '/privacy':     { name: 'Privacy Policy',        icon: '🔒', desc: 'Required for ad approval' },
         '/terms':       { name: 'Terms & Conditions',    icon: '📄', desc: 'Required for ad approval' },
       };
