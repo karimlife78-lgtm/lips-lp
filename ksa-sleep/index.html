@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0b0d18" />
+<title>ليلة من Cosmarab — لصقة النوم الليلية بدون ميلاتونين</title>
+<meta name="description" content="ليلة من Cosmarab — لصقة نوم ليلية بالمغنيسيوم + جذر الناردين + إل-ثيانين. بدون ميلاتونين، بدون حبوب، بدون خمول الصباح. تُلصق قبل النوم وتُنزع في الصباح. حلال · الدفع عند الاستلام." />
+<meta property="og:title" content="ليلة — لصقة النوم بدون ميلاتونين" />
+<meta property="og:description" content="جرّبتِ الحبوب وما نفعت؟ لصقة واحدة قبل النوم. بدون ميلاتونين وبدون خمول الصباح." />
+<meta property="og:type" content="product" />
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+  ttq.load('D87KCLRC77UENKCNEPV0');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
+<link rel="icon" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/shop/app.css" />
+<style>
+/* ═══════════════════════════════════════════════════════════
+   ليلة — NIGHT THEME OVERRIDE
+   Deep indigo night instead of the warm red/gold house theme.
+   Everything below is scoped so /shop/app.css stays untouched.
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --ink:#0b0d18;--ink2:#12162a;--ink3:#1a1f38;
+  --red:#6f6cf0;--red2:#4a47c9;
+  --gold:#8fa3ff;--gold2:#c5d2ff;
+  --line:rgba(143,163,255,.16);
+  --glow:rgba(111,108,240,.30);--gold-glow:rgba(143,163,255,.20);
+  --tint:#7de0d0;--tint-glow:rgba(125,224,208,.18);
+  --moon:#e8ecff;
+}
+body{
+  background-image:
+    radial-gradient(1100px 640px at 78% -10%,rgba(111,108,240,.34),transparent 58%),
+    radial-gradient(900px 560px at -6% 10%,rgba(143,163,255,.16),transparent 56%),
+    radial-gradient(820px 520px at 50% 112%,rgba(125,224,208,.14),transparent 62%);
+}
+
+/* ── STARFIELD (pure CSS, no images) ───────────────────── */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.stars i{position:absolute;background:var(--moon);border-radius:50%;opacity:.5;animation:tw 4s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.16;transform:scale(.7)}50%{opacity:.85;transform:scale(1)}}
+.wrap,header,section,footer{position:relative;z-index:1}
+
+/* ── HERO: THE PATCH (CSS-rendered product) ────────────── */
+.night-stage{position:relative;width:100%;max-width:430px;aspect-ratio:1/1;margin:0 auto;display:grid;place-items:center}
+.moon{position:absolute;top:6%;left:12%;width:104px;height:104px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff,#dbe3ff 46%,#9fb0ee 78%);
+  box-shadow:0 0 70px 20px rgba(180,197,255,.30),inset -12px -8px 0 -4px rgba(120,140,220,.32);
+  animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* the patch itself — rounded-square medical patch, not a circle */
+.patch{position:relative;width:58%;aspect-ratio:1/1;border-radius:30%;
+  background:
+    radial-gradient(circle at 32% 26%,rgba(255,255,255,.30),transparent 46%),
+    linear-gradient(150deg,#3b3f86 0%,#252a5c 45%,#171b3d 100%);
+  border:1px solid rgba(197,210,255,.34);
+  box-shadow:0 30px 80px -22px rgba(111,108,240,.85),
+             inset 0 2px 22px rgba(197,210,255,.20),
+             inset 0 -18px 34px rgba(0,0,0,.45);
+  display:grid;place-items:center;animation:breathe 5.5s ease-in-out infinite}
+/* perforated adhesive edge — the visual cue that says "patch" */
+.patch::before{content:"";position:absolute;inset:7%;border-radius:26%;
+  border:1.5px dashed rgba(197,210,255,.34)}
+/* soft adhesive backing glow under the patch */
+.patch::after{content:"";position:absolute;inset:-6%;border-radius:32%;z-index:-1;
+  background:radial-gradient(circle,rgba(143,163,255,.20),transparent 68%)}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+/* embossed crescent on the patch face */
+.patch .crest{width:44%;height:44%;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 38% 34%,rgba(232,236,255,.95),rgba(180,196,255,.5));
+  -webkit-mask:radial-gradient(circle at 68% 32%,transparent 47%,#000 48%);
+          mask:radial-gradient(circle at 68% 32%,transparent 47%,#000 48%);
+  filter:drop-shadow(0 0 14px rgba(197,210,255,.7))}
+/* concentric "absorption" rings pulsing outward */
+.ring{position:absolute;inset:0;border-radius:30%;border:1px solid rgba(143,163,255,.5);animation:ripple 3.6s ease-out infinite;opacity:0}
+.ring:nth-child(2){animation-delay:1.2s}.ring:nth-child(3){animation-delay:2.4s}
+@keyframes ripple{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.85);opacity:0}}
+/* floating botanical motes */
+.mote{position:absolute;font-size:1.5rem;opacity:.75;animation:drift 9s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(143,163,255,.6))}
+@keyframes drift{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(11px,-17px) rotate(9deg)}66%{transform:translate(-9px,-9px) rotate(-7deg)}}
+
+/* ── THE "PILLS DIDN'T WORK" COMPARISON ────────────────── */
+.versus{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin-top:30px}
+.vs-col{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:26px 22px}
+.vs-col.bad{border-color:rgba(239,68,68,.30);background:linear-gradient(180deg,rgba(239,68,68,.07),var(--card))}
+.vs-col.good{border-color:rgba(143,163,255,.45);background:linear-gradient(180deg,rgba(111,108,240,.13),var(--card));
+  box-shadow:0 22px 56px -24px rgba(111,108,240,.6)}
+.vs-col h3{font-size:1.06rem;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.vs-col ul{list-style:none;display:grid;gap:11px}
+.vs-col li{display:flex;gap:10px;font-size:.94rem;color:var(--muted);line-height:1.6}
+.vs-col li b{color:var(--text);font-weight:800}
+.vs-mark{flex:none;width:21px;height:21px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:900;margin-top:3px}
+.bad .vs-mark{background:rgba(239,68,68,.16);color:#fca5a5}
+.good .vs-mark{background:rgba(61,220,151,.16);color:var(--ok)}
+.vs-mid{display:grid;place-items:center;font-family:var(--fh);font-weight:900;color:var(--gold2);font-size:.82rem;
+  writing-mode:vertical-rl;letter-spacing:.2em;opacity:.65}
+
+/* ── 8-HOUR RELEASE TIMELINE ───────────────────────────── */
+.night-line{margin-top:34px;background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:30px 26px 24px;position:relative;overflow:hidden}
+.night-line::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(111,108,240,.13),transparent 45%,rgba(125,224,208,.10))}
+.nl-track{position:relative;height:5px;border-radius:99px;margin:38px 0 8px;
+  background:linear-gradient(270deg,#4a47c9,#6f6cf0 42%,#7de0d0)}
+.nl-dots{display:flex;justify-content:space-between;position:relative;margin-top:-27px}
+.nl-dot{text-align:center;flex:1;position:relative}
+.nl-dot i{display:block;width:17px;height:17px;border-radius:50%;margin:0 auto 11px;background:var(--ink);
+  border:3px solid var(--gold);box-shadow:0 0 0 5px rgba(111,108,240,.18)}
+.nl-dot b{display:block;font-family:var(--fh);font-size:.9rem;color:var(--gold2);font-weight:900}
+.nl-dot span{display:block;color:var(--muted);font-size:.76rem;margin-top:2px;line-height:1.45}
+
+/* ── INGREDIENT ORBS ───────────────────────────────────── */
+.orbs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.orb-card{background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:28px 22px;text-align:center;transition:.25s;position:relative;overflow:hidden}
+.orb-card:hover{transform:translateY(-6px);border-color:var(--gold)}
+.orb{width:78px;height:78px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;font-size:2.1rem;position:relative;
+  background:radial-gradient(circle at 34% 30%,rgba(143,163,255,.34),rgba(26,31,56,.9));
+  border:1px solid rgba(143,163,255,.34);box-shadow:0 0 34px -6px rgba(111,108,240,.6),inset 0 2px 14px rgba(197,210,255,.14)}
+.orb-card h3{font-size:1.08rem;margin-bottom:6px}
+.orb-card .dose{display:inline-block;font-family:var(--fh);font-size:.74rem;font-weight:900;color:var(--gold2);
+  background:rgba(143,163,255,.13);border:1px solid rgba(143,163,255,.3);border-radius:99px;padding:3px 11px;margin-bottom:9px}
+.orb-card p{color:var(--muted);font-size:.92rem}
+.no-list{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.no-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.28);
+  color:#fca5a5;border-radius:99px;padding:8px 15px;font-size:.85rem;font-weight:800}
+
+/* ── THE SCIENCE: TWO-ROUTE DIAGRAM ────────────────────── */
+.sci{background:linear-gradient(180deg,rgba(111,108,240,.09),var(--card));border:1px solid rgba(143,163,255,.30);
+  border-radius:var(--rl);padding:34px 26px;margin-top:30px}
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+.route{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px;position:relative}
+.route.oral{border-color:rgba(239,68,68,.28)}
+.route.skin{border-color:rgba(125,224,208,.40);box-shadow:0 18px 46px -22px rgba(125,224,208,.45)}
+.route h4{font-family:var(--fh);font-size:.98rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.hop{display:flex;align-items:center;gap:11px;margin-bottom:9px;font-size:.88rem;color:var(--muted)}
+.hop b{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:.85rem;
+  background:rgba(143,163,255,.12);border:1px solid var(--line)}
+.hop.loss{color:#fca5a5}
+.hop.loss b{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.3)}
+.hop.win{color:var(--tint)}
+.hop.win b{background:rgba(125,224,208,.14);border-color:rgba(125,224,208,.34)}
+.route .verdict{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font-family:var(--fh);font-weight:900;font-size:.92rem}
+.route.oral .verdict{color:#fca5a5}
+.route.skin .verdict{color:var(--tint)}
+/* stat strip */
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.stat{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:20px 16px;text-align:center}
+.stat .n{font-family:var(--fh);font-size:1.85rem;font-weight:900;color:var(--gold2);line-height:1}
+.stat .t{color:var(--muted);font-size:.83rem;margin-top:6px;line-height:1.5}
+.src-note{color:var(--dim);font-size:.76rem;text-align:center;margin-top:16px;line-height:1.6}
+
+/* ── DAILY-COST BADGE ──────────────────────────────────── */
+.perday{display:inline-block;margin-top:7px;background:rgba(125,224,208,.13);border:1px solid rgba(125,224,208,.35);
+  color:var(--tint);border-radius:99px;padding:4px 12px;font-size:.76rem;font-weight:900;letter-spacing:.02em}
+
+/* ── SLEEP-DEBT CALCULATOR ─────────────────────────────── */
+.calc{background:linear-gradient(180deg,rgba(111,108,240,.10),var(--card));border:1px solid rgba(143,163,255,.34);
+  border-radius:var(--rl);padding:32px 26px;margin-top:30px;max-width:680px;margin-inline:auto}
+.calc h3{text-align:center;font-size:1.2rem;margin-bottom:6px}
+.calc .hint{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:22px}
+.calc-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:9px}
+.calc-row label{font-weight:800;font-size:.95rem}
+.calc-row output{font-family:var(--fh);font-weight:900;color:var(--gold2);font-size:1.15rem}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:var(--ink3);outline:none;margin:6px 0 20px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));box-shadow:0 0 0 5px rgba(111,108,240,.22)}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border:none;border-radius:50%;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));box-shadow:0 0 0 5px rgba(111,108,240,.22)}
+.calc-out{text-align:center;background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:22px 18px;margin-top:6px}
+.calc-out .big{font-family:var(--fh);font-size:2.5rem;font-weight:900;color:var(--gold2);line-height:1.1}
+.calc-out .lbl{color:var(--muted);font-size:.9rem;margin-top:4px}
+.calc-out .msg{margin-top:13px;font-size:.95rem;font-weight:700;color:var(--tint)}
+
+/* ── RESPONSIVE ────────────────────────────────────────── */
+@media(max-width:860px){
+  .versus{grid-template-columns:1fr;gap:12px}
+  .vs-mid{writing-mode:horizontal-tb;padding:4px 0}
+  .orbs{grid-template-columns:1fr}
+  .night-stage{max-width:290px;aspect-ratio:1/.9}
+  .moon{width:66px;height:66px;top:0;left:2%}
+  .patch{width:66%}
+  .nl-dot span{font-size:.68rem}
+  .nl-dot b{font-size:.8rem}
+  /* science: stack the two routes — 2 cols made text wrap one word per line */
+  .routes{grid-template-columns:1fr;gap:14px}
+  .sci{padding:26px 18px}
+  /* product stage above the copy on mobile so the patch is seen first */
+  .hero-grid{display:flex;flex-direction:column}
+  .hero-grid > .night-stage{order:-1;margin-bottom:20px}
+}
+@media(max-width:640px){
+  /* stat strip: 3 cols crushed the Arabic into single-word columns */
+  .stat-strip{grid-template-columns:1fr;gap:10px}
+  .stat{display:flex;align-items:center;gap:14px;text-align:right;padding:16px 18px}
+  .stat .n{font-size:1.5rem;flex:none;min-width:82px}
+  .stat .t{margin-top:0;text-align:right}
+}
+@media(max-width:520px){
+  .nl-dots{flex-wrap:wrap;gap:20px 0}
+  .nl-dot{flex:0 0 50%}
+  .nl-track{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ STARFIELD ═══ -->
+<div class="stars" id="stars" aria-hidden="true"></div>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-head">
+          <div class="hero-orb" style="background:radial-gradient(circle at 34% 30%,rgba(143,163,255,.4),rgba(26,31,56,.95));border:1px solid rgba(143,163,255,.4)">🌙</div>
+          <div>
+            <div style="font-family:var(--fh);font-weight:900;letter-spacing:.16em;font-size:.72rem;color:var(--gold2);opacity:.9">COSMARAB</div>
+            <div style="font-family:var(--fh);font-weight:900;font-size:1.6rem;line-height:1.1">ليلة<span style="color:var(--gold2)">.</span></div>
+          </div>
+        </div>
+
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(125,224,208,.10);border:1px solid rgba(125,224,208,.32);
+          color:var(--tint);border-radius:99px;padding:7px 15px;font-size:.8rem;font-weight:800;margin-bottom:16px">
+          🔬 تقنية التوصيل عبر الجلد — تتجاوز المعدة والكبد
+        </div>
+
+        <h1>بلعتِ الحبوب…<br><span style="color:var(--gold2)">وما زلتِ مستيقظة؟</span></h1>
+        <p class="sub">المشكلة مو فيكِ — المشكلة في <b>الطريقة</b>. الحبوب تمرّ على المعدة والكبد قبل ما توصل. <b>ليلة</b> لصقة تُلصق على الجلد قبل النوم وتُطلق تركيبتها ببطء طوال ٨ ساعات. بدون ميلاتونين، وبدون دوخة الصباح.</p>
+
+        <div class="trust-row">
+          <span>🚫 <b>بدون ميلاتونين</b></span>
+          <span>💊 <b>بدون حبوب</b></span>
+          <span>☀️ <b>بدون خمول الصباح</b></span>
+          <span>✅ <b>حلال</b></span>
+        </div>
+
+        <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn gold lg btn-pulse" style="max-width:330px" id="heroCta">
+            اطلبي الآن — الدفع عند الاستلام <span class="shine"></span>
+          </button>
+        </div>
+        <p style="color:var(--muted);font-size:.86rem;margin-top:12px">🚚 توصيل ١–٣ أيام داخل السعودية · تدفعين عند الاستلام</p>
+      </div>
+
+      <!-- CSS-rendered product stage -->
+      <div class="night-stage" aria-label="لصقة ليلة">
+        <div class="moon"></div>
+        <span class="mote" style="top:16%;right:12%">🌿</span>
+        <span class="mote" style="bottom:20%;left:10%;animation-delay:2.5s">💧</span>
+        <span class="mote" style="top:34%;left:4%;animation-delay:4.5s">✦</span>
+        <div class="patch">
+          <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+          <div class="crest"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ WHY PILLS FAIL ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">ليش الحبوب ما نفعت معكِ؟</h2>
+    <p style="text-align:center;color:var(--muted);max-width:640px;margin:10px auto 0">
+      الحبة تنزل للمعدة، يهضمها الجهاز الهضمي، ثم يفلترها الكبد — وما يوصل لجسمكِ إلا جزء بسيط، ودفعة وحدة بسرعة. عشان كذا تصحين بعد ٣ ساعات، أو تصحين بثِقل.
+    </p>
+
+    <div class="versus">
+      <div class="vs-col bad">
+        <h3>💊 الحبوب التقليدية</h3>
+        <ul>
+          <li><i class="vs-mark">✕</i><span>تمرّ على <b>المعدة والكبد</b> — يضيع جزء كبير قبل ما يشتغل</span></li>
+          <li><i class="vs-mark">✕</i><span>تُطلق <b>دفعة واحدة</b> سريعة ثم تختفي منتصف الليل</span></li>
+          <li><i class="vs-mark">✕</i><span>الميلاتونين <b>هرمون</b> — وجرعاته العالية ترتبط بالنعاس الصباحي</span></li>
+          <li><i class="vs-mark">✕</i><span><b>خمول وثقل</b> في الصباح</span></li>
+          <li><i class="vs-mark">✕</i><span>صعبة البلع ومزعجة للمعدة الفاضية</span></li>
+        </ul>
+      </div>
+
+      <div class="vs-mid">مقابل</div>
+
+      <div class="vs-col good">
+        <h3>🌙 لصقة ليلة</h3>
+        <ul>
+          <li><i class="vs-mark">✓</i><span>تصل <b>عبر الجلد مباشرة</b> — تتجاوز المعدة والكبد</span></li>
+          <li><i class="vs-mark">✓</i><span><b>إطلاق بطيء ٨ ساعات</b> — يرافقكِ طول الليل</span></li>
+          <li><i class="vs-mark">✓</i><span><b>بدون ميلاتونين</b> — تركيبة نباتية بدون هرمونات</span></li>
+          <li><i class="vs-mark">✓</i><span>تصحين <b>صافية ونشيطة</b>، مو مدوّخة</span></li>
+          <li><i class="vs-mark">✓</i><span>تُلصق وتُنسى — <b>بدون بلع ولا طعم</b></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ THE SCIENCE ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">العلم وراء <span style="color:var(--gold2)">اللصقة</span></h2>
+    <p style="text-align:center;color:var(--muted);max-width:660px;margin:10px auto 0">
+      التوصيل عبر الجلد ليس فكرة جديدة أو تجريبية — إنه نفس المبدأ الطبي المستخدم في لصقات النيكوتين ولصقات المسكّنات ولصقات الهرمونات منذ عقود. الفرق كله في <b style="color:var(--text)">الطريق</b> الذي تسلكه التركيبة داخل جسمكِ.
+    </p>
+
+    <div class="sci">
+      <div class="routes">
+        <!-- ORAL ROUTE -->
+        <div class="route oral">
+          <h4>💊 الطريق الطويل — الحبة</h4>
+          <div class="hop"><b>١</b><span>المعدة — تبدأ الأحماض بتكسير التركيبة</span></div>
+          <div class="hop"><b>٢</b><span>الأمعاء — امتصاص جزئي فقط</span></div>
+          <div class="hop loss"><b>٣</b><span>الكبد — «التمثيل الأول» يستهلك جزءاً كبيراً</span></div>
+          <div class="hop"><b>٤</b><span>الدم — يصل ما تبقّى، دفعة واحدة</span></div>
+          <div class="verdict">↓ يصل جزء بسيط · ثم يختفي بسرعة</div>
+        </div>
+
+        <!-- TRANSDERMAL ROUTE -->
+        <div class="route skin">
+          <h4>🌙 الطريق المباشر — اللصقة</h4>
+          <div class="hop win"><b>١</b><span>الجلد — إطلاق بطيء ومستمر</span></div>
+          <div class="hop win"><b>٢</b><span>الدم مباشرة — بدون معدة ولا كبد</span></div>
+          <div class="hop win"><b>٣</b><span>ثبات على مدى ٨ ساعات كاملة</span></div>
+          <div class="hop win"><b>٤</b><span>جرعة أقل تكفي · إزعاج أقل للمعدة</span></div>
+          <div class="verdict">↑ تجاوز الكبد · مفعول ممتد طوال الليل</div>
+        </div>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat"><div class="n">٨ ساعات</div><div class="t">إطلاق مستمر — بدل دفعة واحدة سريعة</div></div>
+        <div class="stat"><div class="n">٪٤٠</div><div class="t">ارتفاع خطر النعاس الصباحي مع جرعات الميلاتونين العالية*</div></div>
+        <div class="stat"><div class="n">٠</div><div class="t">ميلاتونين · صفر هرمونات مضافة</div></div>
+      </div>
+
+      <p class="src-note">
+        * تحليل شامل لـ ٧٩ دراسة علمية شملت ٣٬٨٦١ مشاركاً وجد أن الجرعات الأعلى من الميلاتونين ترفع احتمال النعاس بنسبة ٪٤٠ مقارنة بالدواء الوهمي.<br>
+        مبدأ «تجاوز التمثيل الأول في الكبد» (First-Pass Metabolism) مبدأ صيدلاني معروف وموثّق في الأدبيات الطبية.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 8-HOUR TIMELINE ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">ليلتكِ مع <span style="color:var(--gold2)">ليلة</span></h2>
+    <p style="text-align:center;color:var(--muted);max-width:600px;margin:10px auto 0">لصقة واحدة قبل النوم. الباقي يشتغل وحده.</p>
+
+    <div class="night-line">
+      <div class="nl-track"></div>
+      <div class="nl-dots">
+        <div class="nl-dot"><i></i><b>٠٠:٠٠</b><span>تُلصق على الساعد<br>أو أعلى الظهر</span></div>
+        <div class="nl-dot"><i></i><b>٢٠ دقيقة</b><span>يبدأ الاسترخاء<br>وتهدأ العضلات</span></div>
+        <div class="nl-dot"><i></i><b>٣ ساعات</b><span>نوم عميق<br>بدون استيقاظ</span></div>
+        <div class="nl-dot"><i></i><b>٨ ساعات</b><span>تنزعينها<br>وتصحين صافية</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ INGREDIENTS ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">٣ مكوّنات. صفر ميلاتونين.</h2>
+    <p style="text-align:center;color:var(--muted);max-width:620px;margin:10px auto 0">تركيبة نباتية مدروسة — تهدّي الجهاز العصبي بدل ما تفرض عليه هرمون خارجي.</p>
+
+    <div class="orbs">
+      <div class="orb-card">
+        <div class="orb">🧲</div>
+        <h3>المغنيسيوم</h3>
+        <div class="dose">مرخي العضلات</div>
+        <p>يهدّئ الجهاز العصبي ويرخي العضلات المشدودة. نقصه من أشهر أسباب الأرق وتقطّع النوم.</p>
+      </div>
+      <div class="orb-card">
+        <div class="orb">🌿</div>
+        <h3>جذر الناردين</h3>
+        <div class="dose">Valerian Root</div>
+        <p>عشبة استُخدمت لقرون لتقصير وقت الاستغراق في النوم — تساعدكِ تنامين أسرع بدون تخدير.</p>
+      </div>
+      <div class="orb-card">
+        <div class="orb">🍵</div>
+        <h3>إل-ثيانين</h3>
+        <div class="dose">L-Theanine</div>
+        <p>مستخلص من الشاي الأخضر. يوقف «دوامة الأفكار» قبل النوم ويعطي هدوء ذهني بدون نعاس ثقيل.</p>
+      </div>
+    </div>
+
+    <div class="no-list">
+      <span class="no-pill">🚫 بدون ميلاتونين</span>
+      <span class="no-pill">🚫 بدون هرمونات</span>
+      <span class="no-pill">🚫 بدون بلع حبوب</span>
+      <span class="no-pill">🚫 بدون كحول</span>
+      <span class="no-pill">🚫 بدون خمول صباحي</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SLEEP DEBT CALCULATOR ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">كم ليلة ضاعت عليكِ؟</h2>
+    <p style="text-align:center;color:var(--muted);max-width:600px;margin:10px auto 0">حرّكي الشريط وشوفي الرقم بنفسكِ.</p>
+
+    <div class="calc">
+      <h3>حاسبة ديون النوم</h3>
+      <p class="hint">السعودية من أكثر ٣ دول في العالم من ناحية قلة النوم 🇸🇦</p>
+
+      <div class="calc-row"><label for="hrs">كم ساعة تنامين فعلياً؟</label><output id="hrsOut">٥ ساعات</output></div>
+      <input type="range" id="hrs" min="3" max="8" step="1" value="5" />
+
+      <div class="calc-row"><label for="wks">من كم أسبوع وأنتِ كذا؟</label><output id="wksOut">١٢ أسبوع</output></div>
+      <input type="range" id="wks" min="1" max="52" step="1" value="12" />
+
+      <div class="calc-out">
+        <div class="big" id="debtBig">٢٥٢ ساعة</div>
+        <div class="lbl">من النوم ضاعت عليكِ</div>
+        <div class="msg" id="debtMsg">= أكثر من ١٠ أيام كاملة بدون نوم 😴</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ REVIEWS ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">وش قالوا عنها</h2>
+    <div class="revs">
+      <div class="rev">
+        <div class="stars">★★★★★</div>
+        <p>«جرّبت حبوب النوم سنة كاملة وكنت أصحى مدوّخة ومو قادرة أشتغل. اللصقة أول شي ما حسّيت فيها بالصباح — صحيت عادي وكأني نمت زين طبيعي.»</p>
+        <div class="who"><div class="av">ن</div><div><b>نوف · الرياض</b><span>مستخدمة منذ ٣ أسابيع</span></div><span class="vbadge">✓ موثّق</span></div>
+      </div>
+      <div class="rev">
+        <div class="stars">★★★★★</div>
+        <p>«أنا دوامي ليلي وتنظيم نومي كان مستحيل. الحلو فيها إني ما أبلع شي — ألصقها وأنسى. صار عندي روتين ثابت لأول مرة من سنين.»</p>
+        <div class="who"><div class="av">م</div><div><b>مشاعل · جدة</b><span>مستخدمة منذ شهر</span></div><span class="vbadge">✓ موثّق</span></div>
+      </div>
+      <div class="rev">
+        <div class="stars">★★★★★</div>
+        <p>«زوجي كان يقول ما أقدر أنام إلا متأخر. من أول أسبوع صار ينام قبل ١٢. أخذنا ٣ علب بعدها مباشرة.»</p>
+        <div class="who"><div class="av">ه</div><div><b>هيا · الدمام</b><span>مستخدمة منذ شهرين</span></div><span class="vbadge">✓ موثّق</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ OFFERS + ORDER ═══════════════ -->
+<section class="section reveal" id="offers">
+  <div class="wrap">
+    <h2 style="text-align:center">اختاري باقتكِ</h2>
+    <p style="text-align:center;color:var(--muted);max-width:600px;margin:10px auto 0">كل علبة = ٣٠ لصقة = شهر كامل. الدفع عند الاستلام.</p>
+
+    <div class="offers">
+      <div class="offer" id="off1" data-offer="1box" data-qty="1" data-price="169" data-label="علبة واحدة" data-sub="٣٠ لصقة — شهر">
+        <div class="qty">علبة واحدة</div>
+        <div class="unit">٣٠ لصقة — شهر كامل</div>
+        <div class="price">١٦٩ <small>ر.س</small></div>
+        <div class="was">٢٢٩ ر.س</div>
+        <div class="perday">≈ ٥.٦ ر.س / ليلة</div>
+        <div class="check">✓</div>
+      </div>
+
+      <div class="offer" id="off2" data-offer="2box" data-qty="2" data-price="269" data-label="علبتان" data-sub="٦٠ لصقة — شهرين">
+        <div class="pop">الأكثر طلباً 🔥</div>
+        <div class="save">وفّري ٦٩ ر.س</div>
+        <div class="qty">علبتان</div>
+        <div class="unit">٦٠ لصقة — شهرين</div>
+        <div class="price">٢٦٩ <small>ر.س</small></div>
+        <div class="was">٣٣٨ ر.س</div>
+        <div class="perday">≈ ٤.٥ ر.س / ليلة</div>
+        <div class="check">✓</div>
+      </div>
+
+      <div class="offer" id="off3" data-offer="3box" data-qty="3" data-price="359" data-label="٣ علب" data-sub="٩٠ لصقة — ٣ شهور">
+        <div class="save">وفّري ١٤٨ ر.س</div>
+        <div class="qty">٣ علب</div>
+        <div class="unit">٩٠ لصقة — ٣ شهور</div>
+        <div class="price">٣٥٩ <small>ر.س</small></div>
+        <div class="was">٥٠٧ ر.س</div>
+        <div class="perday">≈ ٤.٠ ر.س / ليلة</div>
+        <div class="check">✓</div>
+      </div>
+    </div>
+
+    <!-- ORDER FORM -->
+    <div style="max-width:560px;margin:34px auto 0">
+      <div class="panel active" id="panel1">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--rl);padding:28px 24px">
+          <h3 style="margin-bottom:6px;font-size:1.2rem">بيانات التوصيل</h3>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:18px">نتواصل معكِ خلال دقائق للتأكيد قبل الشحن.</p>
+
+          <form id="orderForm" novalidate>
+            <div class="field" id="f-name">
+              <label for="name">الاسم الكامل</label>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="مثال: نوف العتيبي" />
+            </div>
+            <div class="field" id="f-phone">
+              <label for="phone">رقم الجوال</label>
+              <input type="tel" id="phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="05XXXXXXXX" />
+            </div>
+            <div class="field" id="f-city">
+              <label for="city">المدينة</label>
+              <input type="text" id="city" name="city" placeholder="مثال: الرياض" />
+            </div>
+
+            <div class="region-err" id="regionErr">عذراً، التوصيل متاح داخل السعودية فقط 🇸🇦</div>
+
+            <div style="background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0">
+              <div style="display:flex;justify-content:space-between;font-size:.94rem;margin-bottom:7px">
+                <span style="color:var(--muted)">الباقة</span><b id="sumOffer">علبتان</b>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:.94rem;margin-bottom:7px">
+                <span style="color:var(--muted)">التوصيل</span><b style="color:var(--ok)">مجاني</b>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-family:var(--fh);font-weight:900;font-size:1.25rem;padding-top:9px;border-top:1px solid var(--line)">
+                <span>الإجمالي</span><span style="color:var(--gold2)" id="sumTotal">٢٦٩ ر.س</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn gold lg" id="submitBtn">تأكيد الطلب ✅ <span class="shine"></span></button>
+            <p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:12px">🔒 بياناتكِ محمية · لا تدفعين شيئاً الآن</p>
+          </form>
+        </div>
+      </div>
+
+      <!-- THANK YOU -->
+      <div class="panel" id="panel3">
+        <div style="background:linear-gradient(180deg,rgba(61,220,151,.10),var(--card));border:1px solid rgba(61,220,151,.35);border-radius:var(--rl);padding:38px 26px;text-align:center">
+          <div style="font-size:3.4rem;margin-bottom:10px">🌙</div>
+          <h3 style="font-size:1.4rem;margin-bottom:8px">تم استلام طلبكِ!</h3>
+          <p style="color:var(--muted);margin-bottom:6px">شكراً لكِ، طلبكِ سُجّل بنجاح.</p>
+          <p style="font-family:var(--fh);font-weight:900;color:var(--gold2);font-size:1.1rem" id="orderId">#—</p>
+          <p style="color:var(--muted);font-size:.92rem;margin-top:14px">سنتواصل معكِ خلال <b style="color:var(--text)">٥ دقائق</b> لتأكيد الطلب.<br>التوصيل خلال ١–٣ أيام · الدفع عند الاستلام.</p>
+          <button class="btn ghost lg" data-close style="margin-top:20px">تمام، شكراً 🙏</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section class="section reveal">
+  <div class="wrap">
+    <h2 style="text-align:center">أسئلة متكررة</h2>
+    <div class="faq" id="faq">
+      <details><summary>هل فيها ميلاتونين؟</summary><p>لا إطلاقاً. «ليلة» خالية تماماً من الميلاتونين. الميلاتونين هرمون، وكثير من الناس يصحى بخمول وثقل بسببه — خصوصاً مع الجرعات العالية. تركيبتنا نباتية: مغنيسيوم + جذر الناردين + إل-ثيانين، تهدّي الجهاز العصبي بشكل طبيعي.</p></details>
+      <details><summary>هل هي فكرة جديدة أو تجريبية؟</summary><p>لا، العكس تماماً. التوصيل عبر الجلد مبدأ طبي مستخدم منذ عقود في لصقات النيكوتين ولصقات تسكين الألم وغيرها. الجديد هو تطبيقه على تركيبة نباتية للنوم بدل الحبوب. ميزته الأساسية أنه يتجاوز المعدة والكبد، فتصل التركيبة للدم مباشرة وبشكل تدريجي طوال الليل.</p></details>
+      <details><summary>وش يعني «تجاوز الكبد»؟</summary><p>أي شي تبلعينه يمرّ على الكبد أولاً، والكبد يكسّر جزءاً كبيراً منه قبل ما يوصل للدم — هذا اسمه علمياً «التمثيل الأول». اللصقة تدخل عبر الجلد للدم مباشرة، فتحتاج جرعة أقل لنفس الأثر، مع إزعاج أقل للمعدة.</p></details>
+      <details><summary>هل هي مناسبة للاستخدام اليومي؟</summary><p>نعم. المكوّنات نباتية وغير هرمونية. تقدرين تستخدمينها يومياً أو في الليالي الصعبة فقط. لو عندكِ حالة صحية أو تاخذين أدوية، استشيري طبيبكِ أولاً.</p></details>
+      <details><summary>وين ألصقها بالضبط؟</summary><p>على منطقة نظيفة وجافة وقليلة الشعر — الساعد من الداخل، أو أعلى الظهر، أو الكتف. الصقيها قبل النوم بـ ٢٠–٣٠ دقيقة وانزعيها في الصباح.</p></details>
+      <details><summary>متى أحس بالمفعول؟</summary><p>أغلب المستخدمات يحسّن بالاسترخاء خلال ٢٠–٤٠ دقيقة من أول ليلة. لكن أفضل نتيجة تجي بعد ٧–١٠ ليالٍ متواصلة لما ينتظم إيقاع نومكِ.</p></details>
+      <details><summary>هل تناسب البشرة الحساسة؟</summary><p>اللاصق طبي ولطيف وخالٍ من اللاتكس. لو بشرتكِ حساسة جداً، جرّبيها على مساحة صغيرة أول مرة وغيّري مكان اللصق كل ليلة.</p></details>
+      <details><summary>هل هي حلال؟</summary><p>نعم، المكوّنات نباتية بالكامل وخالية من الكحول ومن المشتقات الحيوانية.</p></details>
+      <details><summary>كيف أدفع؟</summary><p>الدفع عند الاستلام (COD) — ما تدفعين شيئاً الآن. تستلمين الطلب وتدفعين للمندوب مباشرة. التوصيل مجاني داخل السعودية.</p></details>
+      <details><summary>متى يوصل الطلب؟</summary><p>خلال ١–٣ أيام عمل داخل المدن الرئيسية، وحتى ٥ أيام للمناطق البعيدة. نتصل بكِ للتأكيد قبل الشحن.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer style="border-top:1px solid var(--line);padding:34px 0 110px;margin-top:20px">
+  <div class="wrap" style="text-align:center">
+    <div style="font-family:var(--fh);font-weight:900;letter-spacing:.16em;font-size:.78rem;color:var(--gold2);margin-bottom:8px">COSMARAB · ليلة</div>
+    <p style="color:var(--muted);font-size:.85rem;max-width:620px;margin:0 auto 14px">
+      هذا المنتج مكمّل عناية ولا يُغني عن استشارة الطبيب. غير مخصص لتشخيص أو علاج أي مرض. لا يُستخدم أثناء الحمل أو الرضاعة أو لمن هم دون ١٨ سنة إلا باستشارة مختص.
+    </p>
+    <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:.85rem;color:var(--muted)">
+      <a href="/privacy">سياسة الخصوصية</a><a href="/terms">الشروط والأحكام</a>
+    </div>
+    <p style="color:var(--dim);font-size:.78rem;margin-top:16px">© <span id="yr">2026</span> Cosmarab. جميع الحقوق محفوظة.</p>
+  </div>
+</footer>
+
+<!-- ═══════════════ STICKY CTA ═══════════════ -->
+<div class="stickybar" id="stickybar">
+  <div class="wrap" style="display:flex;align-items:center;gap:12px;justify-content:space-between">
+    <div style="min-width:0">
+      <div style="font-family:var(--fh);font-weight:900;font-size:1.05rem;color:var(--gold2)" id="stickyPrice">٢٦٩ ر.س</div>
+      <div style="color:var(--muted);font-size:.76rem">الدفع عند الاستلام · توصيل مجاني</div>
+    </div>
+    <button class="btn gold" id="stickyOrderBtn" style="flex:none">اطلبي الآن <span class="shine"></span></button>
+  </div>
+</div>
+
+<!-- ═══════════════ SNAP PIXEL ═══════════════ -->
+<script>(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391');snaptr('track','PAGE_VIEW');</script>
+
+<script>
+/* ═══════════ STARFIELD ═══════════ */
+(function(){
+  var box=document.getElementById('stars'); if(!box) return;
+  var n = window.innerWidth<600 ? 34 : 66, html='';
+  for(var i=0;i<n;i++){
+    var s=(Math.random()*2+1).toFixed(1);
+    html+='<i style="top:'+(Math.random()*100).toFixed(1)+'%;left:'+(Math.random()*100).toFixed(1)+'%;width:'+s+'px;height:'+s+'px;animation-delay:'+(Math.random()*4).toFixed(1)+'s"></i>';
+  }
+  box.innerHTML=html;
+})();
+
+/* ═══════════ ARABIC-INDIC NUMERALS ═══════════ */
+function ar(n){ return String(n).replace(/\d/g,function(d){return '٠١٢٣٤٥٦٧٨٩'[d];}); }
+
+/* ═══════════ TRAFFIC SOURCE CAPTURE ═══════════ */
+(function(){
+  try{
+    var p=new URLSearchParams(location.search);
+    var s=p.get('utm_source')||p.get('src')||'';
+    if(!s && document.referrer){
+      var r=document.referrer.toLowerCase();
+      if(r.indexOf('tiktok')>-1)s='tiktok';
+      else if(r.indexOf('snapchat')>-1)s='snapchat';
+      else if(r.indexOf('facebook')>-1||r.indexOf('instagram')>-1)s='meta';
+      else if(r.indexOf('google')>-1)s='google';
+    }
+    if(s) localStorage.setItem('cos_src', s.toLowerCase());
+  }catch(e){}
+})();
+
+/* ═══════════ SLEEP DEBT CALCULATOR ═══════════ */
+(function(){
+  var hrs=document.getElementById('hrs'), wks=document.getElementById('wks');
+  if(!hrs||!wks) return;
+  var hrsOut=document.getElementById('hrsOut'), wksOut=document.getElementById('wksOut');
+  var big=document.getElementById('debtBig'), msg=document.getElementById('debtMsg');
+  function calc(){
+    var h=+hrs.value, w=+wks.value;
+    var deficit=Math.max(0, 8-h);              // hours lost per night vs 8h target
+    var total=deficit*7*w;                      // total hours lost
+    var days=(total/24);
+    hrsOut.textContent = ar(h)+' ساعات';
+    wksOut.textContent = ar(w)+' أسبوع';
+    big.textContent = ar(total)+' ساعة';
+    if(deficit===0) msg.textContent='ممتاز! نومكِ ضمن المعدل الصحي 👏';
+    else if(days<3) msg.textContent='= '+ar(days.toFixed(1))+' يوم كامل بدون نوم 😴';
+    else msg.textContent='= أكثر من '+ar(Math.floor(days))+' أيام كاملة بدون نوم 😴';
+  }
+  hrs.addEventListener('input',calc); wks.addEventListener('input',calc); calc();
+})();
+
+/* ═══════════ OFFERS + ORDER ═══════════ */
+(function(){
+  var sel={offer:'2box',qty:2,price:269,label:'علبتان'};
+
+  function selectOffer(card){
+    if(!card) return;
+    document.querySelectorAll('.offer').forEach(function(c){c.classList.remove('selected');});
+    card.classList.add('selected');
+    sel={offer:card.dataset.offer,qty:+card.dataset.qty,price:+card.dataset.price,label:card.dataset.label};
+    render();
+  }
+  function grandTotal(){ return sel.price; }
+  function render(){
+    var t=grandTotal();
+    var so=document.getElementById('sumOffer'); if(so) so.textContent=sel.label;
+    var st=document.getElementById('sumTotal'); if(st) st.textContent=ar(t)+' ر.س';
+    var sp=document.getElementById('stickyPrice'); if(sp) sp.textContent=ar(t)+' ر.س';
+  }
+  document.querySelectorAll('.offer').forEach(function(c){
+    c.addEventListener('click',function(){selectOffer(c);});
+  });
+
+  function showPanel(n){
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+    var el=document.getElementById('panel'+n); if(el) el.classList.add('active');
+  }
+
+  /* phone: digits only */
+  var phoneEl=document.getElementById('phone');
+  if(phoneEl) phoneEl.addEventListener('input',function(){ this.value=this.value.replace(/[^\d]/g,'').slice(0,10); });
+
+  function setErr(id,on){
+    var f=document.getElementById(id); if(!f) return;
+    f.classList.toggle('invalid',on);
+    var i=f.querySelector('input'); if(i) i.classList.toggle('err',on);
+  }
+
+  var form=document.getElementById('orderForm');
+  if(form) form.addEventListener('submit',function(e){
+    e.preventDefault(); e.stopImmediatePropagation();
+    var name=(document.getElementById('name').value||'').trim();
+    var phone=(document.getElementById('phone').value||'').trim();
+    var city=(document.getElementById('city').value||'').trim();
+    var ok=true;
+    if(name.length<2){setErr('f-name',true);ok=false;}else setErr('f-name',false);
+    if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
+    if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
+    if(!ok) return;
+
+    var src='direct'; try{src=localStorage.getItem('cos_src')||'direct';}catch(x){}
+    var order={
+      product:{sku:'CSM-NIGHT',name:'Cosmarab Layla Sleep Patch',page:'ksa-sleep'},
+      offer:sel.offer, qty:sel.qty, basePrice:sel.price,
+      upsells:[], total:grandTotal(),
+      name:name, phone:phone, city:city,
+      currency:'SAR', src:src, ts:new Date().toISOString()
+    };
+
+    var btn=document.getElementById('submitBtn');
+    if(btn){btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';}
+    document.getElementById('regionErr').style.display='none';
+
+    function onSuccess(){
+      var txId='NGT-'+String(Math.floor(1000+Math.random()*9000));
+      document.getElementById('orderId').textContent='#'+txId;
+      try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
+      try{snaptr('track','PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
+      try{ttq.track('CompletePayment',{value:order.total,currency:'SAR'});}catch(e){}
+      showPanel(3);
+      document.getElementById('offers').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
+    .then(function(r){
+      if(r.status===403){
+        if(btn){btn.disabled=false;btn.textContent='تأكيد الطلب ✅';}
+        document.getElementById('regionErr').style.display='block';
+        return;
+      }
+      onSuccess();
+    }).catch(function(){ onSuccess(); });
+  }, true);
+
+  /* CTAs → offers */
+  function toOffers(){ document.getElementById('offers').scrollIntoView({behavior:'smooth',block:'start'}); }
+  var hc=document.getElementById('heroCta'); if(hc) hc.addEventListener('click',toOffers);
+  var sb=document.getElementById('stickyOrderBtn'); if(sb) sb.addEventListener('click',toOffers);
+  var cl=document.querySelector('[data-close]'); if(cl) cl.addEventListener('click',function(){ showPanel(1); });
+
+  selectOffer(document.getElementById('off2'));
+})();
+
+/* ═══════════ STICKY BAR VISIBILITY ═══════════ */
+(function(){
+  var bar=document.getElementById('stickybar'); if(!bar) return;
+  window.addEventListener('scroll',function(){
+    bar.classList.toggle('show', window.scrollY>560);
+  },{passive:true});
+})();
+
+/* ═══════════ REVEAL ON SCROLL ═══════════ */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in');}); return; }
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } });
+  },{threshold:.12});
+  els.forEach(function(e){io.observe(e);});
+})();
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
