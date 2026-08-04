@@ -266,20 +266,29 @@ async function gemini(prompt, { grounded = true, json = false, retries = 2 } = {
 
   const data = await r.json();
 
-  if (r.status === 429 && retries > 0) {
-    // Google returns a RetryInfo detail like "12.6s" — honour it, with a floor
-    // and a ceiling so we never stall past the function timeout.
-    const detail = ((data.error || {}).details || [])
-      .find(d => (d['@type'] || '').includes('RetryInfo'));
-    const parsed = detail && /([\d.]+)s/.exec(detail.retryDelay || '');
-    const waitMs = Math.min(Math.max((parsed ? parseFloat(parsed[1]) : 15) * 1000, 3000), 20000);
-    await sleep(waitMs);
-    return gemini(prompt, { grounded, json, retries: retries - 1 });
+  if (r.status === 429) {
+    const details = (data.error || {}).details || [];
+    const violations = details.flatMap(d => d.violations || []);
+    // Two very different failures share the 429 status:
+    //   PerDay  — the daily free-tier allowance is gone. Retrying cannot help;
+    //             waiting 35s twice just burns a minute for the same error.
+    //   PerMinute — a burst. Worth honouring the retryDelay.
+    const daily = violations.some(v => /PerDay/i.test(v.quotaId || ''));
+    const limit = (violations[0] || {}).quotaValue || null;
+    if (daily) throw new Error('quota_daily_exhausted' + (limit ? '_' + limit : ''));
+
+    if (retries > 0) {
+      const info = details.find(d => (d['@type'] || '').includes('RetryInfo'));
+      const parsed = info && /([\d.]+)s/.exec(info.retryDelay || '');
+      const waitMs = Math.min(Math.max((parsed ? parseFloat(parsed[1]) : 15) * 1000, 3000), 20000);
+      await sleep(waitMs);
+      return gemini(prompt, { grounded, json, retries: retries - 1 });
+    }
+    throw new Error('rate_limited');
   }
 
   if (!r.ok) {
     const msg = (data.error && data.error.message) || '';
-    if (r.status === 429) throw new Error('rate_limited');
     throw new Error('gemini_' + r.status + '_' + msg.slice(0, 120));
   }
 
