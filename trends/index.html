@@ -86,51 +86,15 @@ select.inp option{background:var(--paper);color:var(--ink)}
 .mode:hover{border-color:var(--line)}
 .mode.on{border-color:var(--gold);background:var(--gold-soft)}
 
-/* ---------- scout picker ---------- */
-.picker{margin-top:12px;padding-top:12px;border-top:1px solid var(--line-2)}
-.picker-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
-.picker-head span{font-size:11px;font-weight:600;color:var(--ink-soft);
-  text-transform:uppercase;letter-spacing:.07em}
-.picker-head i{font-style:normal;text-transform:none;letter-spacing:0;color:var(--gold)}
-.lnk{font-size:11.5px;color:var(--gold);text-decoration:underline}
-.boxes{display:flex;flex-wrap:wrap;gap:7px}
-.box{display:flex;align-items:center;gap:6px;padding:7px 11px;font-size:12px;font-weight:600;
-  border:1px solid var(--line-2);border-radius:20px;color:var(--ink-soft);transition:.15s}
-.box:hover{border-color:var(--line)}
-.box.on{border-color:var(--gold);background:var(--gold-soft);color:var(--ink)}
-.box .ck{width:13px;height:13px;border-radius:4px;border:1px solid var(--line-2);
-  display:grid;place-items:center;font-size:9px;flex:none}
-.box.on .ck{background:var(--gold);border-color:var(--gold);color:#2a1f0c}
-.box.cached{border-style:dashed}
-.box .cc{font-size:9.5px;color:var(--ok);font-weight:700}
+/* ---------- free badge ---------- */
+.freebadge{display:flex;gap:9px;align-items:flex-start;margin-top:12px;padding:10px 12px;
+  background:var(--ok-soft);border:1px solid rgba(58,209,127,.25);border-radius:var(--r-sm);
+  font-size:11.5px;line-height:1.5;color:var(--ink-2)}
+.freebadge span{font-size:14px;flex:none}
 
-/* ---------- pipeline progress ---------- */
-.pipeline{background:var(--paper);border:1px solid var(--line-2);border-radius:var(--r);
-  padding:15px;margin-bottom:18px}
-.pipeline h4{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:11px}
-.steps{display:flex;flex-direction:column;gap:7px}
-.step{display:flex;align-items:center;gap:10px;font-size:12.5px}
-.step .ic{width:22px;text-align:center;flex:none}
-.step .nm{flex:1;color:var(--ink-2)}
-.step .nm i{font-style:normal;color:var(--ink-soft);font-size:11px}
-.step .st{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);flex:none}
-.step.run .nm{color:var(--ink)}
-.step.run .st{color:var(--gold)}
-.step.done .st{color:var(--ok)}
-.step.fail .st{color:var(--red)}
-.step .dot{width:7px;height:7px;border-radius:50%;background:var(--line-2);flex:none}
-.step.run .dot{background:var(--gold);animation:pulse 1s ease-in-out infinite}
-.step.done .dot{background:var(--ok)}
-.step.fail .dot{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* ---------- concept clusters ---------- */
-.concepts{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px;padding-top:11px;
-  border-top:1px solid var(--line-2)}
-.cpt{font-size:11px;padding:4px 9px;border-radius:20px;background:var(--gold-soft);
-  border:1px solid var(--line);color:var(--gold-2);font-weight:600}
-.cpt b{color:var(--ink);font-weight:800}
+.grp{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--gold);margin:13px 0 7px}
+.grp:first-of-type{margin-top:4px}
 
 /* ---------- verdict badges ---------- */
 .vrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
@@ -313,23 +277,19 @@ select.inp option{background:var(--paper);color:var(--ink)}
 
     <div class="modes">
       <button class="mode on" data-mode="quick">
-        <b>⚡ Quick</b><span>One search pass · ~25s</span>
+        <b>⚡ Quick</b><span>3 seeds · ~500 real searches · ~20s</span>
       </button>
       <button class="mode" data-mode="deep">
-        <b>🔬 Deep</b><span>Specialist scouts + red-team check · ~3min</span>
+        <b>🔬 Deep</b><span>All seeds · 1500+ real searches · ~30s</span>
       </button>
     </div>
 
-    <div id="scoutPick" class="picker hide">
-      <div class="picker-head">
-        <span>Scouts to run <i id="costHint"></i></span>
-        <button id="pickAll" class="lnk">all</button>
-      </div>
-      <div id="scoutBoxes" class="boxes"></div>
+    <div class="freebadge">
+      <span>🆓</span>
+      <div>Runs on Google Autocomplete, Google Trends and Amazon Best Sellers —
+      all free and unlimited. One AI call per search, only to read that data.</div>
     </div>
   </div>
-
-  <div id="pipeline" class="pipeline hide"></div>
 
   <div id="banner"></div>
   <div id="out"></div>
@@ -425,239 +385,59 @@ function renderEmpty(){
     + 'Results are researched live from the web and scored against your GCC rules.</p></div>';
 }
 
-/* ---------------- discover ---------------- */
-/* ---------------- scout result cache ----------------
-   The free Gemini tier allows only 20 grounded requests PER DAY and a deep
-   search spends 7, so a repeated query must never cost quota twice. Cached by
-   scout+market+niche+period for 6h in localStorage.                        */
-var CACHE_TTL = 6*3600*1000;
-function ckey(s,m,n,p){ return 'cos_scout_'+s+'_'+m+'_'+n+'_'+p; }
-function cacheGet(s,m,n,p){
-  try {
-    var raw = localStorage.getItem(ckey(s,m,n,p)); if (!raw) return null;
-    var o = JSON.parse(raw);
-    if (Date.now() - o.at > CACHE_TTL) { localStorage.removeItem(ckey(s,m,n,p)); return null; }
-    return o;
-  } catch(_) { return null; }
-}
-function cacheSet(s,m,n,p,items){
-  try { localStorage.setItem(ckey(s,m,n,p), JSON.stringify({at:Date.now(), items:items})); } catch(_){}
-}
-
+/* ---------------- discover ----------------
+   One call. The server mines Google Autocomplete, Google Trends and Amazon
+   Best Sellers (all free, unlimited) and makes a single AI call to read that
+   data. Deep just widens the mining — it does not cost more AI calls.      */
 var MODE = 'quick';
-var PICKED = {};
 
 Array.prototype.forEach.call(document.querySelectorAll('.mode'), function(b){
   b.onclick = function(){
     Array.prototype.forEach.call(document.querySelectorAll('.mode'), function(x){ x.classList.remove('on'); });
     b.classList.add('on');
     MODE = b.getAttribute('data-mode');
-    $('goBtn').textContent = MODE === 'deep' ? 'Run deep search' : 'Find products';
-    $('scoutPick').classList.toggle('hide', MODE !== 'deep');
-    if (MODE === 'deep') renderPicker();
+    $('goBtn').textContent = MODE === 'deep' ? 'Deep search' : 'Find products';
   };
 });
 
-function renderPicker(){
-  var scouts = (CFG && CFG.scouts) || [];
-  var m = $('market').value, n = $('niche').value, p = $('period').value;
-  if (!Object.keys(PICKED).length) scouts.forEach(function(s){ PICKED[s.code] = true; });
+function isQuota(err){ return /quota_daily_exhausted|rate_limited|all_models_exhausted|429/.test(String(err||'')); }
 
-  $('scoutBoxes').innerHTML = scouts.map(function(s){
-    var hit = cacheGet(s.code, m, n, p);
-    return '<button class="box'+(PICKED[s.code]?' on':'')+(hit?' cached':'')+'" data-s="'+s.code+'">'
-      + '<span class="ck">'+(PICKED[s.code]?'✓':'')+'</span>'
-      + s.icon+' '+esc(s.label)
-      + (hit?'<span class="cc">cached</span>':'') + '</button>';
-  }).join('');
-
-  Array.prototype.forEach.call($('scoutBoxes').querySelectorAll('.box'), function(b){
-    b.onclick = function(){ var c = b.getAttribute('data-s'); PICKED[c] = !PICKED[c]; renderPicker(); };
-  });
-
-  var live = scouts.filter(function(s){ return PICKED[s.code] && !cacheGet(s.code,m,n,p); }).length;
-  var calls = live + (live?2:0);
-  $('costHint').textContent = live
-    ? '· costs ~'+calls+' of your 20 daily searches'
-    : '· all cached, costs nothing';
+function quotaBanner(){
+  return '<div class="note note-bad">🛑 <div><b>Every free AI model is used up for now.</b> '
+    + 'The app rotates through several models, so this is rare and resets on Google\'s daily cycle. '
+    + 'The free data mining still worked — try again later, or in a different niche.</div></div>';
 }
-['market','niche','period'].forEach(function(id){
-  $(id).addEventListener('change', function(){ if (MODE==='deep') renderPicker(); });
-});
-$('pickAll').onclick = function(){
-  var scouts = (CFG && CFG.scouts) || [];
-  var allOn = scouts.every(function(s){ return PICKED[s.code]; });
-  scouts.forEach(function(s){ PICKED[s.code] = !allOn; });
-  renderPicker();
-};
 
-$('goBtn').onclick = function(){
-  return MODE === 'deep' ? runDeep() : runQuick();
-};
-
-function busy(on, label){
+function busy(on){
   var btn = $('goBtn');
   btn.disabled = on;
-  btn.innerHTML = on ? '<span class="spin"></span> ' + label
-                     : (MODE === 'deep' ? 'Run deep search' : 'Find products');
+  btn.innerHTML = on
+    ? '<span class="spin"></span> ' + (MODE === 'deep' ? 'Mining searches…' : 'Searching…')
+    : (MODE === 'deep' ? 'Deep search' : 'Find products');
 }
 
-function runQuick(){
-  busy(true, 'Researching…');
-  $('banner').innerHTML = ''; $('pipeline').classList.add('hide');
-  $('out').innerHTML = '<div class="loading">Searching the web for trending products…<div class="bar"></div></div>';
+$('goBtn').onclick = function(){
+  busy(true);
+  $('banner').innerHTML = '';
+  $('out').innerHTML = '<div class="loading">'
+    + (MODE === 'deep'
+        ? 'Mining thousands of real searches, bestsellers and trends…'
+        : 'Mining real searches, bestsellers and trends…')
+    + '<div class="bar"></div></div>';
 
   api('discover', {
-    market: $('market').value, niche: $('niche').value, period: $('period').value
+    market: $('market').value,
+    niche:  $('niche').value,
+    period: $('period').value,
+    deep:   MODE === 'deep'
   }).then(function(d){ LAST = d; render(d); })
     .catch(function(e){
       $('out').innerHTML = isQuota(e.message)
         ? quotaBanner()
-        : '<div class="err">Research failed: '+esc(e.message)+'</div>';
+        : '<div class="err">Search failed: '+esc(e.message)+'</div>';
     })
     .then(function(){ busy(false); });
-}
-
-/* ---------------- deep search ----------------
-   Scouts run one at a time on purpose: five concurrent Gemini calls on one key
-   get throttled hard (measured 111s vs 6s for a single call). Sequential is
-   both faster overall and lets us show progress as each one lands.           */
-function stepRow(id, icon, name, hint, state, note){
-  return '<div class="step '+state+'" id="st-'+id+'">'
-    + '<span class="dot"></span><span class="ic">'+icon+'</span>'
-    + '<span class="nm">'+esc(name)+' <i>'+esc(hint||'')+'</i></span>'
-    + '<span class="st">'+esc(note||'')+'</span></div>';
-}
-function setStep(id, state, note){
-  var el = $('st-'+id); if (!el) return;
-  el.className = 'step ' + state;
-  el.querySelector('.st').textContent = note || '';
-}
-
-var DEAD = false;
-
-/* Both 429 flavours mean "out of Gemini requests" to the user, and the fix is
-   the same, so they get the same explanation instead of a raw error code. */
-function isQuota(err){ return /quota_daily_exhausted|rate_limited|429/.test(String(err||'')); }
-
-function quotaBanner(){
-  return '<div class="note note-bad">🛑 <div><b>Your daily Gemini quota is used up '
-    + '(free tier = 20 grounded searches per day).</b> A deep search spends about 7 of them, '
-    + 'so the free tier is roughly two deep searches a day.<br><br>'
-    + 'Fix: open <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">'
-    + 'Google AI Studio</a> and enable billing on the key — deep searches then cost around '
-    + '$0.05 each and the cap disappears. Until then, Quick mode and anything marked '
-    + '<b>cached</b> still work.</div></div>';
-}
-
-function runDeep(){
-  DEAD = false;
-  var market = $('market').value, niche = $('niche').value, period = $('period').value;
-  var all = (CFG && CFG.scouts) || [];
-  var scouts = all.filter(function(s){ return PICKED[s.code] !== false; });
-  if (!scouts.length) { alert('Pick at least one scout.'); return; }
-
-  busy(true, 'Deep search…');
-  $('banner').innerHTML = '';
-  $('out').innerHTML = '';
-
-  var pl = $('pipeline');
-  pl.classList.remove('hide');
-  pl.innerHTML = '<h4>Deep search pipeline</h4><div class="steps">'
-    + scouts.map(function(s){ return stepRow(s.code, s.icon, s.label, s.hint, '', 'queued'); }).join('')
-    + stepRow('merge', '🧬', 'Triangulate', 'match findings across scouts', '', 'queued')
-    + stepRow('verify', '🛡️', 'Red team', 'try to kill each candidate', '', 'queued')
-    + '</div>';
-
-  var groups = {};
-
-  // --- 1. scouts, sequential, cache-first ---
-  var chain = Promise.resolve();
-  scouts.forEach(function(s){
-    chain = chain.then(function(){
-      if (DEAD) { setStep(s.code, 'fail', 'skipped'); return; }
-
-      var hit = cacheGet(s.code, market, niche, period);
-      if (hit) {
-        groups[s.code] = hit.items || [];
-        var age = Math.round((Date.now()-hit.at)/60000);
-        setStep(s.code, 'done', (hit.items||[]).length + ' found · cached ' + age + 'm ago');
-        return;
-      }
-
-      setStep(s.code, 'run', 'searching…');
-      var t = Date.now();
-      return api('scout', { type: s.code, market: market, niche: niche, period: period })
-        .then(function(r){
-          groups[s.code] = r.items || [];
-          var secs = ((Date.now()-t)/1000).toFixed(0) + 's';
-          var err = (r.meta && r.meta.aiError) || '';
-          if (isQuota(err)) {
-            DEAD = true;
-            setStep(s.code, 'fail', 'out of quota');
-          } else if (err) {
-            setStep(s.code, 'fail', 'failed · ' + secs);
-          } else {
-            cacheSet(s.code, market, niche, period, r.items || []);
-            setStep(s.code, 'done', (r.items||[]).length + ' found · ' + secs);
-          }
-        })
-        .catch(function(){ groups[s.code] = []; setStep(s.code, 'fail', 'failed'); });
-    });
-  });
-
-  // --- 2. merge + triangulate ---
-  chain = chain.then(function(){
-    if (DEAD) $('banner').innerHTML = quotaBanner();
-    setStep('merge', 'run', 'matching…');
-    return api('merge', { groups: groups, market: market });
-  }).then(function(d){
-    LAST = d;
-    setStep('merge', 'done', d.meta.rawCount + ' → ' + d.meta.mergedCount + ' unique');
-    render(d);
-    return d;
-  });
-
-  // --- 3. red team, in small batches over the top candidates ---
-  chain = chain.then(function(d){
-    var top = (d.products || []).slice(0, 8);
-    if (DEAD) { setStep('verify', 'fail', 'no quota left'); return; }
-    if (!top.length) { setStep('verify', 'done', 'nothing to check'); return; }
-
-    setStep('verify', 'run', '0/' + top.length);
-    var verdicts = [];
-    var seq = Promise.resolve();
-    for (var i = 0; i < top.length; i += 4) {
-      (function(batch){
-        seq = seq.then(function(){
-          if (DEAD) return;
-          return api('verify', { candidates: batch, market: market })
-            .then(function(v){
-              if (isQuota((v.meta && v.meta.aiError) || '')) {
-                DEAD = true;
-                $('banner').innerHTML = quotaBanner();
-                return;
-              }
-              verdicts = verdicts.concat(v.verdicts || []);
-              setStep('verify', 'run', verdicts.length + '/' + top.length);
-            })
-            .catch(function(){ /* a failed batch just leaves those unverified */ });
-        });
-      })(top.slice(i, i + 4));
-    }
-
-    return seq.then(function(){
-      setStep('verify', 'done', verdicts.length + ' checked');
-      if (!verdicts.length) return;
-      return api('merge', { groups: groups, verdicts: verdicts, market: market })
-        .then(function(d2){ LAST = d2; render(d2); });
-    });
-  });
-
-  chain.catch(function(e){
-    $('out').innerHTML = '<div class="err">Deep search failed: '+esc(e.message)+'</div>';
-  }).then(function(){ busy(false); });
-}
+};
 
 function scoreClass(v){
   return v==='STRONG' ? 's-strong' : v==='WORTH TESTING' ? 's-test'
@@ -672,29 +452,18 @@ function render(d){
   if (isQuota(d.meta.aiError)) {
     b += quotaBanner();
   } else if (d.meta.aiError) {
-    b += '<div class="note note-bad">⚠️ <div><b>Product research failed.</b> '+esc(d.meta.aiError)+'</div></div>';
-  } else if (!d.meta.grounded) {
-    b += '<div class="note note-warn">⚠️ <div><b>Not search-grounded.</b> The model answered from memory, '
-      + 'so these products are unverified. Re-run before trusting them.</div></div>';
+    b += '<div class="note note-bad">⚠️ <div><b>Could not read the mined data.</b> '+esc(d.meta.aiError)+'</div></div>';
   } else {
-    b += '<div class="note note-info">✓ <div>' + esc(d.meta.dataNote) + '</div></div>';
+    b += '<div class="note note-info">🆓 <div>'
+      + '<b>'+(d.meta.demandCount||0)+' real search phrases</b> mined from Google Autocomplete'
+      + (d.meta.bestsellerCount ? ', <b>'+d.meta.bestsellerCount+'</b> Amazon bestsellers' : '')
+      + (d.trending && d.trending.length ? ', <b>'+d.trending.length+'</b> live trends' : '')
+      + '. Seeds: <i>'+esc((d.meta.seeds||[]).join(', '))+'</i>. '
+      + 'Read by <b>'+esc(d.meta.usedModel||'AI')+'</b> in one call — everything above is free and unlimited.'
+      + '</div></div>';
   }
   if (d.meta.trendsError) {
-    b += '<div class="note note-warn">⚠️ <div>Google Trends unavailable ('+esc(d.meta.trendsError)+') — the sidebar is empty.</div></div>';
-  }
-  if (d.meta.scoutsUsed) {
-    b += '<div class="note note-info">🧬 <div>'
-      + '<b>'+d.meta.rawCount+' findings from '+d.meta.scoutsUsed.length+' scouts → '
-      + d.meta.mergedCount+' unique products</b>, '+d.meta.corroborated+' backed by more than one scout. '
-      + (d.meta.verified
-          ? 'Top candidates were then red-teamed — scores below already include what that turned up.'
-          : 'Red-team check has not run yet, so these scores are unchallenged.')
-      + ((d.concepts && d.concepts.length)
-          ? '<div class="concepts">' + d.concepts.map(function(c){
-              return '<span class="cpt"><b>'+esc(c.key)+'</b> · '+c.scouts.length+' scouts · '+c.count+' products</span>';
-            }).join('') + '</div>'
-          : '')
-      + '</div></div>';
+    b += '<div class="note note-warn">⚠️ <div>Google Trends unavailable ('+esc(d.meta.trendsError)+').</div></div>';
   }
   if (d.meta.imagesTotal) {
     var ver = d.meta.imagesVerified || 0;
@@ -728,11 +497,29 @@ function render(d){
   }
 
   var srcBox = '';
-  if (d.sources && d.sources.length) {
-    srcBox = '<div class="side" style="margin-top:14px"><h3>Sources</h3>'
-      + '<div class="sub">What the research actually read</div>'
-      + '<div class="srcs">' + d.sources.map(function(s){
-          return '<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.title||s.url)+'</a>';
+  var dm = d.demand || {};
+  if ((dm.problems && dm.problems.length) || (dm.wants && dm.wants.length)) {
+    srcBox = '<div class="side" style="margin-top:14px"><h3>Real searches behind this</h3>'
+      + '<div class="sub">Google Autocomplete — people actually type these</div>';
+    if (dm.problems && dm.problems.length) {
+      srcBox += '<div class="grp">😖 Unsolved problems</div><div class="tlist">'
+        + dm.problems.slice(0,8).map(function(x){
+            return '<div class="titem"><span class="q">'+esc(x.phrase)+'</span></div>';
+          }).join('') + '</div>';
+    }
+    if (dm.wants && dm.wants.length) {
+      srcBox += '<div class="grp">🛒 Buying intent</div><div class="tlist">'
+        + dm.wants.slice(0,8).map(function(x){
+            return '<div class="titem"><span class="q">'+esc(x.phrase)+'</span></div>';
+          }).join('') + '</div>';
+    }
+    srcBox += '</div>';
+  }
+  if (d.bestsellers && d.bestsellers.length) {
+    srcBox += '<div class="side" style="margin-top:14px"><h3>Amazon best sellers</h3>'
+      + '<div class="sub">Live, from the local Amazon site</div><div class="tlist">'
+      + d.bestsellers.slice(0,8).map(function(x,i){
+          return '<div class="titem"><span class="n">'+(i+1)+'</span><span class="q">'+esc(x)+'</span></div>';
         }).join('') + '</div></div>';
   }
 
@@ -741,33 +528,36 @@ function render(d){
     : '<div class="grid">'+cards+'</div>';
 }
 
-/* red-team verdict badges + the single strongest reason to walk away */
+/* Saturation measured from real autocomplete data — not a model's opinion. */
 function vbadges(p){
-  var v = p.verdict;
-  if (!v) {
-    return (p.scouts && LAST && LAST.meta && LAST.meta.verified)
-      ? '<div class="unver">Not red-teamed — score is unchallenged.</div>' : '';
-  }
-  var out = '<div class="vrow">';
-  if (v.trajectory) out += '<span class="vb '+esc(v.trajectory)+'">'
-    + (v.trajectory==='rising'?'↗ ':v.trajectory==='declining'?'↘ ':v.trajectory==='plateau'?'→ ':'')
-    + esc(v.trajectory)+'</span>';
-  if (v.saturation) out += '<span class="vb '+esc(v.saturation)+'">'+esc(v.saturation)+' competition</span>';
-  if (v.gcc_available === true) out += '<span class="vb heavy">already in GCC</span>';
-  (v.red_flags||[]).slice(0,2).forEach(function(f){ out += '<span class="vb">⚑ '+esc(f)+'</span>'; });
+  var s = p.sat;
+  if (!s) return '';
+  var cls = s.gccStatus === 'unknown in GCC' ? 'none'
+          : s.gccStatus === 'well known in GCC' ? 'heavy'
+          : s.gccStatus === 'no search footprint' ? '' : 'plateau';
+  var out = '<div class="vrow">'
+    + '<span class="vb '+cls+'">🇸🇦 '+esc(s.gccStatus)+(s.gccHits?' ('+s.gccHits+')':'')+'</span>';
+  if (s.rivalStatus && s.rivalStatus !== 'unmeasured')
+    out += '<span class="vb '+(s.rivalStatus==='heavy competition'?'heavy':s.rivalStatus==='little competition'?'none':'')+'">'
+      + esc(s.rivalStatus)+'</span>';
+  if (s.demandStatus && s.demandStatus !== 'unmeasured')
+    out += '<span class="vb '+(s.demandStatus==='strong search demand'?'none':'')+'">'+esc(s.demandStatus)+'</span>';
   out += '</div>';
-  if (v.kill_reason) out += '<div class="kill"><b>Why to skip:</b> '+esc(v.kill_reason)+'</div>';
+
+  if (s.noFootprint) {
+    out += '<div class="unver">No search footprint — this is a concept rather than a known product, '
+      + 'so saturation could not be measured. Judge it yourself.</div>';
+  }
   return out;
 }
 
 function scoutChips(p){
-  if (!p.scouts || !p.scouts.length) return '';
-  var icons = {tiktok:'🎵',meta:'📘',retail:'📦',problem:'🔎',emerging:'🌱'};
-  var s = p.scouts.map(function(x){ return icons[x]||'•'; }).join('');
-  var n = (p.conceptScouts||[]).length;
-  var t = '<span class="chip'+(p.scouts.length>1?' chip-hi':'')+'">'+s+' '+p.scouts.length+' scout'+(p.scouts.length>1?'s':'')+'</span>';
-  if (n >= 2) t += '<span class="chip chip-hi">“'+esc(p.concept)+'” ×'+n+'</span>';
-  return t;
+  var icons = { problem:'😖', demand:'🛒', bestseller:'📦', trend:'📈' };
+  if (!p.signal) return '';
+  var labels = { problem:'from a real complaint', demand:'from buying searches',
+                 bestseller:'from Amazon top sellers', trend:'from live trends' };
+  return '<span class="chip'+(p.signal==='problem'?' chip-hi':'')+'">'
+    + (icons[p.signal]||'•') + ' ' + esc(labels[p.signal]||p.signal) + '</span>';
 }
 
 function card(p, i){

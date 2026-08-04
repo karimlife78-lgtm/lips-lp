@@ -8,17 +8,31 @@
 //                   the browser. video-bot/index.html has one hardcoded in the
 //                   client; that one is public and should be rotated.
 // ----------------------------------------------------------------------------
-//  Data honesty rule: every figure this file returns is either (a) fetched
-//  live from Google Trends, or (b) produced by a Gemini call with Google
-//  Search grounding attached, in which case the source URLs travel with it.
-//  Nothing invents view counts or revenue. Ungrounded answers are labelled.
+//  FREE BY DESIGN. Google Search grounding is deliberately not used: it burns a
+//  tiny free-tier allowance (gemini-2.5-flash is 20 requests a DAY) and was the
+//  thing that kept failing. Instead every fact comes from a keyless public
+//  endpoint — Google Autocomplete, Google Trends RSS, Amazon Best Sellers — and
+//  is passed INTO the prompt. The model interprets real data; it never sources
+//  it. That is both cheaper and more honest: each claim traces to something a
+//  human can go and look at. Nothing here invents view counts or revenue.
 // ============================================================================
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
 const COOKIE = 'cosadmin';
-const GEMINI_MODEL = 'gemini-2.5-flash';
+
+// Free-tier quotas are per-model and small (gemini-2.5-flash is 20 requests a
+// DAY). So we never depend on one model: if a model is exhausted we fall to the
+// next. Ordered best-quality first.
+const MODEL_CHAIN = [
+  'gemini-3.5-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  'gemini-2.5-flash',
+  'gemini-2.0-flash',
+  'gemma-4-31b-it'
+];
 
 // ---- auth (mirrors admin.js so one login covers both tools) ----------------
 function verify(token, secret) {
@@ -61,16 +75,31 @@ const MARKETS = {
   QA: { name: 'Qatar',         geo: 'QA', lang: 'ar' }
 };
 
+// Seeds matter more than anything else here. Mining the bare niche word gives
+// junk — "beauty" returns "makeup not working bg3" (the video game). Concrete
+// product-level seeds are what surface real buying and problem language.
 const NICHES = {
-  beauty:   'beauty, skincare, cosmetics',
-  wellness: 'health supplements, functional drinks, wellness',
-  hair:     'hair care and hair growth',
-  home:     'home and kitchen gadgets',
-  fitness:  'fitness and body care',
-  baby:     'baby and mother care',
-  men:      'men grooming and performance',
-  fashion:  'fashion accessories'
+  beauty:   { label: 'beauty, skincare, cosmetics',
+              seeds: ['face serum', 'lip', 'acne', 'dark spots', 'dry skin'] },
+  wellness: { label: 'health supplements, functional drinks, wellness',
+              seeds: ['supplement', 'sleep aid', 'energy drink', 'gut health', 'bloating'] },
+  hair:     { label: 'hair care',
+              seeds: ['hair mask', 'dry hair', 'frizzy hair', 'dandruff', 'hair oil'] },
+  home:     { label: 'home and kitchen gadgets',
+              seeds: ['kitchen gadget', 'cleaning tool', 'organizer', 'storage'] },
+  fitness:  { label: 'fitness and body care',
+              seeds: ['body care', 'muscle recovery', 'posture', 'cellulite'] },
+  baby:     { label: 'baby and mother care',
+              seeds: ['baby skin', 'diaper rash', 'baby sleep', 'nursing'] },
+  men:      { label: 'men grooming and performance',
+              seeds: ['beard', 'men skincare', 'shaving', 'men energy'] },
+  fashion:  { label: 'fashion accessories',
+              seeds: ['accessories', 'jewelry', 'bag', 'watch'] }
 };
+
+// Autocomplete picks up whatever shares a word with the seed, including games,
+// films and celebrities. Drop the obvious off-topic noise.
+const NOISE = /\b(bg3|baldur|game|gaming|ps5|xbox|minecraft|roblox|fortnite|movie|film|anime|lyrics|song|meaning|定义|wiki|reddit|salary|jobs?|near me|stock|nfl|nba)\b/i;
 
 const PERIODS = {
   '7d':  { label: 'Last 7 days',   trendsWindow: 'now 7-d' },
@@ -246,68 +275,56 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
  * so bursts do hit the limit — and a 429 mid-pipeline would silently drop a
  * whole scout. Google tells us how long to wait, so wait that long and retry.
  */
-async function gemini(prompt, { grounded = true, json = false, retries = 2 } = {}) {
-  const key = process.env.GEMINI_KEY;
-  if (!key) throw new Error('no_gemini_key');
-
+async function callModel(model, prompt, key) {
   const body = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { maxOutputTokens: 8192 }
   };
-  if (grounded) body.tools = [{ google_search: {} }];
-  // Grounding and responseMimeType:json are mutually exclusive on this model,
-  // so when grounded we ask for JSON in the prompt and parse it out of prose.
-  if (json && !grounded) body.generationConfig = { responseMimeType: 'application/json' };
 
   const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
     { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
   );
-
   const data = await r.json();
 
-  if (r.status === 429) {
-    const details = (data.error || {}).details || [];
-    const violations = details.flatMap(d => d.violations || []);
-    // Two very different failures share the 429 status:
-    //   PerDay  — the daily free-tier allowance is gone. Retrying cannot help;
-    //             waiting 35s twice just burns a minute for the same error.
-    //   PerMinute — a burst. Worth honouring the retryDelay.
-    // The violations array is not always present; fall back to the message text
-    // so a daily cap is never mistaken for a burst and retried pointlessly.
-    const msgText = (data.error || {}).message || '';
-    const daily = violations.some(v => /PerDay/i.test(v.quotaId || ''))
-      || /per ?day|daily/i.test(msgText);
-    const limit = (violations[0] || {}).quotaValue || null;
-    if (daily) throw new Error('quota_daily_exhausted' + (limit ? '_' + limit : ''));
-
-    if (retries > 0) {
-      const info = details.find(d => (d['@type'] || '').includes('RetryInfo'));
-      const parsed = info && /([\d.]+)s/.exec(info.retryDelay || '');
-      const waitMs = Math.min(Math.max((parsed ? parseFloat(parsed[1]) : 15) * 1000, 3000), 20000);
-      await sleep(waitMs);
-      return gemini(prompt, { grounded, json, retries: retries - 1 });
-    }
-    throw new Error('rate_limited');
+  if (r.status === 429 || r.status === 404) {
+    const e = new Error(r.status === 404 ? 'model_missing' : 'model_exhausted');
+    e.tryNext = true;
+    throw e;
   }
-
-  if (!r.ok) {
-    const msg = (data.error && data.error.message) || '';
-    throw new Error('gemini_' + r.status + '_' + msg.slice(0, 120));
-  }
+  if (!r.ok) throw new Error('gemini_' + r.status + '_' + ((data.error || {}).message || '').slice(0, 120));
 
   const cand = (data.candidates || [])[0];
   if (!cand) throw new Error('gemini_empty');
+  return (cand.content && cand.content.parts || []).map(p => p.text || '').join('');
+}
 
-  const text = (cand.content && cand.content.parts || []).map(p => p.text || '').join('');
-  const gm = cand.groundingMetadata || null;
-  const sources = gm && gm.groundingChunks
-    ? gm.groundingChunks
-        .map(c => c.web ? { title: c.web.title, url: c.web.uri } : null)
-        .filter(Boolean)
-    : [];
+/**
+ * Ungrounded only, by design.
+ *
+ * Grounded (google_search) calls burn a separate, tiny free-tier allowance and
+ * were the thing that kept failing. Everything factual now comes from the free
+ * data sources below and is passed INTO the prompt, so the model reasons over
+ * real data instead of recalling it. That is cheaper and more trustworthy.
+ *
+ * Falls through MODEL_CHAIN so one exhausted model never breaks the app.
+ */
+async function gemini(prompt) {
+  const key = process.env.GEMINI_KEY;
+  if (!key) throw new Error('no_gemini_key');
 
-  return { text, sources, grounded: !!gm, queries: (gm && gm.webSearchQueries) || [] };
+  let lastErr = null;
+  for (const model of MODEL_CHAIN) {
+    try {
+      const text = await callModel(model, prompt, key);
+      return { text, model };
+    } catch (e) {
+      lastErr = e;
+      if (e.tryNext) continue;      // exhausted or missing — try the next model
+      throw e;                       // a real error; do not mask it
+    }
+  }
+  throw new Error('all_models_exhausted');
 }
 
 // Scan a string for every balanced JSON array/object and return them all.
@@ -477,7 +494,8 @@ async function actionDiscover(req, res) {
   const p = PERIODS[period];
   if (!m) return res.status(400).json({ error: 'bad_market' });
   if (!p) return res.status(400).json({ error: 'bad_period' });
-  const nicheDesc = NICHES[niche] || niche;
+  const nicheDef = NICHES[niche] || { label: niche, seeds: [niche] };
+  const nicheDesc = nicheDef.label;
 
   // 1. Live Google Trends for the market (real data, free)
   let trending = [];
@@ -488,43 +506,67 @@ async function actionDiscover(req, res) {
     trendsError = e.message;
   }
 
-  // 2. Grounded product research
-  const prompt = `You are a product research analyst for a cash-on-delivery dropshipping business.
+  // 2. Real demand + real bestsellers, straight from free public endpoints.
+  const deep = !!(req.body && req.body.deep);
+  const seeds = deep ? nicheDef.seeds : nicheDef.seeds.slice(0, 3);
+  const [demand, bestsellers] = await Promise.all([
+    mineDemand(seeds, m.geo.toLowerCase(), m.lang, { deep }),
+    amazonBestsellers(niche, market)
+  ]);
 
-TASK: Find real physical products currently trending in the "${nicheDesc}" category in ${m.name} over ${p.label.toLowerCase()}.
+  const problems = demand.filter(d => d.intent === 'problem').slice(0, deep ? 25 : 15);
+  const wants    = demand.filter(d => d.intent === 'demand' || d.intent === 'buy').slice(0, deep ? 25 : 15);
+  const rivals   = demand.filter(d => d.intent === 'rival').slice(0, 10);
 
-Use Google Search to check current sources such as TikTok Shop bestseller roundups, Amazon Movers & Shakers / Best Sellers, retail trend reports, and recent news. Only report products you actually found evidence for in search results.
+  // 3. One ungrounded call. The model gets REAL data and only has to interpret
+  //    it — no browsing, no recall, so no grounding quota is touched.
+  const prompt = `You are a product analyst for a cash-on-delivery dropshipping business selling to Saudi Arabia and the Gulf.
 
-RULES:
-- Report between 5 and 8 products.
-- Every product must be a specific physical product, not a broad category. "Peel-off lip stain" is good; "beauty products" is not.
-- For any number you give (price, popularity), it must come from a source you found. If you did not find a number, use null. NEVER estimate a view count or revenue figure.
-- "evidence" must quote or closely paraphrase what the source actually said.
-- confidence: "high" if multiple sources agree, "medium" if one decent source, "low" if only indirect signal.
+Below is REAL data collected just now from public sources for the "${nicheDesc}" category in ${m.name}.
 
-Return ONLY a JSON array, no commentary, in this exact shape:
+=== WHAT PEOPLE SEARCH FOR (Google Autocomplete — these are real queries) ===
+${wants.map(d => `- ${d.phrase}${d.hits > 1 ? ' [appears in ' + d.hits + ' probes]' : ''}`).join('\n') || '(none found)'}
+
+=== PROBLEMS PEOPLE HAVE (real "why/how to fix" searches) ===
+${problems.map(d => `- ${d.phrase}`).join('\n') || '(none found)'}
+
+${rivals.length ? '=== COMPARISON / DUPE SEARCHES ===\n' + rivals.map(d => '- ' + d.phrase).join('\n') : ''}
+
+${bestsellers.length ? '=== CURRENT AMAZON BEST SELLERS (' + (AMAZON_HOST[market] || AMAZON_HOST.US) + ') ===\n' + bestsellers.map(b => '- ' + b).join('\n') : ''}
+
+${trending.length ? '=== TRENDING SEARCHES IN ' + m.name.toUpperCase() + ' TODAY ===\n' + trending.slice(0, 10).map(t => '- ' + t.query + (t.traffic ? ' (' + t.traffic + ')' : '')).join('\n') : ''}
+
+TASK: From THIS DATA ONLY, identify 6-8 concrete product opportunities.
+
+RULES — follow these exactly:
+- Ground every opportunity in the data above. In "evidence", quote the actual search phrase or bestseller line that supports it.
+- Prefer opportunities backed by a PROBLEM search — an unsolved complaint is demand nobody owns yet.
+- A specific product, never a category. "Peel-off lip stain" yes; "beauty products" no.
+- Do NOT invent view counts, revenue or rankings. You have no such data. Use null for anything you cannot support.
+- est_price_usd: only if a typical price is genuinely well known to you; otherwise null.
+- confidence: "high" only when several phrases in the data point the same way.
+
+Return ONLY a JSON array:
 [
   {
-    "name": "specific product name",
+    "name": "specific product",
     "category": "sub-category",
-    "description": "one sentence on what it is and who buys it",
-    "why_trending": "the actual reason demand is rising right now",
-    "evidence": "what the source said, briefly",
+    "description": "one sentence: what it is and who buys it",
+    "why_trending": "what in the data above says demand exists",
+    "evidence": "the exact search phrase or bestseller entry that supports this",
+    "signal": "problem" | "demand" | "bestseller" | "trend",
     "est_price_usd": number or null,
-    "product_url": "a real retailer or brand product page URL for THIS product that you actually found in search results, or null",
     "confidence": "high" | "medium" | "low"
   }
 ]`;
 
   let products = [];
-  let sources = [];
-  let grounded = false;
   let aiError = null;
+  let usedModel = null;
 
   try {
-    const out = await gemini(prompt, { grounded: true });
-    grounded = out.grounded;
-    sources = out.sources;
+    const out = await gemini(prompt);
+    usedModel = out.model;
     const parsed = extractJson(out.text);
     products = Array.isArray(parsed) ? parsed : [];
   } catch (e) {
@@ -539,10 +581,16 @@ Return ONLY a JSON array, no commentary, in this exact shape:
     imagesVerified = products.filter(p => p.image_source === 'og').length;
   } catch (_) { /* images are a nicety — never fail the whole request */ }
 
-  // 4. Score each product with our own deterministic GCC rules
+  // 4. Real saturation for every product. Autocomplete is free and ~0.4s, so
+  //    there is no reason to make this a separate opt-in step.
+  await Promise.all(products.map(async prod => {
+    try { prod.sat = await saturationOf(prod.name, m); } catch (_) { prod.sat = null; }
+  }));
+
+  // 5. Score with our deterministic GCC rules, adjusted by that real data
   const scored = products.map(prod => ({
     ...prod,
-    gcc: scoreGccFit(prod)
+    gcc: scoreWithSaturation(prod)
   })).sort((a, b) => b.gcc.score - a.gcc.score);
 
   return res.status(200).json({
@@ -553,444 +601,270 @@ Return ONLY a JSON array, no commentary, in this exact shape:
     period: p.label,
     products: scored,
     trending: trending.slice(0, 10),
-    sources,
+    demand: {
+      problems: problems.slice(0, 12),
+      wants: wants.slice(0, 12),
+      total: demand.length
+    },
+    bestsellers: bestsellers.slice(0, 12),
     meta: {
-      grounded,
       trendsError,
       aiError,
+      usedModel,
       imagesVerified,
       imagesTotal: scored.length,
-      // Explicit so the UI never implies precision we don't have
-      dataNote: grounded
-        ? 'Products researched via Google Search grounding. GCC scores computed locally from your 2026 research rules.'
-        : 'WARNING: model answered without search grounding — treat product list as unverified.',
+      demandCount: demand.length,
+      bestsellerCount: bestsellers.length,
+      seeds,
+      deep,
+      free: true,
+      dataNote: 'Search phrases come from Google Autocomplete, bestsellers from Amazon, '
+        + 'trends from Google Trends — all fetched live just now. The model only interpreted '
+        + 'that data; it did not browse or recall. GCC scores are computed locally.',
       generatedAt: new Date().toISOString()
     }
   });
 }
 
 // ============================================================================
-//  DEEP SEARCH
-//  One broad question gets you one shallow answer. Instead we send five
-//  specialists at the market from different directions, then judge a product by
-//  how many of them independently arrived at it. A product that TikTok, Meta's
-//  ad library AND Amazon rank data all surface is a far stronger signal than
-//  one that shows up once.
-//
-//  The scouts run as separate requests from the browser, staggered. That is not
-//  cosmetic: five concurrent calls on one Gemini key get throttled (measured:
-//  111s for five at once vs 6s for one), and it lets the UI show live progress.
+//  FREE SIGNAL LAYER
+//  Everything here is a real, public, keyless endpoint with no meaningful rate
+//  limit. This is where the facts come from. The model never sources facts — it
+//  only interprets what these return, which keeps us inside the free tier and
+//  makes every claim traceable to something a human can go and look at.
 // ============================================================================
-const SCOUTS = {
-  tiktok: {
-    label: 'TikTok Shop',
-    icon: '🎵',
-    hint: 'viral products + sales rank',
-    prompt: (n, m, p) => `Search TikTok Shop ${m} bestseller lists, TikTok Creative Center trend pages, and recent TikTok trend roundups for "${n}" products selling well over ${p}.
-Focus on products with real sales traction on TikTok Shop, not just viral videos.`
-  },
-  meta: {
-    label: 'Meta ads',
-    icon: '📘',
-    hint: 'ad longevity = profit proof',
-    prompt: (n, m, p) => `Search the Facebook/Meta Ad Library, ad-spy reports, and dropshipping ad breakdowns for "${n}" products being advertised heavily on Facebook and Instagram in ${m} over ${p}.
-CRITICAL: ad longevity is the strongest available proxy for profitability — an ad running for many months is running because it makes money. Where a source states how long a campaign has been running, report it in "evidence".`
-  },
-  retail: {
-    label: 'Retail rank',
-    icon: '📦',
-    hint: 'Amazon movers & shakers',
-    prompt: (n, m, p) => `Search Amazon ${m} Movers & Shakers, Best Sellers, and retail trend reports for "${n}" products climbing sales rank over ${p}.
-Prefer products whose RANK IS MOVING UP fast over products merely sitting at a high rank.`
-  },
-  problem: {
-    label: 'Problem mining',
-    icon: '🔎',
-    hint: 'unsolved complaints',
-    prompt: (n, m, p) => `Search forums, Reddit threads, YouTube comments and 1-3 star product reviews for the most common UNSOLVED complaints and frustrations in the "${n}" category in ${m} during ${p}.
-Report the PROBLEM as the "name" (e.g. "cracked heels that come back in a week"), not a brand. For each, note in "evidence" what people say existing products get wrong.
-This finds demand before a product owns it.
-For these findings set "est_price_usd" and "product_url" to null — a problem has no price or product page. Still return the same JSON shape.`
-  },
-  emerging: {
-    label: 'Early signal',
-    icon: '🌱',
-    hint: 'before it saturates',
-    prompt: (n, m, p) => `Search for "${n}" products in ${m} that are JUST STARTING to gain traction in ${p} — early growth, low competition, not yet mainstream.
-Explicitly EXCLUDE anything already saturated or widely known. Prefer products with rising search interest but few sellers.`
+
+// --- Google Autocomplete ----------------------------------------------------
+// Autocomplete is real aggregated search demand: a phrase only appears because
+// people actually type it. Free, fast, works in any language/country.
+async function suggest(q, gl, hl) {
+  try {
+    const u = 'https://suggestqueries.google.com/complete/search'
+      + `?client=firefox&hl=${encodeURIComponent(hl)}&gl=${encodeURIComponent(gl)}`
+      + `&q=${encodeURIComponent(q)}`;
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 5000);
+    const r = await fetch(u, { headers: { 'User-Agent': BROWSER_UA }, signal: ctrl.signal });
+    clearTimeout(t);
+    if (!r.ok) return [];
+    const parsed = JSON.parse(await r.text());
+    return Array.isArray(parsed[1]) ? parsed[1] : [];
+  } catch (_) { return []; }
+}
+
+// Probe patterns, grouped by the intent each one exposes.
+const PROBES = {
+  demand:  ['best {s}', 'top {s}', '{s} for'],
+  problem: ['why does my {s}', 'why is my {s}', 'how to fix {s}', '{s} not working', '{s} keeps'],
+  buy:     ['buy {s}', '{s} price', 'best {s} to buy'],
+  rival:   ['{s} vs', '{s} alternative', '{s} dupe']
+};
+const ALPHA = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
+function classifyIntent(phrase) {
+  if (/^why |^how (to|do|can)|not working|won'?t |keeps |problem|fix/i.test(phrase)) return 'problem';
+  if (/^(buy|cheap|price|cost)|price|for sale|near me/i.test(phrase)) return 'buy';
+  if (/ vs | versus |alternative|dupe|instead of/i.test(phrase)) return 'rival';
+  if (/^best|^top|review/i.test(phrase)) return 'demand';
+  return 'other';
+}
+
+/**
+ * Expand a seed into real search phrases. Returns phrases with how many probes
+ * surfaced each one — repetition across different probes is a decent proxy for
+ * how central a phrase is to the topic.
+ */
+async function mineDemand(seeds, gl, hl, { deep = false } = {}) {
+  const list = Array.isArray(seeds) ? seeds : [seeds];
+  const probes = [];
+
+  list.forEach(seed => {
+    Object.values(PROBES).forEach(pats =>
+      pats.forEach(p => probes.push({ q: p.replace('{s}', seed), seed })));
+    // "seed a", "seed b" … — the classic alphabet-soup expansion.
+    const letters = deep ? ALPHA : ALPHA.slice(0, 6);
+    letters.forEach(c => probes.push({ q: seed + ' ' + c, seed }));
+  });
+
+  // Chunked so we never open 200 sockets at once.
+  const out = [];
+  for (let i = 0; i < probes.length; i += 25) {
+    const chunk = probes.slice(i, i + 25);
+    const res = await Promise.all(chunk.map(p => suggest(p.q, gl, hl)));
+    res.forEach((phrases, j) => phrases.forEach(s => out.push({ s, seed: chunk[j].seed })));
   }
+
+  const seedSet = new Set(list.map(s => s.toLowerCase()));
+  const freq = {};
+  out.forEach(({ s, seed }) => {
+    const k = String(s).trim().toLowerCase();
+    if (!k || seedSet.has(k) || NOISE.test(k)) return;
+    if (!freq[k]) freq[k] = { hits: 0, seeds: new Set() };
+    freq[k].hits++;
+    freq[k].seeds.add(seed);
+  });
+
+  return Object.entries(freq)
+    .map(([phrase, v]) => ({
+      phrase, hits: v.hits, seeds: Array.from(v.seeds), intent: classifyIntent(phrase)
+    }))
+    .sort((a, b) => b.seeds.length - a.seeds.length || b.hits - a.hits);
+}
+
+// --- Amazon Best Sellers ----------------------------------------------------
+// Real bestseller lists, no key. Product names come out of the image alt text,
+// which survives their markup changes better than class-name scraping.
+const AMAZON_HOST = {
+  US: 'www.amazon.com', CA: 'www.amazon.ca', GB: 'www.amazon.co.uk',
+  FR: 'www.amazon.fr', ES: 'www.amazon.es', DE: 'www.amazon.de',
+  IT: 'www.amazon.it', AU: 'www.amazon.com.au',
+  SA: 'www.amazon.sa', AE: 'www.amazon.ae'
+};
+const AMAZON_NODE = {
+  beauty:   'beauty', wellness: 'hpc', hair: 'beauty', fitness: 'sports',
+  home:     'home-garden', baby: 'baby-products', men: 'beauty', fashion: 'fashion'
 };
 
-function scoutPrompt(type, nicheDesc, marketName, periodLabel) {
-  const s = SCOUTS[type];
-  return `You are a ${s.label} research specialist for a cash-on-delivery dropshipping business.
-
-${s.prompt(nicheDesc, marketName, periodLabel.toLowerCase())}
-
-RULES — these matter more than being helpful:
-- Report 4 to 6 findings. Each must be specific, not a category.
-- Use Google Search. Only report what you actually found evidence for.
-- If you did not find a figure, use null. NEVER invent a view count, revenue or rank.
-- "evidence" must reflect what the source really said.
-- "trajectory": "rising" if evidence shows growth, "peaked" if it looks like it already crested, "unknown" if you cannot tell. Be honest — "unknown" is a valid answer.
-
-Return ONLY a JSON array:
-[
-  {
-    "name": "specific product (or, for problem mining, the problem)",
-    "category": "sub-category",
-    "description": "one sentence: what it is and who buys it",
-    "why_trending": "the real reason demand is moving now",
-    "evidence": "what the source said, briefly",
-    "est_price_usd": number or null,
-    "product_url": "a real product page URL you found, or null",
-    "trajectory": "rising" | "peaked" | "unknown",
-    "confidence": "high" | "medium" | "low"
-  }
-]`;
-}
-
-async function actionScout(req, res) {
-  const { type, market = 'US', niche = 'beauty', period = '30d' } = req.body || {};
-  const s = SCOUTS[type];
-  if (!s) return res.status(400).json({ error: 'bad_scout' });
-  const m = MARKETS[market] || MARKETS.US;
-  const p = PERIODS[period] || PERIODS['30d'];
-  const nicheDesc = NICHES[niche] || niche;
-
-  let items = [], sources = [], grounded = false, aiError = null;
+async function amazonBestsellers(niche, market) {
+  const host = AMAZON_HOST[market] || AMAZON_HOST.US;
+  const node = AMAZON_NODE[niche] || 'beauty';
   try {
-    const out = await gemini(scoutPrompt(type, nicheDesc, m.name, p.label), { grounded: true });
-    grounded = out.grounded;
-    sources = out.sources;
-    const parsed = extractJson(out.text);
-    items = (Array.isArray(parsed) ? parsed : []).map(x => ({ ...x, scout: type }));
-  } catch (e) {
-    aiError = e.message;
-  }
-
-  return res.status(200).json({
-    ok: true, scout: type, label: s.label, icon: s.icon,
-    items, sources, meta: { grounded, aiError }
-  });
-}
-
-// ---- triangulation ---------------------------------------------------------
-// Fuzzy-match product names across scouts. Independent corroboration is the
-// whole point of running five of them, so the matching has to be forgiving
-// enough to see that "Bio-Collagen Real Deep Mask" and "Biodance Collagen Mask"
-// are the same product, without collapsing genuinely different ones.
-const STOP = new Set(['the','a','an','and','for','with','of','in','on','to','by','plus',
-  'new','best','set','pack','kit','original','premium','pro','max','oz','ml','g','count']);
-
-function tokens(name) {
-  return String(name || '').toLowerCase()
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .split(/\s+/)
-    .filter(w => w && w.length > 2 && !STOP.has(w));
-}
-
-function similarity(a, b) {
-  const ta = new Set(tokens(a)), tb = new Set(tokens(b));
-  if (!ta.size || !tb.size) return 0;
-  let inter = 0;
-  ta.forEach(t => { if (tb.has(t)) inter++; });
-  // Overlap coefficient, not Jaccard: a short name that is fully contained in a
-  // longer one ("Mighty Patch" vs "Hero Cosmetics Mighty Patch Original") should
-  // count as the same product.
-  return inter / Math.min(ta.size, tb.size);
-}
-
-const MERGE_THRESHOLD = 0.6;
-
-// ---- concept clustering ----------------------------------------------------
-// Merging by name only ever catches the same SKU, and scouts rarely name the
-// same SKU — so name-matching alone reports "no corroboration" even when four
-// scouts all found collagen masks from four different brands. For someone
-// sourcing their own product the concept IS the signal, so we cluster on
-// product type + attribute and count how many independent scouts hit each one.
-const TYPE_WORDS = ['mask','serum','stick','pad','pads','patch','patches','oil','cream','balm',
-  'sunscreen','sunstick','tint','stain','gloss','lipstick','blush','powder','sachet','drink',
-  'gummy','gummies','capsule','supplement','toner','cleanser','essence','moisturizer','spray',
-  'mist','shampoo','conditioner','peel','socks','roller','wand','pen','gel','lotion','scrub',
-  'wipes','strips','device','tool','brush','primer','concealer','foundation','mascara','liner'];
-
-const ATTR_WORDS = ['collagen','retinol','peptide','niacinamide','hyaluronic','vitamin','spf',
-  'pore','lip','brow','lash','hair','foot','feet','face','eye','neck','body','glow','bright',
-  'acne','pimple','wrinkle','aging','anti-aging','hydrating','exfoliating','contour','sleep',
-  'calm','energy','focus','gut','probiotic','saffron','caffeine','snail','mucin','ceramide'];
-
-/**
- * The attribute (collagen, retinol, pore, brow) is the axis that actually
- * distinguishes a trend; the format (serum, cream) is near-universal inside a
- * niche. So the attribute is the cluster key when present, and a format-only
- * cluster is flagged weak — "three scouts found serums" is noise in skincare,
- * "three scouts found collagen products" is a signal.
- */
-function conceptKey(name) {
-  const t = tokens(name);
-  const type = t.find(w => TYPE_WORDS.includes(w));
-  const attr = t.find(w => ATTR_WORDS.includes(w));
-  if (!type && !attr) return null;              // nothing recognisable — no cluster
-  return { key: attr || type, weak: !attr, label: [attr, type].filter(Boolean).join(' ') };
-}
-
-/**
- * Group the merged shortlist into concepts and record, per product, how many
- * DISTINCT scouts landed on that concept. This is the number that actually
- * deserves to move a score.
- */
-function clusterConcepts(merged) {
-  const clusters = {};
-  merged.forEach(p => {
-    const ck = conceptKey(p.name) || conceptKey(p.category || '');
-    p.concept = ck ? ck.label : null;
-    p.conceptWeak = ck ? ck.weak : true;
-    if (!ck) return;
-    if (!clusters[ck.key]) clusters[ck.key] = { key: ck.key, weak: ck.weak, scouts: new Set(), products: [] };
-    clusters[ck.key].weak = clusters[ck.key].weak && ck.weak;
-    (p.scouts || []).forEach(s => clusters[ck.key].scouts.add(s));
-    clusters[ck.key].products.push(p.name);
-  });
-  merged.forEach(p => {
-    const ck = conceptKey(p.name) || conceptKey(p.category || '');
-    const c = ck && clusters[ck.key];
-    p.conceptScouts = c && !c.weak ? Array.from(c.scouts) : [];
-    p.conceptSize = c ? c.products.length : 0;
-  });
-  return Object.values(clusters)
-    .map(c => ({ key: c.key, weak: c.weak, scouts: Array.from(c.scouts),
-                 count: c.products.length, products: c.products }))
-    .filter(c => !c.weak && (c.scouts.length >= 2 || c.count >= 2))
-    .sort((a, b) => (b.scouts.length - a.scouts.length) || (b.count - a.count));
-}
-
-function mergeCandidates(groups) {
-  const merged = [];
-  for (const [scoutType, items] of Object.entries(groups)) {
-    for (const it of (items || [])) {
-      if (!it || !it.name) continue;
-      const hit = merged.find(m => similarity(m.name, it.name) >= MERGE_THRESHOLD);
-      if (hit) {
-        if (!hit.scouts.includes(scoutType)) hit.scouts.push(scoutType);
-        hit.evidence_all.push({ scout: scoutType, evidence: it.evidence, url: it.product_url });
-        // Keep the richest description and any price/url we did not have yet.
-        if ((it.description || '').length > (hit.description || '').length) hit.description = it.description;
-        if (!hit.est_price_usd && it.est_price_usd) hit.est_price_usd = it.est_price_usd;
-        if (!hit.product_url && it.product_url) hit.product_url = it.product_url;
-        if (it.trajectory && it.trajectory !== 'unknown' && hit.trajectory === 'unknown') hit.trajectory = it.trajectory;
-      } else {
-        merged.push({
-          name: it.name,
-          category: it.category,
-          description: it.description,
-          why_trending: it.why_trending,
-          evidence: it.evidence,
-          est_price_usd: it.est_price_usd,
-          product_url: it.product_url,
-          trajectory: it.trajectory || 'unknown',
-          confidence: it.confidence,
-          scouts: [scoutType],
-          evidence_all: [{ scout: scoutType, evidence: it.evidence, url: it.product_url }]
-        });
-      }
-    }
-  }
-  return merged;
-}
-
-// ============================================================================
-//  ACTION: verify  —  adversarial pass. We ask the model to ATTACK the
-//  shortlist, not confirm it. Asking "is this good?" invites agreement; asking
-//  "prove this is already dead" surfaces the saturation and decline that would
-//  otherwise cost real ad budget to discover.
-// ============================================================================
-async function actionVerify(req, res) {
-  const { candidates, market = 'US' } = req.body || {};
-  if (!Array.isArray(candidates) || !candidates.length) {
-    return res.status(400).json({ error: 'no_candidates' });
-  }
-  const m = MARKETS[market] || MARKETS.US;
-
-  // Verifying 12 at once took ~91s in testing and a batch of 6 hit 65s — both
-  // past Vercel's function limit. The browser sends small batches instead.
-  const batch = candidates.slice(0, 4);
-  const list = batch
-    .map((c, i) => `${i}. ${c.name}${c.category ? ' (' + c.category + ')' : ''}`).join('\n');
-
-  const prompt = `You are a skeptical analyst. Your job is to find reasons NOT to sell these products. Assume each is a trap until the evidence says otherwise.
-
-MARKET: ${m.name}
-SHORTLIST:
-${list}
-
-For each item, use Google Search to establish:
-1. TRAJECTORY — is interest genuinely still rising, or did it already peak? A trend that peaked 6 months ago is a money loser no matter how big it was. Check search interest, recent coverage dates, and whether commentary reads as "the next big thing" or "remember when".
-2. SATURATION — how many sellers/brands already compete? Is it on Amazon, Noon, Temu, in supermarkets?
-3. GCC AVAILABILITY — is it already easy to buy in Saudi Arabia or the wider Gulf? (search Noon, Amazon.sa, local retail)
-4. RED FLAGS — anything that kills it for cash-on-delivery: fragile, heavy, electronic, needs sizing, high return rate, ad-policy risk, requires trust in a brand name.
-
-Be blunt. If something is a bad idea, say so plainly.
-
-Return ONLY a JSON array, one object per shortlist item, in the SAME ORDER:
-[
-  {
-    "index": 0,
-    "trajectory": "rising" | "plateau" | "declining" | "unknown",
-    "trajectory_evidence": "what told you this, with timing",
-    "saturation": "none" | "some" | "heavy",
-    "gcc_available": true | false | null,
-    "red_flags": ["short phrases"],
-    "kill_reason": "the single strongest reason to skip this, or null if none",
-    "keep_reason": "the single strongest reason to try it anyway"
-  }
-]`;
-
-  let verdicts = [], sources = [], grounded = false, aiError = null;
-  try {
-    const out = await gemini(prompt, { grounded: true });
-    grounded = out.grounded;
-    sources = out.sources;
-    const parsed = extractJson(out.text);
-    // Tag each verdict with the product NAME it belongs to. Index alone is
-    // unsafe: merge re-sorts by score, so positions shift once verdicts land.
-    verdicts = (Array.isArray(parsed) ? parsed : []).map((v, i) => {
-      const idx = typeof v.index === 'number' ? v.index : i;
-      const src = batch[idx] || batch[i];
-      return { ...v, name: src ? src.name : null };
-    }).filter(v => v.name);
-  } catch (e) {
-    aiError = e.message;
-  }
-
-  return res.status(200).json({
-    ok: true, verdicts, sources, meta: { grounded, aiError }
-  });
-}
-
-// ============================================================================
-//  ACTION: merge  —  fold the scout results into one ranked shortlist.
-//  Split out from the scouts so the browser can run them progressively and
-//  still get server-side dedup, scoring and images in one place.
-// ============================================================================
-async function actionMerge(req, res) {
-  const { groups, verdicts, market = 'US' } = req.body || {};
-  if (!groups || typeof groups !== 'object') return res.status(400).json({ error: 'no_groups' });
-
-  let merged = mergeCandidates(groups);
-
-  // Attach red-team verdicts by product name — order-independent, so re-running
-  // merge after scores change cannot scramble them.
-  if (Array.isArray(verdicts)) {
-    verdicts.forEach(v => {
-      if (!v || !v.name) return;
-      const hit = merged.find(m => m.name === v.name)
-        || merged.find(m => similarity(m.name, v.name) >= 0.8);
-      if (hit) hit.verdict = v;
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 9000);
+    const r = await fetch(`https://${host}/gp/bestsellers/${node}`, {
+      headers: { 'User-Agent': BROWSER_UA, 'Accept-Language': 'en-US,en;q=0.9' },
+      redirect: 'follow', signal: ctrl.signal
     });
-  }
+    clearTimeout(t);
+    if (!r.ok) return [];
+    const html = await r.text();
+    if (/captcha|Robot Check|api-services-support@amazon/i.test(html)) return [];
 
-  // Cluster before scoring — concept corroboration feeds the composite score.
-  const concepts = clusterConcepts(merged);
-
-  merged.forEach(p => { p.gcc = compositeScore(p); });
-  merged.sort((a, b) => b.gcc.score - a.gcc.score);
-
-  let imagesVerified = 0;
-  try {
-    merged = await attachImages(merged);
-    imagesVerified = merged.filter(p => p.image_source === 'og').length;
-  } catch (_) { /* never fail the request over images */ }
-
-  const scoutsUsed = Object.keys(groups).filter(k => (groups[k] || []).length);
-  const rawCount = scoutsUsed.reduce((n, k) => n + groups[k].length, 0);
-
-  return res.status(200).json({
-    ok: true,
-    products: merged,
-    concepts: concepts.slice(0, 8),
-    marketCode: market,
-    market: (MARKETS[market] || MARKETS.US).name,
-    meta: {
-      scoutsUsed,
-      rawCount,
-      mergedCount: merged.length,
-      corroborated: merged.filter(p => (p.scouts || []).length >= 2
-        || (p.conceptScouts || []).length >= 2).length,
-      verified: Array.isArray(verdicts) && verdicts.length > 0,
-      imagesVerified,
-      imagesTotal: merged.length,
-      generatedAt: new Date().toISOString()
-    }
-  });
+    const seen = new Set();
+    return [...html.matchAll(/alt="([^"]{15,110})"/g)]
+      .map(m => decodeXml(m[1]))
+      .filter(x => x && !/logo|icon|sprite|star|rating|prime|banner|amazon/i.test(x))
+      .filter(x => { const k = x.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; })
+      .slice(0, 25);
+  } catch (_) { return []; }
 }
 
-// ---- composite scoring -----------------------------------------------------
-// GCC fit answers "does this suit our market". It does not answer "is this
-// still alive" or "did anyone else see it". Those are separate axes, so they
-// get separate, visible adjustments rather than being blended invisibly.
-const TRAJECTORY_PTS = { rising: 14, plateau: 0, unknown: 0, peaked: -16, declining: -24 };
-const SATURATION_PTS = { none: 10, some: 0, heavy: -18 };
+// ============================================================================
+//  ACTION: saturation  —  the red-team check, rebuilt on free data.
+//
+//  The old version asked a grounded model "is this saturated?". This measures
+//  it instead: if a product name autocompletes in Saudi Arabia, Saudis are
+//  already searching it, so the novelty is gone. If "<product> dupe" or
+//  "<product> alternative" autocompletes, many sellers already compete.
+//  Deterministic, instant, and costs no model quota at all.
+// ============================================================================
+function overlapCount(list, name) {
+  const t = new Set(tokensOf(name));
+  if (!t.size) return 0;
+  return list.filter(s => {
+    const st = new Set(tokensOf(s));
+    let hit = 0; t.forEach(x => { if (st.has(x)) hit++; });
+    return hit / t.size >= 0.5;
+  }).length;
+}
 
-function compositeScore(product) {
+function tokensOf(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9؀-ۿ\s]/g, ' ')
+    .split(/\s+/).filter(w => w.length > 2);
+}
+
+async function saturationOf(name, m) {
+  const [home, ksaEn, ksaAr, dupe, alt] = await Promise.all([
+    suggest(name, m.geo.toLowerCase(), m.lang),
+    suggest(name, 'sa', 'en'),
+    suggest(name, 'sa', 'ar'),
+    suggest(name + ' dupe', m.geo.toLowerCase(), m.lang),
+    suggest(name + ' alternative', m.geo.toLowerCase(), m.lang)
+  ]);
+
+  const homeHits  = overlapCount(home, name);
+  const gccHits   = overlapCount(ksaEn, name) + overlapCount(ksaAr, name);
+  const rivalHits = dupe.length + alt.length;
+
+  // A descriptive concept ("non-sticky face serum") has no search footprint
+  // anywhere, which is not the same as being undiscovered. Say so rather than
+  // rewarding it for looking "fresh".
+  const noFootprint = homeHits === 0 && gccHits === 0 && rivalHits === 0;
+
+  let gccStatus, gccPts, gccWhy;
+  if (noFootprint)       { gccStatus = 'no search footprint'; gccPts = 0;   gccWhy = 'Descriptive concept, not a known product name — saturation cannot be measured this way'; }
+  else if (gccHits >= 4) { gccStatus = 'well known in GCC';   gccPts = -16; gccWhy = 'Saudi autocomplete already completes this — the novelty is gone'; }
+  else if (gccHits >= 1) { gccStatus = 'some GCC awareness';  gccPts = -6;  gccWhy = 'Some Saudi search awareness already exists'; }
+  else                   { gccStatus = 'unknown in GCC';      gccPts = 10;  gccWhy = 'Searched in the source market but not in Saudi — still fresh in the Gulf'; }
+
+  let rivalStatus, rivalPts, rivalWhy;
+  if (noFootprint)         { rivalStatus = 'unmeasured';        rivalPts = 0;   rivalWhy = null; }
+  else if (rivalHits >= 8) { rivalStatus = 'heavy competition'; rivalPts = -12; rivalWhy = 'Many "dupe"/"alternative" searches — crowded with sellers'; }
+  else if (rivalHits >= 3) { rivalStatus = 'some competition';  rivalPts = 0;   rivalWhy = null; }
+  else                     { rivalStatus = 'little competition'; rivalPts = 6;  rivalWhy = 'Almost no dupe/alternative searches — few sellers so far'; }
+
+  const demandStatus = noFootprint ? 'unmeasured'
+                     : homeHits >= 4 ? 'strong search demand'
+                     : homeHits >= 1 ? 'some search demand' : 'little search demand';
+  const demandPts = noFootprint ? 0 : homeHits >= 4 ? 8 : homeHits >= 1 ? 0 : -8;
+
+  return {
+    gccStatus, gccHits, gccWhy, gccPts,
+    rivalStatus, rivalHits, rivalWhy, rivalPts,
+    demandStatus, homeHits, demandPts, noFootprint,
+    evidence: {
+      gcc: ksaEn.concat(ksaAr).slice(0, 6),
+      rivals: dupe.concat(alt).slice(0, 6),
+      home: home.slice(0, 6)
+    }
+  };
+}
+
+/** GCC rules first, then the real autocomplete evidence as visible adjustments. */
+function scoreWithSaturation(product) {
   const gcc = scoreGccFit(product);
-  if (gcc.blocked) return { ...gcc, composite: 0 };
+  if (gcc.blocked || !product.sat) return gcc;
 
+  const s = product.sat;
   const extra = [];
   let score = gcc.score;
 
-  // Corroboration. Exact-SKU agreement is rare and strong; concept agreement is
-  // commoner and is what actually matters when you are sourcing your own version.
-  const n = (product.scouts || []).length;
-  if (n >= 2) {
-    const pts = n >= 3 ? 16 : 10;
-    score += pts;
-    extra.push({ kind: 'positive', pts, text: `Same product found by ${n} independent scouts` });
-  }
-
-  const cn = (product.conceptScouts || []).length;
-  if (cn >= 3) { score += 12; extra.push({ kind: 'positive', pts: 12, text: `"${product.concept}" surfaced by ${cn} scouts — the category is moving, not just one SKU` }); }
-  else if (cn === 2) { score += 6; extra.push({ kind: 'positive', pts: 6, text: `"${product.concept}" surfaced by 2 scouts` }); }
-  else if (n === 1 && cn <= 1) { extra.push({ kind: 'neutral', pts: null, text: 'Single source, no category echo — a lead, not a finding' }); }
-
-  const v = product.verdict || {};
-  const traj = v.trajectory || product.trajectory || 'unknown';
-  if (TRAJECTORY_PTS[traj]) {
-    const pts = TRAJECTORY_PTS[traj];
-    score += pts;
-    extra.push({ kind: pts > 0 ? 'positive' : 'negative', pts,
-      text: 'Trend is ' + traj + (v.trajectory_evidence ? ' — ' + v.trajectory_evidence : '') });
-  }
-
-  if (v.saturation && SATURATION_PTS[v.saturation] !== undefined && SATURATION_PTS[v.saturation] !== 0) {
-    const pts = SATURATION_PTS[v.saturation];
-    score += pts;
-    extra.push({ kind: pts > 0 ? 'positive' : 'negative', pts, text: v.saturation + ' competition in market' });
-  }
-
-  if (v.gcc_available === true) {
-    score -= 14;
-    extra.push({ kind: 'negative', pts: -14, text: 'Already buyable in KSA/GCC — no novelty left' });
-  }
-
-  (v.red_flags || []).slice(0, 3).forEach(f => {
-    score -= 5;
-    extra.push({ kind: 'negative', pts: -5, text: 'Red flag: ' + f });
+  [[s.gccPts, s.gccWhy], [s.rivalPts, s.rivalWhy]].forEach(([pts, why]) => {
+    if (pts && why) { score += pts; extra.push({ kind: pts > 0 ? 'positive' : 'negative', pts, text: why }); }
   });
 
+  if (s.demandPts) {
+    score += s.demandPts;
+    extra.push({
+      kind: s.demandPts > 0 ? 'positive' : 'negative', pts: s.demandPts,
+      text: s.demandPts > 0
+        ? 'Real search demand in ' + s.homeHits + ' autocomplete matches'
+        : 'Barely searched in the source market'
+    });
+  }
+
+  if (s.noFootprint) {
+    extra.push({ kind: 'neutral', pts: null,
+      text: 'No search footprint — this is a concept, so saturation is unmeasured. Judge it yourself.' });
+  }
+
   score = Math.max(0, Math.min(100, Math.round(score)));
+  const verdict = score >= 72 ? 'STRONG' : score >= 55 ? 'WORTH TESTING'
+                : score >= 38 ? 'RISKY' : 'AVOID';
 
-  let verdict;
-  if (score >= 72)      verdict = 'STRONG';
-  else if (score >= 55) verdict = 'WORTH TESTING';
-  else if (score >= 38) verdict = 'RISKY';
-  else                  verdict = 'AVOID';
+  return { score, verdict, blocked: false, unscored: false,
+           reasons: gcc.reasons.filter(r => r.kind !== 'neutral').concat(extra) };
+}
 
-  return {
-    score, verdict, blocked: false,
-    unscored: false,
-    reasons: gcc.reasons.filter(r => r.kind !== 'neutral').concat(extra)
-  };
+async function actionSaturation(req, res) {
+  const { name, market = 'US' } = req.body || {};
+  if (!name) return res.status(400).json({ error: 'missing_name' });
+  const m = MARKETS[market] || MARKETS.US;
+  return res.status(200).json({
+    ok: true, name,
+    saturation: await saturationOf(name, m),
+    meta: { free: true, cost: 'none — Google Autocomplete only' }
+  });
 }
 
 // ============================================================================
@@ -1003,11 +877,26 @@ async function actionAnalyze(req, res) {
 
   const gcc = scoreGccFit(product);
 
+  // Real GCC awareness data, fetched free, so the model is told the answer
+  // rather than asked to guess or browse for it.
+  const [ksaEn, ksaAr, dupe] = await Promise.all([
+    suggest(product.name, 'sa', 'en'),
+    suggest(product.name, 'sa', 'ar'),
+    suggest(product.name + ' dupe', m.geo.toLowerCase(), m.lang)
+  ]);
+  const gccHits = overlapCount(ksaEn.concat(ksaAr), product.name);
+
   const prompt = `You are advising a Saudi-based COD dropshipping brand (Cosmarab) that sells via Snapchat and TikTok ads to KSA and the wider GCC.
 
 PRODUCT UNDER CONSIDERATION: ${product.name}
 What it is: ${product.description || 'n/a'}
 Why it trends in ${m.name}: ${product.why_trending || 'n/a'}
+
+=== REAL SATURATION DATA (Google Autocomplete, fetched just now) ===
+Saudi autocomplete matches for this product: ${gccHits}
+${ksaEn.concat(ksaAr).length ? 'Saudi suggestions seen: ' + ksaEn.concat(ksaAr).slice(0, 8).join(' | ') : 'No Saudi suggestions at all — unknown there.'}
+"dupe" searches in ${m.name}: ${dupe.length ? dupe.slice(0, 5).join(' | ') : 'none'}
+Use THIS for gcc_saturation: 4+ Saudi matches = "heavy", 1-3 = "some", 0 = "none". Do not guess beyond it.
 
 BRAND CONTEXT — the strategy that has worked for this brand:
 - Take a problem that is oversold in Western/Chinese markets, but deliver it in a format that feels NEW in the GCC.
@@ -1016,12 +905,10 @@ BRAND CONTEXT — the strategy that has worked for this brand:
 - Price band that works on COD: 120-400 SAR.
 - Avoid: whitening, balding, weight-loss claims, medical claims — these kill ad approval and delivery rate.
 
-Use Google Search to check whether this product is already widely sold in KSA/GCC (search Noon, Amazon.sa, local retail). Saturation there is a serious negative.
-
 Return ONLY JSON in this shape:
 {
   "gcc_saturation": "none" | "some" | "heavy",
-  "saturation_evidence": "what you actually found searching Noon/Amazon.sa/GCC retail",
+  "saturation_evidence": "state what the autocomplete data above shows — do not claim to have checked Noon or Amazon.sa, you have not",
   "reformat_idea": "how to change the FORMAT so it feels fresh in GCC — the core play",
   "target_customer": "who buys this in KSA, specifically",
   "main_objection": "the #1 reason a Saudi buyer would refuse at the door",
@@ -1039,11 +926,10 @@ Return ONLY JSON in this shape:
 
 Give exactly 4 names. Arabic names must be real, natural Arabic that a Saudi reads as premium — not translated English.`;
 
-  let analysis = null, sources = [], grounded = false, aiError = null;
+  let analysis = null, aiError = null, usedModel = null;
   try {
-    const out = await gemini(prompt, { grounded: true });
-    grounded = out.grounded;
-    sources = out.sources;
+    const out = await gemini(prompt);
+    usedModel = out.model;
     analysis = extractJson(out.text);
   } catch (e) {
     aiError = e.message;
@@ -1054,8 +940,12 @@ Give exactly 4 names. Arabic names must be real, natural Arabic that a Saudi rea
     product: product.name,
     gcc,
     analysis,
-    sources,
-    meta: { grounded, aiError, generatedAt: new Date().toISOString() }
+    saturationData: {
+      gccHits,
+      gccSuggestions: ksaEn.concat(ksaAr).slice(0, 8),
+      dupeSearches: dupe.slice(0, 5)
+    },
+    meta: { aiError, usedModel, free: true, generatedAt: new Date().toISOString() }
   });
 }
 
@@ -1177,9 +1067,9 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({
         ok: true,
         markets: Object.entries(MARKETS).map(([code, m]) => ({ code, name: m.name })),
-        niches: Object.entries(NICHES).map(([code, label]) => ({ code, label })),
+        niches: Object.entries(NICHES).map(([code, n]) => ({ code, label: n.label })),
         periods: Object.entries(PERIODS).map(([code, p]) => ({ code, label: p.label })),
-        scouts: Object.entries(SCOUTS).map(([code, s]) => ({ code, label: s.label, icon: s.icon, hint: s.hint })),
+        free: true,
         hasKey: !!process.env.GEMINI_KEY
       });
     }
@@ -1190,9 +1080,7 @@ module.exports = async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'method' });
 
     if (action === 'discover') return await actionDiscover(req, res);
-    if (action === 'scout')    return await actionScout(req, res);
-    if (action === 'merge')    return await actionMerge(req, res);
-    if (action === 'verify')   return await actionVerify(req, res);
+    if (action === 'saturation') return await actionSaturation(req, res);
     if (action === 'analyze')  return await actionAnalyze(req, res);
     if (action === 'buildLp')  return await actionBuildLp(req, res);
 
