@@ -273,7 +273,11 @@ async function gemini(prompt, { grounded = true, json = false, retries = 2 } = {
     //   PerDay  — the daily free-tier allowance is gone. Retrying cannot help;
     //             waiting 35s twice just burns a minute for the same error.
     //   PerMinute — a burst. Worth honouring the retryDelay.
-    const daily = violations.some(v => /PerDay/i.test(v.quotaId || ''));
+    // The violations array is not always present; fall back to the message text
+    // so a daily cap is never mistaken for a burst and retried pointlessly.
+    const msgText = (data.error || {}).message || '';
+    const daily = violations.some(v => /PerDay/i.test(v.quotaId || ''))
+      || /per ?day|daily/i.test(msgText);
     const limit = (violations[0] || {}).quotaValue || null;
     if (daily) throw new Error('quota_daily_exhausted' + (limit ? '_' + limit : ''));
 

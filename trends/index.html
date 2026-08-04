@@ -510,7 +510,11 @@ function runQuick(){
   api('discover', {
     market: $('market').value, niche: $('niche').value, period: $('period').value
   }).then(function(d){ LAST = d; render(d); })
-    .catch(function(e){ $('out').innerHTML = '<div class="err">Research failed: '+esc(e.message)+'</div>'; })
+    .catch(function(e){
+      $('out').innerHTML = isQuota(e.message)
+        ? quotaBanner()
+        : '<div class="err">Research failed: '+esc(e.message)+'</div>';
+    })
     .then(function(){ busy(false); });
 }
 
@@ -530,7 +534,11 @@ function setStep(id, state, note){
   el.querySelector('.st').textContent = note || '';
 }
 
-var RATE_HIT = false, DEAD = false;
+var DEAD = false;
+
+/* Both 429 flavours mean "out of Gemini requests" to the user, and the fix is
+   the same, so they get the same explanation instead of a raw error code. */
+function isQuota(err){ return /quota_daily_exhausted|rate_limited|429/.test(String(err||'')); }
 
 function quotaBanner(){
   return '<div class="note note-bad">🛑 <div><b>Your daily Gemini quota is used up '
@@ -543,7 +551,7 @@ function quotaBanner(){
 }
 
 function runDeep(){
-  RATE_HIT = false; DEAD = false;
+  DEAD = false;
   var market = $('market').value, niche = $('niche').value, period = $('period').value;
   var all = (CFG && CFG.scouts) || [];
   var scouts = all.filter(function(s){ return PICKED[s.code] !== false; });
@@ -584,12 +592,11 @@ function runDeep(){
           groups[s.code] = r.items || [];
           var secs = ((Date.now()-t)/1000).toFixed(0) + 's';
           var err = (r.meta && r.meta.aiError) || '';
-          if (/quota_daily_exhausted/.test(err)) {
+          if (isQuota(err)) {
             DEAD = true;
-            setStep(s.code, 'fail', 'daily quota gone');
+            setStep(s.code, 'fail', 'out of quota');
           } else if (err) {
-            RATE_HIT = RATE_HIT || /rate_limited/.test(err);
-            setStep(s.code, 'fail', (/rate_limited/.test(err) ? 'rate limit' : 'failed') + ' · ' + secs);
+            setStep(s.code, 'fail', 'failed · ' + secs);
           } else {
             cacheSet(s.code, market, niche, period, r.items || []);
             setStep(s.code, 'done', (r.items||[]).length + ' found · ' + secs);
@@ -602,11 +609,6 @@ function runDeep(){
   // --- 2. merge + triangulate ---
   chain = chain.then(function(){
     if (DEAD) $('banner').innerHTML = quotaBanner();
-    else if (RATE_HIT) {
-      $('banner').innerHTML = '<div class="note note-warn">⏳ <div><b>Some scouts were rate limited.</b> '
-        + 'This shortlist is thinner than it should be — wait a moment and re-run. '
-        + 'Scouts that did return are cached, so re-running only retries the failed ones.</div></div>';
-    }
     setStep('merge', 'run', 'matching…');
     return api('merge', { groups: groups, market: market });
   }).then(function(d){
@@ -631,7 +633,7 @@ function runDeep(){
           if (DEAD) return;
           return api('verify', { candidates: batch, market: market })
             .then(function(v){
-              if (/quota_daily_exhausted/.test((v.meta && v.meta.aiError) || '')) {
+              if (isQuota((v.meta && v.meta.aiError) || '')) {
                 DEAD = true;
                 $('banner').innerHTML = quotaBanner();
                 return;
@@ -667,7 +669,7 @@ function render(d){
 
   /* ---- data-honesty banner: always state where numbers came from ---- */
   var b = '';
-  if (/quota_daily_exhausted/.test(d.meta.aiError || '')) {
+  if (isQuota(d.meta.aiError)) {
     b += quotaBanner();
   } else if (d.meta.aiError) {
     b += '<div class="note note-bad">⚠️ <div><b>Product research failed.</b> '+esc(d.meta.aiError)+'</div></div>';
@@ -832,7 +834,9 @@ function analyze(i){
     ANALYSIS = d;
     renderAnalysis(d, p);
   }).catch(function(e){
-    $('sheet').innerHTML = '<div class="err">Analysis failed: '+esc(e.message)+'</div>'
+    $('sheet').innerHTML = (isQuota(e.message)
+        ? quotaBanner()
+        : '<div class="err">Analysis failed: '+esc(e.message)+'</div>')
       + '<div class="sheet-actions"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>';
   });
 }
@@ -840,8 +844,10 @@ function analyze(i){
 function renderAnalysis(d, p){
   var a = d.analysis;
   if (!a) {
-    $('sheet').innerHTML = '<div class="err">Could not analyse this product. '
-      + esc((d.meta&&d.meta.aiError)||'') + '</div>'
+    var err = (d.meta && d.meta.aiError) || '';
+    $('sheet').innerHTML = (isQuota(err)
+        ? quotaBanner()
+        : '<div class="err">Could not analyse this product. ' + esc(err) + '</div>')
       + '<div class="sheet-actions"><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>';
     return;
   }
