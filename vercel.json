@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "api/trends.js": { "maxDuration": 60 }
+  },
   "rewrites": [
     { "source": "/r/:slug", "destination": "/api/go?s=:slug" },
     { "source": "/:path((?!api/|r/|assets/|shop/|_next/).+)", "destination": "/api/alias?path=:path" }

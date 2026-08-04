@@ -239,11 +239,21 @@ async function fetchGoogleTrends(geo) {
 //  GEMINI  —  grounded product research. Search grounding is mandatory here;
 //  if the response comes back ungrounded we mark it so the UI can warn.
 // ============================================================================
-async function gemini(prompt, { grounded = true, json = false } = {}) {
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/**
+ * The free Gemini tier allows ~20 requests/minute. A deep search fires 7+ calls,
+ * so bursts do hit the limit — and a 429 mid-pipeline would silently drop a
+ * whole scout. Google tells us how long to wait, so wait that long and retry.
+ */
+async function gemini(prompt, { grounded = true, json = false, retries = 2 } = {}) {
   const key = process.env.GEMINI_KEY;
   if (!key) throw new Error('no_gemini_key');
 
-  const body = { contents: [{ parts: [{ text: prompt }] }] };
+  const body = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: { maxOutputTokens: 8192 }
+  };
   if (grounded) body.tools = [{ google_search: {} }];
   // Grounding and responseMimeType:json are mutually exclusive on this model,
   // so when grounded we ask for JSON in the prompt and parse it out of prose.
@@ -255,7 +265,23 @@ async function gemini(prompt, { grounded = true, json = false } = {}) {
   );
 
   const data = await r.json();
-  if (!r.ok) throw new Error('gemini_' + r.status + '_' + (data.error && data.error.message || ''));
+
+  if (r.status === 429 && retries > 0) {
+    // Google returns a RetryInfo detail like "12.6s" — honour it, with a floor
+    // and a ceiling so we never stall past the function timeout.
+    const detail = ((data.error || {}).details || [])
+      .find(d => (d['@type'] || '').includes('RetryInfo'));
+    const parsed = detail && /([\d.]+)s/.exec(detail.retryDelay || '');
+    const waitMs = Math.min(Math.max((parsed ? parseFloat(parsed[1]) : 15) * 1000, 3000), 20000);
+    await sleep(waitMs);
+    return gemini(prompt, { grounded, json, retries: retries - 1 });
+  }
+
+  if (!r.ok) {
+    const msg = (data.error && data.error.message) || '';
+    if (r.status === 429) throw new Error('rate_limited');
+    throw new Error('gemini_' + r.status + '_' + msg.slice(0, 120));
+  }
 
   const cand = (data.candidates || [])[0];
   if (!cand) throw new Error('gemini_empty');
@@ -271,27 +297,54 @@ async function gemini(prompt, { grounded = true, json = false } = {}) {
   return { text, sources, grounded: !!gm, queries: (gm && gm.webSearchQueries) || [] };
 }
 
-// Pull the first JSON array/object out of a model response that may wrap it in
-// markdown fences or commentary.
-function extractJson(text) {
-  let t = String(text || '').trim();
-  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fence) t = fence[1].trim();
-  const start = t.search(/[[{]/);
-  if (start < 0) throw new Error('no_json_found');
-  const open = t[start];
-  const close = open === '[' ? ']' : '}';
-  let depth = 0, inStr = false, esc = false;
-  for (let i = start; i < t.length; i++) {
-    const ch = t[i];
-    if (esc) { esc = false; continue; }
-    if (ch === '\\') { esc = true; continue; }
-    if (ch === '"') { inStr = !inStr; continue; }
-    if (inStr) continue;
-    if (ch === open) depth++;
-    else if (ch === close) { depth--; if (depth === 0) return JSON.parse(t.slice(start, i + 1)); }
+// Scan a string for every balanced JSON array/object and return them all.
+function scanJson(t) {
+  const found = [];
+  for (let i = 0; i < t.length; i++) {
+    const open = t[i];
+    if (open !== '[' && open !== '{') continue;
+    const close = open === '[' ? ']' : '}';
+    let depth = 0, inStr = false, esc = false;
+    for (let j = i; j < t.length; j++) {
+      const ch = t[j];
+      if (esc) { esc = false; continue; }
+      if (ch === '\\') { esc = true; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (ch === open) depth++;
+      else if (ch === close) {
+        depth--;
+        if (depth === 0) {
+          try { found.push(JSON.parse(t.slice(i, j + 1))); } catch (_) { /* not valid, skip */ }
+          i = j;                       // don't rescan the inside of what we just took
+          break;
+        }
+      }
+    }
   }
-  throw new Error('unterminated_json');
+  return found;
+}
+
+/**
+ * Pull JSON out of a model response.
+ *
+ * Grounded responses routinely contain MORE THAN ONE json block — typically a
+ * truncated first attempt followed by the real, complete answer. Taking the
+ * first match silently returns a 1-item array where 12 were expected, so we
+ * parse every candidate and keep the richest one.
+ */
+function extractJson(text) {
+  const t = String(text || '').trim();
+  const all = scanJson(t);
+  if (!all.length) throw new Error('no_json_found');
+
+  const arrays = all.filter(Array.isArray);
+  if (arrays.length) {
+    return arrays.reduce((best, a) => (a.length > best.length ? a : best), arrays[0]);
+  }
+  // No arrays — take the object with the most keys.
+  return all.reduce((best, o) =>
+    (Object.keys(o || {}).length > Object.keys(best || {}).length ? o : best), all[0]);
 }
 
 // ============================================================================
@@ -504,6 +557,430 @@ Return ONLY a JSON array, no commentary, in this exact shape:
 }
 
 // ============================================================================
+//  DEEP SEARCH
+//  One broad question gets you one shallow answer. Instead we send five
+//  specialists at the market from different directions, then judge a product by
+//  how many of them independently arrived at it. A product that TikTok, Meta's
+//  ad library AND Amazon rank data all surface is a far stronger signal than
+//  one that shows up once.
+//
+//  The scouts run as separate requests from the browser, staggered. That is not
+//  cosmetic: five concurrent calls on one Gemini key get throttled (measured:
+//  111s for five at once vs 6s for one), and it lets the UI show live progress.
+// ============================================================================
+const SCOUTS = {
+  tiktok: {
+    label: 'TikTok Shop',
+    icon: '🎵',
+    hint: 'viral products + sales rank',
+    prompt: (n, m, p) => `Search TikTok Shop ${m} bestseller lists, TikTok Creative Center trend pages, and recent TikTok trend roundups for "${n}" products selling well over ${p}.
+Focus on products with real sales traction on TikTok Shop, not just viral videos.`
+  },
+  meta: {
+    label: 'Meta ads',
+    icon: '📘',
+    hint: 'ad longevity = profit proof',
+    prompt: (n, m, p) => `Search the Facebook/Meta Ad Library, ad-spy reports, and dropshipping ad breakdowns for "${n}" products being advertised heavily on Facebook and Instagram in ${m} over ${p}.
+CRITICAL: ad longevity is the strongest available proxy for profitability — an ad running for many months is running because it makes money. Where a source states how long a campaign has been running, report it in "evidence".`
+  },
+  retail: {
+    label: 'Retail rank',
+    icon: '📦',
+    hint: 'Amazon movers & shakers',
+    prompt: (n, m, p) => `Search Amazon ${m} Movers & Shakers, Best Sellers, and retail trend reports for "${n}" products climbing sales rank over ${p}.
+Prefer products whose RANK IS MOVING UP fast over products merely sitting at a high rank.`
+  },
+  problem: {
+    label: 'Problem mining',
+    icon: '🔎',
+    hint: 'unsolved complaints',
+    prompt: (n, m, p) => `Search forums, Reddit threads, YouTube comments and 1-3 star product reviews for the most common UNSOLVED complaints and frustrations in the "${n}" category in ${m} during ${p}.
+Report the PROBLEM as the "name" (e.g. "cracked heels that come back in a week"), not a brand. For each, note in "evidence" what people say existing products get wrong.
+This finds demand before a product owns it.
+For these findings set "est_price_usd" and "product_url" to null — a problem has no price or product page. Still return the same JSON shape.`
+  },
+  emerging: {
+    label: 'Early signal',
+    icon: '🌱',
+    hint: 'before it saturates',
+    prompt: (n, m, p) => `Search for "${n}" products in ${m} that are JUST STARTING to gain traction in ${p} — early growth, low competition, not yet mainstream.
+Explicitly EXCLUDE anything already saturated or widely known. Prefer products with rising search interest but few sellers.`
+  }
+};
+
+function scoutPrompt(type, nicheDesc, marketName, periodLabel) {
+  const s = SCOUTS[type];
+  return `You are a ${s.label} research specialist for a cash-on-delivery dropshipping business.
+
+${s.prompt(nicheDesc, marketName, periodLabel.toLowerCase())}
+
+RULES — these matter more than being helpful:
+- Report 4 to 6 findings. Each must be specific, not a category.
+- Use Google Search. Only report what you actually found evidence for.
+- If you did not find a figure, use null. NEVER invent a view count, revenue or rank.
+- "evidence" must reflect what the source really said.
+- "trajectory": "rising" if evidence shows growth, "peaked" if it looks like it already crested, "unknown" if you cannot tell. Be honest — "unknown" is a valid answer.
+
+Return ONLY a JSON array:
+[
+  {
+    "name": "specific product (or, for problem mining, the problem)",
+    "category": "sub-category",
+    "description": "one sentence: what it is and who buys it",
+    "why_trending": "the real reason demand is moving now",
+    "evidence": "what the source said, briefly",
+    "est_price_usd": number or null,
+    "product_url": "a real product page URL you found, or null",
+    "trajectory": "rising" | "peaked" | "unknown",
+    "confidence": "high" | "medium" | "low"
+  }
+]`;
+}
+
+async function actionScout(req, res) {
+  const { type, market = 'US', niche = 'beauty', period = '30d' } = req.body || {};
+  const s = SCOUTS[type];
+  if (!s) return res.status(400).json({ error: 'bad_scout' });
+  const m = MARKETS[market] || MARKETS.US;
+  const p = PERIODS[period] || PERIODS['30d'];
+  const nicheDesc = NICHES[niche] || niche;
+
+  let items = [], sources = [], grounded = false, aiError = null;
+  try {
+    const out = await gemini(scoutPrompt(type, nicheDesc, m.name, p.label), { grounded: true });
+    grounded = out.grounded;
+    sources = out.sources;
+    const parsed = extractJson(out.text);
+    items = (Array.isArray(parsed) ? parsed : []).map(x => ({ ...x, scout: type }));
+  } catch (e) {
+    aiError = e.message;
+  }
+
+  return res.status(200).json({
+    ok: true, scout: type, label: s.label, icon: s.icon,
+    items, sources, meta: { grounded, aiError }
+  });
+}
+
+// ---- triangulation ---------------------------------------------------------
+// Fuzzy-match product names across scouts. Independent corroboration is the
+// whole point of running five of them, so the matching has to be forgiving
+// enough to see that "Bio-Collagen Real Deep Mask" and "Biodance Collagen Mask"
+// are the same product, without collapsing genuinely different ones.
+const STOP = new Set(['the','a','an','and','for','with','of','in','on','to','by','plus',
+  'new','best','set','pack','kit','original','premium','pro','max','oz','ml','g','count']);
+
+function tokens(name) {
+  return String(name || '').toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w && w.length > 2 && !STOP.has(w));
+}
+
+function similarity(a, b) {
+  const ta = new Set(tokens(a)), tb = new Set(tokens(b));
+  if (!ta.size || !tb.size) return 0;
+  let inter = 0;
+  ta.forEach(t => { if (tb.has(t)) inter++; });
+  // Overlap coefficient, not Jaccard: a short name that is fully contained in a
+  // longer one ("Mighty Patch" vs "Hero Cosmetics Mighty Patch Original") should
+  // count as the same product.
+  return inter / Math.min(ta.size, tb.size);
+}
+
+const MERGE_THRESHOLD = 0.6;
+
+// ---- concept clustering ----------------------------------------------------
+// Merging by name only ever catches the same SKU, and scouts rarely name the
+// same SKU — so name-matching alone reports "no corroboration" even when four
+// scouts all found collagen masks from four different brands. For someone
+// sourcing their own product the concept IS the signal, so we cluster on
+// product type + attribute and count how many independent scouts hit each one.
+const TYPE_WORDS = ['mask','serum','stick','pad','pads','patch','patches','oil','cream','balm',
+  'sunscreen','sunstick','tint','stain','gloss','lipstick','blush','powder','sachet','drink',
+  'gummy','gummies','capsule','supplement','toner','cleanser','essence','moisturizer','spray',
+  'mist','shampoo','conditioner','peel','socks','roller','wand','pen','gel','lotion','scrub',
+  'wipes','strips','device','tool','brush','primer','concealer','foundation','mascara','liner'];
+
+const ATTR_WORDS = ['collagen','retinol','peptide','niacinamide','hyaluronic','vitamin','spf',
+  'pore','lip','brow','lash','hair','foot','feet','face','eye','neck','body','glow','bright',
+  'acne','pimple','wrinkle','aging','anti-aging','hydrating','exfoliating','contour','sleep',
+  'calm','energy','focus','gut','probiotic','saffron','caffeine','snail','mucin','ceramide'];
+
+/**
+ * The attribute (collagen, retinol, pore, brow) is the axis that actually
+ * distinguishes a trend; the format (serum, cream) is near-universal inside a
+ * niche. So the attribute is the cluster key when present, and a format-only
+ * cluster is flagged weak — "three scouts found serums" is noise in skincare,
+ * "three scouts found collagen products" is a signal.
+ */
+function conceptKey(name) {
+  const t = tokens(name);
+  const type = t.find(w => TYPE_WORDS.includes(w));
+  const attr = t.find(w => ATTR_WORDS.includes(w));
+  if (!type && !attr) return null;              // nothing recognisable — no cluster
+  return { key: attr || type, weak: !attr, label: [attr, type].filter(Boolean).join(' ') };
+}
+
+/**
+ * Group the merged shortlist into concepts and record, per product, how many
+ * DISTINCT scouts landed on that concept. This is the number that actually
+ * deserves to move a score.
+ */
+function clusterConcepts(merged) {
+  const clusters = {};
+  merged.forEach(p => {
+    const ck = conceptKey(p.name) || conceptKey(p.category || '');
+    p.concept = ck ? ck.label : null;
+    p.conceptWeak = ck ? ck.weak : true;
+    if (!ck) return;
+    if (!clusters[ck.key]) clusters[ck.key] = { key: ck.key, weak: ck.weak, scouts: new Set(), products: [] };
+    clusters[ck.key].weak = clusters[ck.key].weak && ck.weak;
+    (p.scouts || []).forEach(s => clusters[ck.key].scouts.add(s));
+    clusters[ck.key].products.push(p.name);
+  });
+  merged.forEach(p => {
+    const ck = conceptKey(p.name) || conceptKey(p.category || '');
+    const c = ck && clusters[ck.key];
+    p.conceptScouts = c && !c.weak ? Array.from(c.scouts) : [];
+    p.conceptSize = c ? c.products.length : 0;
+  });
+  return Object.values(clusters)
+    .map(c => ({ key: c.key, weak: c.weak, scouts: Array.from(c.scouts),
+                 count: c.products.length, products: c.products }))
+    .filter(c => !c.weak && (c.scouts.length >= 2 || c.count >= 2))
+    .sort((a, b) => (b.scouts.length - a.scouts.length) || (b.count - a.count));
+}
+
+function mergeCandidates(groups) {
+  const merged = [];
+  for (const [scoutType, items] of Object.entries(groups)) {
+    for (const it of (items || [])) {
+      if (!it || !it.name) continue;
+      const hit = merged.find(m => similarity(m.name, it.name) >= MERGE_THRESHOLD);
+      if (hit) {
+        if (!hit.scouts.includes(scoutType)) hit.scouts.push(scoutType);
+        hit.evidence_all.push({ scout: scoutType, evidence: it.evidence, url: it.product_url });
+        // Keep the richest description and any price/url we did not have yet.
+        if ((it.description || '').length > (hit.description || '').length) hit.description = it.description;
+        if (!hit.est_price_usd && it.est_price_usd) hit.est_price_usd = it.est_price_usd;
+        if (!hit.product_url && it.product_url) hit.product_url = it.product_url;
+        if (it.trajectory && it.trajectory !== 'unknown' && hit.trajectory === 'unknown') hit.trajectory = it.trajectory;
+      } else {
+        merged.push({
+          name: it.name,
+          category: it.category,
+          description: it.description,
+          why_trending: it.why_trending,
+          evidence: it.evidence,
+          est_price_usd: it.est_price_usd,
+          product_url: it.product_url,
+          trajectory: it.trajectory || 'unknown',
+          confidence: it.confidence,
+          scouts: [scoutType],
+          evidence_all: [{ scout: scoutType, evidence: it.evidence, url: it.product_url }]
+        });
+      }
+    }
+  }
+  return merged;
+}
+
+// ============================================================================
+//  ACTION: verify  —  adversarial pass. We ask the model to ATTACK the
+//  shortlist, not confirm it. Asking "is this good?" invites agreement; asking
+//  "prove this is already dead" surfaces the saturation and decline that would
+//  otherwise cost real ad budget to discover.
+// ============================================================================
+async function actionVerify(req, res) {
+  const { candidates, market = 'US' } = req.body || {};
+  if (!Array.isArray(candidates) || !candidates.length) {
+    return res.status(400).json({ error: 'no_candidates' });
+  }
+  const m = MARKETS[market] || MARKETS.US;
+
+  // Verifying 12 at once took ~91s in testing and a batch of 6 hit 65s — both
+  // past Vercel's function limit. The browser sends small batches instead.
+  const batch = candidates.slice(0, 4);
+  const list = batch
+    .map((c, i) => `${i}. ${c.name}${c.category ? ' (' + c.category + ')' : ''}`).join('\n');
+
+  const prompt = `You are a skeptical analyst. Your job is to find reasons NOT to sell these products. Assume each is a trap until the evidence says otherwise.
+
+MARKET: ${m.name}
+SHORTLIST:
+${list}
+
+For each item, use Google Search to establish:
+1. TRAJECTORY — is interest genuinely still rising, or did it already peak? A trend that peaked 6 months ago is a money loser no matter how big it was. Check search interest, recent coverage dates, and whether commentary reads as "the next big thing" or "remember when".
+2. SATURATION — how many sellers/brands already compete? Is it on Amazon, Noon, Temu, in supermarkets?
+3. GCC AVAILABILITY — is it already easy to buy in Saudi Arabia or the wider Gulf? (search Noon, Amazon.sa, local retail)
+4. RED FLAGS — anything that kills it for cash-on-delivery: fragile, heavy, electronic, needs sizing, high return rate, ad-policy risk, requires trust in a brand name.
+
+Be blunt. If something is a bad idea, say so plainly.
+
+Return ONLY a JSON array, one object per shortlist item, in the SAME ORDER:
+[
+  {
+    "index": 0,
+    "trajectory": "rising" | "plateau" | "declining" | "unknown",
+    "trajectory_evidence": "what told you this, with timing",
+    "saturation": "none" | "some" | "heavy",
+    "gcc_available": true | false | null,
+    "red_flags": ["short phrases"],
+    "kill_reason": "the single strongest reason to skip this, or null if none",
+    "keep_reason": "the single strongest reason to try it anyway"
+  }
+]`;
+
+  let verdicts = [], sources = [], grounded = false, aiError = null;
+  try {
+    const out = await gemini(prompt, { grounded: true });
+    grounded = out.grounded;
+    sources = out.sources;
+    const parsed = extractJson(out.text);
+    // Tag each verdict with the product NAME it belongs to. Index alone is
+    // unsafe: merge re-sorts by score, so positions shift once verdicts land.
+    verdicts = (Array.isArray(parsed) ? parsed : []).map((v, i) => {
+      const idx = typeof v.index === 'number' ? v.index : i;
+      const src = batch[idx] || batch[i];
+      return { ...v, name: src ? src.name : null };
+    }).filter(v => v.name);
+  } catch (e) {
+    aiError = e.message;
+  }
+
+  return res.status(200).json({
+    ok: true, verdicts, sources, meta: { grounded, aiError }
+  });
+}
+
+// ============================================================================
+//  ACTION: merge  —  fold the scout results into one ranked shortlist.
+//  Split out from the scouts so the browser can run them progressively and
+//  still get server-side dedup, scoring and images in one place.
+// ============================================================================
+async function actionMerge(req, res) {
+  const { groups, verdicts, market = 'US' } = req.body || {};
+  if (!groups || typeof groups !== 'object') return res.status(400).json({ error: 'no_groups' });
+
+  let merged = mergeCandidates(groups);
+
+  // Attach red-team verdicts by product name — order-independent, so re-running
+  // merge after scores change cannot scramble them.
+  if (Array.isArray(verdicts)) {
+    verdicts.forEach(v => {
+      if (!v || !v.name) return;
+      const hit = merged.find(m => m.name === v.name)
+        || merged.find(m => similarity(m.name, v.name) >= 0.8);
+      if (hit) hit.verdict = v;
+    });
+  }
+
+  // Cluster before scoring — concept corroboration feeds the composite score.
+  const concepts = clusterConcepts(merged);
+
+  merged.forEach(p => { p.gcc = compositeScore(p); });
+  merged.sort((a, b) => b.gcc.score - a.gcc.score);
+
+  let imagesVerified = 0;
+  try {
+    merged = await attachImages(merged);
+    imagesVerified = merged.filter(p => p.image_source === 'og').length;
+  } catch (_) { /* never fail the request over images */ }
+
+  const scoutsUsed = Object.keys(groups).filter(k => (groups[k] || []).length);
+  const rawCount = scoutsUsed.reduce((n, k) => n + groups[k].length, 0);
+
+  return res.status(200).json({
+    ok: true,
+    products: merged,
+    concepts: concepts.slice(0, 8),
+    marketCode: market,
+    market: (MARKETS[market] || MARKETS.US).name,
+    meta: {
+      scoutsUsed,
+      rawCount,
+      mergedCount: merged.length,
+      corroborated: merged.filter(p => (p.scouts || []).length >= 2
+        || (p.conceptScouts || []).length >= 2).length,
+      verified: Array.isArray(verdicts) && verdicts.length > 0,
+      imagesVerified,
+      imagesTotal: merged.length,
+      generatedAt: new Date().toISOString()
+    }
+  });
+}
+
+// ---- composite scoring -----------------------------------------------------
+// GCC fit answers "does this suit our market". It does not answer "is this
+// still alive" or "did anyone else see it". Those are separate axes, so they
+// get separate, visible adjustments rather than being blended invisibly.
+const TRAJECTORY_PTS = { rising: 14, plateau: 0, unknown: 0, peaked: -16, declining: -24 };
+const SATURATION_PTS = { none: 10, some: 0, heavy: -18 };
+
+function compositeScore(product) {
+  const gcc = scoreGccFit(product);
+  if (gcc.blocked) return { ...gcc, composite: 0 };
+
+  const extra = [];
+  let score = gcc.score;
+
+  // Corroboration. Exact-SKU agreement is rare and strong; concept agreement is
+  // commoner and is what actually matters when you are sourcing your own version.
+  const n = (product.scouts || []).length;
+  if (n >= 2) {
+    const pts = n >= 3 ? 16 : 10;
+    score += pts;
+    extra.push({ kind: 'positive', pts, text: `Same product found by ${n} independent scouts` });
+  }
+
+  const cn = (product.conceptScouts || []).length;
+  if (cn >= 3) { score += 12; extra.push({ kind: 'positive', pts: 12, text: `"${product.concept}" surfaced by ${cn} scouts — the category is moving, not just one SKU` }); }
+  else if (cn === 2) { score += 6; extra.push({ kind: 'positive', pts: 6, text: `"${product.concept}" surfaced by 2 scouts` }); }
+  else if (n === 1 && cn <= 1) { extra.push({ kind: 'neutral', pts: null, text: 'Single source, no category echo — a lead, not a finding' }); }
+
+  const v = product.verdict || {};
+  const traj = v.trajectory || product.trajectory || 'unknown';
+  if (TRAJECTORY_PTS[traj]) {
+    const pts = TRAJECTORY_PTS[traj];
+    score += pts;
+    extra.push({ kind: pts > 0 ? 'positive' : 'negative', pts,
+      text: 'Trend is ' + traj + (v.trajectory_evidence ? ' — ' + v.trajectory_evidence : '') });
+  }
+
+  if (v.saturation && SATURATION_PTS[v.saturation] !== undefined && SATURATION_PTS[v.saturation] !== 0) {
+    const pts = SATURATION_PTS[v.saturation];
+    score += pts;
+    extra.push({ kind: pts > 0 ? 'positive' : 'negative', pts, text: v.saturation + ' competition in market' });
+  }
+
+  if (v.gcc_available === true) {
+    score -= 14;
+    extra.push({ kind: 'negative', pts: -14, text: 'Already buyable in KSA/GCC — no novelty left' });
+  }
+
+  (v.red_flags || []).slice(0, 3).forEach(f => {
+    score -= 5;
+    extra.push({ kind: 'negative', pts: -5, text: 'Red flag: ' + f });
+  });
+
+  score = Math.max(0, Math.min(100, Math.round(score)));
+
+  let verdict;
+  if (score >= 72)      verdict = 'STRONG';
+  else if (score >= 55) verdict = 'WORTH TESTING';
+  else if (score >= 38) verdict = 'RISKY';
+  else                  verdict = 'AVOID';
+
+  return {
+    score, verdict, blocked: false,
+    unscored: false,
+    reasons: gcc.reasons.filter(r => r.kind !== 'neutral').concat(extra)
+  };
+}
+
+// ============================================================================
 //  ACTION: analyze  —  deep dive on one product + Arabic brand names
 // ============================================================================
 async function actionAnalyze(req, res) {
@@ -689,6 +1166,7 @@ module.exports = async function handler(req, res) {
         markets: Object.entries(MARKETS).map(([code, m]) => ({ code, name: m.name })),
         niches: Object.entries(NICHES).map(([code, label]) => ({ code, label })),
         periods: Object.entries(PERIODS).map(([code, p]) => ({ code, label: p.label })),
+        scouts: Object.entries(SCOUTS).map(([code, s]) => ({ code, label: s.label, icon: s.icon, hint: s.hint })),
         hasKey: !!process.env.GEMINI_KEY
       });
     }
@@ -699,6 +1177,9 @@ module.exports = async function handler(req, res) {
     if (req.method !== 'POST') return res.status(405).json({ error: 'method' });
 
     if (action === 'discover') return await actionDiscover(req, res);
+    if (action === 'scout')    return await actionScout(req, res);
+    if (action === 'merge')    return await actionMerge(req, res);
+    if (action === 'verify')   return await actionVerify(req, res);
     if (action === 'analyze')  return await actionAnalyze(req, res);
     if (action === 'buildLp')  return await actionBuildLp(req, res);
 

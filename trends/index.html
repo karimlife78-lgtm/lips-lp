@@ -76,6 +76,58 @@ select.inp option{background:var(--paper);color:var(--ink)}
   padding:17px;margin-bottom:20px;box-shadow:var(--shadow)}
 .ctl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;align-items:end}
 
+/* ---------- mode switch ---------- */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px;
+  padding-top:13px;border-top:1px solid var(--line-2)}
+.mode{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 13px;
+  border:1px solid var(--line-2);border-radius:var(--r-sm);text-align:left;transition:.15s}
+.mode b{font-size:13px;font-weight:700}
+.mode span{font-size:11px;color:var(--ink-soft)}
+.mode:hover{border-color:var(--line)}
+.mode.on{border-color:var(--gold);background:var(--gold-soft)}
+
+/* ---------- pipeline progress ---------- */
+.pipeline{background:var(--paper);border:1px solid var(--line-2);border-radius:var(--r);
+  padding:15px;margin-bottom:18px}
+.pipeline h4{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:11px}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;align-items:center;gap:10px;font-size:12.5px}
+.step .ic{width:22px;text-align:center;flex:none}
+.step .nm{flex:1;color:var(--ink-2)}
+.step .nm i{font-style:normal;color:var(--ink-soft);font-size:11px}
+.step .st{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);flex:none}
+.step.run .nm{color:var(--ink)}
+.step.run .st{color:var(--gold)}
+.step.done .st{color:var(--ok)}
+.step.fail .st{color:var(--red)}
+.step .dot{width:7px;height:7px;border-radius:50%;background:var(--line-2);flex:none}
+.step.run .dot{background:var(--gold);animation:pulse 1s ease-in-out infinite}
+.step.done .dot{background:var(--ok)}
+.step.fail .dot{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ---------- concept clusters ---------- */
+.concepts{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px;padding-top:11px;
+  border-top:1px solid var(--line-2)}
+.cpt{font-size:11px;padding:4px 9px;border-radius:20px;background:var(--gold-soft);
+  border:1px solid var(--line);color:var(--gold-2);font-weight:600}
+.cpt b{color:var(--ink);font-weight:800}
+
+/* ---------- verdict badges ---------- */
+.vrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.vb{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;
+  border:1px solid var(--line-2);color:var(--ink-soft);letter-spacing:.02em}
+.vb.rising{color:var(--ok);border-color:rgba(58,209,127,.35);background:var(--ok-soft)}
+.vb.declining,.vb.peaked{color:var(--red);border-color:rgba(255,59,87,.35);background:var(--red-soft)}
+.vb.plateau{color:var(--warn);border-color:rgba(231,179,75,.35);background:var(--warn-soft)}
+.vb.heavy{color:var(--red);border-color:rgba(255,59,87,.35)}
+.vb.none{color:var(--ok);border-color:rgba(58,209,127,.35)}
+.kill{font-size:11.5px;line-height:1.5;color:#ffc2cb;background:var(--red-soft);
+  border:1px solid rgba(255,59,87,.25);border-radius:8px;padding:8px 10px;margin-top:2px}
+.kill b{color:#fff}
+.unver{font-size:10.5px;color:var(--ink-soft);font-style:italic}
+
 /* ---------- data-honesty banner ---------- */
 .note{display:flex;gap:9px;align-items:flex-start;padding:11px 13px;border-radius:var(--r-sm);
   font-size:12.2px;line-height:1.5;margin-bottom:16px}
@@ -240,7 +292,18 @@ select.inp option{background:var(--paper);color:var(--ink)}
       </div>
       <button id="goBtn" class="btn btn-gold">Find products</button>
     </div>
+
+    <div class="modes">
+      <button class="mode on" data-mode="quick">
+        <b>⚡ Quick</b><span>One search pass · ~25s</span>
+      </button>
+      <button class="mode" data-mode="deep">
+        <b>🔬 Deep</b><span>5 specialist scouts + red-team check · ~3min</span>
+      </button>
+    </div>
   </div>
+
+  <div id="pipeline" class="pipeline hide"></div>
 
   <div id="banner"></div>
   <div id="out"></div>
@@ -337,28 +400,148 @@ function renderEmpty(){
 }
 
 /* ---------------- discover ---------------- */
+var MODE = 'quick';
+Array.prototype.forEach.call(document.querySelectorAll('.mode'), function(b){
+  b.onclick = function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.mode'), function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    MODE = b.getAttribute('data-mode');
+    $('goBtn').textContent = MODE === 'deep' ? 'Run deep search' : 'Find products';
+  };
+});
+
 $('goBtn').onclick = function(){
+  return MODE === 'deep' ? runDeep() : runQuick();
+};
+
+function busy(on, label){
   var btn = $('goBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span> Researching…';
-  $('banner').innerHTML = '';
-  $('out').innerHTML = '<div class="loading">Searching the web for trending products…'
-    + '<div class="bar"></div></div>';
+  btn.disabled = on;
+  btn.innerHTML = on ? '<span class="spin"></span> ' + label
+                     : (MODE === 'deep' ? 'Run deep search' : 'Find products');
+}
+
+function runQuick(){
+  busy(true, 'Researching…');
+  $('banner').innerHTML = ''; $('pipeline').classList.add('hide');
+  $('out').innerHTML = '<div class="loading">Searching the web for trending products…<div class="bar"></div></div>';
 
   api('discover', {
-    market: $('market').value,
-    niche:  $('niche').value,
-    period: $('period').value
+    market: $('market').value, niche: $('niche').value, period: $('period').value
+  }).then(function(d){ LAST = d; render(d); })
+    .catch(function(e){ $('out').innerHTML = '<div class="err">Research failed: '+esc(e.message)+'</div>'; })
+    .then(function(){ busy(false); });
+}
+
+/* ---------------- deep search ----------------
+   Scouts run one at a time on purpose: five concurrent Gemini calls on one key
+   get throttled hard (measured 111s vs 6s for a single call). Sequential is
+   both faster overall and lets us show progress as each one lands.           */
+function stepRow(id, icon, name, hint, state, note){
+  return '<div class="step '+state+'" id="st-'+id+'">'
+    + '<span class="dot"></span><span class="ic">'+icon+'</span>'
+    + '<span class="nm">'+esc(name)+' <i>'+esc(hint||'')+'</i></span>'
+    + '<span class="st">'+esc(note||'')+'</span></div>';
+}
+function setStep(id, state, note){
+  var el = $('st-'+id); if (!el) return;
+  el.className = 'step ' + state;
+  el.querySelector('.st').textContent = note || '';
+}
+
+var RATE_HIT = false;
+
+function runDeep(){
+  RATE_HIT = false;
+  var market = $('market').value, niche = $('niche').value, period = $('period').value;
+  var scouts = (CFG && CFG.scouts) || [];
+  if (!scouts.length) return runQuick();
+
+  busy(true, 'Deep search…');
+  $('banner').innerHTML = '';
+  $('out').innerHTML = '';
+
+  var pl = $('pipeline');
+  pl.classList.remove('hide');
+  pl.innerHTML = '<h4>Deep search pipeline</h4><div class="steps">'
+    + scouts.map(function(s){ return stepRow(s.code, s.icon, s.label, s.hint, '', 'queued'); }).join('')
+    + stepRow('merge', '🧬', 'Triangulate', 'match findings across scouts', '', 'queued')
+    + stepRow('verify', '🛡️', 'Red team', 'try to kill each candidate', '', 'queued')
+    + '</div>';
+
+  var groups = {};
+
+  // --- 1. scouts, sequential ---
+  var chain = Promise.resolve();
+  scouts.forEach(function(s){
+    chain = chain.then(function(){
+      setStep(s.code, 'run', 'searching…');
+      var t = Date.now();
+      return api('scout', { type: s.code, market: market, niche: niche, period: period })
+        .then(function(r){
+          groups[s.code] = r.items || [];
+          var secs = ((Date.now()-t)/1000).toFixed(0) + 's';
+          var err = r.meta && r.meta.aiError;
+          if (err) {
+            RATE_HIT = RATE_HIT || /rate_limited|429/.test(err);
+            setStep(s.code, 'fail', (RATE_HIT ? 'rate limit' : 'failed') + ' · ' + secs);
+          }
+          else setStep(s.code, 'done', (r.items||[]).length + ' found · ' + secs);
+        })
+        .catch(function(){ groups[s.code] = []; setStep(s.code, 'fail', 'failed'); });
+    });
+  });
+
+  // --- 2. merge + triangulate ---
+  chain = chain.then(function(){
+    if (RATE_HIT) {
+      $('banner').innerHTML = '<div class="note note-warn">⏳ <div><b>Hit the Gemini free-tier rate limit '
+        + '(20 requests/minute).</b> Some scouts returned nothing, so this shortlist is thinner than it '
+        + 'should be. Wait a minute and re-run, or enable billing on the Gemini key to remove the cap.'
+        + '</div></div>';
+    }
+    setStep('merge', 'run', 'matching…');
+    return api('merge', { groups: groups, market: market });
   }).then(function(d){
     LAST = d;
+    setStep('merge', 'done', d.meta.rawCount + ' → ' + d.meta.mergedCount + ' unique');
     render(d);
-  }).catch(function(e){
-    $('out').innerHTML = '<div class="err">Research failed: ' + esc(e.message) + '</div>';
-  }).then(function(){
-    btn.disabled = false;
-    btn.textContent = 'Find products';
+    return d;
   });
-};
+
+  // --- 3. red team, in small batches over the top candidates ---
+  chain = chain.then(function(d){
+    var top = (d.products || []).slice(0, 8);
+    if (!top.length) { setStep('verify', 'done', 'nothing to check'); return; }
+
+    setStep('verify', 'run', '0/' + top.length);
+    var verdicts = [];
+    var seq = Promise.resolve();
+    for (var i = 0; i < top.length; i += 4) {
+      (function(batch){
+        seq = seq.then(function(){
+          return api('verify', { candidates: batch, market: market })
+            .then(function(v){
+              verdicts = verdicts.concat(v.verdicts || []);
+              setStep('verify', 'run', verdicts.length + '/' + top.length);
+            })
+            .catch(function(){ /* a failed batch just leaves those unverified */ });
+        });
+      })(top.slice(i, i + 4));
+    }
+
+    return seq.then(function(){
+      setStep('verify', 'done', verdicts.length + ' checked');
+      if (!verdicts.length) return;
+      return api('merge', { groups: groups, verdicts: verdicts, market: market })
+        .then(function(d2){ LAST = d2; render(d2); });
+    });
+  });
+
+  chain.catch(function(e){
+    $('out').innerHTML = '<div class="err">Deep search failed: '+esc(e.message)+'</div>';
+  }).then(function(){ busy(false); });
+}
 
 function scoreClass(v){
   return v==='STRONG' ? 's-strong' : v==='WORTH TESTING' ? 's-test'
@@ -380,6 +563,20 @@ function render(d){
   }
   if (d.meta.trendsError) {
     b += '<div class="note note-warn">⚠️ <div>Google Trends unavailable ('+esc(d.meta.trendsError)+') — the sidebar is empty.</div></div>';
+  }
+  if (d.meta.scoutsUsed) {
+    b += '<div class="note note-info">🧬 <div>'
+      + '<b>'+d.meta.rawCount+' findings from '+d.meta.scoutsUsed.length+' scouts → '
+      + d.meta.mergedCount+' unique products</b>, '+d.meta.corroborated+' backed by more than one scout. '
+      + (d.meta.verified
+          ? 'Top candidates were then red-teamed — scores below already include what that turned up.'
+          : 'Red-team check has not run yet, so these scores are unchallenged.')
+      + ((d.concepts && d.concepts.length)
+          ? '<div class="concepts">' + d.concepts.map(function(c){
+              return '<span class="cpt"><b>'+esc(c.key)+'</b> · '+c.scouts.length+' scouts · '+c.count+' products</span>';
+            }).join('') + '</div>'
+          : '')
+      + '</div></div>';
   }
   if (d.meta.imagesTotal) {
     var ver = d.meta.imagesVerified || 0;
@@ -426,6 +623,35 @@ function render(d){
     : '<div class="grid">'+cards+'</div>';
 }
 
+/* red-team verdict badges + the single strongest reason to walk away */
+function vbadges(p){
+  var v = p.verdict;
+  if (!v) {
+    return (p.scouts && LAST && LAST.meta && LAST.meta.verified)
+      ? '<div class="unver">Not red-teamed — score is unchallenged.</div>' : '';
+  }
+  var out = '<div class="vrow">';
+  if (v.trajectory) out += '<span class="vb '+esc(v.trajectory)+'">'
+    + (v.trajectory==='rising'?'↗ ':v.trajectory==='declining'?'↘ ':v.trajectory==='plateau'?'→ ':'')
+    + esc(v.trajectory)+'</span>';
+  if (v.saturation) out += '<span class="vb '+esc(v.saturation)+'">'+esc(v.saturation)+' competition</span>';
+  if (v.gcc_available === true) out += '<span class="vb heavy">already in GCC</span>';
+  (v.red_flags||[]).slice(0,2).forEach(function(f){ out += '<span class="vb">⚑ '+esc(f)+'</span>'; });
+  out += '</div>';
+  if (v.kill_reason) out += '<div class="kill"><b>Why to skip:</b> '+esc(v.kill_reason)+'</div>';
+  return out;
+}
+
+function scoutChips(p){
+  if (!p.scouts || !p.scouts.length) return '';
+  var icons = {tiktok:'🎵',meta:'📘',retail:'📦',problem:'🔎',emerging:'🌱'};
+  var s = p.scouts.map(function(x){ return icons[x]||'•'; }).join('');
+  var n = (p.conceptScouts||[]).length;
+  var t = '<span class="chip'+(p.scouts.length>1?' chip-hi':'')+'">'+s+' '+p.scouts.length+' scout'+(p.scouts.length>1?'s':'')+'</span>';
+  if (n >= 2) t += '<span class="chip chip-hi">“'+esc(p.concept)+'” ×'+n+'</span>';
+  return t;
+}
+
 function card(p, i){
   var g = p.gcc;
   var conf = (p.confidence||'').toLowerCase();
@@ -469,8 +695,9 @@ function card(p, i){
     + (p.description?'<div class="desc">'+esc(p.description)+'</div>':'')
     + (p.why_trending?'<div class="why">'+esc(p.why_trending)+'</div>':'')
     + (p.evidence?'<div class="ev">“'+esc(p.evidence)+'”</div>':'')
+    + vbadges(p)
     + '<div class="reasons">'+reasons+'</div>'
-    + '<div class="meta-row">'+priceChip+confChip+'</div>'
+    + '<div class="meta-row">'+priceChip+confChip+scoutChips(p)+'</div>'
     + '<div class="card-actions">'
       + (g.blocked
           ? '<button class="btn btn-ghost" disabled style="opacity:.5;cursor:not-allowed">Blocked for GCC</button>'
