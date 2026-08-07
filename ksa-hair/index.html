@@ -1281,17 +1281,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <!-- Panel 1 — STEP 1: chosen offer recap + optional upsell -->
       <div class="panel" id="panel1">
         <!-- UPSELL ORDER-BUMP — smoker audience cross-sell -->
-        <div class="ups-title">🧴 أضِفه لطلبك بسعر خاص — يضاعف النتيجة</div>
-        <div class="ups-card" id="ups-derma" data-key="derma">
-          <div class="ups-check">✓</div>
-          <div class="ups-thumb">🪮</div>
-          <div class="ups-info">
-            <span class="ups-tag">🔬 يزيد الامتصاص 3 أضعاف</span>
-            <div class="ups-name">ديرما رولر 0.5 مم للفروة</div>
-            <div class="ups-desc">إبر دقيقة جداً تفتح قنوات مجهرية في الفروة، فيوصل السيروم <b>لعمق البصيلة</b> بدل ما يبقى على السطح. الدراسات تشير إن استخدام الديرما رولر مع سيرومات الشعر <b>يحسّن الامتصاص بشكل ملحوظ</b>.<span style="display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.12)"><b>🕐 الاستخدام:</b> مرة واحدة أسبوعياً قبل السيروم · معقّم وآمن · إبر تيتانيوم طبية.</span></div>
-          </div>
-          <div class="ups-price"><span class="np">69 ر.س</span><span class="op">129 ر.س</span></div>
-        </div>
         <div style="display:flex;gap:9px;align-items:center;background:#f2faf5;border:1px solid #cfe9d9;border-radius:11px;padding:10px 13px;margin-top:10px;font-size:12.5px;font-weight:700;color:#1a5c36;line-height:1.6"><span style="font-size:16px;flex:none">🔒</span><span>شحنك <b>مغلّف بسرية تامة</b> — غلاف عادي بدون اسم ولا صورة، ولا أحد يعرف وش داخل الطرد.</span></div>
         <div class="summary" id="sum1"></div>
         <div class="cta-sticky">
@@ -1360,7 +1349,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
             <div class="s"><span class="ic">📦</span> نجهّز طلبك ونشحنه لمدينتك.</div>
             <div class="s"><span class="ic">💵</span> تستلم وتدفع عند الباب — بدون دفع مقدّم.</div>
           </div>
-          <div class="cross"><b>🎁 ترقية اختيارية عند مكالمة التأكيد</b><p>ما أضفت <b>الديرما رولر</b> لطلبك؟ اسأل المندوب عنه بسعر خاص — يفتح قنوات مجهرية في الفروة فيوصل السيروم لعمق البصيلة ويضاعف الاستفادة منه.</p></div>
+          
           <button class="btn lg" data-close style="margin-top:20px">تمام، شكراً 🙏</button>
         </div>
       </div>
@@ -1515,7 +1504,7 @@ function burstConfetti(host){
 /* OFFERS — select then order button below */
 var state={offer:null,qty:0,price:0,label:'',upsells:[]};
 /* checkout upsells — key must match .ups-card[data-key]. Price/sku editable here. */
-var UPSELLS={derma:{key:'derma',sku:'CSM-DERMA',name:'ديرما رولر 0.5 مم للفروة',price:69}};
+var UPSELLS={};  /* no upsell on this funnel */
 var selectedCard=null;
 function selectOffer(card,scroll){
   if(!card)return;
