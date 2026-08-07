@@ -21,7 +21,9 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <meta property="og:title" content="لانثوم ١٨٪ — سيروم كثافة الشعر" />
 <meta property="og:description" content="شعرك ياخذ شكل حرف M؟ ٣ مركبات توقف DHT وترجّع الكثافة. الدفع عند الاستلام." />
 
+<meta property="og:image" content="/assets/hair-hero.jpg" />
 <meta property="og:locale" content="ar_SA" />
+<link rel="preload" as="image" href="/assets/hair-hero.webp" type="image/webp" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -518,6 +520,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .bottle .label .l-n{font-family:'Cairo';font-weight:900;font-size:clamp(9px,2.4vw,15px);color:#17151c}
 .bottle .label .l-s{font-size:clamp(5px,1.25vw,8.5px);color:#6b6577;line-height:1.45;font-weight:700}
 .imgs .lz{border-radius:14px}
+.lz.photo{background:#fff;padding:0}
+.lz.photo::after{display:none}
+.lz.photo img{width:100%;height:100%;object-fit:cover;border-radius:20px;display:block}
+.hero-photo .lz.photo{aspect-ratio:1/1}
 .hero-photo .lz{aspect-ratio:1/.86;border-radius:22px}
 /* floating active-ingredient chips */
 .lz .chip{position:absolute;z-index:3;background:#fff;border:1px solid #e3dcf5;border-radius:99px;
@@ -600,11 +606,14 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <section class="hero">
   <div class="hero-in">
     <div class="hero-photo">
-      <div class="lz">
-        <span class="chip" style="top:8%;right:6%">بروكابيل ٣٪</span>
-        <span class="chip" style="top:30%;left:5%">كابيكسيل ٥٪</span>
-        <span class="chip" style="bottom:12%;right:7%">ريدينسيل ٣٪</span>
-        <div class="bottle"><div class="cap"></div><div class="neck"></div><div class="body"><div class="label"><div class="l-b">Lanthome</div><div class="l-p"></div><div class="l-n">18%</div><div class="l-s">5% capixyl<br>3% redensyl<br>3% procapil</div></div></div></div>
+      <div class="lz photo">
+        <picture>
+          <source srcset="/assets/hair-hero.webp" type="image/webp" />
+          <img src="/assets/hair-hero.jpg" alt="سيروم لانثوم لكثافة الشعر ١٨٪ — بروكابيل وكابيكسيل وريدينسيل" fetchpriority="high" width="900" height="900" />
+        </picture>
+        <span class="chip" style="top:7%;right:5%">بروكابيل ٣٪</span>
+        <span class="chip" style="top:29%;left:4%">كابيكسيل ٥٪</span>
+        <span class="chip" style="bottom:13%;right:6%">ريدينسيل ٣٪</span>
       </div>
       <div class="glow"></div>
       <div class="hero-float"><span class="s">★</span> 4.8/5 · +7,300 عميل</div>
