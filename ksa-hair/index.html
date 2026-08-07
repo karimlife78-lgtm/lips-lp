@@ -583,6 +583,75 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   .stages{grid-template-columns:repeat(2,1fr)}
   .lz .chip{font-size:10px;padding:4px 9px}
 }
+
+/* ═══ BEFORE / AFTER GALLERY ═══ */
+.ba-case{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:13px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.ba-pair{display:grid;grid-template-columns:1fr 1fr;gap:9px;position:relative}
+.ba-side{position:relative;border-radius:13px;overflow:hidden;background:#f2eef8;aspect-ratio:3/4}
+.ba-side img{width:100%;height:100%;object-fit:cover;display:block}
+.ba-side .tag{position:absolute;top:9px;inset-inline-start:9px;z-index:2;font-family:'Cairo';font-weight:900;font-size:11px;
+  padding:4px 11px;border-radius:99px;color:#fff;letter-spacing:.02em}
+.ba-side.b .tag{background:rgba(28,24,32,.82)}
+.ba-side.a .tag{background:linear-gradient(135deg,var(--red),var(--red-2));box-shadow:0 3px 10px -2px rgba(109,40,217,.6)}
+.ba-side.a::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 2px var(--red);border-radius:13px;pointer-events:none}
+.ba-meta{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:11px;padding-top:10px;border-top:1px dashed var(--line)}
+.ba-meta .d{font-family:'Cairo';font-weight:900;font-size:12.5px;color:var(--red-2)}
+.ba-meta .z{font-size:11.5px;color:var(--ink-soft);font-weight:700}
+.ba-note{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-top:4px;
+  font-size:12.5px;font-weight:700;line-height:1.75;color:var(--ink-soft);box-shadow:var(--shadow-sm)}
+.ba-note b{color:var(--ink)}
+
+/* ═══ THE HONEST TRUTH (dark, anti-hype) ═══ */
+.truth{background:linear-gradient(165deg,#17141c,#221c2e);border-radius:var(--r-lg);padding:28px 22px;color:#fff;
+  box-shadow:0 26px 60px -26px rgba(23,20,28,.7)}
+.truth .th{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.truth .th span{font-size:22px}
+.truth h3{font-family:'Cairo';font-size:20px;font-weight:900;color:#fff;line-height:1.3}
+.truth .sub{color:rgba(255,255,255,.62);font-size:13.5px;font-weight:700;line-height:1.75;margin-bottom:18px}
+.tr-i{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.09)}
+.tr-i .ti{flex:none;width:29px;height:29px;border-radius:9px;display:grid;place-items:center;font-size:14px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.tr-i b{display:block;font-family:'Cairo';font-size:14.5px;font-weight:900;color:#fff;margin-bottom:3px;line-height:1.4}
+.tr-i p{font-size:13px;color:rgba(255,255,255,.66);line-height:1.7;font-weight:700}
+.truth .close{margin-top:18px;background:rgba(139,123,184,.16);border:1px solid rgba(139,123,184,.34);border-radius:13px;
+  padding:14px 15px;font-size:13.5px;font-weight:800;line-height:1.75;color:#e6dcff}
+.truth .close b{color:#fff}
+
+/* ═══ DISQUALIFICATION ═══ */
+.dq{display:grid;gap:10px;margin-top:18px}
+.dq-i{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1.5px solid #f0d5da;border-radius:14px;padding:13px 15px}
+.dq-i .x{flex:none;width:25px;height:25px;border-radius:8px;background:#fceef0;color:#A30821;display:grid;place-items:center;font-weight:900;font-size:13px}
+.dq-i p{font-size:13.2px;font-weight:800;line-height:1.7;color:var(--ink)}
+.dq-i p span{color:var(--ink-soft);font-weight:700;display:block;font-size:12.3px;margin-top:2px}
+.dq-ok{display:flex;gap:11px;align-items:flex-start;background:linear-gradient(180deg,#fff,#f6fbf8);
+  border:1.5px solid #bfe3cc;border-radius:14px;padding:15px;margin-top:6px}
+.dq-ok .v{flex:none;width:25px;height:25px;border-radius:8px;background:#e6f6ec;color:#1f9d55;display:grid;place-items:center;font-weight:900;font-size:13px}
+.dq-ok p{font-size:13.4px;font-weight:800;line-height:1.75;color:#134e2e}
+
+/* ═══ CONCENTRATION BARS ═══ */
+.conc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 20px;margin-top:18px;box-shadow:var(--shadow-sm)}
+.cb{margin-bottom:15px}
+.cb:last-child{margin-bottom:0}
+.cb-t{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.cb-t b{flex:1;min-width:0;line-height:1.45}
+.cb-t span{flex:none;white-space:nowrap}
+.cb-t b{font-family:'Cairo';font-size:13.5px;font-weight:900}
+.cb-t span{font-family:'Cairo';font-size:15px;font-weight:900}
+.cb-tr{height:13px;border-radius:99px;background:#f0ecf8;overflow:hidden}
+.cb-f{height:100%;border-radius:99px;transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+.cb.ours .cb-t b,.cb.ours .cb-t span{color:var(--red-2)}
+.cb.ours .cb-f{background:linear-gradient(90deg,var(--red),var(--gold))}
+.cb.them .cb-t b,.cb.them .cb-t span{color:var(--ink-soft)}
+.cb.them .cb-f{background:#cfc7dd}
+.conc-note{font-size:12px;color:var(--ink-soft);font-weight:700;line-height:1.7;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+
+/* ═══ PRICE LOGIC ═══ */
+.plog{display:grid;gap:11px;margin-top:18px}
+.plog-i{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px 17px;box-shadow:var(--shadow-sm)}
+.plog-i .q{font-family:'Cairo';font-weight:900;font-size:14.5px;margin-bottom:6px;display:flex;gap:8px;align-items:flex-start}
+.plog-i .q i{font-style:normal;color:var(--red);flex:none}
+.plog-i p{font-size:13.2px;color:var(--ink-soft);line-height:1.75;font-weight:700}
+.plog-i p b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -864,6 +933,71 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
+<!-- BEFORE / AFTER -->
+<section class="section" style="background:var(--paper-2)" id="results">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">📸 حالات موثّقة</span>
+    <h2 class="title">شوف <span class="gold">الفرق بنفسك</span></h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:20px">صور من حالات استخدمت التركيبة بانتظام — نفس الزاوية ونفس الإضاءة.</p>
+  </div>
+  <div class="wrap">
+      <div class="ba-case">
+        <div class="ba-pair">
+          <div class="ba-side a"><span class="tag">بعد ✅</span><img src="/assets/hair-c3-after.webp" alt="بعد الاستخدام" loading="lazy" width="420" height="560" /></div>
+          <div class="ba-side b"><span class="tag">قبل</span><img src="/assets/hair-c3-before.webp" alt="قبل الاستخدام" loading="lazy" width="420" height="560" /></div>
+        </div>
+        <div class="ba-meta"><span class="d">بعد 3 شهور استخدام</span><span class="z">منطقة التاج والمقدمة</span></div>
+      </div>
+      <div class="ba-case">
+        <div class="ba-pair">
+          <div class="ba-side a"><span class="tag">بعد ✅</span><img src="/assets/hair-c1-after.webp" alt="بعد الاستخدام" loading="lazy" width="420" height="560" /></div>
+          <div class="ba-side b"><span class="tag">قبل</span><img src="/assets/hair-c1-before.webp" alt="قبل الاستخدام" loading="lazy" width="420" height="560" /></div>
+        </div>
+        <div class="ba-meta"><span class="d">بعد 4 شهور استخدام</span><span class="z">خط الجبهة</span></div>
+      </div>
+      <div class="ba-case">
+        <div class="ba-pair">
+          <div class="ba-side a"><span class="tag">بعد ✅</span><img src="/assets/hair-c2-after.webp" alt="بعد الاستخدام" loading="lazy" width="420" height="560" /></div>
+          <div class="ba-side b"><span class="tag">قبل</span><img src="/assets/hair-c2-before.webp" alt="قبل الاستخدام" loading="lazy" width="420" height="560" /></div>
+        </div>
+        <div class="ba-meta"><span class="d">بعد 3 شهور استخدام</span><span class="z">منطقة التاج</span></div>
+      </div>
+    <div class="ba-note">
+      ⚖️ <b>نكون صريحين:</b> هذي صور موثّقة من الشركة المصنّعة للتركيبة، مو من عملائنا في السعودية — إحنا للتو أطلقنا هنا. <b>النتائج تختلف من شخص لآخر</b> حسب مرحلة التساقط والعمر والانتظام في الاستخدام. لو بغيت تقيس نتيجتك بشكل صحيح، صوّر رأسك اليوم بنفس الإضاءة وأعد التصوير كل أسبوعين.
+    </div>
+  </div>
+</section>
+
+<!-- CONCENTRATION -->
+<section class="section" style="background:var(--paper)">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">📊 الأرقام مو الكلام</span>
+    <h2 class="title">ليش التركيز <span class="gold">يفرق كل شي</span></h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:6px">أغلب السيرومات في السوق تحط نسبة رمزية من المركب الغالي عشان تكتب اسمه على العبوة فقط.</p>
+  </div>
+  <div class="wrap">
+    <div class="conc">
+      <div class="cb ours">
+        <div class="cb-t"><b>لانثوم — إجمالي المركبات الفعّالة</b><span>18%</span></div>
+        <div class="cb-tr"><div class="cb-f" data-w="100" style="width:0"></div></div>
+      </div>
+      <div class="cb them">
+        <div class="cb-t"><b>سيروم تجاري نموذجي</b><span>3-5%</span></div>
+        <div class="cb-tr"><div class="cb-f" data-w="25" style="width:0"></div></div>
+      </div>
+      <div class="cb them">
+        <div class="cb-t"><b>سيروم «طبيعي» بدون نسب معلنة</b><span>؟</span></div>
+        <div class="cb-tr"><div class="cb-f" data-w="9" style="width:0"></div></div>
+      </div>
+      <p class="conc-note">
+        🔍 <b>اختبار بسيط تسويه بنفسك:</b> أي سيروم ما يكتب <b>نسبة</b> كل مركب على العبوة — يعني النسبة صغيرة لدرجة ما يبي يعلنها. اقلب العبوة وشوف: إذا مكتوب «يحتوي على بروكابيل» بدون رقم، هذا فرق جوهري عن «3% بروكابيل».
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- COMPARISON -->
 <section class="section" style="background:var(--paper)">
   <div class="wrap" style="text-align:center">
@@ -888,6 +1022,83 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   <p style="text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:14px;max-width:520px;margin-inline:auto;line-height:1.75;font-weight:700">
     لانثوم يشتغل على <b style="color:var(--red)">البصيلات اللي لسا حية</b> — عشان كذا كل ما بدأت بدري، كانت النتيجة أقوى.
   </p>
+</section>
+
+<!-- THE HONEST TRUTH -->
+<section class="section" style="background:var(--paper-2)" id="truth">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">🤝 قبل لا تطلب</span>
+    <h2 class="title">٥ أشياء <span class="gold">ما راح يقولها لك</span> أي بائع</h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:20px">نفضّل تطلب وأنت عارف الحقيقة، على أن ترجّع الطلب وأنت متضايق.</p>
+  </div>
+  <div class="wrap">
+    <div class="truth">
+      <div class="th"><span>⚠️</span><h3>الحقيقة الكاملة</h3></div>
+      <p class="sub">لو كنا نبي نبيعك بأي طريقة، كان حذفنا هالقسم. بس هذا اللي يفرق بيننا وبين اللي يوعدونك بمعجزات.</p>
+
+      <div class="tr-i"><span class="ti">1</span><div><b>ما ينفع على البصيلة الميتة</b><p>إذا المنطقة صارت <b style="color:#fff">ملساء تماماً</b> من أكثر من 5 سنين، البصيلة انتهت — ولا سيروم في الدنيا يرجّعها. الزراعة هي الحل الوحيد هناك. السيروم يشتغل على البصيلة اللي <b style="color:#fff">لسا حية بس ضعيفة</b>.</p></div></div>
+
+      <div class="tr-i"><span class="ti">2</span><div><b>أي أحد يوعدك بنتيجة خلال أسبوع… يكذب عليك</b><p>دورة نمو الشعرة الطبيعية تحتاج شهور. أول علامة حقيقية (انخفاض التساقط) تجي بين <b style="color:#fff">اليوم 25 و30</b>. الشعيرات الجديدة بعدها. اللي يقول لك «نتيجة من رابع يوم» يستغل يأسك.</p></div></div>
+
+      <div class="tr-i"><span class="ti">3</span><div><b>مو كل الناس تستجيب بنفس الدرجة</b><p>الاستجابة تختلف حسب <b style="color:#fff">العمر، مرحلة التساقط، والعامل الوراثي</b>. فيه ناس النتيجة عندهم قوية وواضحة، وفيه ناس النتيجة عندهم أهدأ. عشان كذا حاطين ضمان استرجاع 30 يوم.</p></div></div>
+
+      <div class="tr-i"><span class="ti">4</span><div><b>إذا وقفت الاستخدام… التساقط يرجع تدريجياً</b><p>الصلع الوراثي حالة <b style="color:#fff">مستمرة مو مرض ينشفى</b>. السيروم يوقف تأثير DHT طالما تستخدمه. هذي حقيقة تنطبق على كل علاجات الصلع بما فيها المينوكسيديل والزراعة نفسها.</p></div></div>
+
+      <div class="tr-i"><span class="ti">5</span><div><b>مو كل تساقط سببه الوراثة</b><p>إذا تساقطك <b style="color:#fff">مفاجئ وكثيف</b>، ممكن يكون بسبب نقص حديد أو فيتامين د أو خلل في الغدة الدرقية. في هالحالة راجع طبيب وسوِّ تحليل — السيروم مو الحل الصح لك.</p></div></div>
+
+      <div class="close">
+        💡 <b>ليش قلنا لك كل هذا؟</b> لأن الدفع عندنا <b>عند الاستلام</b> — يعني تقدر ترفض الطلب عند الباب. ما نبي نضيّع وقتك ولا وقتنا. نبي عميل يعرف وش يتوقع بالضبط.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISQUALIFICATION -->
+<section class="section" style="background:var(--paper)">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">🚫 صراحة كاملة</span>
+    <h2 class="title">لا تطلبه <span class="gold">إذا كنت</span>…</h2>
+    <div class="hairline"></div>
+  </div>
+  <div class="wrap">
+    <div class="dq">
+      <div class="dq-i"><span class="x">✕</span><p>منطقة الصلع عندك ملساء تماماً من سنين<span>البصيلة ماتت — وفّر فلوسك واستشر مركز زراعة.</span></p></div>
+      <div class="dq-i"><span class="x">✕</span><p>تبي نتيجة خلال أسبوعين<span>ما راح تشوف شي وبتحس إنك انخدعت. التوقع الواقعي: 25-50 يوم.</span></p></div>
+      <div class="dq-i"><span class="x">✕</span><p>ما راح تستخدمه يومياً بانتظام<span>الاستخدام المتقطع = صفر نتيجة. دقيقة وحدة كل يوم أهم من الكمية.</span></p></div>
+      <div class="dq-i"><span class="x">✕</span><p>تساقطك مفاجئ وبكميات كبيرة<span>هذا مو صلع وراثي — راجع طبيب وسوِّ تحاليل أول.</span></p></div>
+    </div>
+    <div class="dq-ok">
+      <span class="v">✓</span>
+      <p>اطلبه إذا كنت <b>لسا تشوف شعيرات رفيعة</b> في منطقة الفراغات، وتساقطك <b>تدريجي من سنين</b>، ومستعد تلتزم <b>3 شهور</b>. هذي الحالة اللي التركيبة مصمّمة لها بالضبط — وكل ما بدأت بدري، كانت النتيجة أقوى.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE LOGIC -->
+<section class="section" style="background:var(--paper-2)">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">💭 أسئلة في بالك</span>
+    <h2 class="title">«إذا كان فعّال… <span class="gold">ليش رخيص؟</span>»</h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:6px">سؤال منطقي — وهذي الإجابة الصريحة.</p>
+  </div>
+  <div class="wrap">
+    <div class="plog">
+      <div class="plog-i">
+        <div class="q"><i>؟</i>ليش أرخص بكثير من الزراعة؟</div>
+        <p>الزراعة <b>عملية جراحية</b> — أجور طبيب وطاقم وغرفة عمليات ومتابعة. السيروم منتج موضعي يُنتج بكميات. المقارنة مو عادلة أصلاً: <b>الزراعة تنقل بصيلات موجودة، والسيروم يحمي اللي عندك من الضمور</b>. كل واحد له دوره.</p>
+      </div>
+      <div class="plog-i">
+        <div class="q"><i>؟</i>وليش مو أرخص شي في السوق؟</div>
+        <p>لأن المركبات الفعّالة بتركيز <b>18%</b> غالية فعلياً. تقدر تلقى سيرومات بـ 40 ريال — بس اقلب العبوة وشوف: إما ما تكتب نسب المركبات، أو نسبتها رمزية. <b>الفرق في العبوة مو في الاسم</b>.</p>
+      </div>
+      <div class="plog-i">
+        <div class="q"><i>؟</i>ليش تقبلون الدفع عند الاستلام؟</div>
+        <p>لأننا نعرف إنك <b>مو واثق</b> — وهذا حقك. جرّبت أشياء قبل وما نفعت. الدفع عند الاستلام يعني ما تخاطر بريال واحد: <b>تشوف المنتج بيدك وتقرر</b>. وإذا استخدمته 30 يوم وما لاحظت فرق، نرجّع فلوسك.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Benefits -->
@@ -1167,6 +1378,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 "use strict";
 /* WhatsApp business number for order confirmation — intl format, digits only, e.g. '9665XXXXXXXX'. Empty = button hidden */
 var WA_NUMBER='';
+
+/* concentration bars — fill when scrolled into view */
+(function(){
+  var bars=document.querySelectorAll('.cb-f');
+  if(!bars.length) return;
+  if(!('IntersectionObserver' in window)){ bars.forEach(function(b){b.style.width=b.dataset.w+'%';}); return; }
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(x){
+      if(x.isIntersecting){ x.target.style.width=x.target.dataset.w+'%'; io.unobserve(x.target); }
+    });
+  },{threshold:.4});
+  bars.forEach(function(b){io.observe(b);});
+})();
 document.getElementById('yr').textContent=new Date().getFullYear();
 function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}try{if(window.ttq)ttq.track(ev,data||{});}catch(e){}try{if(window.fbq)fbq('track',ev,data||{});}catch(e){}}
 /* Traffic source for the admin "Revenue by Channel" report — captured once, kept across the funnel */
