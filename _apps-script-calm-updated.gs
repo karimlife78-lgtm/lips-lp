@@ -8,7 +8,8 @@ var PRODUCT_LABELS = {
   'Gluco':    'جلوكو',
   'Ceylora':  'سيلورا',
   'NoorGlow': 'نورقلو',
-  'Mullein':  'المولين'
+  'Mullein':  'المولين',
+  'Hair':     'لانثوم — سيروم الشعر'
 };
 
 function doPost(e) {
