@@ -1372,7 +1372,8 @@ var WA_NUMBER='';
   bars.forEach(function(b){io.observe(b);});
 })();
 document.getElementById('yr').textContent=new Date().getFullYear();
-function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}try{if(window.ttq)ttq.track(ev,data||{});}catch(e){}try{if(window.fbq)fbq('track',ev,data||{});}catch(e){}}
+var STD_EV={'PURCHASE':'Purchase','VIEW_CONTENT':'ViewContent'};
+function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}try{if(window.ttq)ttq.track(STD_EV[ev]||ev,data||{});}catch(e){}try{if(window.fbq)fbq('track',STD_EV[ev]||ev,data||{});}catch(e){}}
 /* Traffic source for the admin "Revenue by Channel" report — captured once, kept across the funnel */
 function getSrc(){try{var p=new URLSearchParams(location.search);var s=p.get('utm_source')||p.get('src')||localStorage.getItem('cos_src');if(!s&&document.referrer){var h=new URL(document.referrer).hostname.replace('www.','');if(/snap/.test(h))s='snapchat';else if(/tiktok/.test(h))s='tiktok';else if(/facebook|instagram|fb\./.test(h))s='meta';else if(/google/.test(h))s='google';else if(h&&h.indexOf(location.hostname)<0)s=h;}s=(s||'direct').toLowerCase();try{localStorage.setItem('cos_src',s);}catch(e){}return s;}catch(e){return 'direct';}}
 document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
