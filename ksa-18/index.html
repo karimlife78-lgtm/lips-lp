@@ -391,6 +391,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .sticky-cta .btn{flex:1;padding:15px;font-size:16px}
 
 /* LIVE ORDER TOASTS */
+.xi{position:fixed;inset:0;z-index:90;display:none}
+.xi.open{display:block}
+.xi-bg{position:absolute;inset:0;background:rgba(12,9,7,.62);backdrop-filter:blur(3px);animation:fade .22s ease}
+.xi-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 34px);max-width:400px;background:var(--paper);border-radius:24px;padding:26px 22px 22px;box-shadow:0 30px 70px -20px rgba(21,17,15,.55);text-align:center;animation:xiPop .32s cubic-bezier(.22,1,.36,1)}
+@keyframes xiPop{from{opacity:0;transform:translate(-50%,-46%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.xi-x{position:absolute;top:12px;left:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-size:15px;cursor:pointer;display:grid;place-items:center;line-height:1}
+.xi-emoji{font-size:38px;line-height:1;margin-bottom:8px}
+.xi-card h3{font-family:'Cairo';font-size:20px;font-weight:900;line-height:1.35;margin-bottom:6px}
+.xi-card p.xi-sub{font-size:13.5px;color:var(--ink-soft);font-weight:700;line-height:1.7;margin-bottom:15px}
+.xi-list{display:grid;gap:8px;margin-bottom:16px;text-align:right}
+.xi-i{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800;color:var(--ink)}
+.xi-i .ic{font-size:17px;flex:none}
+.xi-no{display:block;width:100%;margin-top:9px;background:none;border:none;color:var(--ink-soft);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:underline}
 .toast-wrap{position:fixed;right:14px;bottom:84px;z-index:44;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:300px}
 .toast{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 13px;box-shadow:var(--shadow);transform:translateX(-120%);opacity:0;transition:transform .4s cubic-bezier(.16,.84,.44,1),opacity .4s}
 .toast.in{transform:translateX(0);opacity:1}
@@ -937,6 +950,25 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- Live order toasts -->
 <div class="toast-wrap" id="toastWrap"></div>
 
+<!-- EXIT INTENT -->
+<div class="xi" id="xi" aria-hidden="true">
+  <div class="xi-bg" data-xi-close></div>
+  <div class="xi-card" role="dialog" aria-modal="true">
+    <button class="xi-x" data-xi-close aria-label="إغلاق">✕</button>
+    <div class="xi-emoji">✋</div>
+    <h3>لحظة وحدة قبل ما تطلع</h3>
+    <p class="xi-sub">ما طلبت لأنك مو متأكد؟ طيب… <b style="color:var(--ink)">ما تدفع ولا ريال الحين</b>.</p>
+    <div class="xi-list">
+      <div class="xi-i"><span class="ic">💵</span><span>تدفع <b>عند الاستلام</b> — بعد ما تشوف المنتج بيدك</span></div>
+      <div class="xi-i"><span class="ic">🛡️</span><span>ضمان <b>30 يوم</b> — ما عجبك نرجّع فلوسك</span></div>
+      <div class="xi-i"><span class="ic">🚚</span><span>توصيل <b>مجاني</b> لكل مدن السعودية</span></div>
+      <div class="xi-i"><span class="ic">📦</span><span>يوصلك بغلاف <b>محايد</b> — بدون اسم المنتج</span></div>
+    </div>
+    <button class="btn lg cta-pulse" id="xiCta">شوف العروض 👇</button>
+    <button class="xi-no" data-xi-close>لا شكراً، أكمل التصفح</button>
+  </div>
+</div>
+
 <!-- ORDER MODAL -->
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal-bg" data-close></div>
@@ -987,7 +1019,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
           <div class="summary" id="sum2"></div>
           <label id="pledgeBox" style="display:flex;gap:11px;align-items:flex-start;background:#f2faf5;border:1.5px solid #bfe3cc;border-radius:13px;padding:13px 15px;margin:14px 0 4px;cursor:pointer;transition:.2s">
             <input type="checkbox" id="pledgeChk" style="width:20px;height:20px;flex:none;margin-top:1px;accent-color:#1f9d55;cursor:pointer" />
-            <span style="font-size:13.5px;line-height:1.7;font-weight:700;color:#1a5c36">أتعهد أني جاد في طلبي، وسأرد على مكالمة التأكيد وأستلم طلبي من المندوب ✋<span style="display:block;font-weight:400;font-size:12px;color:#4a7a5c;margin-top:3px">نشحن فقط للعملاء الجادين — هذا يخلي التوصيل أسرع للجميع 🤝</span></span>
+            <span style="font-size:13.5px;line-height:1.7;font-weight:700;color:#1a5c36">أتعهد أني جاد في طلبي، وسأرد على مكالمة التأكيد وأستلم طلبي من المندوب ✋<span style="display:block;font-weight:400;font-size:12px;color:#4a7a5c;margin-top:3px">نشحن فقط للعملاء الجادين — هذا يخلي التوصيل أسرع للجميع 🤝</span><span id="pledgeAmt" style="display:flex;align-items:center;gap:7px;margin-top:9px;padding-top:9px;border-top:1px dashed #bfe3cc;font-weight:900;font-size:13.5px;color:#134e2e"><span style="font-size:16px">💵</span><span>جهّز مبلغ <b id="pledgeCash" style="color:#0f7a3d">—</b> نقداً عند استلام الطلب</span></span></span>
           </label>
           <div id="pledgeErr" style="display:none;margin:4px 0 8px;padding:9px 13px;background:#fcedef;border:1px solid #f3d4d9;border-radius:10px;color:#A30821;font-size:12.5px;font-weight:700;text-align:center">فضلاً أكّد تعهدك بالاستلام حتى نقدر نشحن طلبك ✋</div>
           <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🇸🇦</div>
@@ -1232,7 +1264,7 @@ document.querySelectorAll('.ups-card').forEach(function(u){
     renderSummaries();
   });
 });
-function renderSummaries(){var h=summaryHTML();var s1=document.getElementById('sum1');if(s1)s1.innerHTML=h;var s2=document.getElementById('sum2');if(s2)s2.innerHTML=h;}
+function renderSummaries(){var h=summaryHTML();var s1=document.getElementById('sum1');if(s1)s1.innerHTML=h;var s2=document.getElementById('sum2');if(s2)s2.innerHTML=h;var pc=document.getElementById('pledgeCash');if(pc)pc.textContent=grandTotal()+' ر.س';}
 /* step 1 → step 2 (upsell is optional, no validation needed) */
 var toStep2Btn=document.getElementById('toStep2');
 if(toStep2Btn)toStep2Btn.addEventListener('click',function(){showPanel(2);});
@@ -1349,6 +1381,47 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   })
   .catch(function(){showSuccess();});
 });
+
+/* EXIT INTENT: desktop pointer-out + mobile fast scroll-up. Once per session. */
+(function(){
+  var xi=document.getElementById('xi'); if(!xi) return;
+  var shown=false, ordered=false, armedAt=Date.now()+8000;
+  try{ if(sessionStorage.getItem('cos_xi')) shown=true; }catch(e){}
+  function canShow(){
+    if(shown||ordered) return false;
+    if(Date.now()<armedAt) return false;
+    if(typeof modal!=='undefined' && modal && modal.classList.contains('open')) return false;
+    return true;
+  }
+  function show(){
+    if(!canShow()) return;
+    shown=true; try{sessionStorage.setItem('cos_xi','1');}catch(e){}
+    xi.classList.add('open'); xi.setAttribute('aria-hidden','false');
+    try{track('EXIT_INTENT',{});}catch(e){}
+  }
+  function hide(){ xi.classList.remove('open'); xi.setAttribute('aria-hidden','true'); }
+  document.addEventListener('mouseout', function(e){
+    if(!e.relatedTarget && e.clientY<=0) show();
+  });
+  var lastY=window.scrollY, lastT=Date.now();
+  window.addEventListener('scroll', function(){
+    var y=window.scrollY, t=Date.now(), dt=t-lastT;
+    if(dt>0){
+      var v=(lastY-y)/dt;
+      if(v>1.1 && y<420) show();
+    }
+    lastY=y; lastT=t;
+  },{passive:true});
+  xi.querySelectorAll('[data-xi-close]').forEach(function(b){ b.addEventListener('click', hide); });
+  var cta=document.getElementById('xiCta');
+  if(cta) cta.addEventListener('click', function(){
+    hide();
+    var o=document.getElementById('offers'); if(o) o.scrollIntoView({behavior:'smooth',block:'start'});
+    try{track('EXIT_INTENT_CTA',{});}catch(e){}
+  });
+  var f=document.getElementById('orderForm');
+  if(f) f.addEventListener('submit', function(){ ordered=true; });
+})();
 
 /* STICKY */
 var sticky=document.getElementById('stickyCta');
