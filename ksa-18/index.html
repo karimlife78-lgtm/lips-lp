@@ -998,6 +998,16 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
           </div>
           <div class="ups-price"><span class="np">169 ر.س</span><span class="op">299 ر.س</span></div>
         </div>
+        <div class="ups-card" id="ups-prostate" data-key="prostate">
+          <div class="ups-check">✓</div>
+          <div class="ups-thumb"><picture><source srcset="/assets/prostate-tea.webp" type="image/webp" /><img src="/assets/prostate-tea.png" alt="شاي البروستاتا" onerror="this.remove()" /></picture>🍵</div>
+          <div class="ups-info">
+            <span class="ups-tag">⚠️ البروستاتا ما تنتظر — تكبر مع السكوت</span>
+            <div class="ups-name">شاي البروستاتا — تدارَكها قبل ما تكبر</div>
+            <div class="ups-desc">تبدأ بمرة وحدة بالليل. بعد شهور تصير مرتين. بعدها تحس إن المثانة ما تفضى أبداً — <b>وهذي المشكلة ما تصلح نفسها بنفسها</b>.<span style="display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.12)"><b style="color:#A30821">⚠️ الأطباء يحذّرون:</b> إهمال تضخّم البروستاتا مع الوقت يرتبط بـ <b>احتباس البول</b>، التهابات متكررة في المسالك البولية، وإجهاد على المثانة والكلى. الفرق بين اللي يتصرّف بدري واللي يسكت سنتين — هو الفرق بين مرحلة تُدار بسهولة ومرحلة تحتاج تدخّل طبي.</span><span style="display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.12)"><b>🌿 البلميط المنشاري (Saw Palmetto) + الجينسنغ</b> — مكوّنان معروفان لدعم صحة البروستاتا والمسالك البولية. كوب واحد قبل النوم لمدة 10 أيام · <b>خالٍ من الكافيين</b> · طبيعي 100%.<span style="display:block;margin-top:6px;font-size:11.5px;color:#8a8078;font-weight:700">مكمّل عشبي داعم ولا يُغني عن استشارة الطبيب. لو فيه ألم شديد أو دم، راجع طبيبك فوراً.</span></span></div>
+          </div>
+          <div class="ups-price"><span class="np">199 ر.س</span><span class="op">299 ر.س</span></div>
+        </div>
         <div style="display:flex;gap:9px;align-items:center;background:#f2faf5;border:1px solid #cfe9d9;border-radius:11px;padding:10px 13px;margin-top:10px;font-size:12.5px;font-weight:700;color:#1a5c36;line-height:1.6"><span style="font-size:16px;flex:none">🔒</span><span>شحنك <b>مغلّف بسرية تامة</b> — غلاف عادي بدون اسم ولا صورة، ولا أحد يعرف وش داخل الطرد.</span></div>
         <div class="summary" id="sum1"></div>
         <div class="cta-sticky">
@@ -1211,7 +1221,7 @@ function burstConfetti(host){
 /* OFFERS — select then order button below */
 var state={offer:null,qty:0,price:0,label:'',upsells:[]};
 /* checkout upsells — key must match .ups-card[data-key]. Price/sku editable here. */
-var UPSELLS={jabrut:{key:'jabrut',sku:'MP-UPKZJAOOVM6T',name:'الجبروت السعودي — كريم جنسي للرجال',price:169}};
+var UPSELLS={jabrut:{key:'jabrut',sku:'MP-UPKZJAOOVM6T',name:'الجبروت السعودي — كريم جنسي للرجال',price:169},prostate:{key:'prostate',sku:'MP-6SSOYL2OM6EW',name:'شاي البروستاتا — برنامج 10 أيام',price:199}};
 var selectedCard=null;
 function selectOffer(card,scroll){
   if(!card)return;
