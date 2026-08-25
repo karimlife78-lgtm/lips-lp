@@ -150,7 +150,10 @@ module.exports = async function handler(req, res) {
     if (action === 'deleteRedirect' && req.method === 'POST') {
       const { slug } = req.body || {};
       if (!slug) return res.status(400).json({ error: 'missing_slug' });
-      const data = await scriptPost({ action: 'deleteRedirect', slug });
+      // normalise exactly as saveRedirect does, otherwise the key never matches
+      const clean = String(slug).toLowerCase().replace(/[^a-z0-9-_]/g, '');
+      if (!clean) return res.status(400).json({ error: 'bad_slug' });
+      const data = await scriptPost({ action: 'deleteRedirect', slug: clean });
       return res.status(200).json({ ok: true, ...data });
     }
 

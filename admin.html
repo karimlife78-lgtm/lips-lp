@@ -693,7 +693,21 @@ tr:hover td{background:rgba(230,201,122,.05)}
     $$('[data-copy]').forEach(function(b){b.onclick=function(){copy(b.getAttribute('data-copy'));};});
     $$('[data-open]').forEach(function(b){b.onclick=function(){window.open(b.getAttribute('data-open'),'_blank');};});
     $$('[data-edit]').forEach(function(b){b.onclick=function(){var r=LINKS.filter(function(x){return x.slug===b.getAttribute('data-edit');})[0];if(r){$('#rkSlug').value=r.slug;$('#rkTarget').value=r.target;$('#rkNote').value=r.note||'';window.scrollTo({top:0,behavior:'smooth'});}};});
-    $$('[data-del]').forEach(function(b){b.onclick=function(){var s=b.getAttribute('data-del');if(!confirm('Delete smart-link /'+s+' ?'))return;api('deleteRedirect',{method:'POST',body:{slug:s}}).then(function(){toast('Deleted');loadLinks();});};});
+    /* report what actually happened — a failed delete used to still toast "Deleted" */
+    $$('[data-del]').forEach(function(b){b.onclick=function(){
+      var s=b.getAttribute('data-del');
+      if(!confirm('Delete smart-link /'+s+' ?'))return;
+      b.disabled=true;b.textContent='…';
+      api('deleteRedirect',{method:'POST',body:{slug:s}}).then(function(j){
+        if(j&&j.ok===false){toast('Delete failed: '+(j.error||'unknown'));}
+        else if(j&&j.deleted===false){toast('Not found — /'+s+' was already gone');}
+        else{toast('Deleted');}
+        loadLinks();
+      }).catch(function(){
+        toast('Delete failed — network error');
+        b.disabled=false;b.textContent='🗑';
+      });
+    };});
   }
   $('#rkSave').addEventListener('click',function(){
     var slug=$('#rkSlug').value.trim(),target=$('#rkTarget').value.trim();
