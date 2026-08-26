@@ -676,7 +676,10 @@ tr:hover td{background:rgba(230,201,122,.05)}
   /* ============ AD SMART-LINKS ============ */
   var LINKS=[];
   function loadLinks(){
-    api('redirects').then(function(j){LINKS=j.redirects||[];renderLinks();}).catch(function(){renderLinks();});
+    api('redirects').then(function(j){
+      if(j&&j.ok===false){toast('Could not load smart-links: '+(j.error||'unknown'));}
+      LINKS=j.redirects||[];renderLinks();
+    }).catch(function(){toast('Could not load smart-links — network error');renderLinks();});
   }
   function renderLinks(){
     var el=$('#linksList');

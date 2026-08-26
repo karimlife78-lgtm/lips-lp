@@ -130,8 +130,14 @@ module.exports = async function handler(req, res) {
     if (action === 'redirects' && req.method === 'GET') {
       try {
         const data = await scriptGet({ action: 'redirects' });
+        console.log('[redirects] reply=' + JSON.stringify(data).slice(0, 300));
+        // don't mask a backend failure as an empty list — it looks like "no links yet"
+        if (data && data.ok === false) {
+          return res.status(200).json({ ok: false, error: data.error || 'sheet_error', redirects: [] });
+        }
         return res.status(200).json({ ok: true, redirects: data.redirects || [] });
       } catch (e) {
+        console.log('[redirects] threw ' + e.message);
         return res.status(200).json({ ok: false, error: e.message, redirects: [] });
       }
     }
@@ -143,6 +149,7 @@ module.exports = async function handler(req, res) {
       const clean = String(slug).toLowerCase().replace(/[^a-z0-9-_]/g, '');
       if (!clean) return res.status(400).json({ error: 'bad_slug' });
       const data = await scriptPost({ action: 'saveRedirect', slug: clean, target, note: note || '' });
+      console.log('[saveRedirect] slug=' + clean + ' target=' + target + ' reply=' + JSON.stringify(data));
       return res.status(200).json({ ok: true, ...data });
     }
 
