@@ -17,7 +17,7 @@
  *    6. Re-deploy whenever you change this code (Deploy → Manage → edit → new version).
  ***************************************************************************/
 
-var SHEET_TOKEN   = 'cosmarab-redirect-k7Qe93Lx2Pv8Rn4Tz6Wa1Bd5';   // ← MUST match Vercel SHEET_TOKEN
+var SHEET_TOKEN   = 'gHvlkNJfKAY4qmsVCQD6pESLyu7i3OTc';   // ← MUST match Vercel SHEET_TOKEN (verified 2026-08-26)
 var ORDERS_SHEET  = 'Orders';
 var TG_TOKEN      = '8356739743:AAHxxDKkBGaXjcvnQtWCcfDngs1_NxaHENg';
 var TG_CHAT       = '8988230851';

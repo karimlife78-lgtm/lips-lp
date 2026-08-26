@@ -154,8 +154,6 @@ module.exports = async function handler(req, res) {
       const clean = String(slug).toLowerCase().replace(/[^a-z0-9-_]/g, '');
       if (!clean) return res.status(400).json({ error: 'bad_slug' });
       const data = await scriptPost({ action: 'deleteRedirect', slug: clean });
-      // temporary diagnostic — shows exactly what Apps Script replied
-      console.log('[deleteRedirect] slug=' + clean + ' reply=' + JSON.stringify(data));
       return res.status(200).json({ ok: true, ...data });
     }
 
