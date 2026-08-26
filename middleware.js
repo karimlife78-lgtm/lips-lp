@@ -41,13 +41,23 @@ async function fetchMap() {
   const base = process.env.GOOGLE_SCRIPT_URL;
   const token = process.env.SHEET_TOKEN || '';
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 1500); // don't let a slow GAS hang the page
-  const r = await fetch(`${base}?action=redirects&token=${encodeURIComponent(token)}`, { signal: ctrl.signal });
-  clearTimeout(t);
-  const data = await r.json();
-  const map = {};
-  (data.redirects || []).forEach(rd => { if (rd.slug) map[String(rd.slug).toLowerCase()] = rd.target; });
-  return map;
+  // Apps Script regularly needs 2-4s on a cold start. The old 1.5s abort fired
+  // before it ever answered, so the map came back empty and smart-links that
+  // shadow a real page folder silently lost to the real page.
+  const t = setTimeout(() => ctrl.abort(), 5000);
+  try {
+    const r = await fetch(`${base}?action=redirects&token=${encodeURIComponent(token)}`, { signal: ctrl.signal });
+    const data = await r.json();
+    const map = {};
+    (data.redirects || []).forEach(rd => { if (rd.slug) map[String(rd.slug).toLowerCase()] = rd.target; });
+    console.log('[mw] map loaded slugs=' + Object.keys(map).length + ' [' + Object.keys(map).join(',') + ']');
+    return map;
+  } catch (e) {
+    console.log('[mw] map fetch FAILED: ' + (e && e.name) + ' ' + (e && e.message));
+    throw e;
+  } finally {
+    clearTimeout(t);
+  }
 }
 
 function refresh(event) {
@@ -57,7 +67,12 @@ function refresh(event) {
   _refreshAt = Date.now();
   const p = fetchMap()
     .then(map => { _cache = { at: Date.now(), map }; })
-    .catch(() => { _cache = { at: Date.now(), map: _cache.map }; }) // keep old map, back off ~FRESH
+    .catch(() => {
+      // Only mark the cache "fresh" if we actually have a map to serve. Stamping
+      // Date.now() on an empty map made a single failure stick for FRESH ms and
+      // every request in that window skipped the redirect entirely.
+      if (Object.keys(_cache.map || {}).length) _cache = { at: Date.now(), map: _cache.map };
+    })
     .finally(() => { _refreshAt = 0; });
   _cache._p = p;
   if (event && typeof event.waitUntil === 'function') { try { event.waitUntil(p); } catch (_) {} }
@@ -88,6 +103,7 @@ export default async function middleware(request, event) {
   const map = await loadMap(event);
   const target = map[slug];
   if (!target) return; // no smart-link → serve the real page/alias normally
+  console.log('[mw] override slug=' + slug + ' -> ' + target);
 
   // self-redirect guard: if target points back to the same slug, serve the page directly
   // (lets admin "clear" a redirect by setting it to /same-slug without causing a loop)
