@@ -1091,13 +1091,29 @@ var ORDERS=[
   {n:'خالد',c:'أبها',i:'خ',o:'علبة'},{n:'ماجد',c:'بريدة',i:'م',o:'علبتان'}
 ];
 var toastWrap=document.getElementById('toastWrap'),oi=0,modal=document.getElementById('modal');
-var toastsOff=false,toastResume=null;
+var toastsOff=false,toastResume=null,toastBounce=null;
 /* quiet the toasts while the visitor is deciding; resume when they return */
 function pauseToasts(){toastsOff=true;clearTimeout(toastResume);toastResume=setTimeout(function(){toastsOff=false;},12000);}
-function resumeToasts(){clearTimeout(toastResume);toastsOff=false;}
-function showToast(){
+function resumeToasts(){
+  clearTimeout(toastResume);clearTimeout(toastBounce);
+  var done=document.getElementById('panel3');
+  if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
+  toastsOff=false;
+  toastBounce=setTimeout(bounceToast,700);
+}
+/* they opened an offer and hesitated — answer that hesitation immediately with
+   someone who just bought the exact pack they were looking at */
+function bounceToast(){
+  var card=document.querySelector('.offer.selected');
+  var want=card?String(card.getAttribute('data-label')||'').split('—')[0].trim():'';
+  var pick=null,i;
+  for(i=0;i<ORDERS.length;i++){if(ORDERS[i].o===want){pick=ORDERS[i];break;}}
+  if(!pick&&want){for(i=0;i<ORDERS.length;i++){if(want.indexOf(ORDERS[i].o)>-1){pick=ORDERS[i];break;}}}
+  showToast(pick);
+}
+function showToast(forced){
   if(toastsOff||modal.classList.contains('open'))return;
-  var o=ORDERS[oi%ORDERS.length];oi++;
+  var o=forced||ORDERS[oi%ORDERS.length];if(!forced)oi++;
   var mins=Math.floor(Math.random()*9)+1;
   var t=document.createElement('div');t.className='toast';
   t.innerHTML='<span class="vchk">✔ موثّق</span><span class="av">'+o.i+'</span><div class="tb"><b>'+o.n+' من '+o.c+'</b><span>طلب '+o.o+' · <span class="ago">قبل '+mins+' دقيقة</span></span></div>';
