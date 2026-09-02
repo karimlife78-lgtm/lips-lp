@@ -371,6 +371,9 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 .xi-i .ic{font-size:17px;flex:none}
 .xi-no{display:block;width:100%;margin-top:9px;background:none;border:none;color:var(--ink-soft);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:underline}
 .toast-wrap{position:fixed;right:14px;bottom:84px;z-index:44;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:300px}
+/* on desktop the page is a narrow centred column, so a viewport-edge toast
+   lands hundreds of px away in peripheral vision — hug the column instead */
+@media(min-width:600px){.toast-wrap{right:calc(50% - 256px)}}
 .toast{position:relative;display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 13px;box-shadow:var(--shadow);transform:translateX(-120%);opacity:0;transition:transform .4s cubic-bezier(.16,.84,.44,1),opacity .4s}
 .toast.in{transform:translateX(0);opacity:1}
 .toast .av{flex:none;width:38px;height:38px;border-radius:50%;background:var(--brand-soft);color:var(--brand-2);display:grid;place-items:center;font-weight:900;font-size:15px}
