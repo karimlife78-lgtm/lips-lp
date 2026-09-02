@@ -1123,8 +1123,12 @@ var ORDERS=[
   {n:'محمد',c:'الأحساء',i:'م',o:'3 قطع'},{n:'أمل',c:'القطيف',i:'أ',o:'قطعتان'}
 ];
 var toastWrap=document.getElementById('toastWrap'),oi=0,modal=document.getElementById('modal');
+var toastsOff=false,toastResume=null;
+/* quiet the toasts while the visitor is deciding; resume when they return */
+function pauseToasts(){toastsOff=true;clearTimeout(toastResume);toastResume=setTimeout(function(){toastsOff=false;},12000);}
+function resumeToasts(){clearTimeout(toastResume);toastsOff=false;}
 function showToast(){
-  if(modal.classList.contains('open')){return;}
+  if(toastsOff||modal.classList.contains('open')){return;}
   var o=ORDERS[oi%ORDERS.length];oi++;
   var mins=Math.floor(Math.random()*9)+1;
   var t=document.createElement('div');t.className='toast';
@@ -1133,8 +1137,7 @@ function showToast(){
   requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('in');});});
   setTimeout(function(){t.classList.remove('in');setTimeout(function(){t.remove();},450);},4500);
 }
-setTimeout(showToast,3500);
-setInterval(showToast,8000);
+setTimeout(function(){showToast();setInterval(showToast,8000);},12000);
 
 /* live count */
 var liveEl=document.getElementById('liveCount'),todayEl=document.getElementById('todayOrders'),liveN=23,todayN=147;
@@ -1231,9 +1234,9 @@ function selectOffer(card,scroll){
   selectedCard=card;
   if(scroll){/* highlight only */}
 }
-document.querySelectorAll('.offer').forEach(function(card){card.addEventListener('click',function(){selectOffer(card);});});
+document.querySelectorAll('.offer').forEach(function(card){card.addEventListener('click',function(){pauseToasts();selectOffer(card);});});
 /* inline per-offer CTA — opens order directly, no scrolling */
-document.querySelectorAll('.offer-cta').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();selectOffer(btn.closest('.offer'));openOrder();});});
+document.querySelectorAll('.offer-cta').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();pauseToasts();selectOffer(btn.closest('.offer'));openOrder();});});
 /* default select best offer */
 selectOffer(document.getElementById('offer2'));
 
@@ -1254,7 +1257,7 @@ function openOrder(){
 
 /* MODAL */
 function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
-function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';resumeToasts();}
 document.querySelectorAll('[data-close]').forEach(function(el){el.addEventListener('click',closeModal);});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
 function showPanel(n){['panel1','panel2','panel3'].forEach(function(id,i){document.getElementById(id).classList.toggle('active',i===n-1);});document.getElementById('dot1').classList.toggle('on',n>=1);document.getElementById('dot2').classList.toggle('on',n>=2);document.getElementById('stepTxt').textContent=n===3?'تم الطلب ✅':'الخطوة '+n+' من 2';document.querySelector('.sheet').scrollTop=0;}
