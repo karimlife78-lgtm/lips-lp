@@ -9,7 +9,10 @@ var PRODUCT_LABELS = {
   'Ceylora':  'سيلورا',
   'NoorGlow': 'نورقلو',
   'Mullein':  'المولين',
-  'Hair':     'لانثوم — سيروم الشعر'
+  'Hair':     'لانثوم — سيروم الشعر',
+  'Lung':     'نَفَس',
+  'Masar':    'شاي مَسار',
+  'Rawaq':    'رَواق'
 };
 
 function doPost(e) {
