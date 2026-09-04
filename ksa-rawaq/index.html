@@ -130,12 +130,25 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(250,248,253,.85);bac
 .sc-head .eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14);color:#fff}
 .sc-head h2{font-size:28px;font-weight:900;color:#fff;line-height:1.25}
 .sc-head p{font-size:14.5px;color:rgba(255,255,255,.66);margin-top:9px;font-weight:600}
-.mirror{display:grid;gap:9px}
-.mi{display:flex;align-items:flex-start;gap:12px;border:1.5px solid rgba(255,255,255,.13);border-radius:15px;padding:13px 14px;background:rgba(255,255,255,.05);font-size:14.5px;font-weight:700;text-align:right;transition:all .16s;cursor:pointer;width:100%;color:rgba(255,255,255,.92);line-height:1.6;position:relative}
-.mi .qic{flex:none;font-size:19px;margin-top:1px}
-.mi .box{flex:none;width:24px;height:24px;border-radius:8px;border:2px solid rgba(255,255,255,.24);display:grid;place-items:center;margin-top:1px;transition:all .16s;font-size:13px;color:transparent;font-weight:900}
-.mi.on{border-color:var(--brand);background:rgba(109,40,217,.22)}
-.mi.on .box{background:var(--lime);border-color:var(--lime);color:#1B1626}
+/* dimensional scale — 6 items, one per loop. Everyone maps onto all six,
+   so nobody can "not find their symptom"; the vivid one-liners live under
+   each question as examples instead of being the options themselves. */
+.q6wrap{display:grid;gap:10px}
+.q6bar{display:flex;gap:5px;margin-bottom:4px}
+.q6bar .p{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.13);transition:background .3s}
+.q6bar .p.done{background:linear-gradient(90deg,var(--brand),var(--lime))}
+.q6{border:1.5px solid rgba(255,255,255,.13);border-radius:16px;padding:14px 15px;background:rgba(255,255,255,.05);transition:border-color .2s,background .2s}
+.q6.done{border-color:rgba(132,204,22,.38);background:rgba(132,204,22,.06)}
+.q6 .qh{display:flex;gap:11px;align-items:flex-start}
+.q6 .qi{flex:none;font-size:21px;margin-top:1px}
+.q6 h4{font-size:15.5px;font-weight:900;color:#fff;line-height:1.5}
+.q6 .ex{font-size:12.5px;color:rgba(255,255,255,.48);font-weight:600;line-height:1.6;margin-top:6px;border-inline-start:2px solid rgba(255,255,255,.16);padding-inline-start:9px}
+.q6 .scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:13px}
+.q6 .sb{padding:10px 3px;border-radius:11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);color:rgba(255,255,255,.72);font-size:12.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:.15s;white-space:nowrap}
+.q6 .sb:hover{border-color:var(--brand);color:#fff}
+.q6 .sb.on{color:#fff;background:linear-gradient(145deg,var(--brand),var(--brand-2));border-color:var(--brand);box-shadow:0 8px 18px -8px rgba(109,40,217,.75)}
+.q6 .sb.on[data-v="0"]{background:linear-gradient(145deg,#16A34A,#15803D);border-color:#16A34A;box-shadow:0 8px 18px -8px rgba(22,163,74,.7)}
+.q6 .sb.on[data-v="3"]{background:linear-gradient(145deg,#BE185D,#9D174D);border-color:#BE185D;box-shadow:0 8px 18px -8px rgba(190,24,93,.7)}
 .mi-count{position:sticky;bottom:12px;margin-top:16px;background:linear-gradient(145deg,#2E2143,#1F1730);border:1px solid rgba(132,204,22,.3);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 18px 40px -16px rgba(0,0,0,.8);z-index:4}
 .mi-count .num{font-family:'Cairo';font-size:30px;font-weight:900;color:var(--lime);line-height:1;flex:none}
 .mi-count .num small{font-size:14px;color:rgba(255,255,255,.4)}
@@ -510,7 +523,7 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 .ty-steps .s .ic{flex:none;width:36px;height:36px;border-radius:10px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:17px}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
-@media(max-width:360px){.hero h1{font-size:29px}h2.title{font-size:25px}.trust-grid{gap:3px}.comp-cell:first-child{font-size:11px;padding-right:9px}.offer .imgs{width:80px}.mi{font-size:13.5px}}
+@media(max-width:360px){.hero h1{font-size:29px}h2.title{font-size:25px}.trust-grid{gap:3px}.comp-cell:first-child{font-size:11px;padding-right:9px}.offer .imgs{width:80px}.q6 h4{font-size:14.5px}.q6 .sb{font-size:11px;padding:9px 2px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -567,7 +580,7 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
     </div>
   </div>
   <div class="wrap" style="padding-top:22px;padding-bottom:8px">
-    <button class="btn lg cta-pulse" data-scroll="#check">شوف كم حلقة عالق فيها — ٣٠ ثانية 👇</button>
+    <button class="btn lg cta-pulse" data-scroll="#check">قيّم أعصابك — ٦ أسئلة في دقيقة 👇</button>
     <p class="btn-note">💵 الدفع <b>عند الاستلام</b> · 📦 غلاف محايد بدون اسم</p>
   </div>
 </section>
@@ -585,34 +598,48 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 <section class="sc-section" id="check">
   <div class="sc-wrap">
     <div class="sc-head">
-      <span class="eyebrow">🪞 مرآة التوتر — ١٠ لحظات</span>
-      <h2 id="scTitle">أي وحدة من هذي <span style="color:var(--lime)">تنطبق عليك؟</span></h2>
-      <p id="scSub">اضغط على كل واحدة صارت لك خلال آخر شهر. كن صادق — النتيجة لك أنت وحدك.</p>
+      <span class="eyebrow">🧭 مقياس رَواق — ٦ أسئلة</span>
+      <h2 id="scTitle">وين أنت من <span style="color:var(--lime)">دورة التوتر؟</span></h2>
+      <p id="scSub">ست أسئلة — كل وحدة تقيس حلقة مختلفة. جاوب بصراحة، النتيجة لك أنت وحدك.</p>
     </div>
 
     <div id="scQuiz">
-      <div class="mirror" id="mirror">
-        <button class="mi" data-i="0" data-link="1"><span class="box">✓</span><span class="qic">🌀</span><span>تدخل السرير الساعة ١٢… وعقلك يطلع من «المفروض قلت له كذا» الساعة ٢:٤٠</span></button>
-        <button class="mi" data-i="1" data-link="1"><span class="box">✓</span><span class="qic">📱</span><span>تفتح الجوال أربعين مرة باليوم وأنت تدري إنه ما فيه شي جديد</span></button>
-        <button class="mi" data-i="2" data-link="1"><span class="box">✓</span><span class="qic">😶‍🌫️</span><span>تدخل الغرفة… وتنسى ليش دخلت أصلاً</span></button>
-        <button class="mi" data-i="3" data-link="2"><span class="box">✓</span><span class="qic">🥱</span><span>تنام سبع ساعات وتصحى كأنك ما نمت ولا ساعة</span></button>
-        <button class="mi" data-i="4" data-link="2"><span class="box">✓</span><span class="qic">⏰</span><span>تصحى قبل المنبّه بساعة وقلبك يدق — ومحد ناداك</span></button>
-        <button class="mi" data-i="5" data-link="3"><span class="box">✓</span><span class="qic">🔋</span><span>الساعة ٣ العصر… وبطاريتك على الحمرا وباقي نص اليوم</span></button>
-        <button class="mi" data-i="6" data-link="4"><span class="box">✓</span><span class="qic">☕</span><span>رابع كوب قهوة وأنت عارف في قرارة نفسك إنه هو اللي مأرّقك</span></button>
-        <button class="mi" data-i="7" data-link="5"><span class="box">✓</span><span class="qic">🤒</span><span>كل ضغطة شغل تمر عليك… يجيك بعدها دور برد بأسبوع</span></button>
-        <button class="mi" data-i="8" data-link="5"><span class="box">✓</span><span class="qic">🧱</span><span>كتفك ورقبتك مشدودة من الصبح — كأنك شايل شي على ظهرك</span></button>
-        <button class="mi" data-i="9" data-link="6"><span class="box">✓</span><span class="qic">😤</span><span>صوت عيالك ضايقك… وبعدها جلست لحالك تحس بالذنب</span></button>
+      <div class="q6wrap" id="mirror">
+        <div class="q6bar" id="q6bar"><span class="p" data-p="0"></span><span class="p" data-p="1"></span><span class="p" data-p="2"></span><span class="p" data-p="3"></span><span class="p" data-p="4"></span><span class="p" data-p="5"></span></div>
+        <div class="q6" data-q="0" data-link="1">
+          <div class="qh"><span class="qi">🌀</span><div><h4>كم مرة عقلك يرفض يهدأ — تفكير ما يوقف، أو تركيز يروح منك؟</h4><p class="ex">مثلاً: تدخل السرير الساعة ١٢ وعقلك يطلع من «المفروض قلت له كذا» الساعة ٢:٤٠</p></div></div>
+          <div class="scale"><button class="sb" data-q="0" data-v="0">أبداً</button><button class="sb" data-q="0" data-v="1">أحياناً</button><button class="sb" data-q="0" data-v="2">كثير</button><button class="sb" data-q="0" data-v="3">كل يوم</button></div>
+        </div>
+        <div class="q6" data-q="1" data-link="2">
+          <div class="qh"><span class="qi">🥱</span><div><h4>كم مرة تصحى وأنت حاس إنك ما ارتحت — حتى لو نمت كفاية؟</h4><p class="ex">مثلاً: تنام سبع ساعات وتصحى كأنك ما نمت ولا ساعة</p></div></div>
+          <div class="scale"><button class="sb" data-q="1" data-v="0">أبداً</button><button class="sb" data-q="1" data-v="1">أحياناً</button><button class="sb" data-q="1" data-v="2">كثير</button><button class="sb" data-q="1" data-v="3">كل يوم</button></div>
+        </div>
+        <div class="q6" data-q="2" data-link="3">
+          <div class="qh"><span class="qi">🔋</span><div><h4>كم مرة طاقتك تخلص قبل ما يخلص يومك؟</h4><p class="ex">مثلاً: الساعة ٣ العصر وبطاريتك على الحمرا وباقي عليك نص اليوم</p></div></div>
+          <div class="scale"><button class="sb" data-q="2" data-v="0">أبداً</button><button class="sb" data-q="2" data-v="1">أحياناً</button><button class="sb" data-q="2" data-v="2">كثير</button><button class="sb" data-q="2" data-v="3">كل يوم</button></div>
+        </div>
+        <div class="q6" data-q="3" data-link="4">
+          <div class="qh"><span class="qi">☕</span><div><h4>كم مرة تحتاج قهوة أو مشروب طاقة عشان تكمّل يومك؟</h4><p class="ex">مثلاً: رابع كوب وأنت عارف في قرارة نفسك إنه هو اللي مأرّقك</p></div></div>
+          <div class="scale"><button class="sb" data-q="3" data-v="0">أبداً</button><button class="sb" data-q="3" data-v="1">أحياناً</button><button class="sb" data-q="3" data-v="2">كثير</button><button class="sb" data-q="3" data-v="3">كل يوم</button></div>
+        </div>
+        <div class="q6" data-q="4" data-link="5">
+          <div class="qh"><span class="qi">🧱</span><div><h4>كم مرة يجيك شي جسدي مع الضغط — شد رقبة، ضيقة صدر، أو تمرض بسرعة؟</h4><p class="ex">مثلاً: كتفك مشدود من الصبح، أو كل ضغطة شغل يعقبها دور برد</p></div></div>
+          <div class="scale"><button class="sb" data-q="4" data-v="0">أبداً</button><button class="sb" data-q="4" data-v="1">أحياناً</button><button class="sb" data-q="4" data-v="2">كثير</button><button class="sb" data-q="4" data-v="3">كل يوم</button></div>
+        </div>
+        <div class="q6" data-q="5" data-link="6">
+          <div class="qh"><span class="qi">😤</span><div><h4>كم مرة ينفد صبرك أو تنفعل على شي ما يستاهل؟</h4><p class="ex">مثلاً: صوت عيالك ضايقك… وبعدها جلست لحالك تحس بالذنب</p></div></div>
+          <div class="scale"><button class="sb" data-q="5" data-v="0">أبداً</button><button class="sb" data-q="5" data-v="1">أحياناً</button><button class="sb" data-q="5" data-v="2">كثير</button><button class="sb" data-q="5" data-v="3">كل يوم</button></div>
+        </div>
       </div>
 
       <div class="mi-count">
-        <div class="num"><span id="miN">0</span><small>/١٠</small></div>
-        <div class="cw"><b id="miHead">اختر اللي ينطبق عليك</b><span id="miSub">ولا وحدة محددة لين الحين</span></div>
+        <div class="num"><span id="miN">0</span><small>/٦</small></div>
+        <div class="cw"><b id="miHead">جاوب على الستة عشان تطلع نتيجتك</b><span id="miSub">كل سؤال يقيس حلقة مختلفة من الدورة</span></div>
       </div>
       <div class="mi-go">
         <button class="btn lg cta-pulse" id="miGo" disabled>اطلع نتيجتي 👈</button>
       </div>
 
-      <p class="sc-note">⚠️ هذا تقييم <b>توعوي فقط</b> — ليس تشخيصاً طبياً ولا نفسياً. إذا كنت تعاني من نوبات هلع متكررة، أو حزن مستمر، أو أفكار تؤذيك — <b>راجع مختصاً</b>، وما فيه شي يعيب في هذا.</p>
     </div>
 
     <div class="report" id="scReport">
@@ -1235,69 +1262,83 @@ tickTimer();setInterval(tickTimer,1000);
    Awareness only — never a diagnosis (see .sc-note).
    ══════════════════════════════════════════════════════════ */
 var LOOP_NAMES={1:'ذهن ما يطفّي',2:'نوم سطحي',3:'طاقة تخلص بدري',4:'كافيين تعويضي',5:'جسد مستنزف',6:'مزاج قصير'};
-var picked=[],miGo=document.getElementById('miGo');
+var INTENS=['هادية','خفيفة','شغّالة','مشتعلة'];
+var ans=[null,null,null,null,null,null],miGo=document.getElementById('miGo');
 var MI_COPY=[
-  {h:'اختر اللي ينطبق عليك',s:'ولا وحدة محددة لين الحين'},
-  {h:'بداية طيّبة',s:'كمّل — كل وحدة تزيد دقة النتيجة'},
-  {h:'واضح إن فيه شي',s:'أكمل الباقي عشان نعرف وين بالضبط'},
-  {h:'هذا نمط، مو صدفة',s:'٣ لحظات ولا وحدة منها تجي لحالها'},
-  {h:'الدورة شغّالة عندك',s:'شوف نتيجتك وشوف كم حلقة'},
-  {h:'أكثر من نص القائمة',s:'هذا مستوى يستاهل تتصرّف فيه'},
-  {h:'٦ من ١٠',s:'أغلب حلقات الدورة شغّالة'},
-  {h:'٧ من ١٠',s:'هذا مو "تعب عادي"'},
-  {h:'٨ من ١٠',s:'الدورة كاملة تقريباً'},
-  {h:'٩ من ١٠',s:'لا تأجّل أكثر'},
-  {h:'١٠ من ١٠',s:'كل حلقة في الدورة شغّالة عندك'}
+  {h:'جاوب على الستة عشان تطلع نتيجتك',s:'كل سؤال يقيس حلقة مختلفة من الدورة'},
+  {h:'واحد… باقي خمسة',s:'ثواني وتخلص'},
+  {h:'اثنين من ستة',s:'كمّل — النتيجة تصير أدق مع كل جواب'},
+  {h:'نص الطريق',s:'باقي ثلاثة بس'},
+  {h:'أربعة من ستة',s:'قربت تخلص'},
+  {h:'باقي سؤال واحد',s:'آخر وحدة وتطلع نتيجتك'},
+  {h:'تمام — كملت الستة ✅',s:'اضغط تحت وشوف وين وضعك بالضبط'}
 ];
-document.querySelectorAll('.mi').forEach(function(b){
-  b.addEventListener('click',function(){
-    var i=+b.getAttribute('data-i');
-    b.classList.toggle('on');
-    var at=picked.indexOf(i);
-    if(at>-1)picked.splice(at,1);else picked.push(i);
-    var n=picked.length;
-    document.getElementById('miN').textContent=n;
-    var c=MI_COPY[Math.min(n,10)];
-    document.getElementById('miHead').textContent=c.h;
-    document.getElementById('miSub').textContent=c.s;
-    miGo.disabled=(n===0);
-    miGo.textContent=n===0?'اطلع نتيجتي 👈':'اطلع نتيجتي ('+n+') 👈';
+function q6Refresh(){
+  var n=0;
+  for(var i=0;i<6;i++){
+    var done=ans[i]!==null; if(done)n++;
+    var card=document.querySelector('.q6[data-q="'+i+'"]');
+    if(card)card.classList.toggle('done',done);
+    var p=document.querySelector('.q6bar .p[data-p="'+i+'"]');
+    if(p)p.classList.toggle('done',done);
+  }
+  document.getElementById('miN').textContent=n;
+  var c=MI_COPY[n];
+  document.getElementById('miHead').textContent=c.h;
+  document.getElementById('miSub').textContent=c.s;
+  miGo.disabled=(n<6);
+  miGo.textContent=n<6?('باقي '+(6-n)+' من ٦'):'اطلع نتيجتي 👈';
+}
+document.querySelectorAll('.q6 .sb').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var q=+btn.getAttribute('data-q'),v=+btn.getAttribute('data-v');
+    ans[q]=v;
+    var card=document.querySelector('.q6[data-q="'+q+'"]');
+    card.querySelectorAll('.sb').forEach(function(o){o.classList.toggle('on',o===btn);});
+    q6Refresh();
+    /* nudge them to the next unanswered card so momentum never breaks */
+    var nxt=-1;
+    for(var i=0;i<6;i++){if(ans[i]===null){nxt=i;break;}}
+    var target=nxt>-1?document.querySelector('.q6[data-q="'+nxt+'"]'):document.getElementById('miGo');
+    if(target)setTimeout(function(){target.scrollIntoView({behavior:'smooth',block:'center'});},180);
   });
 });
+q6Refresh();
 
 var BANDS=[
-  {max:25, offer:'offer1', tag:'#16A34A', label:'أعصابك ممسكة',
+  {max:30, offer:'offer1', tag:'#16A34A', label:'أعصابك ممسكة',
    v:'وضعك تحت السيطرة — وهذا في صالحك',
    d:'الدورة عندك <span class="em">لسه ما اكتملت</span>. هذي أسهل مرحلة على الإطلاق، لأنك تشتغل على <span class="em">وقاية</span> مو على إصلاح. <span class="em">علبة وحدة (٤٠ يوم)</span> كافية تجرّب وتشوف بنفسك.',
    t:['٤٠ يوم','بداية مبكرة','أقل مخاطرة']},
-  {max:55, offer:'offer2', tag:'#84CC16', label:'مشدود',
+  {max:60, offer:'offer2', tag:'#84CC16', label:'مشدود',
    v:'الدورة بدأت تقفل — ووقت التصرّف الآن',
    d:'أكثر من حلقة شغّالة عندك في نفس الوقت، وهذا بالضبط <span class="em">السبب اللي يخلي المكوّن الواحد ما يكفي</span>. ومدة <span class="em">٨٠ يوم</span> هي اللي يقيّم فيها أغلب الناس فرق حقيقي في نومهم ومزاجهم.',
    t:['٨٠ يوم','الأكثر طلباً','وفّر ٢١٩ ر.س']},
   {max:100, offer:'offer3', tag:'#BE185D', label:'منهك',
    v:'الدورة كاملة تقريباً — لا تأجّل أكثر',
-   d:'أغلب الحلقات الست شغّالة عندك، والدورة تغذّي نفسها كل يوم. تحتاج <span class="em">برنامج متواصل بدون انقطاع</span> — والانقطاع في المنتصف يرجّعك للصفر. وإذا فيه نوبات هلع أو حزن مستمر، <span class="em">راجع مختصاً بالتوازي</span>.',
+   d:'أغلب الحلقات الست شغّالة عندك، والدورة تغذّي نفسها كل يوم. تحتاج <span class="em">برنامج متواصل بدون انقطاع</span> — والانقطاع في المنتصف يرجّعك للصفر.',
    t:['٤ شهور','برنامج كامل','الثالثة مجاناً 🎁']}
 ];
 var recOfferId='offer2';
 
 function scFinish(){
-  var n=picked.length;
-  var score=Math.round(n/10*100);
+  var raw=0,i;
+  for(i=0;i<6;i++)raw+=(ans[i]||0);
+  var score=Math.round(raw/18*100);
   var band=BANDS[0];
-  for(var i=0;i<BANDS.length;i++){ if(score<=BANDS[i].max){band=BANDS[i];break;} }
+  for(i=0;i<BANDS.length;i++){ if(score<=BANDS[i].max){band=BANDS[i];break;} }
 
-  /* which loop links did their answers light up */
-  var links={};
-  picked.forEach(function(i){
-    var el=document.querySelector('.mi[data-i="'+i+'"]');
-    if(el)links[el.getAttribute('data-link')]=true;
+  /* a loop counts as running at كثير (2) or كل يوم (3) */
+  var hot=[],lvl={};
+  document.querySelectorAll('.q6').forEach(function(card){
+    var q=+card.getAttribute('data-q'),L=card.getAttribute('data-link'),v=ans[q]||0;
+    lvl[L]=v; if(v>=2)hot.push(L);
   });
-  var hitCount=Object.keys(links).length;
+  var hitCount=hot.length;
 
   document.getElementById('scQuiz').style.display='none';
   document.getElementById('scTitle').innerHTML='تقييمك <span style="color:var(--lime)">جاهز</span>';
-  document.getElementById('scSub').textContent='محسوب من اللي اخترته أنت شخصياً.';
+  document.getElementById('scSub').textContent='محسوب من إجاباتك أنت شخصياً.';
   var rep=document.getElementById('scReport');
   rep.classList.add('show');
 
@@ -1306,6 +1347,8 @@ function scFinish(){
   tag.style.background=band.tag;
 
   var arcEl=document.getElementById('gaugeArc'),scoreEl=document.getElementById('gScore');
+  /* colour the arc by band — a green arc under a "منهك" verdict reads as a contradiction */
+  arcEl.style.stroke=band.tag;
   setTimeout(function(){arcEl.style.strokeDashoffset=String(283*(1-score/100));},120);
   var cur=0,step=Math.max(1,Math.round(score/20));
   var ci=setInterval(function(){cur+=step;if(cur>=score){cur=score;clearInterval(ci);}scoreEl.textContent=cur;},45);
@@ -1321,8 +1364,8 @@ function scFinish(){
   var AR_NUM=['','١','٢','٣','٤','٥','٦'];
   var lp=document.getElementById('rpLoops'),html='';
   for(var k=1;k<=6;k++){
-    var on=!!links[k];
-    html+='<div class="rp-loop'+(on?' hit':'')+'"><span>'+(on?'🔴':'⚪')+'</span><span>الحلقة '+AR_NUM[k]+' — '+LOOP_NAMES[k]+'</span><span class="st">'+(on?'شغّالة':'هادية')+'</span></div>';
+    var v=lvl[k]||0,on=v>=2;
+    html+='<div class="rp-loop'+(on?' hit':'')+'"><span>'+(on?'🔴':v===1?'🟡':'⚪')+'</span><span>الحلقة '+AR_NUM[k]+' — '+LOOP_NAMES[k]+'</span><span class="st">'+INTENS[v]+'</span></div>';
   }
   lp.innerHTML=html;
 
@@ -1331,7 +1374,7 @@ function scFinish(){
 
   /* light the same links in the diagram further down the page */
   document.querySelectorAll('.loop-i').forEach(function(el){
-    el.classList.toggle('lit',!!links[el.getAttribute('data-link')]);
+    el.classList.toggle('lit',hot.indexOf(el.getAttribute('data-link'))>-1);
   });
 
   burstConfetti(rep.querySelector('.rp-card'));
@@ -1345,9 +1388,9 @@ function scFinish(){
   if(!rib){rib=document.createElement('span');rec.appendChild(rib);}
   rib.className='ribbon rec';rib.textContent='✅ اخترناه لك';
   recOfferId=band.offer;
-  track('STRESS_MIRROR',{score:score,band:band.label,loops:hitCount});
+  track('STRESS_SCALE',{score:score,band:band.label,loops:hitCount});
 }
-miGo.addEventListener('click',function(){if(picked.length)scFinish();});
+miGo.addEventListener('click',function(){if(ans.indexOf(null)===-1)scFinish();});
 
 document.getElementById('rpCta').addEventListener('click',function(){
   var el=document.getElementById(recOfferId)||document.getElementById('offers');
@@ -1355,19 +1398,16 @@ document.getElementById('rpCta').addEventListener('click',function(){
   window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-headH-14,behavior:'smooth'});
 });
 document.getElementById('scRedo').addEventListener('click',function(){
-  picked=[];
-  document.querySelectorAll('.mi').forEach(function(b){b.classList.remove('on');});
+  ans=[null,null,null,null,null,null];
+  document.querySelectorAll('.q6 .sb').forEach(function(b){b.classList.remove('on');});
   document.querySelectorAll('.loop-i').forEach(function(el){el.classList.remove('lit');});
-  document.getElementById('miN').textContent='0';
-  document.getElementById('miHead').textContent=MI_COPY[0].h;
-  document.getElementById('miSub').textContent=MI_COPY[0].s;
-  miGo.disabled=true;miGo.textContent='اطلع نتيجتي 👈';
+  q6Refresh();
   document.getElementById('scReport').classList.remove('show');
   document.getElementById('gaugeArc').style.strokeDashoffset='283';
   document.getElementById('gScore').textContent='0';
   document.getElementById('scQuiz').style.display='block';
-  document.getElementById('scTitle').innerHTML='أي وحدة من هذي <span style="color:var(--lime)">تنطبق عليك؟</span>';
-  document.getElementById('scSub').textContent='اضغط على كل واحدة صارت لك خلال آخر شهر. كن صادق — النتيجة لك أنت وحدك.';
+  document.getElementById('scTitle').innerHTML='وين أنت من <span style="color:var(--lime)">دورة التوتر؟</span>';
+  document.getElementById('scSub').textContent='ست أسئلة — كل وحدة تقيس حلقة مختلفة. جاوب بصراحة، النتيجة لك أنت وحدك.';
 });
 function burstConfetti(host){
   var colors=['#6D28D9','#84CC16','#EC4899','#C2A14D','#fff'];
