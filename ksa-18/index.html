@@ -1126,6 +1126,47 @@ var ORDERS=[
 ];
 var toastWrap=document.getElementById('toastWrap'),oi=0,modal=document.getElementById('modal');
 var toastsOff=false,toastResume=null,toastBounce=null;
+/* ── when toasts are allowed to speak ──────────────────────────────────
+   They used to fire 12s after load, so an idle open tab got them without
+   the visitor doing anything. Now the 12s only starts once they actually
+   scroll, and toasts stay silent the whole time they're inside the offers
+   block — that's where we want their attention undivided. Backing out of
+   the offers is the hesitation signal, so a matched toast fires at once,
+   whether or not the 12s gate has elapsed. */
+var toastsStarted=false,scrollGateArmed=false,gateReady=false,inOffers=false,seenOffers=false;
+function startToastLoop(immediate){
+  if(!toastsStarted){toastsStarted=true;setInterval(showToast,8000);}
+  if(immediate)showToast();
+}
+function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(toastBounce);}
+/* 12s of being-on-the-page-and-scrolling, not 12s of an idle tab */
+window.addEventListener('scroll',function(){
+  if(scrollGateArmed)return;
+  scrollGateArmed=true;
+  setTimeout(function(){
+    gateReady=true;
+    if(!inOffers&&!modal.classList.contains('open'))startToastLoop(true);
+  },12000);
+},{passive:true});
+/* watch the offers block: silent inside it, instant matched toast on exit */
+(function(){
+  var offersEl=document.getElementById('offers');
+  if(!offersEl||!('IntersectionObserver' in window))return;
+  new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){inOffers=true;seenOffers=true;suppressToasts();return;}
+      if(!seenOffers||!inOffers)return;
+      inOffers=false;
+      var done=document.getElementById('panel3');
+      if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
+      if(modal.classList.contains('open'))return;                        /* closeModal handles that path */
+      toastsOff=false;clearTimeout(toastResume);
+      startToastLoop(false);
+      clearTimeout(toastBounce);
+      toastBounce=setTimeout(bounceToast,400);
+    });
+  },{threshold:0.25}).observe(offersEl);
+})();
 /* quiet the toasts while the visitor is deciding; resume when they return */
 function pauseToasts(){toastsOff=true;clearTimeout(toastResume);toastResume=setTimeout(function(){toastsOff=false;},12000);}
 function resumeToasts(){
@@ -1133,6 +1174,7 @@ function resumeToasts(){
   var done=document.getElementById('panel3');
   if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
   toastsOff=false;
+  startToastLoop(false);
   toastBounce=setTimeout(bounceToast,700);
 }
 /* they opened an offer and hesitated — answer that hesitation immediately with
@@ -1155,7 +1197,7 @@ function showToast(forced){
   requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('in');});});
   setTimeout(function(){t.classList.remove('in');setTimeout(function(){t.remove();},450);},4500);
 }
-setTimeout(function(){showToast();setInterval(showToast,8000);},12000);
+/* toasts now start from the scroll gate / offers-exit above */
 
 /* live count */
 var liveEl=document.getElementById('liveCount'),todayEl=document.getElementById('todayOrders'),liveN=23,todayN=147;
