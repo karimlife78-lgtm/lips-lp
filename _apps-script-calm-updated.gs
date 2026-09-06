@@ -12,7 +12,8 @@ var PRODUCT_LABELS = {
   'Hair':     'لانثوم — سيروم الشعر',
   'Lung':     'نَفَس',
   'Masar':    'شاي مَسار',
-  'Rawaq':    'رَواق'
+  'Rawaq':    'رَواق',
+  'RawaqTT':  'رَواق — تيك توك'
 };
 
 function doPost(e) {

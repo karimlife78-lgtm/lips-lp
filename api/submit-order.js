@@ -73,8 +73,8 @@ module.exports = async function handler(req, res) {
     // 4. Forward rows to Google Sheet via Apps Script web app.
     // ksa-calm / ksa-glow / ksa-gluco share the calm spreadsheet (GOOGLE_SCRIPT_URL_CALM), each in its own tab.
     // everything else → main sheet (GOOGLE_SCRIPT_URL), default 'Orders' tab.
-    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-26', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq']);
-    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-26': 'NoorGlow', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
+    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-26', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt']);
+    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-26': 'NoorGlow', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
     const scriptUrl = CALM_SHEET_PAGES.has(page)
       ? (process.env.GOOGLE_SCRIPT_URL_CALM || process.env.GOOGLE_SCRIPT_URL)
       : process.env.GOOGLE_SCRIPT_URL;
