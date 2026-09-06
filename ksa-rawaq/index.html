@@ -293,6 +293,10 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(250,248,253,.85);bac
 .ing-i p b{display:inline;font-size:13.5px;color:var(--brand-2)}
 .ing-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:11.5px;font-weight:900;color:var(--brand-2);background:var(--brand-soft);border-radius:8px;padding:5px 10px}
 .ing-badge.two{background:#FDF2F8;color:#BE185D}
+/* supplier infographics — cropped to drop their OEM/B2B framing before use */
+.infog{max-width:var(--maxw);margin:22px auto 0;padding-inline:20px}
+.infog img{width:100%;height:auto;border-radius:var(--r-lg);box-shadow:var(--shadow);border:1px solid var(--line);background:#fff;display:block}
+.infog.light img{border-color:#E8E3F0}
 .ing-safe{max-width:var(--maxw);margin:16px auto 0;font-size:12.5px;font-weight:800;color:var(--brand-2);display:flex;gap:8px;align-items:center;justify-content:center;text-align:center;background:var(--brand-soft);border-radius:12px;padding:11px 14px}
 
 /* DOSE / TRANSPARENCY */
@@ -824,6 +828,13 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
     <p class="lead">مو قائمة مكوّنات… خريطة. اقرأ وين يقف كل واحد منها.</p>
   </div>
 
+  <figure class="infog">
+    <picture>
+      <source srcset="/assets/rawaq-ingredients.webp" type="image/webp" />
+      <img src="/assets/rawaq-ingredients.jpg" alt="مكوّنات رَواق — ٦ فطريات وظيفية (عرف الأسد، ريشي، مايتاكي، تشاجا، كورديسيبس، شيتاكي) + أشواجندا، ٢٥٠٠ ملغ لكل جرعة" width="900" height="817" loading="lazy" />
+    </picture>
+  </figure>
+
   <div class="ing-list">
     <div class="ing-i">
       <div class="ing-top">
@@ -1026,6 +1037,14 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
     <div class="hairline"></div>
     <p class="lead">مصنّع وفق معايير عالمية معتمدة.</p>
   </div>
+
+  <figure class="infog light">
+    <picture>
+      <source srcset="/assets/rawaq-quality.webp" type="image/webp" />
+      <img src="/assets/rawaq-quality.jpg" alt="شهادات المصنع: GMP، ISO 22000، HACCP، مختبر جودة داخلي، فحص طرف ثالث، تتبّع المواد الخام، فحص الدفعات، توثيق كامل" width="900" height="623" loading="lazy" />
+    </picture>
+  </figure>
+
   <div class="certs-grid">
     <div class="cert"><div class="cic green">🏭</div><h4>تصنيع GMP</h4><p>منشأة معتمدة وفق معايير التصنيع الجيد</p></div>
     <div class="cert"><div class="cic blue">📋</div><h4>ISO 22000 + HACCP</h4><p>أنظمة سلامة غذاء معتمدة دولياً</p></div>
@@ -1671,7 +1690,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
 var sticky=document.getElementById('stickyCta');
 window.addEventListener('scroll',function(){sticky.classList.toggle('show',window.scrollY>700&&!modal.classList.contains('open'));},{passive:true});
 var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
-document.querySelectorAll('.section>.wrap,.tl,.comp-table,.certs-grid,.offer,.ing-list,.diff,.fit-grid,.dose,.loop').forEach(function(el){el.classList.add('reveal');io.observe(el);});
+document.querySelectorAll('.section>.wrap,.tl,.comp-table,.certs-grid,.offer,.ing-list,.diff,.fit-grid,.dose,.loop,.infog').forEach(function(el){el.classList.add('reveal');io.observe(el);});
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),sn=17;
 setInterval(function(){if(sn>5&&Math.random()>.5){sn--;stockN.textContent=sn;stockFill.style.width=(sn/30*100)+'%';}},11000);
 })();
