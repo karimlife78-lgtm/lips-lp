@@ -1127,27 +1127,17 @@ var ORDERS=[
 var toastWrap=document.getElementById('toastWrap'),oi=0,modal=document.getElementById('modal');
 var toastsOff=false,toastResume=null,toastBounce=null;
 /* ── when toasts are allowed to speak ──────────────────────────────────
-   They used to fire 12s after load, so an idle open tab got them without
-   the visitor doing anything. Now the 12s only starts once they actually
-   scroll, and toasts stay silent the whole time they're inside the offers
-   block — that's where we want their attention undivided. Backing out of
-   the offers is the hesitation signal, so a matched toast fires at once,
-   whether or not the 12s gate has elapsed. */
-var toastsStarted=false,scrollGateArmed=false,gateReady=false,inOffers=false,seenOffers=false;
+   Toasts are purely a hesitation response now: nothing fires from merely
+   scrolling or waiting. They speak only when the visitor looked at the
+   offers and pulled away, or opened the order sheet and backed out of it.
+   Inside the offers block they stay silent — that's where we want their
+   attention undivided. */
+var toastsStarted=false,inOffers=false,seenOffers=false;
 function startToastLoop(immediate){
   if(!toastsStarted){toastsStarted=true;setInterval(showToast,8000);}
   if(immediate)showToast();
 }
 function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(toastBounce);}
-/* 12s of being-on-the-page-and-scrolling, not 12s of an idle tab */
-window.addEventListener('scroll',function(){
-  if(scrollGateArmed)return;
-  scrollGateArmed=true;
-  setTimeout(function(){
-    gateReady=true;
-    if(!inOffers&&!modal.classList.contains('open'))startToastLoop(true);
-  },12000);
-},{passive:true});
 /* watch the offers block: silent inside it, instant matched toast on exit */
 (function(){
   var offersEl=document.getElementById('offers');
