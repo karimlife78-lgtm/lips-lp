@@ -282,6 +282,21 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cyes{color:var(--ok);font-size:19px}.cno{color:#ccc;font-size:18px}.cpart{color:var(--gold);font-size:13px;font-weight:900}
 
 /* Benefits */
+/* cost anchor — reframes 199 against what the alternatives actually cost */
+.costs{max-width:var(--maxw);margin-inline:auto}
+.cost-i{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+.cost-i .ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--paper-2);display:grid;place-items:center;font-size:21px}
+.cost-i .t{flex:1;min-width:0}
+.cost-i .t b{display:block;font-size:14.5px;font-weight:900;line-height:1.35}
+.cost-i .t span{display:block;font-size:11.5px;color:var(--ink-soft);font-weight:700;line-height:1.55;margin-top:3px}
+.cost-i .amt{flex:none;text-align:left;font-family:'Cairo',sans-serif;font-size:17px;font-weight:900;color:#B91C1C;white-space:nowrap;line-height:1.15}
+.cost-i .amt small{display:block;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;color:var(--ink-soft);margin-top:2px}
+.cost-i.win{border:2px solid var(--ok);background:linear-gradient(160deg,#fff,#F2FBF6)}
+.cost-i.win .ic{background:#E4F7EC}
+.cost-i.win .amt{color:var(--ok);font-size:20px}
+.cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
+.cost-punch b{color:var(--red)}
+@media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
@@ -792,6 +807,49 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="comp-row"><div class="comp-cell">مناسب للمدخنين</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
     <div class="comp-row"><div class="comp-cell">دفع عند الاستلام</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cno">✗</span></div></div>
     <div class="comp-row"><div class="comp-cell">نتيجة من الأسبوع الأول</div><div class="comp-cell ours"><span class="cyes">✓</span></div><div class="comp-cell"><span class="cpart">أشهر</span></div></div>
+  </div>
+</section>
+
+<!-- COST ANCHOR -->
+<section class="section" style="background:var(--paper-2)">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">💸 الحاسبة</span>
+    <h2 class="title">وش يكلّفك تفتيح <span class="gold">الشفايف فعلاً؟</span></h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:6px">قارن الخيارات اللي قدامك — بالأرقام.</p>
+  </div>
+  <div class="costs wrap">
+    <div class="cost-i">
+      <span class="ic">⚡</span>
+      <div class="t"><b>جلسات ليزر في عيادة</b><span>تبدأ من 700 ر.س للجلسة، وتحتاج 4–6 جلسات — مواعيد، ألم، وفترة نقاهة بعد كل جلسة</span></div>
+      <span class="amt">3,000+<small>ر.س</small></span>
+    </div>
+    <div class="cost-i">
+      <span class="ic">🧪</span>
+      <div class="t"><b>تقشير كيميائي للشفايف</b><span>من 400 ر.س للجلسة، وكم جلسة عشان تشوف فرق واضح</span></div>
+      <span class="amt">1,200+<small>ر.س</small></span>
+    </div>
+    <div class="cost-i">
+      <span class="ic">💄</span>
+      <div class="t"><b>أحمر شفاه مغطّي</b><span>150 ر.س كل شهرين — و<b style="color:var(--red);font-size:11.5px">يغطّي السواد بس ما يعالجه</b> — تشيله بالليل ويرجع مثل ما هو</span></div>
+      <span class="amt">900<small>ر.س / سنة</small></span>
+    </div>
+    <div class="cost-i">
+      <span class="ic">🍋</span>
+      <div class="t"><b>وصفات البيت (ليمون، سكر، بيكنج صودا)</b><span>شبه مجانية — بس تجفّف الشفايف أكثر، والجفاف نفسه يزيد الاسمرار مع الوقت</span></div>
+      <span class="amt">0<small>والنتيجة؟</small></span>
+    </div>
+    <div class="cost-i win">
+      <span class="ic">🌸</span>
+      <div class="t"><b>كريم Cosmarab</b><span>مرة وحدة، في بيتك، بدون مواعيد ولا ألم — ويشتغل على السبب مو على التغطية</span></div>
+      <span class="amt">199<small>ر.س</small></span>
+    </div>
+    <div class="cost-punch">
+      يعني بأقل من <b>7 ر.س في اليوم</b> لمدة شهر كامل — أرخص من كوب قهوة،<br>وتدفع <b>عند الاستلام</b> بعد ما تشوف المنتج بيدك.
+    </div>
+    <div style="margin-top:16px">
+      <button class="btn lg cta-pulse" data-scroll="#offers">أبي أفتّح شفايفي — اختر عرضك 👇</button>
+    </div>
   </div>
 </section>
 
