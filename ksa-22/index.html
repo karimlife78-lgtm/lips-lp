@@ -276,6 +276,37 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cyes{color:var(--ok);font-size:19px}.cno{color:#ccc;font-size:18px}.cpart{color:var(--gold);font-size:13px;font-weight:900}
 
 /* Benefits */
+/* timeline — answers "how long?" and shows why one jar runs out
+   exactly when results start, which is the case for taking two */
+.tline{display:grid;gap:11px;max-width:var(--maxw);margin-inline:auto}
+.tline-i{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:15px;box-shadow:var(--shadow-sm)}
+.tline-i .nb{flex:none;width:62px;text-align:center}
+.tline-i .nb b{display:block;font-family:'Cairo',sans-serif;font-size:20px;font-weight:900;color:var(--red);line-height:1}
+.tline-i .nb span{font-size:10.5px;font-weight:800;color:var(--ink-soft)}
+.tline-i .nx{flex:1;border-inline-start:2px dashed var(--red-soft);padding-inline-start:14px}
+.tline-i h4{font-size:15.5px;font-weight:900}
+.tline-i p{font-size:13.5px;color:var(--ink-soft);margin-top:4px;line-height:1.7}
+.tline-i p b{color:var(--ink)}
+.tline-i.hot{border:2px solid var(--gold);background:linear-gradient(160deg,#fff,var(--gold-soft))}
+.tline-i.hot .nb b{color:var(--gold)}
+.tline-i.hot .nx{border-inline-start-color:var(--gold)}
+.tline-note{max-width:var(--maxw);margin:14px auto 0;background:#FFFBEB;border:1px solid #FDE68A;border-radius:16px;padding:15px 16px;font-size:13.5px;font-weight:700;color:#78350F;line-height:1.8}
+.tline-note b{color:#92400E}
+/* cost anchor — reframes 199 against what the alternatives actually cost */
+.costs{max-width:var(--maxw);margin-inline:auto}
+.cost-i{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+.cost-i .ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--paper-2);display:grid;place-items:center;font-size:21px}
+.cost-i .t{flex:1;min-width:0}
+.cost-i .t b{display:block;font-size:14.5px;font-weight:900;line-height:1.35}
+.cost-i .t span{display:block;font-size:11.5px;color:var(--ink-soft);font-weight:700;line-height:1.55;margin-top:3px}
+.cost-i .amt{flex:none;text-align:left;font-family:'Cairo',sans-serif;font-size:17px;font-weight:900;color:#B91C1C;white-space:nowrap;line-height:1.15}
+.cost-i .amt small{display:block;font-family:'Tajawal',sans-serif;font-size:10px;font-weight:700;color:var(--ink-soft);margin-top:2px}
+.cost-i.win{border:2px solid var(--ok);background:linear-gradient(160deg,#fff,#F2FBF6)}
+.cost-i.win .ic{background:#E4F7EC}
+.cost-i.win .amt{color:var(--ok);font-size:20px}
+.cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
+.cost-punch b{color:var(--red)}
+@media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
@@ -786,6 +817,49 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   </div>
 </section>
 
+<!-- COST ANCHOR -->
+<section class="section" style="background:var(--paper-2)">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">💸 الحاسبة</span>
+    <h2 class="title">وش يكلّفك تفتيح <span class="gold">الشفايف فعلاً؟</span></h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:6px">قارن الخيارات اللي قدامك — بالأرقام.</p>
+  </div>
+  <div class="costs wrap">
+    <div class="cost-i">
+      <span class="ic">⚡</span>
+      <div class="t"><b>جلسات ليزر في عيادة</b><span>تبدأ من 700 ر.س للجلسة، وتحتاج 4–6 جلسات — مواعيد، ألم، وفترة نقاهة بعد كل جلسة</span></div>
+      <span class="amt">3,000+<small>ر.س</small></span>
+    </div>
+    <div class="cost-i">
+      <span class="ic">🧪</span>
+      <div class="t"><b>تقشير كيميائي للشفايف</b><span>من 400 ر.س للجلسة، وكم جلسة عشان تشوف فرق واضح</span></div>
+      <span class="amt">1,200+<small>ر.س</small></span>
+    </div>
+    <div class="cost-i">
+      <span class="ic">💄</span>
+      <div class="t"><b>أحمر شفاه مغطّي</b><span>150 ر.س كل شهرين — و<b style="color:var(--red);font-size:11.5px">يغطّي السواد بس ما يعالجه</b> — تشيله بالليل ويرجع مثل ما هو</span></div>
+      <span class="amt">900<small>ر.س / سنة</small></span>
+    </div>
+    <div class="cost-i">
+      <span class="ic">🍋</span>
+      <div class="t"><b>وصفات البيت (ليمون، سكر، بيكنج صودا)</b><span>شبه مجانية — بس تجفّف الشفايف أكثر، والجفاف نفسه يزيد الاسمرار مع الوقت</span></div>
+      <span class="amt">0<small>والنتيجة؟</small></span>
+    </div>
+    <div class="cost-i win">
+      <span class="ic">🌸</span>
+      <div class="t"><b>كريم Cosmarab</b><span>مرة وحدة، في بيتك، بدون مواعيد ولا ألم — ويشتغل على السبب مو على التغطية</span></div>
+      <span class="amt">199<small>ر.س</small></span>
+    </div>
+    <div class="cost-punch">
+      يعني بأقل من <b>7 ر.س في اليوم</b> لمدة شهر كامل — أرخص من كوب قهوة،<br>وتدفع <b>عند الاستلام</b> بعد ما تشوف المنتج بيدك.
+    </div>
+    <div style="margin-top:16px">
+      <button class="btn lg cta-pulse" data-scroll="#offers">أبي أفتّح شفايفي — اختر عرضك 👇</button>
+    </div>
+  </div>
+</section>
+
 <!-- Benefits -->
 <section class="section" style="background:var(--paper-2)">
   <div class="wrap" style="text-align:center">
@@ -835,6 +909,52 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="step"><span class="n">2</span><div><b>حط طبقة خفيفة</b><p>وزّع الكريم بالتساوي على الشفايف.</p></div></div>
     <div class="step"><span class="n">3</span><div><b>دلّك بلطف</b><p>صباحاً ومساءً لأفضل نتيجة.</p></div></div>
     <div class="step"><span class="n">4</span><div><b>استمتع بالنتيجة</b><p>النتائج تبدأ تبان خلال أسابيع.</p></div></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" style="background:var(--paper)">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">📅 الجدول الزمني</span>
+    <h2 class="title">متى بالضبط <span class="gold">يبان الفرق؟</span></h2>
+    <div class="hairline"></div>
+    <p class="lead" style="margin-bottom:6px">وش يصير على شفايفك أسبوع بأسبوع.</p>
+  </div>
+  <div class="tline wrap">
+    <div class="tline-i">
+      <div class="nb"><b>1-7</b><span>الأيام الأولى</span></div>
+      <div class="nx">
+        <h4>الترطيب أول شي</h4>
+        <p>الجفاف والتقشير يروح، والشفايف تصير ناعمة وممتلئة. اللون لسه ما تغيّر كثير — وهذا طبيعي تماماً، لأن الترطيب هو الأساس اللي يبني عليه التفتيح.</p>
+      </div>
+    </div>
+    <div class="tline-i">
+      <div class="nb"><b>2-3</b><span>الأسبوع</span></div>
+      <div class="nx">
+        <h4>أول تفتيح تلاحظه أنت</h4>
+        <p>يبدأ السواد يخف تدريجياً — خصوصاً على الأطراف. اللي حولك ما يلاحظون بعد، بس أنت تشوف الفرق في المرآة وفي صور جوالك.</p>
+      </div>
+    </div>
+    <div class="tline-i hot">
+      <div class="nb"><b>4-6</b><span>الأسبوع</span></div>
+      <div class="nx">
+        <h4>الفرق اللي يلاحظه غيرك 🌸</h4>
+        <p>هنا يبان التغيّر الحقيقي: اللون يرجع وردي أوضح، والتفاوت بين أجزاء الشفايف يقل. <b>وهنا بالضبط تخلص القطعة الأولى</b> — عشان كذا أغلب العملاء ياخذون قطعتين من البداية.</p>
+      </div>
+    </div>
+    <div class="tline-i">
+      <div class="nb"><b>+8</b><span>الأسبوع</span></div>
+      <div class="nx">
+        <h4>تثبيت النتيجة</h4>
+        <p>اللون يستقر، وتنتقل لاستخدام أخف للمحافظة عليه. الانتظام هنا أهم من الكمية.</p>
+      </div>
+    </div>
+  </div>
+  <div class="tline-note wrap">
+    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b>149 ر.س بدل 199</b>.
+  </div>
+  <div class="wrap" style="margin-top:16px">
+    <button class="btn lg cta-pulse" data-scroll="#offers">خذ قطعتين وما تنقطع 👇</button>
   </div>
 </section>
 
@@ -1109,6 +1229,37 @@ var ORDERS=[
 ];
 var toastWrap=document.getElementById('toastWrap'),oi=0,modal=document.getElementById('modal');
 var toastsOff=false,toastResume=null,toastBounce=null;
+/* ── when toasts are allowed to speak ──────────────────────────────────
+   Toasts are purely a hesitation response now: nothing fires from merely
+   scrolling or waiting. They speak only when the visitor looked at the
+   offers and pulled away, or opened the order sheet and backed out of it.
+   Inside the offers block they stay silent — that's where we want their
+   attention undivided. */
+var toastsStarted=false,inOffers=false,seenOffers=false;
+function startToastLoop(immediate){
+  if(!toastsStarted){toastsStarted=true;setInterval(showToast,8000);}
+  if(immediate)showToast();
+}
+function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(toastBounce);}
+/* watch the offers block: silent inside it, instant matched toast on exit */
+(function(){
+  var offersEl=document.getElementById('offers');
+  if(!offersEl||!('IntersectionObserver' in window))return;
+  new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){inOffers=true;seenOffers=true;suppressToasts();return;}
+      if(!seenOffers||!inOffers)return;
+      inOffers=false;
+      var done=document.getElementById('panel3');
+      if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
+      if(modal.classList.contains('open'))return;                        /* closeModal handles that path */
+      toastsOff=false;clearTimeout(toastResume);
+      startToastLoop(false);
+      clearTimeout(toastBounce);
+      bounceToast();
+    });
+  },{threshold:0.25}).observe(offersEl);
+})();
 /* quiet the toasts while the visitor is deciding; resume when they return */
 function pauseToasts(){toastsOff=true;clearTimeout(toastResume);toastResume=setTimeout(function(){toastsOff=false;},12000);}
 function resumeToasts(){
@@ -1116,7 +1267,8 @@ function resumeToasts(){
   var done=document.getElementById('panel3');
   if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
   toastsOff=false;
-  toastBounce=setTimeout(bounceToast,700);
+  startToastLoop(false);
+  bounceToast();
 }
 /* they opened an offer and hesitated — answer that hesitation immediately with
    someone who just bought the exact pack they were looking at */
@@ -1138,7 +1290,7 @@ function showToast(forced){
   requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('in');});});
   setTimeout(function(){t.classList.remove('in');setTimeout(function(){t.remove();},450);},4500);
 }
-setTimeout(function(){showToast();setInterval(showToast,8000);},12000);
+/* toasts now start from the offers-exit / order-sheet-exit paths above */
 
 /* live count */
 var liveEl=document.getElementById('liveCount'),todayEl=document.getElementById('todayOrders'),liveN=23,todayN=147;
