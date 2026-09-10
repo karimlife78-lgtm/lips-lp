@@ -1273,7 +1273,7 @@ function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(
       toastsOff=false;clearTimeout(toastResume);
       startToastLoop(false);
       clearTimeout(toastBounce);
-      toastBounce=setTimeout(bounceToast,400);
+      bounceToast();
     });
   },{threshold:0.25}).observe(offersEl);
 })();
@@ -1285,7 +1285,7 @@ function resumeToasts(){
   if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
   toastsOff=false;
   startToastLoop(false);
-  toastBounce=setTimeout(bounceToast,700);
+  bounceToast();
 }
 /* they opened an offer and hesitated — answer that hesitation immediately with
    someone who just bought the exact pack they were looking at */
