@@ -835,7 +835,10 @@ if(form) form.addEventListener('submit', function(e){
   function onSuccess(){
     var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
     document.getElementById('orderId').textContent='#'+txId;
-    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
+    // Advanced Matching needs +966..., not the local 0-prefixed number the form collects
+    var e164Phone='+966'+order.phone.replace(/^0+/,'');
+    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':e164Phone});}catch(e){}
+    try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
     try{snaptr('track','PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
     showPanel(3);
   }

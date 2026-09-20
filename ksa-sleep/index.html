@@ -1367,7 +1367,10 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       track('RECEIVE_PLEDGE',{transaction_id:txId});
     });}
     // fire conversion pixels immediately — don't wait for the pledge-view beat
-    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':order.phone});}catch(e){}
+    // Advanced Matching needs +966..., not the local 0-prefixed number the form collects
+    var e164Phone='+966'+order.phone.replace(/^0+/,'');
+    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':e164Phone});}catch(e){}
+    try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
     track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});
     // brief beat so the pledge the customer just affirmed stays visible before thank-you replaces it
     setTimeout(function(){showPanel(3);updateCallMsg();},1000);
