@@ -621,9 +621,9 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <div class="nd-card" id="ndCard">
         <div class="nd-prize">
           <span class="nd-eyebrow">🌴 اليوم الوطني ٩٦</span>
-          <div class="nd-amount">خصم <b>٣٠</b> ر.س</div>
-          <div class="nd-sub">على كل الباقات — ينزل على السعر تلقائياً بدون كود</div>
-          <button class="nd-cta" type="button" data-scroll="#offers">شوف أسعار اليوم الوطني 👇</button>
+          <div class="nd-amount">وفّر لين <b>٢٨٨</b> ر.س</div>
+          <div class="nd-sub">على باقات اليوم الوطني — والدفع عند الاستلام</div>
+          <button class="nd-cta" type="button" data-scroll="#offers">شوف عروض اليوم الوطني 👇</button>
         </div>
         <canvas class="nd-scratch" id="ndScratch"></canvas>
         <div class="nd-hint" id="ndHint"><span>👆</span> اكشط البطاقة</div>
@@ -1684,32 +1684,17 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
 (function(){
   var card=document.getElementById('ndCard'),cv=document.getElementById('ndScratch');
   if(!card||!cv)return;
-  /* flat 30 off every tier, so the headline number is literally true on all three */
-  var ND={
-    offer1:{p:149,save:'وفّر 50%',unit:'السعر للقطعة 149 ر.س'},
-    offer2:{p:169,save:'وفّر 189 ر.س',unit:'أقل من 85 ر.س للقطعة'},
-    offer3:{p:219,save:'وفّر 318 ر.س',unit:'73 ر.س للقطعة'}
-  };
   var applied=false;
   function applyND(){
     if(applied)return;applied=true;
-    Object.keys(ND).forEach(function(id){
+    /* prices are untouched — the card badges the existing National Day
+       savings (up to 288 off the compare-at price), it doesn't discount further */
+    ['offer1','offer2','offer3'].forEach(function(id){
       var el=document.getElementById(id);if(!el)return;
-      var d=ND[id];
-      el.setAttribute('data-price',d.p);
-      var now=el.querySelector('.offer-price .now');if(now)now.textContent=d.p;
-      var sv=el.querySelector('.save');if(sv)sv.textContent=d.save;
-      var pu=el.querySelector('.perunit');if(pu)pu.textContent=d.unit;
       if(!el.querySelector('.nd-tag')){
-        var t=document.createElement('span');t.className='nd-tag';t.textContent='🌴 سعر اليوم الوطني';el.appendChild(t);
+        var t=document.createElement('span');t.className='nd-tag';t.textContent='🌴 عرض اليوم الوطني';el.appendChild(t);
       }
     });
-    var px=document.querySelector('.sticky-cta .px');if(px)px.innerHTML='يبدأ من<b>149 ر.س</b>';
-    /* keep the timeline note's marginal-price claim honest under the new prices */
-    document.querySelectorAll('.tline-note b').forEach(function(b){
-      if(/بدل\s*179/.test(b.textContent))b.textContent='20 ريال بس بدل 149';
-    });
-    if(typeof selectedCard!=='undefined'&&selectedCard)selectOffer(selectedCard);
     try{track('ND_UNLOCK',{});}catch(e){}
   }
 
