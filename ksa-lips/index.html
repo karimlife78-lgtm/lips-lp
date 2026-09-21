@@ -1253,11 +1253,8 @@ var toastsOff=false,toastResume=null,toastBounce=null;
    offers and pulled away, or opened the order sheet and backed out of it.
    Inside the offers block they stay silent — that's where we want their
    attention undivided. */
-var toastsStarted=false,inOffers=false,seenOffers=false;
-function startToastLoop(immediate){
-  if(!toastsStarted){toastsStarted=true;setInterval(showToast,8000);}
-  if(immediate)showToast();
-}
+var inOffers=false,seenOffers=false;
+/* deliberately no recurring loop — one toast per hesitation, nothing on a timer */
 function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(toastBounce);}
 /* watch the offers block: silent inside it, instant matched toast on exit */
 (function(){
@@ -1272,7 +1269,6 @@ function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(
       if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
       if(modal.classList.contains('open'))return;                        /* closeModal handles that path */
       toastsOff=false;clearTimeout(toastResume);
-      startToastLoop(false);
       clearTimeout(toastBounce);
       bounceToast();
     });
@@ -1285,7 +1281,6 @@ function resumeToasts(){
   var done=document.getElementById('panel3');
   if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
   toastsOff=false;
-  startToastLoop(false);
   bounceToast();
 }
 /* they opened an offer and hesitated — answer that hesitation immediately with
