@@ -307,6 +307,47 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
 .cost-punch b{color:var(--red)}
 @media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
+/* ═══ اليوم الوطني السعودي ٩٦ — scratch-to-reveal (seasonal; safe to delete after 25 Sep) ═══ */
+.nd-wrap{max-width:var(--maxw);margin:20px auto 2px}
+.nd-card{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/10;
+  background:linear-gradient(150deg,#047A3D 0%,#006C35 45%,#004A24 100%);
+  border:2px solid rgba(201,162,39,.6);
+  box-shadow:0 22px 50px -22px rgba(0,60,28,.8),inset 0 1px 0 rgba(255,255,255,.16);
+  touch-action:none;-webkit-user-select:none;user-select:none;cursor:grab}
+.nd-card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 11px),
+                   repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 11px)}
+.nd-card::after{content:"٩٦";position:absolute;inset-inline-start:-4px;bottom:-38px;font-family:'Cairo',sans-serif;
+  font-size:122px;font-weight:900;color:rgba(255,255,255,.075);line-height:1;pointer-events:none}
+.nd-prize{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;text-align:center;padding:12px 16px;color:#fff;z-index:1}
+.nd-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:900;color:#F0DC9A;
+  background:rgba(0,0,0,.26);border:1px solid rgba(201,162,39,.5);padding:5px 13px;border-radius:999px}
+.nd-amount{font-family:'Cairo',sans-serif;font-size:27px;font-weight:900;line-height:1.15;margin-top:3px}
+.nd-amount b{color:#F5D87A;font-size:37px}
+.nd-sub{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.5}
+.nd-cta{margin-top:9px;background:linear-gradient(145deg,#F5E3A8,#C9A227);color:#003b1d;
+  font-family:'Cairo',sans-serif;font-weight:900;font-size:14.5px;padding:11px 20px;border-radius:12px;
+  box-shadow:0 10px 24px -10px rgba(201,162,39,.9);cursor:pointer}
+.nd-scratch{position:absolute;inset:0;z-index:3;display:block}
+.nd-hint{position:absolute;inset:auto 0 11px;z-index:4;text-align:center;font-size:12.5px;font-weight:800;
+  color:rgba(0,58,28,.78);pointer-events:none;animation:ndBob 1.5s ease-in-out infinite}
+.nd-hint span{font-size:17px}
+@keyframes ndBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.nd-card.nd-done .nd-scratch{opacity:0;pointer-events:none;transition:opacity .45s ease}
+.nd-card.nd-done .nd-hint{display:none}
+.nd-card.nd-done{cursor:default;animation:ndPop .5s cubic-bezier(.2,1.2,.4,1)}
+@keyframes ndPop{0%{transform:scale(1)}45%{transform:scale(1.035)}100%{transform:scale(1)}}
+.nd-note{text-align:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:9px}
+.nd-note b{color:#006C35}
+.nd-tag{position:absolute;top:-13px;inset-inline-start:18px;background:linear-gradient(145deg,#047A3D,#005C2C);
+  color:#fff;font-size:11px;font-weight:900;padding:5px 12px;border-radius:999px;
+  box-shadow:0 8px 18px -8px rgba(0,92,44,.9);z-index:2;white-space:nowrap}
+.nd-conf{position:absolute;top:8px;width:9px;height:9px;border-radius:2px;pointer-events:none;opacity:0;z-index:5;
+  animation:ndConf 1.15s ease-out forwards}
+@keyframes ndConf{0%{opacity:1;transform:translate(0,0) rotate(0) scale(1)}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(430deg) scale(.4)}}
+@media(max-width:360px){.nd-amount{font-size:23px}.nd-amount b{font-size:31px}.nd-sub{font-size:11.5px}.nd-cta{font-size:13.5px;padding:10px 16px}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
@@ -566,6 +607,20 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <span class="pain">🚬 سواد <b>التدخين</b></span>
       <span class="pain">☀️ اسمرار <b>الشمس</b></span>
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
+    </div>
+    <!-- 🌴 اليوم الوطني ٩٦ — scratch to unlock (seasonal) -->
+    <div class="nd-wrap" id="ndWrap">
+      <div class="nd-card" id="ndCard">
+        <div class="nd-prize">
+          <span class="nd-eyebrow">🌴 اليوم الوطني ٩٦</span>
+          <div class="nd-amount">خصم <b>٣٠</b> ر.س</div>
+          <div class="nd-sub">على كل الباقات — ينزل على السعر تلقائياً بدون كود</div>
+          <button class="nd-cta" type="button" data-scroll="#offers">شوف أسعار اليوم الوطني 👇</button>
+        </div>
+        <canvas class="nd-scratch" id="ndScratch"></canvas>
+        <div class="nd-hint" id="ndHint"><span>👆</span> اكشط البطاقة</div>
+      </div>
+      <p class="nd-note">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
     </div>
     <div class="timer-wrap">
       <span class="lbl">⏳ العرض ينتهي خلال</span>
@@ -1140,7 +1195,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
             <span style="font-size:13.5px;line-height:1.7;font-weight:700;color:#1a5c36">أتعهد أني جاد في طلبي، وسأرد على مكالمة التأكيد وأستلم طلبي من المندوب ✋<span style="display:block;font-weight:400;font-size:12px;color:#4a7a5c;margin-top:3px">نشحن فقط للعملاء الجادين — هذا يخلي التوصيل أسرع للجميع 🤝</span><span id="pledgeAmt" style="display:flex;align-items:center;gap:7px;margin-top:9px;padding-top:9px;border-top:1px dashed #bfe3cc;font-weight:900;font-size:13.5px;color:#134e2e"><span style="font-size:16px">💵</span><span>جهّز مبلغ <b id="pledgeCash" style="color:#0f7a3d">—</b> عند استلام الطلب</span></span></span>
           </label>
           <div id="pledgeErr" style="display:none;margin:4px 0 8px;padding:9px 13px;background:#fcedef;border:1px solid #f3d4d9;border-radius:10px;color:#A30821;font-size:12.5px;font-weight:700;text-align:center">فضلاً أكّد تعهدك بالاستلام حتى نقدر نشحن طلبك ✋</div>
-          <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🇸🇦</div>
+          <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🌴</div>
           <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
           <div class="cta-sticky">
             <button class="btn lg cta-pulse" id="submitBtn" type="submit">تأكيد الطلب ✅</button>
@@ -1585,6 +1640,116 @@ document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-ta
 /* STOCK */
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),n=17;
 setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockFill.style.width=(n/30*100)+'%';}},11000);
+
+/* ═══ 🌴 اليوم الوطني ٩٦ — scratch card (seasonal) ═══ */
+(function(){
+  var card=document.getElementById('ndCard'),cv=document.getElementById('ndScratch');
+  if(!card||!cv)return;
+  /* flat 30 off every tier, so the headline number is literally true on all three */
+  var ND={
+    offer1:{p:149,save:'وفّر 50%',unit:'السعر للقطعة 149 ر.س'},
+    offer2:{p:169,save:'وفّر 189 ر.س',unit:'أقل من 85 ر.س للقطعة'},
+    offer3:{p:219,save:'وفّر 318 ر.س',unit:'73 ر.س للقطعة'}
+  };
+  var applied=false;
+  function applyND(){
+    if(applied)return;applied=true;
+    Object.keys(ND).forEach(function(id){
+      var el=document.getElementById(id);if(!el)return;
+      var d=ND[id];
+      el.setAttribute('data-price',d.p);
+      var now=el.querySelector('.offer-price .now');if(now)now.textContent=d.p;
+      var sv=el.querySelector('.save');if(sv)sv.textContent=d.save;
+      var pu=el.querySelector('.perunit');if(pu)pu.textContent=d.unit;
+      if(!el.querySelector('.nd-tag')){
+        var t=document.createElement('span');t.className='nd-tag';t.textContent='🌴 سعر اليوم الوطني';el.appendChild(t);
+      }
+    });
+    var px=document.querySelector('.sticky-cta .px');if(px)px.innerHTML='يبدأ من<b>149 ر.س</b>';
+    /* keep the timeline note's marginal-price claim honest under the new prices */
+    document.querySelectorAll('.tline-note b').forEach(function(b){
+      if(/بدل\s*179/.test(b.textContent))b.textContent='20 ريال بس بدل 149';
+    });
+    if(typeof selectedCard!=='undefined'&&selectedCard)selectOffer(selectedCard);
+    try{track('ND_UNLOCK',{});}catch(e){}
+  }
+
+  var ctx=cv.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2);
+  var revealed=false,drawing=false,last=null,moves=0;
+
+  function paint(){
+    var r=card.getBoundingClientRect();
+    if(!r.width)return;
+    cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
+    cv.style.width=r.width+'px';cv.style.height=r.height+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var g=ctx.createLinearGradient(0,0,r.width,r.height);
+    g.addColorStop(0,'#EFD98F');g.addColorStop(.4,'#C9A227');g.addColorStop(.52,'#F5E3A8');g.addColorStop(1,'#B18A18');
+    ctx.fillStyle=g;ctx.fillRect(0,0,r.width,r.height);
+    ctx.globalAlpha=.1;ctx.fillStyle='#fff';
+    for(var i=-r.height;i<r.width;i+=24){
+      ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+9,0);ctx.lineTo(i+9+r.height,r.height);ctx.lineTo(i+r.height,r.height);ctx.closePath();ctx.fill();
+    }
+    ctx.globalAlpha=1;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle='rgba(0,58,28,.9)';
+    ctx.font='900 20px Cairo, Tajawal, sans-serif';
+    ctx.fillText('بطاقة اليوم الوطني ٩٦',r.width/2,r.height/2-12);
+    ctx.font='800 13.5px Tajawal, sans-serif';
+    ctx.fillStyle='rgba(0,58,28,.72)';
+    ctx.fillText('اكشط عشان تفتح خصمك',r.width/2,r.height/2+14);
+  }
+  function pt(e){var r=cv.getBoundingClientRect(),t=(e.touches&&e.touches[0])||e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
+  function dot(p){
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath();ctx.arc(p.x,p.y,26,0,6.3);ctx.fill();
+    if(last){ctx.lineWidth=52;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();}
+    ctx.globalCompositeOperation='source-over';last=p;
+  }
+  /* sampled alpha read — full getImageData on every move would jank the scroll */
+  function cleared(){
+    try{
+      var d=ctx.getImageData(0,0,cv.width,cv.height).data,n=0,t=0;
+      for(var i=3;i<d.length;i+=160){t++;if(d[i]<40)n++;}
+      return t?n/t:0;
+    }catch(e){return 0;}
+  }
+  function burst(){
+    var colors=['#006C35','#ffffff','#C9A227','#F5E3A8','#047A3D'];
+    for(var i=0;i<26;i++){
+      var s=document.createElement('span');s.className='nd-conf';
+      s.style.left=(18+Math.random()*64)+'%';
+      s.style.background=colors[i%colors.length];
+      s.style.setProperty('--dx',((Math.random()*2-1)*150)+'px');
+      s.style.setProperty('--dy',(-(60+Math.random()*170))+'px');
+      s.style.animationDelay=(Math.random()*.16)+'s';
+      card.appendChild(s);
+      (function(el){setTimeout(function(){el.remove();},1500);})(s);
+    }
+  }
+  function finish(){
+    if(revealed)return;revealed=true;
+    card.classList.add('nd-done');
+    try{sessionStorage.setItem('cos_nd96','1');}catch(e){}
+    applyND();burst();
+  }
+  function down(e){if(revealed)return;drawing=true;last=null;dot(pt(e));e.preventDefault();}
+  function move(e){if(!drawing||revealed)return;dot(pt(e));if(++moves%6===0&&cleared()>.42)finish();e.preventDefault();}
+  function up(){if(!drawing)return;drawing=false;last=null;if(!revealed&&cleared()>.3)finish();}
+
+  var seen=false;try{seen=sessionStorage.getItem('cos_nd96')==='1';}catch(e){}
+  if(seen){revealed=true;card.classList.add('nd-done');applyND();return;}
+
+  paint();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(!revealed)paint();});
+  window.addEventListener('resize',function(){if(!revealed)paint();});
+  card.addEventListener('mousedown',down);
+  window.addEventListener('mousemove',move);
+  window.addEventListener('mouseup',up);
+  card.addEventListener('touchstart',down,{passive:false});
+  card.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('touchend',up);
+})();
+
 })();
 </script>
 <!-- light anti-copy deterrent (desktop): right-click + view-source/devtools shortcuts -->
