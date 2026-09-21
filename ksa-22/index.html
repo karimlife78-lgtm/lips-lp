@@ -348,6 +348,63 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 @keyframes ndConf{0%{opacity:1;transform:translate(0,0) rotate(0) scale(1)}
   100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(430deg) scale(.4)}}
 @media(max-width:360px){.nd-amount{font-size:23px}.nd-amount b{font-size:31px}.nd-sub{font-size:11.5px}.nd-cta{font-size:13.5px;padding:10px 16px}}
+/* ═══ 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal; delete after 25 Sep) ═══ */
+.ndg{position:relative;overflow:hidden;isolation:isolate;text-align:center;
+  padding:13px 16px 12px;
+  background:linear-gradient(135deg,#02160C 0%,#004F26 20%,#006C35 48%,#03833F 70%,#00441F 100%);
+  border-bottom:2px solid rgba(201,162,39,.55);
+  animation:ndgUnfurl .7s cubic-bezier(.22,1,.36,1) both}
+@keyframes ndgUnfurl{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:none}}
+/* 1. Najdi lattice drifting sideways */
+.ndg::before{content:"";position:absolute;inset:-25% -12%;z-index:-2;opacity:.5;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.075) 0 6px,transparent 6px 13px),
+                   repeating-linear-gradient(-45deg,rgba(255,255,255,.075) 0 6px,transparent 6px 13px);
+  animation:ndgDrift 26s linear infinite}
+@keyframes ndgDrift{from{transform:translateX(0)}to{transform:translateX(52px)}}
+/* 2. silk gleam sweeping across */
+.ndg-glow{position:absolute;top:-60%;bottom:-60%;width:36%;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.15) 45%,rgba(245,227,168,.3) 55%,transparent);
+  filter:blur(7px);animation:ndgGleam 6.5s ease-in-out infinite}
+@keyframes ndgGleam{0%{transform:translateX(-170%) rotate(8deg)}55%,100%{transform:translateX(430%) rotate(8deg)}}
+/* 3. gold motes rising */
+.ndg-p{position:absolute;bottom:-5px;inset-inline-start:var(--l);z-index:-1;pointer-events:none;
+  width:4px;height:4px;border-radius:50%;background:#F5E3A8;opacity:0;
+  box-shadow:0 0 6px rgba(245,227,168,.9);
+  animation:ndgRise 7s ease-in infinite;animation-delay:var(--d)}
+@keyframes ndgRise{0%{opacity:0;transform:translateY(0) scale(.55)}
+  14%{opacity:.95}100%{opacity:0;transform:translateY(-88px) scale(1.2)}}
+.ndg-in{position:relative;max-width:var(--maxw);margin-inline:auto}
+.ndg-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Cairo',sans-serif;
+  font-size:10.5px;font-weight:900;letter-spacing:.09em;color:#F5E3A8;
+  background:rgba(0,0,0,.32);border:1px solid rgba(201,162,39,.55);
+  padding:4px 13px;border-radius:999px;margin-bottom:7px;animation:ndgFade .8s .25s both}
+.ndg-badge b{font-size:12.5px;color:#fff}
+.ndg-title{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;
+  padding-inline:26px;animation:ndgFade .8s .42s both}
+/* 4. gold shimmer running through the greeting itself */
+.ndg-txt{font-family:'Cairo',sans-serif;font-size:18.5px;font-weight:900;line-height:1.35;
+  background:linear-gradient(95deg,#fff 0%,#fff 30%,#F7E9B8 43%,#FFFDF2 50%,#F7E9B8 57%,#fff 70%,#fff 100%);
+  background-size:280% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 2px 9px rgba(0,0,0,.3));
+  animation:ndgShine 4.5s ease-in-out infinite}
+@keyframes ndgShine{0%,100%{background-position:150% 0}50%{background-position:-50% 0}}
+/* 5. palms swaying out of phase */
+.ndg-palm{position:absolute;top:50%;margin-top:-19px;font-size:34px;opacity:.22;
+  transform-origin:50% 92%;pointer-events:none;z-index:-1;
+  animation:ndgSway 3.2s ease-in-out infinite}
+.ndg-palm-1{inset-inline-start:-4px}
+.ndg-palm-2{inset-inline-end:-4px;animation-delay:1.6s}
+@keyframes ndgSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+.ndg-emo{font-size:17px;letter-spacing:1px;animation:ndgBeat 2.4s ease-in-out infinite}
+@keyframes ndgBeat{0%,100%{transform:scale(1)}45%{transform:scale(1.14)}}
+@keyframes ndgFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:400px){.ndg-txt{font-size:16px}.ndg-palm{font-size:15.5px}.ndg-emo{font-size:15px}.ndg{padding:12px 10px 11px}}
+@media(max-width:340px){.ndg-txt{font-size:14.5px}}
+@media(prefers-reduced-motion:reduce){
+  .ndg,.ndg-badge,.ndg-title,.ndg-palm,.ndg-emo{animation:none}
+  .ndg::before,.ndg-glow,.ndg-p{animation:none}.ndg-p{opacity:.5}
+  .ndg-txt{animation:none;background-position:50% 0}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
@@ -574,6 +631,29 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 </style>
 </head>
 <body>
+
+<!-- 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal) -->
+<div class="ndg" aria-label="تهنئة اليوم الوطني السعودي">
+  <span class="ndg-glow" aria-hidden="true"></span>
+  <i class="ndg-p" style="--l:7%;--d:0s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:17%;--d:1.3s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:28%;--d:2.7s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:39%;--d:.7s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:51%;--d:3.4s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:63%;--d:1.9s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:74%;--d:4.2s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:85%;--d:2.2s" aria-hidden="true"></i>
+  <i class="ndg-p" style="--l:93%;--d:5.1s" aria-hidden="true"></i>
+  <span class="ndg-palm ndg-palm-1" aria-hidden="true">🌴</span>
+  <span class="ndg-palm ndg-palm-2" aria-hidden="true">🌴</span>
+  <div class="ndg-in">
+    <span class="ndg-badge">🌴 اليوم الوطني <b>٩٦</b></span>
+    <h2 class="ndg-title">
+      <span class="ndg-txt">كل عام والسعودية وأهلها بألف خير</span>
+      <span class="ndg-emo" aria-hidden="true">🇸🇦💚</span>
+    </h2>
+  </div>
+</div>
 
 <!-- Announce -->
 <div class="announce">
@@ -1640,6 +1720,20 @@ document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-ta
 /* STOCK */
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),n=17;
 setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockFill.style.width=(n/30*100)+'%';}},11000);
+
+/* 🌴 greeting banner — flag-emoji capability check (seasonal) */
+(function(){
+  try{
+    var el=document.querySelectorAll('.ndg-emo');if(!el.length)return;
+    var x=document.createElement('canvas').getContext('2d');
+    x.font='32px sans-serif';
+    var pair=x.measureText('\uD83C\uDDF8\uD83C\uDDE6').width;
+    var one=x.measureText('\uD83C\uDDF8').width;
+    /* a composed flag is ~one glyph wide; two letter-boxes are ~double */
+    if(pair>one*1.5){el.forEach(function(e){e.textContent='💚';});}
+  }catch(e){}
+})();
+
 
 /* ═══ 🌴 اليوم الوطني ٩٦ — scratch card (seasonal) ═══ */
 (function(){
