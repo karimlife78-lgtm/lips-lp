@@ -1395,23 +1395,34 @@ var toastsOff=false,toastResume=null,toastBounce=null;
 var inOffers=false,seenOffers=false;
 /* deliberately no recurring loop — one toast per hesitation, nothing on a timer */
 function suppressToasts(){toastsOff=true;clearTimeout(toastResume);clearTimeout(toastBounce);}
-/* watch the offers block: silent inside it, instant matched toast on exit */
+/* watch the offer CARDS: silent while one is on screen, instant matched
+   toast once they all leave. Deliberately not the #offers container — it is
+   roughly twice the height of a phone screen, so any threshold low enough to
+   fire at all also fires on the section heading alone, long before a price
+   is visible. A card must be half on screen to count as seen. */
 (function(){
-  var offersEl=document.getElementById('offers');
-  if(!offersEl||!('IntersectionObserver' in window))return;
-  new IntersectionObserver(function(en){
+  var cards=[].slice.call(document.querySelectorAll('.offer'));
+  if(!cards.length||!('IntersectionObserver' in window))return;
+  var shown=0;
+  var io=new IntersectionObserver(function(en){
     en.forEach(function(e){
-      if(e.isIntersecting){inOffers=true;seenOffers=true;suppressToasts();return;}
-      if(!seenOffers||!inOffers)return;
-      inOffers=false;
-      var done=document.getElementById('panel3');
-      if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
-      if(modal.classList.contains('open'))return;                        /* closeModal handles that path */
-      toastsOff=false;clearTimeout(toastResume);
-      clearTimeout(toastBounce);
-      bounceToast();
+      var on=e.isIntersecting;
+      if(on===!!e.target.__ndSeen)return;
+      e.target.__ndSeen=on;
+      shown+=on?1:-1;
     });
-  },{threshold:0.25}).observe(offersEl);
+    if(shown<0)shown=0;
+    if(shown>0){inOffers=true;seenOffers=true;suppressToasts();return;}
+    if(!seenOffers||!inOffers)return;
+    inOffers=false;
+    var done=document.getElementById('panel3');
+    if(done&&done.classList.contains('active')){toastsOff=true;return;} /* they bought — stop selling */
+    if(modal.classList.contains('open'))return;                        /* closeModal handles that path */
+    toastsOff=false;clearTimeout(toastResume);
+    clearTimeout(toastBounce);
+    bounceToast();
+  },{threshold:0.5});
+  cards.forEach(function(c){io.observe(c);});
 })();
 /* quiet the toasts while the visitor is deciding; resume when they return */
 function pauseToasts(){toastsOff=true;clearTimeout(toastResume);toastResume=setTimeout(function(){toastsOff=false;},12000);}
