@@ -309,33 +309,43 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 @media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
 /* ═══ اليوم الوطني السعودي ٩٦ — scratch-to-reveal (seasonal; safe to delete after 25 Sep) ═══ */
 .nd-wrap{max-width:var(--maxw);margin:20px auto 2px}
-.nd-card{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/10;
+.nd-card{position:relative;border-radius:22px;overflow:hidden;height:152px;
   background:linear-gradient(150deg,#047A3D 0%,#006C35 45%,#004A24 100%);
   border:2px solid rgba(201,162,39,.6);
   box-shadow:0 22px 50px -22px rgba(0,60,28,.8),inset 0 1px 0 rgba(255,255,255,.16);
-  touch-action:none;-webkit-user-select:none;user-select:none;cursor:grab}
+  touch-action:none;-webkit-user-select:none;user-select:none;cursor:grab;
+  animation:ndRing 2.4s ease-in-out infinite}
+@keyframes ndRing{
+  0%,100%{box-shadow:0 22px 50px -22px rgba(0,60,28,.8),0 0 0 0 rgba(201,162,39,.6)}
+  70%{box-shadow:0 22px 50px -22px rgba(0,60,28,.8),0 0 0 11px rgba(201,162,39,0)}}
+.nd-card.nd-done{animation:none}
+/* looping finger that demonstrates the gesture */
+.nd-hand{position:absolute;z-index:4;top:52%;left:13%;font-size:27px;pointer-events:none;
+  filter:drop-shadow(0 3px 7px rgba(0,0,0,.5));animation:ndHand 2.8s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes ndHand{
+  0%{transform:translateX(0) scale(.85);opacity:.4}
+  12%{transform:translateX(0) scale(1.08);opacity:1}
+  52%{transform:translateX(215%) scale(1);opacity:1}
+  64%{transform:translateX(215%) scale(.85);opacity:.3}
+  100%{transform:translateX(0) scale(.85);opacity:.4}}
+.nd-card.nd-done .nd-hand{display:none}
 .nd-card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
   background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 11px),
                    repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 11px)}
-.nd-card::after{content:"٩٦";position:absolute;inset-inline-start:-4px;bottom:-38px;font-family:'Cairo',sans-serif;
-  font-size:122px;font-weight:900;color:rgba(255,255,255,.075);line-height:1;pointer-events:none}
+.nd-card::after{content:"٩٦";position:absolute;inset-inline-start:-4px;bottom:-30px;font-family:'Cairo',sans-serif;
+  font-size:96px;font-weight:900;color:rgba(255,255,255,.075);line-height:1;pointer-events:none}
 .nd-prize{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:5px;text-align:center;padding:12px 16px;color:#fff;z-index:1}
 .nd-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:900;color:#F0DC9A;
   background:rgba(0,0,0,.26);border:1px solid rgba(201,162,39,.5);padding:5px 13px;border-radius:999px}
-.nd-amount{font-family:'Cairo',sans-serif;font-size:27px;font-weight:900;line-height:1.15;margin-top:3px}
-.nd-amount b{color:#F5D87A;font-size:37px}
+.nd-amount{font-family:'Cairo',sans-serif;font-size:24px;font-weight:900;line-height:1.15;margin-top:2px}
+.nd-amount b{color:#F5D87A;font-size:33px}
 .nd-sub{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.5}
-.nd-cta{margin-top:9px;background:linear-gradient(145deg,#F5E3A8,#C9A227);color:#003b1d;
+.nd-cta{margin-top:7px;background:linear-gradient(145deg,#F5E3A8,#C9A227);color:#003b1d;
   font-family:'Cairo',sans-serif;font-weight:900;font-size:14.5px;padding:11px 20px;border-radius:12px;
   box-shadow:0 10px 24px -10px rgba(201,162,39,.9);cursor:pointer}
 .nd-scratch{position:absolute;inset:0;z-index:3;display:block}
-.nd-hint{position:absolute;inset:auto 0 11px;z-index:4;text-align:center;font-size:12.5px;font-weight:800;
-  color:rgba(0,58,28,.78);pointer-events:none;animation:ndBob 1.5s ease-in-out infinite}
-.nd-hint span{font-size:17px}
-@keyframes ndBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .nd-card.nd-done .nd-scratch{opacity:0;pointer-events:none;transition:opacity .45s ease}
-.nd-card.nd-done .nd-hint{display:none}
 .nd-card.nd-done{cursor:default;animation:ndPop .5s cubic-bezier(.2,1.2,.4,1)}
 @keyframes ndPop{0%{transform:scale(1)}45%{transform:scale(1.035)}100%{transform:scale(1)}}
 .nd-note{text-align:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:9px}
@@ -343,6 +353,18 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .nd-tag{position:absolute;top:-13px;inset-inline-start:18px;background:linear-gradient(145deg,#047A3D,#005C2C);
   color:#fff;font-size:11px;font-weight:900;padding:5px 12px;border-radius:999px;
   box-shadow:0 8px 18px -8px rgba(0,92,44,.9);z-index:2;white-space:nowrap}
+.nd-miss{position:fixed;left:0;right:0;bottom:0;z-index:47;transform:translateY(120%);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+  background:linear-gradient(135deg,#004F26,#02722F);border-top:2px solid rgba(201,162,39,.6);
+  padding:11px 16px calc(11px + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -14px 34px -14px rgba(0,0,0,.6)}
+.nd-miss.show{transform:translateY(0)}
+.nd-miss-in{max-width:var(--maxw);margin-inline:auto;display:flex;align-items:center;gap:11px}
+.nd-miss .t{flex:1;min-width:0;color:#fff;font-size:13px;font-weight:800;line-height:1.4}
+.nd-miss .t b{display:block;color:#F5E3A8;font-family:'Cairo',sans-serif;font-size:14.5px}
+.nd-miss .go{flex:none;background:linear-gradient(145deg,#F5E3A8,#C9A227);color:#00381B;
+  font-family:'Cairo',sans-serif;font-weight:900;font-size:13.5px;padding:10px 16px;border-radius:11px;
+  cursor:pointer;white-space:nowrap;animation:ndRing 2.2s ease-in-out infinite}
 .nd-conf{position:absolute;top:8px;width:9px;height:9px;border-radius:2px;pointer-events:none;opacity:0;z-index:5;
   animation:ndConf 1.15s ease-out forwards}
 @keyframes ndConf{0%{opacity:1;transform:translate(0,0) rotate(0) scale(1)}
@@ -673,6 +695,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
+    <div class="nd-wrap" id="ndWrap">
+      <div class="nd-card" id="ndCard">
+        <div class="nd-prize">
+          <span class="nd-eyebrow">🌴 اليوم الوطني ٩٦</span>
+          <div class="nd-amount">وفّر لين <b>١٤٩</b> ر.س</div>
+          <div class="nd-sub">نزلت تلقائياً على كل الباقات ✅</div>
+          <button class="nd-cta" type="button" data-scroll="#offers">شوف أسعارك الجديدة 👇</button>
+        </div>
+        <canvas class="nd-scratch" id="ndScratch"></canvas>
+        <div class="nd-hand" id="ndHand" aria-hidden="true">👆</div>
+      </div>
+      <p class="nd-note">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
+    </div>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -689,19 +724,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
     </div>
     <!-- 🌴 اليوم الوطني ٩٦ — scratch to unlock (seasonal) -->
-    <div class="nd-wrap" id="ndWrap">
-      <div class="nd-card" id="ndCard">
-        <div class="nd-prize">
-          <span class="nd-eyebrow">🌴 اليوم الوطني ٩٦</span>
-          <div class="nd-amount">وفّر لين <b>١٤٩</b> ر.س</div>
-          <div class="nd-sub">أسعار اليوم الوطني انفتحت لك — نزلت تلقائياً على الباقات</div>
-          <button class="nd-cta" type="button" data-scroll="#offers">شوف أسعارك الجديدة 👇</button>
-        </div>
-        <canvas class="nd-scratch" id="ndScratch"></canvas>
-        <div class="nd-hint" id="ndHint"><span>👆</span> اكشط البطاقة</div>
-      </div>
-      <p class="nd-note">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
-    </div>
     <div class="timer-wrap">
       <span class="lbl">⏳ العرض ينتهي خلال</span>
       <div class="timer-units">
@@ -1795,11 +1817,13 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
     }
     ctx.globalAlpha=1;ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillStyle='rgba(0,58,28,.9)';
-    ctx.font='900 20px Cairo, Tajawal, sans-serif';
-    ctx.fillText('بطاقة اليوم الوطني ٩٦',r.width/2,r.height/2-12);
-    ctx.font='800 13.5px Tajawal, sans-serif';
-    ctx.fillStyle='rgba(0,58,28,.72)';
-    ctx.fillText('اكشط عشان تفتح خصمك',r.width/2,r.height/2+14);
+    ctx.font='800 13px Tajawal, sans-serif';
+    ctx.fillText('🎁 اكشط واربح',r.width/2,r.height/2-26);
+    ctx.font='900 25px Cairo, Tajawal, sans-serif';
+    ctx.fillText('خصم لين ١٤٩ ر.س',r.width/2,r.height/2+2);
+    ctx.font='800 12px Tajawal, sans-serif';
+    ctx.fillStyle='rgba(0,58,28,.62)';
+    ctx.fillText('مرّر إصبعك على البطاقة',r.width/2,r.height/2+28);
   }
   function pt(e){var r=cv.getBoundingClientRect(),t=(e.touches&&e.touches[0])||e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
   function dot(p){
@@ -1834,6 +1858,7 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
     card.classList.add('nd-done');
     try{sessionStorage.setItem('cos_nd96','1');}catch(e){}
     applyND();burst();
+    try{card.dispatchEvent(new Event('nd-revealed'));}catch(e){}
   }
   function down(e){if(revealed)return;drawing=true;last=null;dot(pt(e));e.preventDefault();}
   function move(e){if(!drawing||revealed)return;dot(pt(e));if(++moves%6===0&&cleared()>.42)finish();e.preventDefault();}
@@ -1844,6 +1869,72 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
 
   paint();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(!revealed)paint();});
+
+  /* auto-demo: erase one stripe as soon as the card is on screen, so it reads
+     as scratchable instead of as another banner. ~8% cleared, well under the
+     42% reveal threshold. */
+  function demo(){
+    if(revealed)return;
+    var r=card.getBoundingClientRect();
+    if(!r.width)return;
+    var y=r.height*0.37,x0=r.width*0.15,x1=r.width*0.85,t0=null;
+    requestAnimationFrame(function step(ts){
+      if(revealed)return;
+      if(!t0)t0=ts;
+      var k=Math.min(1,(ts-t0)/850),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      ctx.globalCompositeOperation='destination-out';
+      ctx.beginPath();ctx.arc(x0+(x1-x0)*e,y,19,0,6.3);ctx.fill();
+      ctx.globalCompositeOperation='source-over';
+      if(k<1)requestAnimationFrame(step);
+    });
+  }
+  if('IntersectionObserver' in window){
+    var dio=new IntersectionObserver(function(en){
+      en.forEach(function(e){if(e.isIntersecting){dio.disconnect();setTimeout(demo,700);}});
+    },{threshold:.55});
+    dio.observe(card);
+  }else setTimeout(demo,1400);
+
+  /* safety net — reaching the offers without scratching costs them the promo,
+     so offer a one-tap way back instead of letting it pass silently */
+  (function(){
+    var offersEl=document.getElementById('offers');
+    if(!offersEl||!('IntersectionObserver' in window))return;
+    var bar=null;
+    new IntersectionObserver(function(en){
+      en.forEach(function(e){
+        if(!e.isIntersecting||revealed)return;
+        if(bar)return;
+        bar=document.createElement('div');
+        bar.className='nd-miss';
+        bar.innerHTML='<div class="nd-miss-in"><div class="t"><b>🌴 ما فتحت خصم اليوم الوطني</b>اكشط البطاقة وخذ خصمك</div><button class="go" type="button">افتح خصمي</button></div>';
+        document.body.appendChild(bar);
+        requestAnimationFrame(function(){requestAnimationFrame(function(){bar.classList.add('show');});});
+        bar.querySelector('.go').addEventListener('click',function(){
+          bar.classList.remove('show');
+          card.scrollIntoView({behavior:'smooth',block:'center'});
+          setTimeout(function(){
+            if(revealed)return;
+            /* wipe it for them, then let the normal reveal fire */
+            var r=card.getBoundingClientRect(),t0=null;
+            requestAnimationFrame(function wipe(ts){
+              if(revealed)return;
+              if(!t0)t0=ts;
+              var k=Math.min(1,(ts-t0)/600);
+              ctx.globalCompositeOperation='destination-out';
+              for(var row=0;row<4;row++){
+                ctx.beginPath();ctx.arc(r.width*(0.1+0.8*k),r.height*(0.2+row*0.2),28,0,6.3);ctx.fill();
+              }
+              ctx.globalCompositeOperation='source-over';
+              if(k<1)requestAnimationFrame(wipe);else finish();
+            });
+          },650);
+        });
+      });
+    },{threshold:.3}).observe(offersEl);
+    /* once they scratch, the bar has no reason to exist */
+    card.addEventListener('nd-revealed',function(){if(bar){bar.classList.remove('show');setTimeout(function(){bar.remove();},450);}});
+  })();
   window.addEventListener('resize',function(){if(!revealed)paint();});
   card.addEventListener('mousedown',down);
   window.addEventListener('mousemove',move);
