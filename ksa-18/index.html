@@ -609,21 +609,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .cta-sticky{position:sticky;bottom:0;margin:10px -18px 0;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px));background:var(--paper);box-shadow:0 -10px 22px -10px rgba(0,0,0,.22);z-index:6}
 .cta-sticky .btn{margin:0}
 /* checkout upsell card */
-.ups-title{font-weight:900;font-size:14px;color:var(--ink);margin:16px 0 9px;display:flex;align-items:center;gap:7px}
-.ups-card{position:relative;display:flex;align-items:center;gap:11px;border:1.5px solid var(--line);border-radius:14px;padding:11px 12px 11px 13px;cursor:pointer;transition:border-color .15s,background .15s;background:#fff;margin-bottom:10px}
-.ups-card:hover{border-color:var(--red-soft)}
-.ups-card.on{border-color:var(--red);background:linear-gradient(180deg,#fff,#fffafb)}
-.ups-thumb{width:54px;height:54px;border-radius:11px;flex:none;background:linear-gradient(150deg,#1c3a2a,#0e1f16);display:grid;place-items:center;font-size:26px;overflow:hidden}
-.ups-thumb img{width:100%;height:100%;object-fit:cover}
-.ups-info{flex:1;min-width:0}
-.ups-tag{display:inline-block;background:rgba(217,10,44,.1);color:var(--red);font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-bottom:4px}
-.ups-name{font-weight:900;font-size:13.5px;line-height:1.35;color:var(--ink)}
-.ups-desc{font-size:11.5px;color:var(--ink-soft);margin-top:3px;line-height:1.6}
-.ups-price{display:flex;flex-direction:column;align-items:flex-end;flex:none;gap:1px}
-.ups-price .np{font-weight:900;color:var(--red);font-size:14px;white-space:nowrap}
-.ups-price .op{font-size:11px;color:var(--ink-soft);text-decoration:line-through}
-.ups-check{position:absolute;top:8px;left:8px;width:20px;height:20px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;background:#fff;transition:.15s;color:transparent}
-.ups-card.on .ups-check{background:var(--red);border-color:var(--red);color:#fff}
 .sel-offer{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--red-soft);border-radius:16px;padding:13px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
 .sel-offer .badge{flex:none;width:54px;height:54px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;padding:5px}
 .sel-offer .badge img{height:46px;width:auto}
@@ -1279,7 +1264,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   <div class="sheet" role="dialog" aria-modal="true" aria-label="إتمام الطلب">
     <div class="sheet-head">
       <div class="grab"></div>
-      <div class="steps-ind"><span class="d on" id="dot1"></span><span class="d" id="dot2"></span><span id="stepTxt">الخطوة 1 من 2</span></div>
+      <div class="steps-ind"><span id="stepTxt">إتمام الطلب</span></div>
       <button class="x" data-close aria-label="إغلاق">✕</button>
     </div>
     <div class="sheet-body">
@@ -1288,39 +1273,8 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <div><div class="nm" id="selName">قطعتان <small id="selSub">الثانية بنص السعر</small></div></div>
         <div class="pr"><span id="selPrice">299</span> ر.س</div>
       </div>
-      <!-- Panel 1 — STEP 1: chosen offer recap + optional upsell -->
-      <div class="panel" id="panel1">
-        <!-- UPSELL ORDER-BUMP — smoker audience cross-sell -->
-        <div class="ups-title">🔥 عرض خاص للرجال — أضِفه لطلبك بسعر خاص</div>
-        <div class="ups-card" id="ups-jabrut" data-key="jabrut">
-          <div class="ups-check">✓</div>
-          <div class="ups-thumb"><img src="/assets/jabrut.webp" alt="الجبروت السعودي" width="240" height="240" loading="lazy" decoding="async" onerror="this.remove()" />🦅</div>
-          <div class="ups-info">
-            <span class="ups-tag">🚬 خاص للمدخّنين</span>
-            <div class="ups-name">الجبروت السعودي — كريم جنسي للرجال</div>
-            <div class="ups-desc">نفس الدخان اللي سوّد شفايفك يضعف أداءك ورغبتك. كريم الجبروت هو الحل المثالي لتعزيز <b>الأداء والرغبة</b> و<b>إطالة مدة العلاقة</b> — تجربة أكثر متعة وفاعلية 🔥<br><span style="display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.12)"><b>🌿 خلطة عربية أصيلة:</b> زيت الأركان · زيت الكبابة · الكافور الأبيض · الزعتر السعودي · العود العربي · العسل السعودي · الودك — <b>زيوت طبيعية 100%</b> بلا مواد كيميائية.</span></div>
-          </div>
-          <div class="ups-price"><span class="np">169 ر.س</span><span class="op">299 ر.س</span></div>
-        </div>
-        <div class="ups-card" id="ups-prostate" data-key="prostate">
-          <div class="ups-check">✓</div>
-          <div class="ups-thumb"><picture><source srcset="/assets/prostate-tea.webp" type="image/webp" /><img src="/assets/prostate-tea.png" alt="شاي البروستاتا" onerror="this.remove()" /></picture>🍵</div>
-          <div class="ups-info">
-            <span class="ups-tag">⚠️ البروستاتا ما تنتظر — تكبر مع السكوت</span>
-            <div class="ups-name">شاي البروستاتا — تدارَكها قبل ما تكبر</div>
-            <div class="ups-desc">تبدأ بمرة وحدة بالليل. بعد شهور تصير مرتين. بعدها تحس إن المثانة ما تفضى أبداً — <b>وهذي المشكلة ما تصلح نفسها بنفسها</b>.<span style="display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.12)"><b style="color:#A30821">⚠️ الأطباء يحذّرون:</b> إهمال تضخّم البروستاتا مع الوقت يرتبط بـ <b>احتباس البول</b>، التهابات متكررة في المسالك البولية، وإجهاد على المثانة والكلى. الفرق بين اللي يتصرّف بدري واللي يسكت سنتين — هو الفرق بين مرحلة تُدار بسهولة ومرحلة تحتاج تدخّل طبي.</span><span style="display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(0,0,0,.12)"><b>🌿 البلميط المنشاري (Saw Palmetto) + الجينسنغ</b> — مكوّنان معروفان لدعم صحة البروستاتا والمسالك البولية. كوب واحد قبل النوم لمدة 10 أيام · <b>خالٍ من الكافيين</b> · طبيعي 100%.<span style="display:block;margin-top:6px;font-size:11.5px;color:#8a8078;font-weight:700">مكمّل عشبي داعم ولا يُغني عن استشارة الطبيب. لو فيه ألم شديد أو دم، راجع طبيبك فوراً.</span></span></div>
-          </div>
-          <div class="ups-price"><span class="np">199 ر.س</span><span class="op">299 ر.س</span></div>
-        </div>
-        <div style="display:flex;gap:9px;align-items:center;background:#f2faf5;border:1px solid #cfe9d9;border-radius:11px;padding:10px 13px;margin-top:10px;font-size:12.5px;font-weight:700;color:#1a5c36;line-height:1.6"><span style="font-size:16px;flex:none">🔒</span><span>شحنك <b>مغلّف بسرية تامة</b> — غلاف عادي بدون اسم ولا صورة، ولا أحد يعرف وش داخل الطرد.</span></div>
-        <div class="summary" id="sum1"></div>
-        <div class="cta-sticky">
-          <button class="btn lg cta-pulse" id="toStep2" type="button">متابعة لإتمام الطلب ←</button>
-        </div>
-      </div>
       <!-- Panel 2 — STEP 2: delivery info -->
       <div class="panel" id="panel2">
-        <button type="button" id="backStep1" style="background:var(--ink);border:none;color:#fff;font-family:inherit;font-weight:800;font-size:13px;cursor:pointer;padding:10px 16px;border-radius:11px;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;box-shadow:0 3px 10px -2px rgba(0,0,0,.3)">→ رجوع للعرض والإضافات</button>
         <div class="cod-note"><span class="ic">💵</span><span>تدفع <b style="color:var(--ink)">عند الاستلام</b> — عبّي بياناتك وبنتواصل معك لتأكيد الطلب.</span></div>
         <div class="cod-note" style="background:#f2faf5;border-color:#cfe9d9"><span class="ic">📦</span><span>يوصلك بـ<b style="color:var(--ink)">غلاف عادي محايد</b> — بدون أي اسم منتج على الطرد. خصوصيتك محفوظة تماماً.</span></div>
         <form id="orderForm" novalidate>
@@ -1552,9 +1506,7 @@ function burstConfetti(host){
 }
 
 /* OFFERS — select then order button below */
-var state={offer:null,qty:0,price:0,label:'',upsells:[]};
-/* checkout upsells — key must match .ups-card[data-key]. Price/sku editable here. */
-var UPSELLS={jabrut:{key:'jabrut',sku:'MP-UPKZJAOOVM6T',name:'الجبروت السعودي — كريم جنسي للرجال',price:169},prostate:{key:'prostate',sku:'MP-6SSOYL2OM6EW',name:'شاي البروستاتا — برنامج 10 أيام',price:199}};
+var state={offer:null,qty:0,price:0,label:''};
 var selectedCard=null;
 function selectOffer(card,scroll){
   if(!card)return;
@@ -1575,12 +1527,10 @@ function openOrder(){
   state.qty=+card.getAttribute('data-qty');
   state.price=+card.getAttribute('data-price');
   state.label=card.getAttribute('data-label');
-  state.upsells=[];
-  document.querySelectorAll('.ups-card').forEach(function(u){u.classList.remove('on');});
   document.getElementById('selName').childNodes[0].nodeValue=state.label.split('—')[0].trim()+' ';
   document.getElementById('selSub').textContent=state.label.indexOf('—')>-1?state.label.split('—')[1].trim():'الدفع عند الاستلام';
   document.getElementById('selPrice').textContent=state.price;
-  renderSummaries();showPanel(1);openModal();
+  renderSummaries();showPanel(2);openModal();
   track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
 }
 
@@ -1589,31 +1539,15 @@ function openModal(){modal.classList.add('open');modal.setAttribute('aria-hidden
 function closeModal(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';resumeToasts();}
 document.querySelectorAll('[data-close]').forEach(function(el){el.addEventListener('click',closeModal);});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
-function showPanel(n){['panel1','panel2','panel3'].forEach(function(id,i){document.getElementById(id).classList.toggle('active',i===n-1);});document.getElementById('dot1').classList.toggle('on',n>=1);document.getElementById('dot2').classList.toggle('on',n>=2);document.getElementById('stepTxt').textContent=n===3?'تم الطلب ✅':'الخطوة '+n+' من 2';document.querySelector('.sheet').scrollTop=0;}
+function showPanel(n){['panel2','panel3'].forEach(function(id,i){var el=document.getElementById(id);if(el)el.classList.toggle('active',n===i+2);});var st=document.getElementById('stepTxt');if(st)st.textContent=n===3?'تم الطلب ✅':'إتمام الطلب';document.querySelector('.sheet').scrollTop=0;}
 
-function grandTotal(){var t=state.price;state.upsells.forEach(function(k){if(UPSELLS[k])t+=UPSELLS[k].price;});return t;}
+function grandTotal(){return state.price;}
 function summaryHTML(){
   var h='<div class="row"><span>'+state.label.split('—')[0].trim()+'</span><b>'+state.price+' ر.س</b></div>';
-  state.upsells.forEach(function(k){if(UPSELLS[k])h+='<div class="row"><span>+ '+UPSELLS[k].name+'</span><b>'+UPSELLS[k].price+' ر.س</b></div>';});
   h+='<div class="row free"><span>التوصيل</span><b>مجاني 🎉</b></div><hr><div class="row total"><span>الإجمالي (دفع عند الاستلام)</span><span class="v">'+grandTotal()+' ر.س</span></div>';
   return h;
 }
-/* upsell toggle */
-document.querySelectorAll('.ups-card').forEach(function(u){
-  u.addEventListener('click',function(){
-    var key=u.dataset.key,i=state.upsells.indexOf(key);
-    if(i>-1){state.upsells.splice(i,1);u.classList.remove('on');}
-    else{state.upsells.push(key);u.classList.add('on');}
-    renderSummaries();
-  });
-});
-function renderSummaries(){var h=summaryHTML();var s1=document.getElementById('sum1');if(s1)s1.innerHTML=h;var s2=document.getElementById('sum2');if(s2)s2.innerHTML=h;var pc=document.getElementById('pledgeCash');if(pc)pc.textContent=grandTotal()+' ر.س';}
-/* step 1 → step 2 (upsell is optional, no validation needed) */
-var toStep2Btn=document.getElementById('toStep2');
-if(toStep2Btn)toStep2Btn.addEventListener('click',function(){showPanel(2);});
-/* step 2 → back to step 1 */
-var backStep1Btn=document.getElementById('backStep1');
-if(backStep1Btn)backStep1Btn.addEventListener('click',function(){showPanel(1);});
+function renderSummaries(){var h=summaryHTML();var s2=document.getElementById('sum2');if(s2)s2.innerHTML=h;var pc=document.getElementById('pledgeCash');if(pc)pc.textContent=grandTotal()+' ر.س';}
 
 /* VALIDATION */
 document.getElementById('phone').addEventListener('input',function(){this.value=this.value.replace(/[^\d]/g,'').slice(0,10);});
@@ -1642,7 +1576,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   }
   track('PLEDGE_CONFIRMED',{});
   var fullCity=district?city+' — حي '+district.replace(/^حي\s*/,''):city;
-  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:state.upsells.map(function(k){return {key:k,sku:UPSELLS[k].sku,name:UPSELLS[k].name,price:UPSELLS[k].price,qty:1};}),total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
+  var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:[],total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
   var submitBtn=document.getElementById('submitBtn');
   submitBtn.disabled=true;submitBtn.textContent='⏳ جاري الإرسال...';
   document.getElementById('regionErr').style.display='none';
