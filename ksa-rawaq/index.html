@@ -58,6 +58,50 @@ h2.title{font-size:29px;font-weight:900;line-height:1.22;letter-spacing:-.02em}
 .lead{color:var(--ink-soft);font-size:16px;margin-top:11px}
 .hairline{width:54px;height:3px;background:linear-gradient(90deg,var(--brand),var(--pink));border-radius:99px;margin:14px auto 0}
 
+/* ═══ 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal; delete after 25 Sep) ═══ */
+.ndg{position:relative;overflow:hidden;isolation:isolate;text-align:center;padding:14px 18px 13px;
+  background:
+    radial-gradient(130% 150% at 22% -40%,rgba(255,255,255,.15),transparent 62%),
+    linear-gradient(112deg,#01381B 0%,#00612F 34%,#017A3B 56%,#0A5A46 74%,#3B1E6B 100%);
+  border-bottom:1px solid rgba(194,161,77,.5)}
+.ndg::before{content:"";position:absolute;inset:6px 10px;border:1px solid rgba(194,161,77,.3);
+  border-radius:10px;pointer-events:none;z-index:0}
+.ndg::after{content:"";position:absolute;top:-70%;bottom:-70%;width:26%;z-index:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.12) 48%,rgba(246,239,223,.2) 55%,transparent);
+  filter:blur(8px);transform:translateX(-180%) rotate(9deg);
+  animation:ndgSheen 9s cubic-bezier(.4,0,.5,1) infinite}
+@keyframes ndgSheen{0%{transform:translateX(-180%) rotate(9deg)}42%,100%{transform:translateX(470%) rotate(9deg)}}
+.ndg-in{position:relative;z-index:1;max-width:var(--maxw);margin-inline:auto;
+  animation:ndgUp .75s cubic-bezier(.22,1,.36,1) both}
+@keyframes ndgUp{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.ndg-label{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:8px}
+.ndg-label i{flex:0 1 48px;height:1px;position:relative;
+  background:linear-gradient(90deg,transparent,rgba(194,161,77,.8))}
+.ndg-label i:last-child{background:linear-gradient(90deg,rgba(194,161,77,.8),transparent)}
+/* a single lime pip on each rule — the pack's accent, so the strip belongs to this page */
+.ndg-label i::after{content:"";position:absolute;top:-1.5px;inset-inline-end:0;width:4px;height:4px;
+  border-radius:50%;background:var(--lime);box-shadow:0 0 6px rgba(132,204,22,.85)}
+.ndg-label i:last-child::after{inset-inline-end:auto;inset-inline-start:0}
+.ndg-label span{font-family:'Cairo',sans-serif;font-size:10.5px;font-weight:900;letter-spacing:.2em;
+  color:#EBD79A;white-space:nowrap}
+.ndg-label b{color:#fff;font-size:12px;letter-spacing:.05em}
+.ndg-txt{display:block;font-family:'Cairo',sans-serif;font-size:19px;font-weight:900;line-height:1.4;
+  background:linear-gradient(100deg,#fff 0%,#fff 36%,#F7EDCE 47%,#FFFDF6 52%,#F7EDCE 57%,#fff 68%,#fff 100%);
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 1px 6px rgba(0,0,0,.3));
+  animation:ndgPass 7s ease-in-out infinite}
+@keyframes ndgPass{0%,100%{background-position:160% 0}50%{background-position:-60% 0}}
+/* the emoji must escape the gradient clip on .ndg-txt or it renders as a
+   colourless outline, so every inherited paint property is reset here */
+.ndg-heart{display:inline-block;font-size:16px;margin-inline-start:6px;vertical-align:-1px;
+  background:none;-webkit-background-clip:border-box;background-clip:border-box;
+  -webkit-text-fill-color:initial;color:initial;filter:none;animation:none}
+@media(max-width:400px){.ndg{padding:12px 14px 11px}.ndg-txt{font-size:16.5px}.ndg-label i{flex-basis:32px}}
+@media(max-width:340px){.ndg-txt{font-size:15px}.ndg-label i{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .ndg::after,.ndg-txt,.ndg-in{animation:none}
+  .ndg-txt{background-position:50% 0}}
 .announce{background:linear-gradient(90deg,var(--ink),#2A2338);color:#fff;text-align:center;font-size:12.5px;font-weight:700;padding:9px 14px;display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;position:relative;overflow:hidden}
 .announce::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(109,40,217,.35),transparent);transform:translateX(-100%);animation:shine 5s infinite}
 @keyframes shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
@@ -533,6 +577,15 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 </style>
 </head>
 <body>
+
+<div class="ndg" aria-label="تهنئة اليوم الوطني السعودي">
+  <div class="ndg-in">
+    <div class="ndg-label" aria-hidden="true">
+      <i></i><span>🌴 اليوم الوطني الـ<b>٩٦</b></span><i></i>
+    </div>
+    <h2 class="ndg-txt">كل عام والسعودية وأهلها بألف خير<span class="ndg-heart">🇸🇦💚</span></h2>
+  </div>
+</div>
 
 <div class="announce">
   <span><span class="adot"></span> الدفع عند الاستلام 💵</span>
@@ -1614,7 +1667,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       el.innerHTML='<span style="font-size:22px;flex:none">🌙</span><div style="flex:1"><b style="font-size:14px">طلبك مسجّل ✅ — موعد التأكيد: غداً 9:00 صباحاً</b><span style="display:block;margin-top:5px;font-size:12.5px;opacity:.8">مركز الاتصال يعمل من 9 صباحاً حتى 2 فجراً بتوقيت السعودية</span><span style="display:block;margin-top:8px;font-size:12px;background:rgba(230,201,122,.18);border:1px solid rgba(230,201,122,.4);border-radius:8px;padding:5px 11px;font-weight:700">⏰ سيتصل بك فريقنا بعد '+eta+' تقريباً</span></div>';
     }
   }
-  function showSuccess(){
+  function showSuccess(pixelsOk){
     var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
     document.getElementById('orderId').textContent='#'+txId;
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
@@ -1640,11 +1693,20 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       rp.textContent='🤝 وعدك محفوظ'+(first?' يا '+first:'')+' — طلبك ينجهّز الآن!';
       track('RECEIVE_PLEDGE',{transaction_id:txId});
     });}
-    // Advanced Matching needs +966..., not the local 0-prefixed number the form collects
-    var e164Phone='+966'+order.phone.replace(/^0+/,'');
-    try{snaptr('init',SNAP_PIXEL,{'user_phone_number':e164Phone});}catch(e){}
-    try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
-    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});
+    // Only report a sale the ad platforms can trust — see the fetch handler below.
+    if(pixelsOk){
+      // Advanced Matching needs +966..., not the local 0-prefixed number the form collects
+      var e164Phone='+966'+order.phone.replace(/^0+/,'');
+      var nameParts=name.trim().split(/\s+/);
+      var firstName=nameParts[0]||'',lastName=nameParts.length>1?nameParts.slice(1).join(' '):firstName;
+      try{snaptr('init',SNAP_PIXEL,{'user_phone_number':e164Phone,'firstname':firstName,'lastname':lastName,'geo_city':city});}catch(e){}
+      try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
+      // Snap's PURCHASE reads 'price', not the 'value' the shared helper sends for
+      // TikTok/Meta — so every Purchase it received arrived with no amount on it.
+      try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId});}catch(e){}
+      try{if(window.ttq)ttq.track('Purchase',{value:order.total,currency:'SAR',content_id:'product',content_type:'product',quantity:order.qty});}catch(e){}
+      try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
+    }
     setTimeout(function(){showPanel(3);updateCallMsg();},1000);
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
@@ -1654,9 +1716,11 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       document.getElementById('regionErr').style.display='block';
       return;
     }
-    showSuccess();
+    // the customer still gets the thank-you screen if our own API hiccups —
+    // but the ad platforms only hear PURCHASE for orders that actually landed
+    showSuccess(r.ok);
   })
-  .catch(function(){showSuccess();});
+  .catch(function(){showSuccess(false);});
 });
 
 /* EXIT INTENT */
@@ -1705,6 +1769,18 @@ setInterval(function(){if(sn>5&&Math.random()>.5){sn--;stockN.textContent=sn;sto
     var k=e.keyCode;
     if(k===123||(e.ctrlKey&&e.shiftKey&&(k===73||k===74||k===67))||(e.ctrlKey&&(k===85||k===83))){e.preventDefault();return false;}
   },{capture:true});
+})();
+
+/* 🌴 greeting banner — flag-emoji capability check (seasonal) */
+(function(){
+  try{
+    var el=document.querySelectorAll('.ndg-heart');if(!el.length)return;
+    var x=document.createElement('canvas').getContext('2d');
+    x.font='32px sans-serif';
+    var pair=x.measureText('\uD83C\uDDF8\uD83C\uDDE6').width;
+    var one=x.measureText('\uD83C\uDDF8').width;
+    if(pair>one*1.5){el.forEach(function(e){e.textContent='💚';});}
+  }catch(e){}
 })();
 </script>
 
