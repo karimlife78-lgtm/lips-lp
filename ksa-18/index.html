@@ -336,126 +336,33 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
 .cost-punch b{color:var(--red)}
 @media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
-/* ═══ اليوم الوطني السعودي ٩٦ — scratch-to-reveal (seasonal; safe to delete after 25 Sep) ═══ */
-.nd-wrap{max-width:var(--maxw);margin:20px auto 2px}
-.nd-card{position:relative;border-radius:22px;overflow:hidden;height:152px;
-  background:linear-gradient(150deg,#047A3D 0%,#006C35 45%,#004A24 100%);
-  border:2px solid rgba(201,162,39,.6);
-  box-shadow:0 22px 50px -22px rgba(0,60,28,.8),inset 0 1px 0 rgba(255,255,255,.16);
-  touch-action:none;-webkit-user-select:none;user-select:none;cursor:grab;
-  animation:ndRing 2.4s ease-in-out infinite}
-@keyframes ndRing{
-  0%,100%{box-shadow:0 22px 50px -22px rgba(0,60,28,.8),0 0 0 0 rgba(201,162,39,.6)}
-  70%{box-shadow:0 22px 50px -22px rgba(0,60,28,.8),0 0 0 11px rgba(201,162,39,0)}}
-.nd-card.nd-done{animation:none}
-/* looping finger that demonstrates the gesture */
-.nd-hand{position:absolute;z-index:4;top:52%;left:13%;font-size:27px;pointer-events:none;
-  filter:drop-shadow(0 3px 7px rgba(0,0,0,.5));animation:ndHand 2.8s cubic-bezier(.45,0,.55,1) infinite}
-@keyframes ndHand{
-  0%{transform:translateX(0) scale(.85);opacity:.4}
-  12%{transform:translateX(0) scale(1.08);opacity:1}
-  52%{transform:translateX(215%) scale(1);opacity:1}
-  64%{transform:translateX(215%) scale(.85);opacity:.3}
-  100%{transform:translateX(0) scale(.85);opacity:.4}}
-.nd-card.nd-done .nd-hand{display:none}
-.nd-card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
-  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 11px),
-                   repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 11px)}
-.nd-card::after{content:"٩٦";position:absolute;inset-inline-start:-4px;bottom:-30px;font-family:'Cairo',sans-serif;
-  font-size:96px;font-weight:900;color:rgba(255,255,255,.075);line-height:1;pointer-events:none}
-.nd-prize{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5px;text-align:center;padding:12px 16px;color:#fff;z-index:1}
-.nd-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:900;color:#F0DC9A;
-  background:rgba(0,0,0,.26);border:1px solid rgba(201,162,39,.5);padding:5px 13px;border-radius:999px}
-.nd-amount{font-family:'Cairo',sans-serif;font-size:24px;font-weight:900;line-height:1.15;margin-top:2px}
-.nd-amount b{color:#F5D87A;font-size:33px}
-.nd-sub{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.5}
-.nd-cta{margin-top:7px;background:linear-gradient(145deg,#F5E3A8,#C9A227);color:#003b1d;
-  font-family:'Cairo',sans-serif;font-weight:900;font-size:14.5px;padding:11px 20px;border-radius:12px;
-  box-shadow:0 10px 24px -10px rgba(201,162,39,.9);cursor:pointer}
-.nd-scratch{position:absolute;inset:0;z-index:3;display:block}
-.nd-card.nd-done .nd-scratch{opacity:0;pointer-events:none;transition:opacity .45s ease}
-.nd-card.nd-done{cursor:default;animation:ndPop .5s cubic-bezier(.2,1.2,.4,1)}
-@keyframes ndPop{0%{transform:scale(1)}45%{transform:scale(1.035)}100%{transform:scale(1)}}
-.nd-note{text-align:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:9px}
-.nd-note b{color:#006C35}
-.nd-tag{position:absolute;top:-13px;inset-inline-start:18px;background:linear-gradient(145deg,#047A3D,#005C2C);
-  color:#fff;font-size:11px;font-weight:900;padding:5px 12px;border-radius:999px;
-  box-shadow:0 8px 18px -8px rgba(0,92,44,.9);z-index:2;white-space:nowrap}
-.nd-miss{position:fixed;left:0;right:0;bottom:0;z-index:47;transform:translateY(120%);
-  transition:transform .4s cubic-bezier(.22,1,.36,1);
-  background:linear-gradient(135deg,#004F26,#02722F);border-top:2px solid rgba(201,162,39,.6);
-  padding:11px 16px calc(11px + env(safe-area-inset-bottom,0px));
-  box-shadow:0 -14px 34px -14px rgba(0,0,0,.6)}
-.nd-miss.show{transform:translateY(0)}
-.nd-miss-in{max-width:var(--maxw);margin-inline:auto;display:flex;align-items:center;gap:11px}
-.nd-miss .t{flex:1;min-width:0;color:#fff;font-size:13px;font-weight:800;line-height:1.4}
-.nd-miss .t b{display:block;color:#F5E3A8;font-family:'Cairo',sans-serif;font-size:14.5px}
-.nd-miss .go{flex:none;background:linear-gradient(145deg,#F5E3A8,#C9A227);color:#00381B;
-  font-family:'Cairo',sans-serif;font-weight:900;font-size:13.5px;padding:10px 16px;border-radius:11px;
-  cursor:pointer;white-space:nowrap;animation:ndRing 2.2s ease-in-out infinite}
-.nd-conf{position:absolute;top:8px;width:9px;height:9px;border-radius:2px;pointer-events:none;opacity:0;z-index:5;
-  animation:ndConf 1.15s ease-out forwards}
-@keyframes ndConf{0%{opacity:1;transform:translate(0,0) rotate(0) scale(1)}
-  100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(430deg) scale(.4)}}
-@media(max-width:360px){.nd-amount{font-size:23px}.nd-amount b{font-size:31px}.nd-sub{font-size:11.5px}.nd-cta{font-size:13.5px;padding:10px 16px}}
-/* ═══ 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal; delete after 25 Sep) ═══ */
-.ndg{position:relative;overflow:hidden;isolation:isolate;text-align:center;
-  padding:13px 16px 12px;
-  background:linear-gradient(135deg,#02160C 0%,#004F26 20%,#006C35 48%,#03833F 70%,#00441F 100%);
-  border-bottom:2px solid rgba(201,162,39,.55);
-  animation:ndgUnfurl .7s cubic-bezier(.22,1,.36,1) both}
-@keyframes ndgUnfurl{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:none}}
-/* 1. Najdi lattice drifting sideways */
-.ndg::before{content:"";position:absolute;inset:-25% -12%;z-index:-2;opacity:.5;
-  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.075) 0 6px,transparent 6px 13px),
-                   repeating-linear-gradient(-45deg,rgba(255,255,255,.075) 0 6px,transparent 6px 13px);
-  animation:ndgDrift 26s linear infinite}
-@keyframes ndgDrift{from{transform:translateX(0)}to{transform:translateX(52px)}}
-/* 2. silk gleam sweeping across */
-.ndg-glow{position:absolute;top:-60%;bottom:-60%;width:36%;z-index:-1;pointer-events:none;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.15) 45%,rgba(245,227,168,.3) 55%,transparent);
-  filter:blur(7px);animation:ndgGleam 6.5s ease-in-out infinite}
-@keyframes ndgGleam{0%{transform:translateX(-170%) rotate(8deg)}55%,100%{transform:translateX(430%) rotate(8deg)}}
-/* 3. gold motes rising */
-.ndg-p{position:absolute;bottom:-5px;inset-inline-start:var(--l);z-index:-1;pointer-events:none;
-  width:4px;height:4px;border-radius:50%;background:#F5E3A8;opacity:0;
-  box-shadow:0 0 6px rgba(245,227,168,.9);
-  animation:ndgRise 7s ease-in infinite;animation-delay:var(--d)}
-@keyframes ndgRise{0%{opacity:0;transform:translateY(0) scale(.55)}
-  14%{opacity:.95}100%{opacity:0;transform:translateY(-88px) scale(1.2)}}
-.ndg-in{position:relative;max-width:var(--maxw);margin-inline:auto}
-.ndg-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Cairo',sans-serif;
-  font-size:10.5px;font-weight:900;letter-spacing:.09em;color:#F5E3A8;
-  background:rgba(0,0,0,.32);border:1px solid rgba(201,162,39,.55);
-  padding:4px 13px;border-radius:999px;margin-bottom:7px;animation:ndgFade .8s .25s both}
-.ndg-badge b{font-size:12.5px;color:#fff}
-.ndg-title{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;
-  padding-inline:26px;animation:ndgFade .8s .42s both}
-/* 4. gold shimmer running through the greeting itself */
-.ndg-txt{font-family:'Cairo',sans-serif;font-size:18.5px;font-weight:900;line-height:1.35;
-  background:linear-gradient(95deg,#fff 0%,#fff 30%,#F7E9B8 43%,#FFFDF2 50%,#F7E9B8 57%,#fff 70%,#fff 100%);
-  background-size:280% 100%;-webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-  filter:drop-shadow(0 2px 9px rgba(0,0,0,.3));
-  animation:ndgShine 4.5s ease-in-out infinite}
-@keyframes ndgShine{0%,100%{background-position:150% 0}50%{background-position:-50% 0}}
-/* 5. palms swaying out of phase */
-.ndg-palm{position:absolute;top:50%;margin-top:-19px;font-size:34px;opacity:.22;
-  transform-origin:50% 92%;pointer-events:none;z-index:-1;
-  animation:ndgSway 3.2s ease-in-out infinite}
-.ndg-palm-1{inset-inline-start:-4px}
-.ndg-palm-2{inset-inline-end:-4px;animation-delay:1.6s}
-@keyframes ndgSway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
-.ndg-emo{font-size:17px;letter-spacing:1px;animation:ndgBeat 2.4s ease-in-out infinite}
-@keyframes ndgBeat{0%,100%{transform:scale(1)}45%{transform:scale(1.14)}}
-@keyframes ndgFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media(max-width:400px){.ndg-txt{font-size:16px}.ndg-palm{font-size:15.5px}.ndg-emo{font-size:15px}.ndg{padding:12px 10px 11px}}
-@media(max-width:340px){.ndg-txt{font-size:14.5px}}
-@media(prefers-reduced-motion:reduce){
-  .ndg,.ndg-badge,.ndg-title,.ndg-palm,.ndg-emo{animation:none}
-  .ndg::before,.ndg-glow,.ndg-p{animation:none}.ndg-p{opacity:.5}
-  .ndg-txt{animation:none;background-position:50% 0}}
+/* ═══ 🌴 اليوم الوطني ٩٦ — discount announcement (seasonal; delete after 25 Sep) ═══ */
+.nda{position:relative;overflow:hidden;max-width:var(--maxw);margin:16px auto 2px;
+  border-radius:20px;padding:15px 16px 14px;text-align:center;
+  background:linear-gradient(145deg,#02160C 0%,#004F26 24%,#006C35 55%,#03833F 78%,#00441F 100%);
+  border:2px solid rgba(201,162,39,.55);
+  box-shadow:0 18px 40px -20px rgba(0,60,28,.75),inset 0 1px 0 rgba(255,255,255,.14)}
+.nda::before{content:"";position:absolute;inset:-25% -12%;z-index:0;opacity:.45;pointer-events:none;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px),
+                   repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px)}
+.nda::after{content:"٩٦";position:absolute;inset-inline-start:2px;bottom:-26px;z-index:0;
+  font-family:'Cairo',sans-serif;font-size:84px;font-weight:900;color:rgba(255,255,255,.07);
+  line-height:1;pointer-events:none}
+.nda-in{position:relative;z-index:1}
+.nda-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Cairo',sans-serif;font-size:11px;
+  font-weight:900;letter-spacing:.07em;color:#F5E3A8;background:rgba(0,0,0,.3);
+  border:1px solid rgba(201,162,39,.55);padding:4px 13px;border-radius:999px;margin-bottom:8px}
+.nda-h{font-family:'Cairo',sans-serif;font-size:23px;font-weight:900;line-height:1.25;color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.3)}
+.nda-h b{color:#F5D87A}
+.nda-sub{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-top:6px;line-height:1.6}
+.nda-sub s{color:rgba(255,255,255,.55);margin-inline-end:4px}
+.nda-cta{display:block;width:100%;margin-top:11px;background:linear-gradient(145deg,#F5E3A8,#C9A227);
+  color:#00381B;font-family:'Cairo',sans-serif;font-weight:900;font-size:15.5px;padding:13px 18px;
+  border-radius:13px;cursor:pointer;box-shadow:0 12px 26px -12px rgba(201,162,39,.9)}
+.nda-foot{text-align:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:8px}
+.nda-foot b{color:#006C35}
+@media(max-width:360px){.nda-h{font-size:20px}.nda-sub{font-size:12px}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
@@ -712,19 +619,16 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
-    <div class="nd-wrap" id="ndWrap">
-      <div class="nd-card" id="ndCard">
-        <div class="nd-prize">
-          <span class="nd-eyebrow">🌴 اليوم الوطني ٩٦</span>
-          <div class="nd-amount">وفّر لين <b>١٤٩</b> ر.س</div>
-          <div class="nd-sub">نزلت تلقائياً على كل الباقات ✅</div>
-          <button class="nd-cta" type="button" data-scroll="#offers">شوف أسعارك الجديدة 👇</button>
-        </div>
-        <canvas class="nd-scratch" id="ndScratch"></canvas>
-        <div class="nd-hand" id="ndHand" aria-hidden="true">👆</div>
+    <!-- 🌴 اليوم الوطني ٩٦ — discount announcement (seasonal) -->
+    <div class="nda">
+      <div class="nda-in">
+        <span class="nda-tag">🌴 اليوم الوطني ٩٦</span>
+        <div class="nda-h">خصم اليوم الوطني <b>شغّال الآن</b></div>
+        <div class="nda-sub">الأسعار نزلت على كل الباقات — <s>من 199 ر.س</s> صارت <b>179 ر.س</b> للقطعة</div>
+        <button class="nda-cta" type="button" data-scroll="#offers">شوف أسعار اليوم الوطني 👇</button>
       </div>
-      <p class="nd-note">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
     </div>
+    <p class="nda-foot">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -844,42 +748,42 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
 
     <!-- Offer 1 -->
-    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة">
+    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="179" data-label="قطعة واحدة">
       <span class="radio"></span>
       <div class="imgs"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="كريم تفتيح الشفاه" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">قطعة واحدة <small>للتجربة</small></div>
-        <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was">299 ر.س</span></div>
-        <span class="save">وفّر 33%</span>
-        <div class="perunit">السعر للقطعة 199 ر.س</div>
+        <div class="offer-price"><span class="now">179</span><span class="cur">ر.س</span><span class="was">299 ر.س</span></div>
+        <span class="save">وفّر 40%</span>
+        <div class="perunit">السعر للقطعة 179 ر.س</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 2 best -->
-    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="299" data-label="قطعتان — الثانية بنص السعر">
+    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="199" data-label="قطعتان — الثانية بـ 20 ريال بس">
       <span class="ribbon">⭐ الأكثر طلباً</span>
       <span class="radio"></span>
       <div class="imgs two"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
-        <div class="offer-qty">قطعتان <small>الثانية بنص السعر</small></div>
-        <div class="offer-price"><span class="now">299</span><span class="cur">ر.س</span><span class="was">598 ر.س</span></div>
-        <span class="save">وفّر 299 ر.س</span>
-        <div class="perunit">السعر للقطعة 149 ر.س فقط</div>
+        <div class="offer-qty">قطعتان <small>الثانية بـ 20 ريال بس</small></div>
+        <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was">358 ر.س</span></div>
+        <span class="save">وفّر 159 ر.س</span>
+        <div class="perunit">أقل من 100 ر.س للقطعة</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 3 -->
-    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="398" data-label="3 قطع — اشترِ 2 والثالثة مجاناً">
+    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="249" data-label="3 قطع — الثالثة بـ 50 ريال بس">
       <span class="ribbon gold">👑 أفضل صفقة</span>
       <span class="radio"></span>
       <div class="imgs three"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
-        <div class="offer-qty">3 قطع <small>اشترِ 2 والثالثة مجاناً 🎁</small></div>
-        <div class="offer-price"><span class="now">398</span><span class="cur">ر.س</span><span class="was">897 ر.س</span></div>
-        <span class="save">وفّر 499 ر.س</span>
-        <div class="perunit">السعر للقطعة 132 ر.س فقط</div>
+        <div class="offer-qty">3 قطع <small>الثالثة بـ 50 ريال بس</small></div>
+        <div class="offer-price"><span class="now">249</span><span class="cur">ر.س</span><span class="was">537 ر.س</span></div>
+        <span class="save">وفّر 288 ر.س</span>
+        <div class="perunit">83 ر.س للقطعة</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
@@ -1023,10 +927,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="cost-i win">
       <span class="ic">🌸</span>
       <div class="t"><b>كريم Cosmarab</b><span>مرة وحدة، في بيتك، بدون مواعيد ولا ألم — ويشتغل على السبب مو على التغطية</span></div>
-      <span class="amt">199<small>ر.س</small></span>
+      <span class="amt">179<small>ر.س</small></span>
     </div>
     <div class="cost-punch">
-      يعني بأقل من <b>7 ر.س في اليوم</b> لمدة شهر كامل — أرخص من كوب قهوة،<br>وتدفع <b>عند الاستلام</b> بعد ما تشوف المنتج بيدك.
+      يعني بأقل من <b>6 ر.س في اليوم</b> لمدة شهر كامل — أرخص من كوب قهوة،<br>وتدفع <b>عند الاستلام</b> بعد ما تشوف المنتج بيدك.
     </div>
     <div style="margin-top:16px">
       <button class="btn lg cta-pulse" data-scroll="#offers">أبي أفتّح شفايفي — اختر عرضك 👇</button>
@@ -1125,7 +1029,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
   </div>
   <div class="tline-note wrap">
-    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b>149 ر.س بدل 199</b>.
+    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b>20 ريال بس بدل 179</b>.
   </div>
   <div class="wrap" style="margin-top:16px">
     <button class="btn lg cta-pulse" data-scroll="#offers">خذ قطعتين وما تنقطع 👇</button>
@@ -1231,7 +1135,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- Sticky CTA -->
 <div class="sticky-cta" id="stickyCta">
   <div class="row">
-    <div class="px">يبدأ من<b>199 ر.س</b></div>
+    <div class="px">يبدأ من<b>179 ر.س</b></div>
     <button class="btn" data-scroll="#offers">اطلب الآن 💵</button>
   </div>
 </div>
@@ -1271,7 +1175,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <div class="sel-offer" id="selOffer">
         <div class="badge"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" id="selImg" loading="lazy" /></picture></div>
         <div><div class="nm" id="selName">قطعتان <small id="selSub">الثانية بنص السعر</small></div></div>
-        <div class="pr"><span id="selPrice">299</span> ر.س</div>
+        <div class="pr"><span id="selPrice">199</span> ر.س</div>
       </div>
       <!-- Panel 2 — STEP 2: delivery info -->
       <div class="panel" id="panel2">
@@ -1732,197 +1636,6 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
 })();
 
 
-/* ═══ 🌴 اليوم الوطني ٩٦ — scratch card (seasonal) ═══ */
-(function(){
-  var card=document.getElementById('ndCard'),cv=document.getElementById('ndScratch');
-  if(!card||!cv)return;
-  /* scratching swaps the listed prices for the National Day ones.
-     checkout reads data-price at click time, so the unlocked price
-     flows into the order payload with no extra wiring. */
-  var ND={
-    offer1:{p:179,was:'299 ر.س',save:'وفّر 40%',unit:'السعر للقطعة 179 ر.س',
-            label:'قطعة واحدة'},
-    offer2:{p:199,was:'358 ر.س',save:'وفّر 159 ر.س',unit:'أقل من 100 ر.س للقطعة',
-            small:'الثانية بـ 20 ريال بس',label:'قطعتان — الثانية بـ 20 ريال بس'},
-    offer3:{p:249,was:'537 ر.س',save:'وفّر 288 ر.س',unit:'83 ر.س للقطعة',
-            small:'الثالثة بـ 50 ريال بس',label:'3 قطع — الثالثة بـ 50 ريال بس'}
-  };
-  var applied=false;
-  function applyND(){
-    if(applied)return;applied=true;
-    Object.keys(ND).forEach(function(id){
-      var el=document.getElementById(id);if(!el)return;
-      var d=ND[id],q=function(s){return el.querySelector(s);};
-      el.setAttribute('data-price',d.p);
-      el.setAttribute('data-label',d.label);
-      var now=q('.offer-price .now');if(now)now.textContent=d.p;
-      var was=q('.offer-price .was');if(was)was.textContent=d.was;
-      var sv=q('.save');if(sv)sv.textContent=d.save;
-      var pu=q('.perunit');if(pu)pu.textContent=d.unit;
-      var sm=q('.offer-qty small');if(sm&&d.small)sm.textContent=d.small;
-      if(!q('.nd-tag')){
-        var t=document.createElement('span');t.className='nd-tag';t.textContent='🌴 سعر اليوم الوطني';el.appendChild(t);
-      }
-    });
-    /* keep every other price mention on the page in step */
-    var amt=document.querySelector('.cost-i.win .amt');
-    if(amt)amt.innerHTML='179<small>ر.س</small>';
-    document.querySelectorAll('.cost-punch b').forEach(function(b){
-      if(/ر\.س في اليوم/.test(b.textContent))b.textContent='6 ر.س في اليوم';
-    });
-    document.querySelectorAll('.tline-note b').forEach(function(b){
-      if(/بدل\s*199/.test(b.textContent))b.textContent='20 ريال بس بدل 179';
-    });
-    var px=document.querySelector('.sticky-cta .px');
-    if(px)px.innerHTML='يبدأ من<b>179 ر.س</b>';
-    if(typeof selectedCard!=='undefined'&&selectedCard)selectOffer(selectedCard);
-    try{track('ND_UNLOCK',{});}catch(e){}
-  }
-
-  var ctx=cv.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2);
-  var revealed=false,drawing=false,last=null,moves=0;
-
-  function paint(){
-    var r=card.getBoundingClientRect();
-    if(!r.width)return;
-    cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
-    cv.style.width=r.width+'px';cv.style.height=r.height+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    var g=ctx.createLinearGradient(0,0,r.width,r.height);
-    g.addColorStop(0,'#EFD98F');g.addColorStop(.4,'#C9A227');g.addColorStop(.52,'#F5E3A8');g.addColorStop(1,'#B18A18');
-    ctx.fillStyle=g;ctx.fillRect(0,0,r.width,r.height);
-    ctx.globalAlpha=.1;ctx.fillStyle='#fff';
-    for(var i=-r.height;i<r.width;i+=24){
-      ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+9,0);ctx.lineTo(i+9+r.height,r.height);ctx.lineTo(i+r.height,r.height);ctx.closePath();ctx.fill();
-    }
-    ctx.globalAlpha=1;ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillStyle='rgba(0,58,28,.9)';
-    ctx.font='800 13px Tajawal, sans-serif';
-    ctx.fillText('🎁 اكشط واربح',r.width/2,r.height/2-26);
-    ctx.font='900 25px Cairo, Tajawal, sans-serif';
-    ctx.fillText('خصم لين ١٤٩ ر.س',r.width/2,r.height/2+2);
-    ctx.font='800 12px Tajawal, sans-serif';
-    ctx.fillStyle='rgba(0,58,28,.62)';
-    ctx.fillText('مرّر إصبعك على البطاقة',r.width/2,r.height/2+28);
-  }
-  function pt(e){var r=cv.getBoundingClientRect(),t=(e.touches&&e.touches[0])||e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
-  function dot(p){
-    ctx.globalCompositeOperation='destination-out';
-    ctx.beginPath();ctx.arc(p.x,p.y,26,0,6.3);ctx.fill();
-    if(last){ctx.lineWidth=52;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();}
-    ctx.globalCompositeOperation='source-over';last=p;
-  }
-  /* sampled alpha read — full getImageData on every move would jank the scroll */
-  function cleared(){
-    try{
-      var d=ctx.getImageData(0,0,cv.width,cv.height).data,n=0,t=0;
-      for(var i=3;i<d.length;i+=160){t++;if(d[i]<40)n++;}
-      return t?n/t:0;
-    }catch(e){return 0;}
-  }
-  function burst(){
-    var colors=['#006C35','#ffffff','#C9A227','#F5E3A8','#047A3D'];
-    for(var i=0;i<26;i++){
-      var s=document.createElement('span');s.className='nd-conf';
-      s.style.left=(18+Math.random()*64)+'%';
-      s.style.background=colors[i%colors.length];
-      s.style.setProperty('--dx',((Math.random()*2-1)*150)+'px');
-      s.style.setProperty('--dy',(-(60+Math.random()*170))+'px');
-      s.style.animationDelay=(Math.random()*.16)+'s';
-      card.appendChild(s);
-      (function(el){setTimeout(function(){el.remove();},1500);})(s);
-    }
-  }
-  function finish(){
-    if(revealed)return;revealed=true;
-    card.classList.add('nd-done');
-    try{sessionStorage.setItem('cos_nd96','1');}catch(e){}
-    applyND();burst();
-    try{card.dispatchEvent(new Event('nd-revealed'));}catch(e){}
-  }
-  function down(e){if(revealed)return;drawing=true;last=null;dot(pt(e));e.preventDefault();}
-  function move(e){if(!drawing||revealed)return;dot(pt(e));if(++moves%6===0&&cleared()>.42)finish();e.preventDefault();}
-  function up(){if(!drawing)return;drawing=false;last=null;if(!revealed&&cleared()>.3)finish();}
-
-  var seen=false;try{seen=sessionStorage.getItem('cos_nd96')==='1';}catch(e){}
-  if(seen){revealed=true;card.classList.add('nd-done');applyND();return;}
-
-  paint();
-  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(!revealed)paint();});
-
-  /* auto-demo: erase one stripe as soon as the card is on screen, so it reads
-     as scratchable instead of as another banner. ~8% cleared, well under the
-     42% reveal threshold. */
-  function demo(){
-    if(revealed)return;
-    var r=card.getBoundingClientRect();
-    if(!r.width)return;
-    var y=r.height*0.37,x0=r.width*0.15,x1=r.width*0.85,t0=null;
-    requestAnimationFrame(function step(ts){
-      if(revealed)return;
-      if(!t0)t0=ts;
-      var k=Math.min(1,(ts-t0)/850),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
-      ctx.globalCompositeOperation='destination-out';
-      ctx.beginPath();ctx.arc(x0+(x1-x0)*e,y,19,0,6.3);ctx.fill();
-      ctx.globalCompositeOperation='source-over';
-      if(k<1)requestAnimationFrame(step);
-    });
-  }
-  if('IntersectionObserver' in window){
-    var dio=new IntersectionObserver(function(en){
-      en.forEach(function(e){if(e.isIntersecting){dio.disconnect();setTimeout(demo,700);}});
-    },{threshold:.55});
-    dio.observe(card);
-  }else setTimeout(demo,1400);
-
-  /* safety net — reaching the offers without scratching costs them the promo,
-     so offer a one-tap way back instead of letting it pass silently */
-  (function(){
-    var offersEl=document.getElementById('offers');
-    if(!offersEl||!('IntersectionObserver' in window))return;
-    var bar=null;
-    new IntersectionObserver(function(en){
-      en.forEach(function(e){
-        if(!e.isIntersecting||revealed)return;
-        if(bar)return;
-        bar=document.createElement('div');
-        bar.className='nd-miss';
-        bar.innerHTML='<div class="nd-miss-in"><div class="t"><b>🌴 ما فتحت خصم اليوم الوطني</b>اكشط البطاقة وخذ خصمك</div><button class="go" type="button">افتح خصمي</button></div>';
-        document.body.appendChild(bar);
-        requestAnimationFrame(function(){requestAnimationFrame(function(){bar.classList.add('show');});});
-        bar.querySelector('.go').addEventListener('click',function(){
-          bar.classList.remove('show');
-          card.scrollIntoView({behavior:'smooth',block:'center'});
-          setTimeout(function(){
-            if(revealed)return;
-            /* wipe it for them, then let the normal reveal fire */
-            var r=card.getBoundingClientRect(),t0=null;
-            requestAnimationFrame(function wipe(ts){
-              if(revealed)return;
-              if(!t0)t0=ts;
-              var k=Math.min(1,(ts-t0)/600);
-              ctx.globalCompositeOperation='destination-out';
-              for(var row=0;row<4;row++){
-                ctx.beginPath();ctx.arc(r.width*(0.1+0.8*k),r.height*(0.2+row*0.2),28,0,6.3);ctx.fill();
-              }
-              ctx.globalCompositeOperation='source-over';
-              if(k<1)requestAnimationFrame(wipe);else finish();
-            });
-          },650);
-        });
-      });
-    },{threshold:.3}).observe(offersEl);
-    /* once they scratch, the bar has no reason to exist */
-    card.addEventListener('nd-revealed',function(){if(bar){bar.classList.remove('show');setTimeout(function(){bar.remove();},450);}});
-  })();
-  window.addEventListener('resize',function(){if(!revealed)paint();});
-  card.addEventListener('mousedown',down);
-  window.addEventListener('mousemove',move);
-  window.addEventListener('mouseup',up);
-  card.addEventListener('touchstart',down,{passive:false});
-  card.addEventListener('touchmove',move,{passive:false});
-  window.addEventListener('touchend',up);
-})();
 
 })();
 </script>
