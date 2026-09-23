@@ -24,7 +24,10 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <meta property="og:image" content="/assets/hero.jpg" />
 <meta property="og:locale" content="ar_SA" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="preload" as="image" href="/assets/hero.webp" type="image/webp" />
+<link rel="preload" as="image" href="/assets/hero.webp" type="image/webp" fetchpriority="high" />
+<!-- the ad pixels are third-party and unavoidable; at least warm their connections early -->
+<link rel="preconnect" href="https://analytics.tiktok.com" crossorigin />
+<link rel="preconnect" href="https://sc-static.net" crossorigin />
 <!-- fonts are self-hosted and their @font-face rules are inlined below, so there is
      no googleapis round-trip and nothing blocks the first paint. only the two faces
      used above the fold are preloaded; unicode-range gates the rest. -->
@@ -583,7 +586,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
-        <img src="/assets/hero.jpg" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" width="800" height="1063" fetchpriority="high" decoding="async" />
+        <img src="/assets/hero.jpg" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" width="720" height="957" fetchpriority="high" decoding="async" />
       </picture>
       <div class="glow"></div>
       <div class="hero-float"><span class="s">★</span> 4.8/5 · +9,400 عميل</div>
