@@ -1533,7 +1533,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       el.innerHTML='<span style="font-size:22px;flex:none">🌙</span><div style="flex:1"><b style="font-size:14px">طلبك مسجّل ✅ — موعد التأكيد: غداً 9:00 صباحاً</b><span style="display:block;margin-top:5px;font-size:12.5px;opacity:.8">مركز الاتصال يعمل من 9 صباحاً حتى 2 فجراً بتوقيت السعودية</span><span style="display:block;margin-top:8px;font-size:12px;background:rgba(230,201,122,.18);border:1px solid rgba(230,201,122,.4);border-radius:8px;padding:5px 11px;font-weight:700">⏰ سيتصل بك فريقنا بعد '+eta+' تقريباً</span></div>';
     }
   }
-  function showSuccess(){
+  function showSuccess(pixelsOk){
     var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
     document.getElementById('orderId').textContent='#'+txId;
     document.getElementById('tySummary').innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
@@ -1577,15 +1577,26 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       rp.textContent='🤝 وعدك محفوظ'+(first?' يا '+first:'')+' — طلبك ينجهّز الآن!';
       track('RECEIVE_PLEDGE',{transaction_id:txId});
     });}
-    // fire conversion pixels immediately — don't wait for the pledge-view beat
+    // fire conversion pixels immediately — don't wait for the pledge-view beat, and
+    // only when the order genuinely reached the sheet (pixelsOk) — see the fetch
+    // handler below for why that distinction exists.
     // Advanced Matching needs the full international number (+966...) to hash-match
     // against a Snapchat account — the form only collects the local 05XXXXXXXX part,
-    // so sending it as-is with no country code makes matching fail silently. This is
-    // almost always what a "Poor" Purchase event-quality score in Ads Manager means.
-    var e164Phone='+966'+order.phone.replace(/^0+/,'');
-    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':e164Phone});}catch(e){}
-    try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
-    track('PURCHASE',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});
+    // so sending it as-is with no country code makes matching fail silently.
+    if(pixelsOk){
+      var e164Phone='+966'+order.phone.replace(/^0+/,'');
+      var nameParts=name.trim().split(/\s+/);
+      var firstName=nameParts[0]||'',lastName=nameParts.length>1?nameParts.slice(1).join(' '):firstName;
+      try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':e164Phone,'firstname':firstName,'lastname':lastName,'geo_city':city});}catch(e){}
+      try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
+      // Snap's PURCHASE event takes 'price', not 'value' — the shared track() helper
+      // sends 'value' for TikTok/Meta, which Snap silently ignores, so every Purchase
+      // it received had no amount on it. Fired directly here with Snap's own keys,
+      // plus client_dedup_id so a retried request can't double-count.
+      try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId});}catch(e){}
+      try{if(window.ttq)ttq.track('Purchase',{value:order.total,currency:'SAR',content_id:'lip-cream',content_type:'product',quantity:order.qty});}catch(e){}
+      try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
+    }
     // brief beat so the pledge the customer just affirmed stays visible before thank-you replaces it
     setTimeout(function(){showPanel(3);updateCallMsg();},1000);
   }
@@ -1596,9 +1607,16 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       document.getElementById('regionErr').style.display='block';
       return;
     }
-    showSuccess();
+    // COD orders still get the thank-you screen even if our own API hiccups —
+    // don't punish the customer for a server error after they've committed.
+    // But the ad platforms should only be told PURCHASE for orders that actually
+    // reached the sheet: Snap's own diagnostics flagged "high number of purchases
+    // compared to clicks," and firing on every failed request (this used to fire
+    // on ANY non-403 status, including 5xx, plus every network error) is exactly
+    // what inflates that ratio without a real sale behind it.
+    showSuccess(r.ok);
   })
-  .catch(function(){showSuccess();});
+  .catch(function(){showSuccess(false);});
 });
 
 /* EXIT INTENT: desktop pointer-out + mobile fast scroll-up. Once per session. */
