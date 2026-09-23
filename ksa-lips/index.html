@@ -21,14 +21,13 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <meta property="og:type" content="website" />
 <meta property="og:title" content="كريم تفتيح الشفاه | Cosmarab" />
 <meta property="og:description" content="شفاه وردية ورطبة بشكل طبيعي — الدفع عند الاستلام في جميع مدن السعودية." />
-<meta property="og:image" content="/assets/hero.png" />
+<meta property="og:image" content="/assets/hero.jpg" />
 <meta property="og:locale" content="ar_SA" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preload" as="image" href="/assets/hero.webp" type="image/webp" />
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-<noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" /></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;800;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet" />
 <!--
 TODO: Uncomment + add your IDs before going live.
 <script>(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');snaptr('init','SNAP_PIXEL_ID',{});snaptr('track','PAGE_VIEW');</script>
@@ -72,7 +71,7 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .bar-in{max-width:var(--maxw);margin-inline:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;letter-spacing:.04em}
 .logo .mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;display:grid;place-items:center;font-size:17px;font-weight:900;box-shadow:var(--shadow-red)}
-.logo small{display:block;font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.24em;margin-top:-3px}
+.logo small{display:block;font-size:9px;font-weight:700;color:#7d6318;letter-spacing:.24em;margin-top:-3px}
 .bar-cta{font-size:13px;font-weight:800;color:#fff;background:var(--red);padding:8px 16px;border-radius:999px;box-shadow:var(--shadow-red)}
 
 /* HERO */
@@ -99,7 +98,7 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .timer-wrap .lbl{color:rgba(255,255,255,.85);font-size:13px;font-weight:800}
 .timer-units{display:flex;gap:7px;align-items:center}
 .tu{text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 9px;min-width:46px}
-.tu b{display:block;color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:'Cairo'}
+.tu b{display:block;color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:'Cairo';min-width:2ch;font-variant-numeric:tabular-nums}
 .tu span{display:block;color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.08em;margin-top:3px}
 .tu-sep{color:var(--red);font-size:20px;font-weight:900;margin-top:-6px}
 
@@ -249,11 +248,11 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cert{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 14px;text-align:center;box-shadow:var(--shadow-sm)}
 .cert .cic{width:54px;height:54px;border-radius:15px;margin:0 auto 10px;display:grid;place-items:center;font-size:27px}
 .cic.green{background:#e9f7ef}.cic.blue{background:#e8f4fd}.cic.gold{background:var(--gold-soft)}.cic.red{background:var(--red-soft)}
-.cert h4{font-size:14px;font-weight:900}
+.cert h3{font-size:14px;font-weight:900}
 .cert p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:4px;line-height:1.45}
 .cert-full{grid-column:1/-1;display:flex;align-items:center;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .cert-full .cic{flex:none;margin:0}
-.cert-full h4{font-size:14px;font-weight:900}
+.cert-full h3{font-size:14px;font-weight:900}
 .cert-full p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:3px;text-align:right}
 
 /* BEFORE/AFTER (single real photo) */
@@ -290,7 +289,7 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .tline-i .nb b{display:block;font-family:'Cairo',sans-serif;font-size:20px;font-weight:900;color:var(--red);line-height:1}
 .tline-i .nb span{font-size:10.5px;font-weight:800;color:var(--ink-soft)}
 .tline-i .nx{flex:1;border-inline-start:2px dashed var(--red-soft);padding-inline-start:14px}
-.tline-i h4{font-size:15.5px;font-weight:900}
+.tline-i h3{font-size:15.5px;font-weight:900}
 .tline-i p{font-size:13.5px;color:var(--ink-soft);margin-top:4px;line-height:1.7}
 .tline-i p b{color:var(--ink)}
 .tline-i.hot{border:2px solid var(--gold);background:linear-gradient(160deg,#fff,var(--gold-soft))}
@@ -564,7 +563,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
-        <img src="/assets/hero.png" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" fetchpriority="high" />
+        <img src="/assets/hero.jpg" alt="رجل سعودي يستخدم كريم تفتيح الشفاه من Cosmarab" width="800" height="1063" fetchpriority="high" decoding="async" />
       </picture>
       <div class="glow"></div>
       <div class="hero-float"><span class="s">★</span> 4.8/5 · +9,400 عميل</div>
@@ -773,11 +772,11 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <p class="lead">اجتاز أعلى معايير السلامة في المملكة.</p>
   </div>
   <div class="certs-grid">
-    <div class="cert"><div class="cic green">🛡️</div><h4>هيئة الغذاء والدواء SFDA</h4><p>مسجّل ومعتمد لدى هيئة الغذاء والدواء السعودية</p></div>
-    <div class="cert"><div class="cic gold">☪️</div><h4>حلال معتمد</h4><p>جميع المكونات حلال — خالٍ من أي مواد محرّمة</p></div>
-    <div class="cert"><div class="cic blue">🔬</div><h4>مختبر جلدياً</h4><p>اختُبر طبياً من قِبل متخصصين في طب الجلد</p></div>
-    <div class="cert"><div class="cic red">🐰</div><h4>خالٍ من تجارب الحيوانات</h4><p>منتج نظيف وأخلاقي — Cruelty-Free</p></div>
-    <div class="cert-full"><div class="cic green">✅</div><div><h4>خالٍ من المواد الضارة</h4><p>بدون Parabens · بدون Sulfates · بدون ملوّنات صناعية. آمن للاستخدام اليومي للرجال والنساء.</p></div></div>
+    <div class="cert"><div class="cic green">🛡️</div><h3>هيئة الغذاء والدواء SFDA</h3><p>مسجّل ومعتمد لدى هيئة الغذاء والدواء السعودية</p></div>
+    <div class="cert"><div class="cic gold">☪️</div><h3>حلال معتمد</h3><p>جميع المكونات حلال — خالٍ من أي مواد محرّمة</p></div>
+    <div class="cert"><div class="cic blue">🔬</div><h3>مختبر جلدياً</h3><p>اختُبر طبياً من قِبل متخصصين في طب الجلد</p></div>
+    <div class="cert"><div class="cic red">🐰</div><h3>خالٍ من تجارب الحيوانات</h3><p>منتج نظيف وأخلاقي — Cruelty-Free</p></div>
+    <div class="cert-full"><div class="cic green">✅</div><div><h3>خالٍ من المواد الضارة</h3><p>بدون Parabens · بدون Sulfates · بدون ملوّنات صناعية. آمن للاستخدام اليومي للرجال والنساء.</p></div></div>
   </div>
 </section>
 
@@ -933,28 +932,28 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="tline-i">
       <div class="nb"><b>1-7</b><span>الأيام الأولى</span></div>
       <div class="nx">
-        <h4>الترطيب أول شي</h4>
+        <h3>الترطيب أول شي</h3>
         <p>الجفاف والتقشير يروح، والشفايف تصير ناعمة وممتلئة. اللون لسه ما تغيّر كثير — وهذا طبيعي تماماً، لأن الترطيب هو الأساس اللي يبني عليه التفتيح.</p>
       </div>
     </div>
     <div class="tline-i">
       <div class="nb"><b>2-3</b><span>الأسبوع</span></div>
       <div class="nx">
-        <h4>أول تفتيح تلاحظه أنت</h4>
+        <h3>أول تفتيح تلاحظه أنت</h3>
         <p>يبدأ السواد يخف تدريجياً — خصوصاً على الأطراف. اللي حولك ما يلاحظون بعد، بس أنت تشوف الفرق في المرآة وفي صور جوالك.</p>
       </div>
     </div>
     <div class="tline-i hot">
       <div class="nb"><b>4-6</b><span>الأسبوع</span></div>
       <div class="nx">
-        <h4>الفرق اللي يلاحظه غيرك 🌸</h4>
+        <h3>الفرق اللي يلاحظه غيرك 🌸</h3>
         <p>هنا يبان التغيّر الحقيقي: اللون يرجع وردي أوضح، والتفاوت بين أجزاء الشفايف يقل. <b>وهنا بالضبط تخلص القطعة الأولى</b> — عشان كذا أغلب العملاء ياخذون قطعتين من البداية.</p>
       </div>
     </div>
     <div class="tline-i">
       <div class="nb"><b>+8</b><span>الأسبوع</span></div>
       <div class="nx">
-        <h4>تثبيت النتيجة</h4>
+        <h3>تثبيت النتيجة</h3>
         <p>اللون يستقر، وتنتقل لاستخدام أخف للمحافظة عليه. الانتظام هنا أهم من الكمية.</p>
       </div>
     </div>
@@ -1058,7 +1057,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   <div class="logo"><span class="mark">C</span><span style="color:#fff">COSMARAB</span></div>
   <p>كريم تفتيح الشفاه — عناية متكاملة لشفاه صحية ووردية.</p>
   <div class="links"><a href="#offers">العروض</a><a href="/privacy.html">سياسة الخصوصية</a><a href="/terms.html">الشروط والأحكام</a></div>
-  <p style="margin-top:12px;opacity:.45">© <span id="yr"></span> Cosmarab. جميع الحقوق محفوظة. مسجّل لدى هيئة الغذاء والدواء SFDA.</p>
+  <p style="margin-top:12px;opacity:.8">© <span id="yr"></span> Cosmarab. جميع الحقوق محفوظة. مسجّل لدى هيئة الغذاء والدواء SFDA.</p>
 </footer>
 
 <a href="https://wa.me/15707807569" target="_blank" rel="noopener" class="wa-float" aria-label="تواصل معنا على واتساب">💬</a>
