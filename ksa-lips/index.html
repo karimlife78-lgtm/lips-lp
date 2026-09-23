@@ -1374,6 +1374,7 @@ function openOrder(){
   document.getElementById('selName').childNodes[0].nodeValue=state.label.split('—')[0].trim()+' ';
   document.getElementById('selSub').textContent=state.label.indexOf('—')>-1?state.label.split('—')[1].trim():'الدفع عند الاستلام';
   document.getElementById('selPrice').textContent=state.price;
+  window.__cosOpenedOffer=true;
   renderSummaries();showPanel(2);openModal();
   track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
 }
@@ -1511,8 +1512,11 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   var xi=document.getElementById('xi'); if(!xi) return;
   var shown=false, ordered=false, armedAt=Date.now()+8000;
   try{ if(sessionStorage.getItem('cos_xi')) shown=true; }catch(e){}
+  /* only after the visitor has actually opened an offer — it used to fire on
+     any fast scroll-up near the top, with no offers engagement at all */
   function canShow(){
     if(shown||ordered) return false;
+    if(!window.__cosOpenedOffer) return false;
     if(Date.now()<armedAt) return false;
     if(typeof modal!=='undefined' && modal && modal.classList.contains('open')) return false;
     return true;

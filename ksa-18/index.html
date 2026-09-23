@@ -336,6 +336,50 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
 .cost-punch b{color:var(--red)}
 @media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
+/* ═══ 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal; delete after 25 Sep) ═══ */
+.ndg{position:relative;overflow:hidden;isolation:isolate;text-align:center;padding:14px 18px 13px;
+  background:
+    radial-gradient(120% 140% at 50% -40%,rgba(255,255,255,.14),transparent 60%),
+    linear-gradient(160deg,#013D1E 0%,#00612F 42%,#017A3B 68%,#004A24 100%);
+  border-bottom:1px solid rgba(201,162,39,.5)}
+/* hairline gold frame, inset — reads as a printed card edge */
+.ndg::before{content:"";position:absolute;inset:6px 10px;border:1px solid rgba(201,162,39,.28);
+  border-radius:10px;pointer-events:none;z-index:0}
+/* one slow diagonal sheen, nothing else moving */
+.ndg::after{content:"";position:absolute;top:-70%;bottom:-70%;width:28%;z-index:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.13) 48%,rgba(245,227,168,.2) 55%,transparent);
+  filter:blur(8px);transform:translateX(-180%) rotate(9deg);
+  animation:ndgSheen 9s cubic-bezier(.4,0,.5,1) infinite}
+@keyframes ndgSheen{0%{transform:translateX(-180%) rotate(9deg)}42%,100%{transform:translateX(460%) rotate(9deg)}}
+.ndg-in{position:relative;z-index:1;max-width:var(--maxw);margin-inline:auto;
+  animation:ndgUp .75s cubic-bezier(.22,1,.36,1) both}
+@keyframes ndgUp{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+/* label row: thin gold rules flanking the occasion */
+.ndg-label{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.ndg-label i{flex:0 1 54px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.75))}
+.ndg-label i:last-child{background:linear-gradient(90deg,rgba(201,162,39,.75),transparent)}
+.ndg-label span{font-family:'Cairo',sans-serif;font-size:10.5px;font-weight:900;letter-spacing:.2em;
+  color:#E8CE7A;white-space:nowrap}
+.ndg-label b{color:#fff;font-size:12px;letter-spacing:.05em}
+/* the greeting, with a slow gold pass through the letterforms */
+.ndg-txt{display:block;font-family:'Cairo',sans-serif;font-size:19px;font-weight:900;line-height:1.4;
+  color:#fff;
+  background:linear-gradient(100deg,#fff 0%,#fff 36%,#FBEFC9 47%,#FFFDF5 52%,#FBEFC9 57%,#fff 68%,#fff 100%);
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 1px 6px rgba(0,0,0,.28));
+  animation:ndgPass 7s ease-in-out infinite}
+@keyframes ndgPass{0%,100%{background-position:160% 0}50%{background-position:-60% 0}}
+/* the emoji must escape the gradient clip on .ndg-txt or it renders as a
+   colourless outline, so every inherited paint property is reset here */
+.ndg-heart{display:inline-block;font-size:16px;margin-inline-start:6px;vertical-align:-1px;
+  background:none;-webkit-background-clip:border-box;background-clip:border-box;
+  -webkit-text-fill-color:initial;color:initial;filter:none;animation:none}
+@media(max-width:400px){.ndg{padding:12px 14px 11px}.ndg-txt{font-size:16.5px}.ndg-label i{flex-basis:34px}}
+@media(max-width:340px){.ndg-txt{font-size:15px}.ndg-label i{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .ndg::after,.ndg-txt,.ndg-in{animation:none}
+  .ndg-txt{background-position:50% 0}}
 /* ═══ 🌴 اليوم الوطني ٩٦ — discount announcement (seasonal; delete after 25 Sep) ═══ */
 .nda{position:relative;overflow:hidden;max-width:var(--maxw);margin:16px auto 2px;
   border-radius:20px;padding:15px 16px 14px;text-align:center;
@@ -580,24 +624,11 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 
 <!-- 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal) -->
 <div class="ndg" aria-label="تهنئة اليوم الوطني السعودي">
-  <span class="ndg-glow" aria-hidden="true"></span>
-  <i class="ndg-p" style="--l:7%;--d:0s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:17%;--d:1.3s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:28%;--d:2.7s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:39%;--d:.7s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:51%;--d:3.4s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:63%;--d:1.9s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:74%;--d:4.2s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:85%;--d:2.2s" aria-hidden="true"></i>
-  <i class="ndg-p" style="--l:93%;--d:5.1s" aria-hidden="true"></i>
-  <span class="ndg-palm ndg-palm-1" aria-hidden="true">🌴</span>
-  <span class="ndg-palm ndg-palm-2" aria-hidden="true">🌴</span>
   <div class="ndg-in">
-    <span class="ndg-badge">🌴 اليوم الوطني <b>٩٦</b></span>
-    <h2 class="ndg-title">
-      <span class="ndg-txt">كل عام والسعودية وأهلها بألف خير</span>
-      <span class="ndg-emo" aria-hidden="true">🇸🇦💚</span>
-    </h2>
+    <div class="ndg-label" aria-hidden="true">
+      <i></i><span>🌴 اليوم الوطني الـ<b>٩٦</b></span><i></i>
+    </div>
+    <h2 class="ndg-txt">كل عام والسعودية وأهلها بألف خير<span class="ndg-heart">🇸🇦💚</span></h2>
   </div>
 </div>
 
@@ -1434,6 +1465,7 @@ function openOrder(){
   document.getElementById('selName').childNodes[0].nodeValue=state.label.split('—')[0].trim()+' ';
   document.getElementById('selSub').textContent=state.label.indexOf('—')>-1?state.label.split('—')[1].trim():'الدفع عند الاستلام';
   document.getElementById('selPrice').textContent=state.price;
+  window.__cosOpenedOffer=true;
   renderSummaries();showPanel(2);openModal();
   track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
 }
@@ -1574,8 +1606,11 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   var xi=document.getElementById('xi'); if(!xi) return;
   var shown=false, ordered=false, armedAt=Date.now()+8000;
   try{ if(sessionStorage.getItem('cos_xi')) shown=true; }catch(e){}
+  /* only after the visitor has actually opened an offer — it used to fire on
+     any fast scroll-up near the top, with no offers engagement at all */
   function canShow(){
     if(shown||ordered) return false;
+    if(!window.__cosOpenedOffer) return false;
     if(Date.now()<armedAt) return false;
     if(typeof modal!=='undefined' && modal && modal.classList.contains('open')) return false;
     return true;
@@ -1625,7 +1660,7 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
 /* 🌴 greeting banner — flag-emoji capability check (seasonal) */
 (function(){
   try{
-    var el=document.querySelectorAll('.ndg-emo');if(!el.length)return;
+    var el=document.querySelectorAll('.ndg-heart');if(!el.length)return;
     var x=document.createElement('canvas').getContext('2d');
     x.font='32px sans-serif';
     var pair=x.measureText('\uD83C\uDDF8\uD83C\uDDE6').width;
