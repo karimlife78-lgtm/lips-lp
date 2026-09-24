@@ -286,6 +286,24 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .ba-lbl{position:absolute;top:14px;font-size:13px;font-weight:900;color:#fff;padding:6px 15px;border-radius:999px;backdrop-filter:blur(6px);box-shadow:var(--shadow-sm);font-family:'Cairo'}
 .ba-lbl.before{right:14px;background:rgba(21,17,15,.78)}
 .ba-lbl.after{left:14px;background:linear-gradient(145deg,var(--red),var(--red-2))}
+/* extra real-results gallery — swipeable, one card per screen.
+   width/height are set on every img so the carousel reserves its box and
+   nothing shifts while the lazy images arrive (keeps CLS at ~0). */
+.ba-more{max-width:var(--maxw);margin:14px auto 0;padding-inline:20px}
+.ba-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+.ba-track::-webkit-scrollbar{display:none}
+.ba-slide{flex:0 0 100%;scroll-snap-align:center;position:relative;border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:#fff}
+.ba-slide img{width:100%;height:auto;display:block;transform:scaleX(-1)}
+.ba-swipe{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:11px;
+  font-size:12.5px;font-weight:800;color:var(--ink-soft);font-family:'Cairo'}
+.ba-swipe .ar{animation:baNudge 1.6s ease-in-out infinite}
+@keyframes baNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}
+.ba-dots{display:flex;justify-content:center;gap:7px;margin-top:9px}
+.ba-dot{width:7px;height:7px;border-radius:50%;background:#d8d0c6;transition:all .25s}
+.ba-dot.on{background:var(--red);width:20px;border-radius:999px}
+@media (prefers-reduced-motion:reduce){.ba-swipe .ar{animation:none}}
 .timeline{max-width:var(--maxw);margin:18px auto 0;display:flex;gap:8px}
 .tl{flex:1;text-align:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 6px;box-shadow:var(--shadow-sm)}
 .tl b{display:block;color:var(--red);font-size:17px;font-weight:900;font-family:'Cairo'}
@@ -909,6 +927,35 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <span class="ba-lbl before">قبل ❌</span>
     <span class="ba-lbl after">بعد ✅</span>
   </div>
+
+  <!-- more real results — swipe through the rest -->
+  <div class="ba-more">
+    <div class="ba-track" id="baTrack">
+      <div class="ba-slide">
+        <picture><source srcset="/assets/ba-2.webp" type="image/webp" />
+          <img src="/assets/ba-2.jpg" width="1024" height="672" loading="lazy" decoding="async" alt="قبل وبعد استخدام كريم تفتيح الشفاه — شفايف غامقة ومتشققة تتحول لوردية ورطبة" /></picture>
+        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
+      </div>
+      <div class="ba-slide">
+        <picture><source srcset="/assets/ba-3.webp" type="image/webp" />
+          <img src="/assets/ba-3.jpg" width="1024" height="635" loading="lazy" decoding="async" alt="نتيجة كريم تفتيح الشفاه — اختفاء التشققات وتوحّد لون الشفاه" /></picture>
+        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
+      </div>
+      <div class="ba-slide">
+        <picture><source srcset="/assets/ba-4.webp" type="image/webp" />
+          <img src="/assets/ba-4.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="قبل وبعد — تفتيح اسمرار الشفاه الناتج عن التدخين والجفاف" /></picture>
+        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
+      </div>
+      <div class="ba-slide">
+        <picture><source srcset="/assets/ba-5.webp" type="image/webp" />
+          <img src="/assets/ba-5.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم لكريم تفتيح الشفاه — لون وردي طبيعي موحّد" /></picture>
+        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
+      </div>
+    </div>
+    <div class="ba-swipe"><span class="ar">←</span><span>اسحب لمشاهدة نتائج أكثر</span></div>
+    <div class="ba-dots" id="baDots"><i class="ba-dot on"></i><i class="ba-dot"></i><i class="ba-dot"></i><i class="ba-dot"></i></div>
+  </div>
+
   <div class="timeline">
     <div class="tl"><b>أسبوع 1</b><span>ترطيب فوري</span></div>
     <div class="tl"><b>أسبوع 2-3</b><span>تقل التشققات</span></div>
@@ -1307,6 +1354,29 @@ function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(
 /* Traffic source for the admin "Revenue by Channel" report — captured once, kept across the funnel */
 function getSrc(){try{var p=new URLSearchParams(location.search);var s=p.get('utm_source')||p.get('src')||localStorage.getItem('cos_src');if(!s&&document.referrer){var h=new URL(document.referrer).hostname.replace('www.','');if(/snap/.test(h))s='snapchat';else if(/tiktok/.test(h))s='tiktok';else if(/facebook|instagram|fb\./.test(h))s='meta';else if(/google/.test(h))s='google';else if(h&&h.indexOf(location.hostname)<0)s=h;}s=(s||'direct').toLowerCase();try{localStorage.setItem('cos_src',s);}catch(e){}return s;}catch(e){return 'direct';}}
 document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+
+/* results carousel dots — RTL scrollLeft is negative in some engines, so compare on |scrollLeft| */
+(function(){
+  var tr=document.getElementById('baTrack'),dots=document.getElementById('baDots');
+  if(!tr||!dots)return;
+  var ds=dots.querySelectorAll('.ba-dot'),tick=null;
+  tr.addEventListener('scroll',function(){
+    if(tick)return;
+    tick=requestAnimationFrame(function(){
+      tick=null;
+      var i=Math.round(Math.abs(tr.scrollLeft)/tr.clientWidth);
+      for(var k=0;k<ds.length;k++)ds[k].classList.toggle('on',k===i);
+    });
+  },{passive:true});
+  /* a dot is a jump target too, not just an indicator */
+  for(var k=0;k<ds.length;k++)(function(k){
+    ds[k].style.cursor='pointer';
+    ds[k].addEventListener('click',function(){
+      var dir=getComputedStyle(tr).direction==='rtl'?-1:1;
+      tr.scrollTo({left:dir*k*tr.clientWidth,behavior:'smooth'});
+    });
+  })(k);
+})();
 
 /* TIMER */
 var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts');
