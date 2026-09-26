@@ -355,60 +355,16 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
 .cost-punch b{color:var(--red)}
 @media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
-/* ═══ 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal; delete after 25 Sep) ═══ */
-.ndg{position:relative;overflow:hidden;isolation:isolate;text-align:center;padding:14px 18px 13px;
-  background:
-    radial-gradient(120% 140% at 50% -40%,rgba(255,255,255,.14),transparent 60%),
-    linear-gradient(160deg,#013D1E 0%,#00612F 42%,#017A3B 68%,#004A24 100%);
-  border-bottom:1px solid rgba(201,162,39,.5)}
-/* hairline gold frame, inset — reads as a printed card edge */
-.ndg::before{content:"";position:absolute;inset:6px 10px;border:1px solid rgba(201,162,39,.28);
-  border-radius:10px;pointer-events:none;z-index:0}
-/* one slow diagonal sheen, nothing else moving */
-.ndg::after{content:"";position:absolute;top:-70%;bottom:-70%;width:28%;z-index:0;pointer-events:none;
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.13) 48%,rgba(245,227,168,.2) 55%,transparent);
-  filter:blur(8px);transform:translateX(-180%) rotate(9deg);
-  animation:ndgSheen 9s cubic-bezier(.4,0,.5,1) infinite}
-@keyframes ndgSheen{0%{transform:translateX(-180%) rotate(9deg)}42%,100%{transform:translateX(460%) rotate(9deg)}}
-.ndg-in{position:relative;z-index:1;max-width:var(--maxw);margin-inline:auto;
-  animation:ndgUp .75s cubic-bezier(.22,1,.36,1) both}
-@keyframes ndgUp{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
-/* label row: thin gold rules flanking the occasion */
-.ndg-label{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
-.ndg-label i{flex:0 1 54px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.75))}
-.ndg-label i:last-child{background:linear-gradient(90deg,rgba(201,162,39,.75),transparent)}
-.ndg-label span{font-family:'Cairo',sans-serif;font-size:10.5px;font-weight:900;letter-spacing:.2em;
-  color:#E8CE7A;white-space:nowrap}
-.ndg-label b{color:#fff;font-size:12px;letter-spacing:.05em}
-/* the greeting, with a slow gold pass through the letterforms */
-.ndg-txt{display:block;font-family:'Cairo',sans-serif;font-size:19px;font-weight:900;line-height:1.4;
-  color:#fff;
-  background:linear-gradient(100deg,#fff 0%,#fff 36%,#FBEFC9 47%,#FFFDF5 52%,#FBEFC9 57%,#fff 68%,#fff 100%);
-  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-  filter:drop-shadow(0 1px 6px rgba(0,0,0,.28));
-  animation:ndgPass 7s ease-in-out infinite}
-@keyframes ndgPass{0%,100%{background-position:160% 0}50%{background-position:-60% 0}}
-/* the emoji must escape the gradient clip on .ndg-txt or it renders as a
-   colourless outline, so every inherited paint property is reset here */
-.ndg-heart{display:inline-block;font-size:16px;margin-inline-start:6px;vertical-align:-1px;
-  background:none;-webkit-background-clip:border-box;background-clip:border-box;
-  -webkit-text-fill-color:initial;color:initial;filter:none;animation:none}
-@media(max-width:400px){.ndg{padding:12px 14px 11px}.ndg-txt{font-size:16.5px}.ndg-label i{flex-basis:34px}}
-@media(max-width:340px){.ndg-txt{font-size:15px}.ndg-label i{display:none}}
-@media(prefers-reduced-motion:reduce){
-  .ndg::after,.ndg-txt,.ndg-in{animation:none}
-  .ndg-txt{background-position:50% 0}}
-/* ═══ 🌴 اليوم الوطني ٩٦ — discount announcement (seasonal; delete after 25 Sep) ═══ */
+/* ═══ hero discount announcement — evergreen, brand palette ═══ */
 .nda{position:relative;overflow:hidden;max-width:var(--maxw);margin:16px auto 2px;
   border-radius:20px;padding:15px 16px 14px;text-align:center;
-  background:linear-gradient(145deg,#02160C 0%,#004F26 24%,#006C35 55%,#03833F 78%,#00441F 100%);
-  border:2px solid rgba(201,162,39,.55);
-  box-shadow:0 18px 40px -20px rgba(0,60,28,.75),inset 0 1px 0 rgba(255,255,255,.14)}
+  background:linear-gradient(145deg,#2B0309 0%,#7c0518 24%,#A30821 55%,#D90A2C 80%,#7c0518 100%);
+  border:2px solid rgba(201,161,77,.55);
+  box-shadow:0 18px 40px -20px rgba(122,5,24,.7),inset 0 1px 0 rgba(255,255,255,.14)}
 .nda::before{content:"";position:absolute;inset:-25% -12%;z-index:0;opacity:.45;pointer-events:none;
   background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px),
                    repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px)}
-.nda::after{content:"٩٦";position:absolute;inset-inline-start:2px;bottom:-26px;z-index:0;
+.nda::after{content:"40%";position:absolute;inset-inline-start:2px;bottom:-26px;z-index:0;
   font-family:'Cairo',sans-serif;font-size:84px;font-weight:900;color:rgba(255,255,255,.07);
   line-height:1;pointer-events:none}
 .nda-in{position:relative;z-index:1}
@@ -424,7 +380,7 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
   color:#00381B;font-family:'Cairo',sans-serif;font-weight:900;font-size:15.5px;padding:13px 18px;
   border-radius:13px;cursor:pointer;box-shadow:0 12px 26px -12px rgba(201,162,39,.9)}
 .nda-foot{text-align:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:8px}
-.nda-foot b{color:#006C35}
+.nda-foot b{color:var(--red)}
 @media(max-width:360px){.nda-h{font-size:20px}.nda-sub{font-size:12px}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
@@ -652,16 +608,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 </head>
 <body>
 
-<!-- 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal) -->
-<div class="ndg" aria-label="تهنئة اليوم الوطني السعودي">
-  <div class="ndg-in">
-    <div class="ndg-label" aria-hidden="true">
-      <i></i><span>🌴 اليوم الوطني الـ<b>٩٦</b></span><i></i>
-    </div>
-    <h2 class="ndg-txt">كل عام والسعودية وأهلها بألف خير<span class="ndg-heart">🇸🇦💚</span></h2>
-  </div>
-</div>
-
 <!-- Announce -->
 <div class="announce">
   <span><span class="adot"></span> الدفع عند الاستلام 💵</span>
@@ -683,13 +629,13 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <!-- 🌴 اليوم الوطني ٩٦ — discount announcement (seasonal) -->
     <div class="nda">
       <div class="nda-in">
-        <span class="nda-tag">🌴 اليوم الوطني ٩٦</span>
-        <div class="nda-h">خصم اليوم الوطني <b>شغّال الآن</b></div>
-        <div class="nda-sub">الأسعار نزلت على كل الباقات — <s>من 199 ر.س</s> صارت <b>179 ر.س</b> للقطعة</div>
-        <button class="nda-cta" type="button" data-scroll="#offers">شوف أسعار اليوم الوطني 👇</button>
+        <span class="nda-tag">🔥 عرض محدود</span>
+        <div class="nda-h">خصم <b>40%</b> شغّال الآن</div>
+        <div class="nda-sub">على كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>299 ر.س</s></div>
+        <button class="nda-cta" type="button" data-scroll="#offers">شوف العروض 👇</button>
       </div>
     </div>
-    <p class="nda-foot">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
+    <p class="nda-foot">🔥 العرض ساري <b>حتى نفاد الكمية</b></p>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -1765,18 +1711,6 @@ document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-ta
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),n=17;
 setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockFill.style.width=(n/30*100)+'%';}},11000);
 
-/* 🌴 greeting banner — flag-emoji capability check (seasonal) */
-(function(){
-  try{
-    var el=document.querySelectorAll('.ndg-heart');if(!el.length)return;
-    var x=document.createElement('canvas').getContext('2d');
-    x.font='32px sans-serif';
-    var pair=x.measureText('\uD83C\uDDF8\uD83C\uDDE6').width;
-    var one=x.measureText('\uD83C\uDDF8').width;
-    /* a composed flag is ~one glyph wide; two letter-boxes are ~double */
-    if(pair>one*1.5){el.forEach(function(e){e.textContent='💚';});}
-  }catch(e){}
-})();
 
 
 
