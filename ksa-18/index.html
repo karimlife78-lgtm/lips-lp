@@ -387,6 +387,54 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cost-punch{margin-top:14px;background:linear-gradient(160deg,var(--red-soft),#fff);border:1px solid #F3D4D9;border-radius:16px;padding:16px;text-align:center;font-size:14.5px;font-weight:800;line-height:1.8;color:var(--ink)}
 .cost-punch b{color:var(--red)}
 @media(max-width:360px){.cost-i{gap:9px;padding:12px}.cost-i .ic{width:38px;height:38px;font-size:18px}.cost-i .t b{font-size:13.5px}.cost-i .amt{font-size:15px}}
+
+/* ═══ National Day greeting — self-expiring, see NDG_UNTIL in the script ═══ */
+.ndg{position:relative;overflow:hidden;isolation:isolate;text-align:center;
+  padding:15px 18px 14px;
+  background:
+    radial-gradient(120% 140% at 50% -30%, rgba(255,255,255,.14), transparent 60%),
+    linear-gradient(145deg,#01150A 0%,#024A22 26%,#006C35 54%,#028A42 76%,#013D1C 100%);
+  border-bottom:1px solid rgba(201,161,77,.45)}
+/* woven gold lattice, barely there — gives the green some material */
+.ndg::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(201,161,77,.10) 0 1px,transparent 1px 13px),
+    repeating-linear-gradient(-45deg,rgba(201,161,77,.10) 0 1px,transparent 1px 13px)}
+/* slow sweep of light across the whole band */
+.ndg::after{content:"";position:absolute;top:-60%;bottom:-60%;width:26%;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+  transform:translateX(-200%) rotate(10deg);
+  animation:ndgSheen 7.5s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes ndgSheen{0%{transform:translateX(-200%) rotate(10deg)}
+  55%,100%{transform:translateX(520%) rotate(10deg)}}
+.ndg-in{position:relative;z-index:1;max-width:var(--maxw);margin-inline:auto;
+  animation:ndgUp .8s cubic-bezier(.22,1,.36,1) both}
+@keyframes ndgUp{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:none}}
+/* the ٩٦ roundel, flanked by hairlines that fade out */
+.ndg-crest{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:9px}
+.ndg-crest i{flex:0 1 58px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,161,77,.8))}
+.ndg-crest i:last-child{background:linear-gradient(90deg,rgba(201,161,77,.8),transparent)}
+.ndg-badge{display:inline-flex;align-items:center;gap:7px;font-family:'Cairo',sans-serif;
+  font-size:10.5px;font-weight:900;letter-spacing:.14em;color:#F7E9BE;
+  background:rgba(0,0,0,.34);border:1px solid rgba(201,161,77,.5);
+  padding:5px 13px;border-radius:999px;white-space:nowrap}
+.ndg-badge b{color:#FFD86B;font-size:12px;letter-spacing:0}
+.ndg-txt{font-family:'Cairo',sans-serif;font-size:19px;font-weight:900;line-height:1.5;
+  color:#fff;margin:0;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.ndg-txt .gd{background:linear-gradient(95deg,#FFE9A8,#E8C25F 45%,#FFF4CF);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.ndg-sub{margin-top:5px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.72)}
+.ndg-flag{display:inline-block;margin-inline-start:7px;animation:ndgWave 3.4s ease-in-out infinite;
+  transform-origin:60% 60%}
+@keyframes ndgWave{0%,100%{transform:rotate(0) scale(1)}
+  30%{transform:rotate(-7deg) scale(1.07)}65%{transform:rotate(6deg) scale(1.04)}}
+@media(max-width:360px){.ndg-txt{font-size:17px}.ndg-crest i{flex-basis:34px}}
+@media (prefers-reduced-motion:reduce){
+  .ndg::after,.ndg-in,.ndg-flag{animation:none}
+  .ndg::after{opacity:0}
+}
+
 /* ═══ hero discount announcement — evergreen, brand palette ═══ */
 .nda{position:relative;overflow:hidden;max-width:var(--maxw);margin:16px auto 2px;
   border-radius:20px;padding:15px 16px 14px;text-align:center;
@@ -640,6 +688,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 </head>
 <body>
 
+<!-- National Day greeting — removes itself after NDG_UNTIL (see script) -->
+<div class="ndg" id="ndGreet" aria-label="تهنئة اليوم الوطني السعودي" hidden>
+  <div class="ndg-in">
+    <div class="ndg-crest">
+      <i></i>
+      <span class="ndg-badge">اليوم الوطني السعودي <b>٩٦</b></span>
+      <i></i>
+    </div>
+    <h2 class="ndg-txt">كل عام و<span class="gd">السعودية</span> وأهلها بألف خير<span class="ndg-flag">🇸🇦</span></h2>
+    <p class="ndg-sub">من Cosmarab — كل الفخر والحب لهالوطن 💚</p>
+  </div>
+</div>
+
 <!-- Announce -->
 <div class="announce">
   <span><span class="adot"></span> الدفع عند الاستلام 💵</span>
@@ -685,7 +746,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
     <!-- same-day dispatch cutoff — a real daily deadline, not a loop -->
     <div class="timer-wrap">
-      <span class="lbl">🚚 يطلع طلبك<br><b style="color:#F5D87A;font-size:15px" id="shipDay">اليوم</b></span>
+      <span class="lbl">📞 نتصل فيك<br><b style="color:#F5D87A;font-size:15px" id="shipDay">اليوم</b></span>
       <div class="timer-units">
         <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="tm">00</b><span>دقيقة</span></div><span class="tu-sep">:</span>
@@ -1416,36 +1477,62 @@ document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListene
   })(k);
 })();
 
-/* ─── DISPATCH CUTOFF ────────────────────────────────────────────────────
-   Counts down to the courier's next pickup, in Riyadh time, and names the day
-   that pickup actually falls on. The label is driven by the same numbers, so
-   the page can't promise "today" on a day nobody is shipping.
-   ── the two lines to keep in sync with the courier ──                     */
-var CUTOFF_HOUR=16;                     /* last hour they collect, 24h Riyadh */
-var WORK_DAYS=[0,1,2,3,4,6];            /* Sun–Thu + Sat. 5 = Friday, off     */
+/* ─── CONFIRMATION-CALL WINDOW ───────────────────────────────────────────
+   Counts down to the moment the call centre stops taking orders for tonight,
+   which is the only cutoff we can actually verify. The team works to Morocco
+   time and closes at 23:00 there; Morocco is UTC+1 and Riyadh UTC+3, so that
+   lands at 01:00 the next morning Riyadh-side. The label reads off the same
+   numbers, so it can't say "today" once the line has closed.
+   ── the two lines to keep in sync with the call centre (RIYADH hours) ──  */
+var CALL_CLOSE=1;                  /* 23:00 Morocco = 01:00 Riyadh          */
+var CALL_OPEN=10;                  /* 08:00 Morocco = 10:00 Riyadh          */
 /* ─────────────────────────────────────────────────────────────────────── */
-var DAY_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts'),
     tLbl=document.getElementById('shipDay');
 function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
-function nextPickup(){
-  var n=ksaNow(),c=new Date(n);
-  c.setHours(CUTOFF_HOUR,0,0,0);
-  /* today's slot is gone once the cutoff passes; then walk to the next working day */
+function callWindow(){
+  var n=ksaNow(),h=n.getHours();
+  /* the shift runs past midnight, so "tonight" covers CALL_OPEN..24 and 0..CALL_CLOSE */
+  var open=(h>=CALL_OPEN)||(h<CALL_CLOSE);
+  var c=new Date(n);
+  if(open){
+    c.setHours(CALL_CLOSE,0,0,0);
+    if(c<=n)c.setDate(c.getDate()+1);          /* evening: close is after midnight */
+    return {ms:c-n,open:true};
+  }
+  c.setHours(CALL_OPEN,0,0,0);                 /* closed — count to the next opening */
   if(c<=n)c.setDate(c.getDate()+1);
-  while(WORK_DAYS.indexOf(c.getDay())<0)c.setDate(c.getDate()+1);
-  return {at:c,ms:c-n,sameDay:c.toDateString()===n.toDateString()};
+  return {ms:c-n,open:false};
 }
 function tickTimer(){
   if(!tH)return;
-  var p=nextPickup(),left=Math.max(0,Math.floor(p.ms/1000));
+  var w=callWindow(),left=Math.max(0,Math.floor(w.ms/1000));
   var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),sec=left%60;
   tH.textContent=String(h).padStart(2,'0');
   tM.textContent=String(m).padStart(2,'0');
   tS.textContent=String(sec).padStart(2,'0');
-  if(tLbl)tLbl.textContent=p.sameDay?'اليوم':DAY_AR[p.at.getDay()];
+  if(tLbl)tLbl.textContent=w.open?'اليوم':'أول ما نفتح';
 }
 tickTimer();setInterval(tickTimer,1000);
+
+/* National Day greeting — shows only up to NDG_UNTIL (Riyadh date). Change or
+   delete that one line; the banner then disappears on its own. The previous
+   greeting outlived its own holiday because nothing made it stop. */
+(function(){
+  var NDG_UNTIL='2026-10-02';               /* last day it may appear, inclusive */
+  var el=document.getElementById('ndGreet'); if(!el)return;
+  try{
+    var ksa=new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));
+    var today=ksa.getFullYear()+'-'+String(ksa.getMonth()+1).padStart(2,'0')+'-'+String(ksa.getDate()).padStart(2,'0');
+    if(today<=NDG_UNTIL)el.hidden=false;
+  }catch(e){}
+  /* some Android builds draw the flag as two letter boxes instead of one glyph */
+  try{
+    var f=el.querySelector('.ndg-flag'); if(!f)return;
+    var x=document.createElement('canvas').getContext('2d'); x.font='32px sans-serif';
+    if(x.measureText('🇸🇦').width > x.measureText('🇸').width*1.5) f.textContent='💚';
+  }catch(e){}
+})();
 
 /* DOCTOR VIDEO */
 var docVideo=document.getElementById('docVideo'),videoCover=document.getElementById('videoCover');
