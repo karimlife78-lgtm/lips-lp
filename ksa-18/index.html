@@ -309,6 +309,38 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .tl b{display:block;color:var(--red);font-size:17px;font-weight:900;font-family:'Cairo'}
 .tl span{font-size:11.5px;font-weight:700;color:var(--ink-soft)}
 
+
+/* ═══ "that moment" — the emotional recognition beat ═══ */
+.mom-grid{display:grid;gap:10px;max-width:var(--maxw);margin:20px auto 0}
+.mom{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+  border-radius:var(--r);padding:15px 16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.mom::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--red);opacity:.5}
+.mom .ic{font-size:22px;flex:none;line-height:1.4}
+.mom .tx{font-size:14.5px;font-weight:700;color:var(--ink-2);line-height:1.75}
+.mom .tx b{color:var(--ink)}
+.mom-punch{max-width:var(--maxw);margin:18px auto 0;background:linear-gradient(160deg,var(--ink),#2a2420);
+  border-radius:var(--r-lg);padding:22px 20px;text-align:center;box-shadow:var(--shadow)}
+.mom-punch p{font-family:'Cairo',sans-serif;font-size:17px;font-weight:800;color:#fff;line-height:1.75;margin:0}
+.mom-punch p b{color:var(--gold)}
+.mom-punch .sm{display:block;margin-top:10px;font-family:'Tajawal',sans-serif;font-size:13.5px;
+  font-weight:600;color:rgba(255,255,255,.7)}
+
+/* ═══ skepticism disarm — naming the objection out loud ═══ */
+.skep{max-width:var(--maxw);margin:20px auto 0;display:grid;gap:11px}
+.skep-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 17px;box-shadow:var(--shadow-sm)}
+.skep-card .q{display:flex;gap:10px;align-items:flex-start;font-family:'Cairo',sans-serif;
+  font-size:15px;font-weight:900;color:var(--ink);line-height:1.6;margin-bottom:9px}
+.skep-card .q .qi{flex:none;width:25px;height:25px;border-radius:8px;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13px}
+.skep-card .a{font-size:14px;font-weight:600;color:var(--ink-soft);line-height:1.8;padding-inline-start:35px}
+.skep-card .a b{color:var(--ink);font-weight:800}
+.skep-card .a .hl2{color:var(--red);font-weight:800}
+.skep-close{max-width:var(--maxw);margin:16px auto 0;background:linear-gradient(160deg,#f2faf5,#fff);
+  border:1.5px solid #bfe3cc;border-radius:var(--r-lg);padding:20px;text-align:center}
+.skep-close b{display:block;font-family:'Cairo',sans-serif;font-size:16.5px;font-weight:900;color:#134e2e;margin-bottom:7px}
+.skep-close span{font-size:14px;font-weight:600;color:#3d6b4f;line-height:1.8}
+@media(max-width:360px){.mom-punch p{font-size:15.5px}.skep-card .a{padding-inline-start:0;margin-top:4px}}
+
 /* COMPARISON */
 .comp-table{max-width:var(--maxw);margin:24px auto 0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
 .comp-header{display:grid;grid-template-columns:1.6fr 1fr 1fr;background:var(--ink);color:#fff}
@@ -645,19 +677,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <div class="hero-float"><span class="s">★</span> 4.8/5 · +9,400 عميل</div>
     </div>
     <h1>ودّع <span class="hl">سواد الشفايف</span><br>ورجّع لونك الوردي الطبيعي</h1>
-    <p class="sub">كريم تفتيح الشفاه من Cosmarab — يفتّح الاسمرار تدريجياً، يرطّب بعمق ويعالج الجفاف والتشققات.</p>
+    <p class="sub">ما يغطّي السواد — <b>يوقفه من مصدره</b>. الجينشان يثبّط الإنزيم المسؤول عن الصبغة، والترطيب العميق يعالج الجفاف والتشققات. بدون عيادات ولا ليزر.</p>
     <div class="pains">
       <span class="pain">🚬 سواد <b>التدخين</b></span>
       <span class="pain">☀️ اسمرار <b>الشمس</b></span>
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
     </div>
-    <!-- urgency timer -->
+    <!-- same-day dispatch cutoff — a real daily deadline, not a loop -->
     <div class="timer-wrap">
-      <span class="lbl">⏳ العرض ينتهي خلال</span>
+      <span class="lbl">🚚 آخر موعد للشحن<br><b style="color:#F5D87A">اليوم</b></span>
       <div class="timer-units">
         <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
-        <div class="tu"><b id="tm">14</b><span>دقيقة</span></div><span class="tu-sep">:</span>
-        <div class="tu"><b id="ts">59</b><span>ثانية</span></div>
+        <div class="tu"><b id="tm">00</b><span>دقيقة</span></div><span class="tu-sep">:</span>
+        <div class="tu"><b id="ts">00</b><span>ثانية</span></div>
       </div>
     </div>
   </div>
@@ -676,6 +708,27 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="trust-i"><span class="ic">☪️</span>حلال<span>100%</span></div>
   </div>
 </div>
+
+
+<!-- the recognition beat — makes the problem felt before anything is sold -->
+<section class="section" style="background:var(--paper-2)" id="moment">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">🫣 بينك وبين نفسك</span>
+    <h2 class="title">تعرف <span class="gold">هاللحظة</span>؟</h2>
+    <div class="hairline"></div>
+  </div>
+  <div class="mom-grid">
+    <div class="mom"><span class="ic">📸</span><span class="tx">تطلع صورة جماعية حلوة — وأول شي عينك تروح على <b>شفايفك</b>، وتقرر ما تنشرها.</span></div>
+    <div class="mom"><span class="ic">🤭</span><span class="tx">تضحك من قلب، وبدون ما تفكر <b>يدك تغطي فمك</b>. صارت عادة ما تنتبه لها.</span></div>
+    <div class="mom"><span class="ic">💬</span><span class="tx">أحد يقولك بعفوية: <b>«شفايفك غامقة… تدخّن؟»</b> — ويمشي، وأنت تفكر فيها باقي اليوم.</span></div>
+    <div class="mom"><span class="ic">🪞</span><span class="tx">تفتح صورة لك من <b>سنتين</b>، وتلاحظ إن الفرق أكبر مما كنت تتخيل.</span></div>
+    <div class="mom"><span class="ic">💄</span><span class="tx">تشتري مرطّب ورا مرطّب — يرطّب أيام، وبعدين <b>يرجع نفس اللون</b>.</span></div>
+  </div>
+  <div class="mom-punch">
+    <p>المشكلة مو إن شفايفك غامقة.<br>المشكلة إنك <b>صرت تفكر فيها كل يوم</b>.
+      <span class="sm">والمرطّب ما راح يحلها — لأنه يعالج الجفاف، ما يعالج الصبغة نفسها.</span></p>
+  </div>
+</section>
 
 <!-- QUIZ -->
 <section class="quiz-section section" id="quiz-section">
@@ -912,6 +965,39 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="tl"><b>أسبوع 1</b><span>ترطيب فوري</span></div>
     <div class="tl"><b>أسبوع 2-3</b><span>تقل التشققات</span></div>
     <div class="tl"><b>أسبوع 4+</b><span>لون وردي موحّد</span></div>
+  </div>
+</section>
+
+
+<!-- says the objection out loud before the visitor does -->
+<section class="section" style="background:var(--paper)" id="skeptic">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">🤨 نتكلم بصراحة</span>
+    <h2 class="title">شاكك؟ <span class="gold">وعندك حق</span></h2>
+    <div class="hairline"></div>
+    <p class="lead">لو جربت قبل وما نفع، شكّك في محله. هذي إجاباتنا بدون لف ودوران.</p>
+  </div>
+  <div class="skep">
+    <div class="skep-card">
+      <div class="q"><span class="qi">1</span><span>«جربت منتجات تفتيح قبل وما نفعت.»</span></div>
+      <div class="a">أغلبها <b>مرطّبات</b> باسم تفتيح. ترطّب الشفايف كم يوم فيبان لونها أفتح، وأول ما توقف يرجع كل شي. هذي ما عالجت السبب — عالجت المظهر مؤقتاً. الصبغة نفسها ينتجها <span class="hl2">إنزيم التيروزيناز</span>، ولو ما ثبّطته، أي نتيجة راح تروح.</div>
+    </div>
+    <div class="skep-card">
+      <div class="q"><span class="qi">2</span><span>«الصور اللي فوق — كيف أتأكد إنها حقيقية؟»</span></div>
+      <div class="a">ما نطلب منك تصدّقها. <b>خلك شاكك</b> — واطلب المنتج بدون ما تدفع ريال واحد. تستلمه، تجربه بنفسك، وصورتك أنت هي الدليل الوحيد اللي يهمك. <span class="hl2">ما ندفعك تصدّق — ندفعك تجرّب.</span></div>
+    </div>
+    <div class="skep-card">
+      <div class="q"><span class="qi">3</span><span>«ليش ما أروح للعيادة وأسوي ليزر؟»</span></div>
+      <div class="a">تقدر. بس الجلسة تبدأ من <b>700 ر.س</b>، وتحتاج 4–6 جلسات، مع مواعيد وألم وفترة نقاهة. الليزر يكسّر الصبغة الموجودة — ما يمنع الجديدة. لو السبب مستمر (تدخين، شمس، جفاف)، <span class="hl2">راح ترجع بعد شهور</span>.</div>
+    </div>
+    <div class="skep-card">
+      <div class="q"><span class="qi">4</span><span>«وش يضمن لي إنه بينفع معي أنا؟»</span></div>
+      <div class="a">ما نقدر نضمن لك نتيجة — أي أحد يضمنها لك يكذب عليك. اللي نقدر نضمنه إنك <b>ما تخسر شي</b>: تدفع عند الباب بعد ما تشوفه، وعندك <span class="hl2">30 يوم استرجاع</span> إذا ما شفت فرق.</div>
+    </div>
+  </div>
+  <div class="skep-close">
+    <b>المخاطرة كلها علينا — مو عليك</b>
+    <span>ما تدفع مقدّم · تشوف المنتج قبل ما تدفع · 30 يوم لترجّعه</span>
   </div>
 </section>
 
@@ -1330,10 +1416,25 @@ document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListene
   })(k);
 })();
 
-/* TIMER */
+/* DISPATCH CUTOFF — counts to 17:00 Riyadh each day. Real deadline: orders
+   after it are picked the next working day, so the clock never fakes a reset. */
+var CUTOFF_HOUR=17;
 var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts');
-var endTime=Date.now()+(15*60+Math.floor(Math.random()*120))*1000;
-function tickTimer(){var left=Math.max(0,Math.floor((endTime-Date.now())/1000));var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;tH.textContent=String(h).padStart(2,'0');tM.textContent=String(m).padStart(2,'0');tS.textContent=String(s).padStart(2,'0');if(left===0)endTime=Date.now()+15*60*1000;}
+function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
+function msToCutoff(){
+  var n=ksaNow(),c=new Date(n);
+  c.setHours(CUTOFF_HOUR,0,0,0);
+  if(c<=n)c.setDate(c.getDate()+1);   /* past cutoff — next dispatch is tomorrow */
+  return c-n;
+}
+function tickTimer(){
+  if(!tH)return;
+  var left=Math.max(0,Math.floor(msToCutoff()/1000));
+  var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),sec=left%60;
+  tH.textContent=String(h).padStart(2,'0');
+  tM.textContent=String(m).padStart(2,'0');
+  tS.textContent=String(sec).padStart(2,'0');
+}
 tickTimer();setInterval(tickTimer,1000);
 
 /* DOCTOR VIDEO */
