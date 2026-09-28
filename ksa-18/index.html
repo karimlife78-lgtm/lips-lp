@@ -685,7 +685,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
     <!-- same-day dispatch cutoff — a real daily deadline, not a loop -->
     <div class="timer-wrap">
-      <span class="lbl">🚚 آخر موعد للشحن<br><b style="color:#F5D87A">اليوم</b></span>
+      <span class="lbl">🚚 يطلع طلبك<br><b style="color:#F5D87A;font-size:15px" id="shipDay">اليوم</b></span>
       <div class="timer-units">
         <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="tm">00</b><span>دقيقة</span></div><span class="tu-sep">:</span>
@@ -1416,24 +1416,34 @@ document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListene
   })(k);
 })();
 
-/* DISPATCH CUTOFF — counts to 17:00 Riyadh each day. Real deadline: orders
-   after it are picked the next working day, so the clock never fakes a reset. */
-var CUTOFF_HOUR=17;
-var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts');
+/* ─── DISPATCH CUTOFF ────────────────────────────────────────────────────
+   Counts down to the courier's next pickup, in Riyadh time, and names the day
+   that pickup actually falls on. The label is driven by the same numbers, so
+   the page can't promise "today" on a day nobody is shipping.
+   ── the two lines to keep in sync with the courier ──                     */
+var CUTOFF_HOUR=16;                     /* last hour they collect, 24h Riyadh */
+var WORK_DAYS=[0,1,2,3,4,6];            /* Sun–Thu + Sat. 5 = Friday, off     */
+/* ─────────────────────────────────────────────────────────────────────── */
+var DAY_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts'),
+    tLbl=document.getElementById('shipDay');
 function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
-function msToCutoff(){
+function nextPickup(){
   var n=ksaNow(),c=new Date(n);
   c.setHours(CUTOFF_HOUR,0,0,0);
-  if(c<=n)c.setDate(c.getDate()+1);   /* past cutoff — next dispatch is tomorrow */
-  return c-n;
+  /* today's slot is gone once the cutoff passes; then walk to the next working day */
+  if(c<=n)c.setDate(c.getDate()+1);
+  while(WORK_DAYS.indexOf(c.getDay())<0)c.setDate(c.getDate()+1);
+  return {at:c,ms:c-n,sameDay:c.toDateString()===n.toDateString()};
 }
 function tickTimer(){
   if(!tH)return;
-  var left=Math.max(0,Math.floor(msToCutoff()/1000));
+  var p=nextPickup(),left=Math.max(0,Math.floor(p.ms/1000));
   var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),sec=left%60;
   tH.textContent=String(h).padStart(2,'0');
   tM.textContent=String(m).padStart(2,'0');
   tS.textContent=String(sec).padStart(2,'0');
+  if(tLbl)tLbl.textContent=p.sameDay?'اليوم':DAY_AR[p.at.getDay()];
 }
 tickTimer();setInterval(tickTimer,1000);
 
