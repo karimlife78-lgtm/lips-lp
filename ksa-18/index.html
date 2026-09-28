@@ -121,7 +121,15 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 /* Timer */
 .timer-wrap{max-width:var(--maxw);margin:20px auto 0;background:linear-gradient(135deg,var(--ink),#241c17);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(194,161,77,.25);box-shadow:var(--shadow)}
 .timer-wrap .lbl{color:rgba(255,255,255,.85);font-size:13px;font-weight:800}
+/* after-hours face of the call box — fills the same band, no countdown */
+.timer-wrap .night{display:flex;align-items:center;gap:11px;width:100%}
+.timer-wrap .night .n-ic{font-size:24px;flex:none}
+.timer-wrap .night .n-tx{font-size:13px;font-weight:700;line-height:1.7;color:rgba(255,255,255,.82)}
+.timer-wrap .night .n-tx b{color:#F5D87A;font-weight:900}
 .timer-units{display:flex;gap:7px;align-items:center}
+/* these blocks set their own display, which would otherwise beat the hidden
+   attribute and leave both faces of the call box on screen at once */
+[hidden]{display:none!important}
 .tu{text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 9px;min-width:46px}
 .tu b{display:block;color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:'Cairo';min-width:2ch;font-variant-numeric:tabular-nums}
 .tu span{display:block;color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.08em;margin-top:3px}
@@ -744,13 +752,20 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <span class="pain">☀️ اسمرار <b>الشمس</b></span>
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
     </div>
-    <!-- same-day dispatch cutoff — a real daily deadline, not a loop -->
-    <div class="timer-wrap">
-      <span class="lbl">📞 نتصل فيك<br><b style="color:#F5D87A;font-size:15px" id="shipDay">اليوم</b></span>
-      <div class="timer-units">
+    <!-- Call window. Two faces: a live deadline while the line is open, and an
+         after-hours face that still gives a reason to order now. Never a
+         countdown to opening — that only tells a late browser to come back. -->
+    <div class="timer-wrap" id="callBox">
+      <span class="lbl" id="callLbl">📞 نتصل فيك<br><b style="color:#F5D87A;font-size:15px" id="shipDay">اليوم</b></span>
+      <div class="timer-units" id="callUnits">
         <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="tm">00</b><span>دقيقة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="ts">00</b><span>ثانية</span></div>
+      </div>
+      <div class="night" id="callNight" hidden>
+        <span class="n-ic">🌙</span>
+        <span class="n-tx">نستقبل طلبك <b>الحين</b> — واللي يطلب بالليل
+          <b>أول من نتصل فيه</b> الصباح</span>
       </div>
     </div>
   </div>
@@ -1488,30 +1503,32 @@ var CALL_CLOSE=1;                  /* 23:00 Morocco = 01:00 Riyadh          */
 var CALL_OPEN=10;                  /* 08:00 Morocco = 10:00 Riyadh          */
 /* ─────────────────────────────────────────────────────────────────────── */
 var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts'),
-    tLbl=document.getElementById('shipDay');
+    tUnits=document.getElementById('callUnits'),tLblEl=document.getElementById('callLbl'),
+    tNight=document.getElementById('callNight');
 function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
 function callWindow(){
   var n=ksaNow(),h=n.getHours();
   /* the shift runs past midnight, so "tonight" covers CALL_OPEN..24 and 0..CALL_CLOSE */
-  var open=(h>=CALL_OPEN)||(h<CALL_CLOSE);
+  if(!((h>=CALL_OPEN)||(h<CALL_CLOSE)))return {open:false,ms:0};
   var c=new Date(n);
-  if(open){
-    c.setHours(CALL_CLOSE,0,0,0);
-    if(c<=n)c.setDate(c.getDate()+1);          /* evening: close is after midnight */
-    return {ms:c-n,open:true};
-  }
-  c.setHours(CALL_OPEN,0,0,0);                 /* closed — count to the next opening */
-  if(c<=n)c.setDate(c.getDate()+1);
-  return {ms:c-n,open:false};
+  c.setHours(CALL_CLOSE,0,0,0);
+  if(c<=n)c.setDate(c.getDate()+1);            /* evening: close is after midnight */
+  return {open:true,ms:c-n};
 }
 function tickTimer(){
-  if(!tH)return;
-  var w=callWindow(),left=Math.max(0,Math.floor(w.ms/1000));
+  if(!tH||!tUnits)return;
+  var w=callWindow();
+  /* Closed: swap the whole band rather than counting down to opening. A clock
+     ticking toward 10am reads as "nothing happens if you wait", which is an
+     invitation to leave; the order itself is taken 24/7, so say that instead. */
+  tUnits.hidden=!w.open; tLblEl.hidden=!w.open;
+  if(tNight)tNight.hidden=w.open;
+  if(!w.open)return;
+  var left=Math.max(0,Math.floor(w.ms/1000));
   var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),sec=left%60;
   tH.textContent=String(h).padStart(2,'0');
   tM.textContent=String(m).padStart(2,'0');
   tS.textContent=String(sec).padStart(2,'0');
-  if(tLbl)tLbl.textContent=w.open?'اليوم':'أول ما نفتح';
 }
 tickTimer();setInterval(tickTimer,1000);
 
