@@ -121,7 +121,20 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 /* Timer */
 .timer-wrap{max-width:var(--maxw);margin:20px auto 0;background:linear-gradient(135deg,var(--ink),#241c17);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(194,161,77,.25);box-shadow:var(--shadow)}
 .timer-wrap .lbl{color:rgba(255,255,255,.85);font-size:13px;font-weight:800}
+/* the call box wears one of three faces; each fills the same band so the
+   header never changes height when the clock crosses a boundary */
+.timer-wrap .night,.timer-wrap .ready{display:flex;align-items:center;gap:11px;width:100%}
+.timer-wrap .night .n-ic,.timer-wrap .ready .n-ic{font-size:24px;flex:none}
+.timer-wrap .night .n-tx,.timer-wrap .ready .n-tx{font-size:13px;font-weight:700;line-height:1.7;color:rgba(255,255,255,.82)}
+.timer-wrap .night .n-tx b,.timer-wrap .ready .n-tx b{color:#F5D87A;font-weight:900}
+.timer-wrap .ready .n-ic{animation:callRing 2.6s ease-in-out infinite;transform-origin:50% 70%}
+@keyframes callRing{0%,58%,100%{transform:rotate(0)}64%{transform:rotate(-13deg)}
+  70%{transform:rotate(11deg)}76%{transform:rotate(-8deg)}82%{transform:rotate(5deg)}}
+@media (prefers-reduced-motion:reduce){.timer-wrap .ready .n-ic{animation:none}}
 .timer-units{display:flex;gap:7px;align-items:center}
+/* these blocks set their own display, which would otherwise beat the hidden
+   attribute and leave both faces of the call box on screen at once */
+[hidden]{display:none!important}
 .tu{text-align:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 9px;min-width:46px}
 .tu b{display:block;color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:'Cairo';min-width:2ch;font-variant-numeric:tabular-nums}
 .tu span{display:block;color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.08em;margin-top:3px}
@@ -285,6 +298,41 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .tl{flex:1;text-align:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 6px;box-shadow:var(--shadow-sm)}
 .tl b{display:block;color:var(--red);font-size:17px;font-weight:900;font-family:'Cairo'}
 .tl span{font-size:11.5px;font-weight:700;color:var(--ink-soft)}
+
+/* ═══ "that moment" — the emotional recognition beat ═══ */
+.mom-grid{display:grid;gap:10px;max-width:var(--maxw);margin:20px auto 0}
+.mom{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);
+  border-radius:var(--r);padding:15px 16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.mom::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--red);opacity:.5}
+.mom .ic{font-size:22px;flex:none;line-height:1.4}
+.mom .ph{flex:none;width:96px;height:96px;border-radius:12px;overflow:hidden;
+  background:var(--paper-2);box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.mom .ph img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:360px){.mom .ph{width:78px;height:78px}}
+.mom .tx{font-size:14.5px;font-weight:700;color:var(--ink-2);line-height:1.75}
+.mom .tx b{color:var(--ink)}
+.mom-punch{max-width:var(--maxw);margin:18px auto 0;background:linear-gradient(160deg,var(--ink),#2a2420);
+  border-radius:var(--r-lg);padding:22px 20px;text-align:center;box-shadow:var(--shadow)}
+.mom-punch p{font-family:'Cairo',sans-serif;font-size:17px;font-weight:800;color:#fff;line-height:1.75;margin:0}
+.mom-punch p b{color:var(--gold)}
+.mom-punch .sm{display:block;margin-top:10px;font-family:'Tajawal',sans-serif;font-size:13.5px;
+  font-weight:600;color:rgba(255,255,255,.7)}
+
+/* ═══ skepticism disarm — naming the objection out loud ═══ */
+.skep{max-width:var(--maxw);margin:20px auto 0;display:grid;gap:11px}
+.skep-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 17px;box-shadow:var(--shadow-sm)}
+.skep-card .q{display:flex;gap:10px;align-items:flex-start;font-family:'Cairo',sans-serif;
+  font-size:15px;font-weight:900;color:var(--ink);line-height:1.6;margin-bottom:9px}
+.skep-card .q .qi{flex:none;width:25px;height:25px;border-radius:8px;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13px}
+.skep-card .a{font-size:14px;font-weight:600;color:var(--ink-soft);line-height:1.8;padding-inline-start:35px}
+.skep-card .a b{color:var(--ink);font-weight:800}
+.skep-card .a .hl2{color:var(--red);font-weight:800}
+.skep-close{max-width:var(--maxw);margin:16px auto 0;background:linear-gradient(160deg,#f2faf5,#fff);
+  border:1.5px solid #bfe3cc;border-radius:var(--r-lg);padding:20px;text-align:center}
+.skep-close b{display:block;font-family:'Cairo',sans-serif;font-size:16.5px;font-weight:900;color:#134e2e;margin-bottom:7px}
+.skep-close span{font-size:14px;font-weight:600;color:#3d6b4f;line-height:1.8}
+@media(max-width:360px){.mom-punch p{font-size:15.5px}.skep-card .a{padding-inline-start:0;margin-top:4px}}
 
 /* COMPARISON */
 .comp-table{max-width:var(--maxw);margin:24px auto 0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
@@ -616,7 +664,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <body>
 
 <!-- 🌴 اليوم الوطني ٩٦ — greeting banner (seasonal) -->
-<div class="ndg" aria-label="تهنئة اليوم الوطني السعودي">
+<div class="ndg" id="ndGreet" hidden aria-label="تهنئة اليوم الوطني السعودي">
   <div class="ndg-in">
     <div class="ndg-label" aria-hidden="true">
       <i></i><span>🌴 اليوم الوطني الـ<b>٩٦</b></span><i></i>
@@ -643,16 +691,16 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
-    <!-- 🌴 اليوم الوطني ٩٦ — discount announcement (seasonal) -->
+    <!-- hero discount announcement -->
     <div class="nda">
       <div class="nda-in">
-        <span class="nda-tag">🌴 اليوم الوطني ٩٦</span>
-        <div class="nda-h">خصم اليوم الوطني <b>شغّال الآن</b></div>
-        <div class="nda-sub">الأسعار نزلت على كل الباقات — <s>من 199 ر.س</s> صارت <b>179 ر.س</b> للقطعة</div>
-        <button class="nda-cta" type="button" data-scroll="#offers">شوف أسعار اليوم الوطني 👇</button>
+        <span class="nda-tag">🔥 عرض محدود</span>
+        <div class="nda-h">خصم <b>40%</b> شغّال الآن</div>
+        <div class="nda-sub">على كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>299 ر.س</s></div>
+        <button class="nda-cta" type="button" data-scroll="#offers">شوف العروض 👇</button>
       </div>
     </div>
-    <p class="nda-foot">🌴 عرض اليوم الوطني — ينتهي <b>٢٥ سبتمبر</b></p>
+    <p class="nda-foot">🔥 العرض ساري <b>حتى نفاد الكمية</b></p>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -662,19 +710,33 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <div class="hero-float"><span class="s">★</span> 4.8/5 · +9,400 عميل</div>
     </div>
     <h1>ودّع <span class="hl">سواد الشفايف</span><br>ورجّع لونك الوردي الطبيعي</h1>
-    <p class="sub">كريم تفتيح الشفاه من Cosmarab — يفتّح الاسمرار تدريجياً، يرطّب بعمق ويعالج الجفاف والتشققات.</p>
+    <p class="sub">ما يغطّي السواد — <b>يوقفه من مصدره</b>. الجينشان يثبّط الإنزيم المسؤول عن الصبغة، والترطيب العميق يعالج الجفاف والتشققات. بدون عيادات ولا ليزر.</p>
     <div class="pains">
       <span class="pain">🚬 سواد <b>التدخين</b></span>
       <span class="pain">☀️ اسمرار <b>الشمس</b></span>
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
     </div>
-    <!-- 🌴 اليوم الوطني ٩٦ — scratch to unlock (seasonal) -->
-    <div class="timer-wrap">
-      <span class="lbl">⏳ العرض ينتهي خلال</span>
-      <div class="timer-units">
+    <!-- Call window, three faces. A countdown only earns its place when the
+         number is small; a 15-hour clock reads as "take your time". So most of
+         the day this band simply promises the call and the dispatch, the clock
+         appears for the closing stretch, and after hours it keeps a reason to
+         order tonight instead of counting down to opening. -->
+    <div class="timer-wrap" id="callBox">
+      <div class="ready" id="callReady" hidden>
+        <span class="n-ic">📞</span>
+        <span class="n-tx">نتصل فيك <b>خلال دقائق</b> نأكد الطلب —
+          ويطلع من المستودع <b>اليوم</b></span>
+      </div>
+      <span class="lbl" id="callLbl" hidden>⏳ نسكّر طلبات<br><b style="color:#F5D87A;font-size:15px">اليوم بعد</b></span>
+      <div class="timer-units" id="callUnits" hidden>
         <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
-        <div class="tu"><b id="tm">14</b><span>دقيقة</span></div><span class="tu-sep">:</span>
-        <div class="tu"><b id="ts">59</b><span>ثانية</span></div>
+        <div class="tu"><b id="tm">00</b><span>دقيقة</span></div><span class="tu-sep">:</span>
+        <div class="tu"><b id="ts">00</b><span>ثانية</span></div>
+      </div>
+      <div class="night" id="callNight" hidden>
+        <span class="n-ic">🌙</span>
+        <span class="n-tx">نستقبل طلبك <b>الحين</b> — واللي يطلب بالليل
+          <b>أول من نتصل فيه</b> الصباح</span>
       </div>
     </div>
   </div>
@@ -693,6 +755,26 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="trust-i"><span class="ic">☪️</span>حلال<span>100%</span></div>
   </div>
 </div>
+
+<!-- the recognition beat — makes the problem felt before anything is sold -->
+<section class="section" style="background:var(--paper-2)" id="moment">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">🫣 بينك وبين نفسك</span>
+    <h2 class="title">تعرف <span class="gold">هاللحظة</span>؟</h2>
+    <div class="hairline"></div>
+  </div>
+  <div class="mom-grid">
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-1.webp" type="image/webp" /><img src="/assets/mom-1.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يشوف صورة جماعية في جواله" /></picture></span><span class="tx">تطلع صورة جماعية حلوة — وأول شي عينك تروح على <b>شفايفك</b>، وتقرر ما تنشرها.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-2.webp" type="image/webp" /><img src="/assets/mom-2.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يضحك ويغطي فمه بيده" /></picture></span><span class="tx">تضحك من قلب، وبدون ما تفكر <b>يدك تغطي فمك</b>. صارت عادة ما تنتبه لها.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-3.webp" type="image/webp" /><img src="/assets/mom-3.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يفكر بعد تعليق على شفايفه" /></picture></span><span class="tx">أحد يقولك بعفوية: <b>«شفايفك غامقة… تدخّن؟»</b> — ويمشي، وأنت تفكر فيها باقي اليوم.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-4.webp" type="image/webp" /><img src="/assets/mom-4.jpg" width="300" height="300" loading="lazy" decoding="async" alt="مقارنة بين صورة قديمة واللون الحالي" /></picture></span><span class="tx">تفتح صورة لك من <b>سنتين</b>، وتلاحظ إن الفرق أكبر مما كنت تتخيل.</span></div>
+    <div class="mom"><span class="ic">💄</span><span class="tx">تشتري مرطّب ورا مرطّب — يرطّب أيام، وبعدين <b>يرجع نفس اللون</b>.</span></div>
+  </div>
+  <div class="mom-punch">
+    <p>المشكلة مو إن شفايفك غامقة.<br>المشكلة إنك <b>صرت تفكر فيها كل يوم</b>.
+      <span class="sm">والمرطّب ما راح يحلها — لأنه يعالج الجفاف، ما يعالج الصبغة نفسها.</span></p>
+  </div>
+</section>
 
 <!-- QUIZ -->
 <section class="quiz-section section" id="quiz-section">
@@ -894,6 +976,38 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="tl"><b>أسبوع 1</b><span>ترطيب فوري</span></div>
     <div class="tl"><b>أسبوع 2-3</b><span>تقل التشققات</span></div>
     <div class="tl"><b>أسبوع 4+</b><span>لون وردي موحّد</span></div>
+  </div>
+</section>
+
+<!-- says the objection out loud before the visitor does -->
+<section class="section" style="background:var(--paper)" id="skeptic">
+  <div class="wrap" style="text-align:center">
+    <span class="eyebrow">🤨 نتكلم بصراحة</span>
+    <h2 class="title">شاكك؟ <span class="gold">وعندك حق</span></h2>
+    <div class="hairline"></div>
+    <p class="lead">لو جربت قبل وما نفع، شكّك في محله. هذي إجاباتنا بدون لف ودوران.</p>
+  </div>
+  <div class="skep">
+    <div class="skep-card">
+      <div class="q"><span class="qi">1</span><span>«جربت منتجات تفتيح قبل وما نفعت.»</span></div>
+      <div class="a">أغلبها <b>مرطّبات</b> باسم تفتيح. ترطّب الشفايف كم يوم فيبان لونها أفتح، وأول ما توقف يرجع كل شي. هذي ما عالجت السبب — عالجت المظهر مؤقتاً. الصبغة نفسها ينتجها <span class="hl2">إنزيم التيروزيناز</span>، ولو ما ثبّطته، أي نتيجة راح تروح.</div>
+    </div>
+    <div class="skep-card">
+      <div class="q"><span class="qi">2</span><span>«الصور اللي فوق — كيف أتأكد إنها حقيقية؟»</span></div>
+      <div class="a">ما نطلب منك تصدّقها. <b>خلك شاكك</b> — واطلب المنتج بدون ما تدفع ريال واحد. تستلمه، تجربه بنفسك، وصورتك أنت هي الدليل الوحيد اللي يهمك. <span class="hl2">ما ندفعك تصدّق — ندفعك تجرّب.</span></div>
+    </div>
+    <div class="skep-card">
+      <div class="q"><span class="qi">3</span><span>«ليش ما أروح للعيادة وأسوي ليزر؟»</span></div>
+      <div class="a">تقدر. بس الجلسة تبدأ من <b>700 ر.س</b>، وتحتاج 4–6 جلسات، مع مواعيد وألم وفترة نقاهة. الليزر يكسّر الصبغة الموجودة — ما يمنع الجديدة. لو السبب مستمر (تدخين، شمس، جفاف)، <span class="hl2">راح ترجع بعد شهور</span>.</div>
+    </div>
+    <div class="skep-card">
+      <div class="q"><span class="qi">4</span><span>«وش يضمن لي إنه بينفع معي أنا؟»</span></div>
+      <div class="a">ما نقدر نضمن لك نتيجة — أي أحد يضمنها لك يكذب عليك. اللي نقدر نضمنه إنك <b>ما تخسر شي</b>: تدفع عند الباب بعد ما تشوفه، وعندك <span class="hl2">30 يوم استرجاع</span> إذا ما شفت فرق.</div>
+    </div>
+  </div>
+  <div class="skep-close">
+    <b>المخاطرة كلها علينا — مو عليك</b>
+    <span>ما تدفع مقدّم · تشوف المنتج قبل ما تدفع · 30 يوم لترجّعه</span>
   </div>
 </section>
 
@@ -1278,11 +1392,64 @@ function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(
 function getSrc(){try{var p=new URLSearchParams(location.search);var s=p.get('utm_source')||p.get('src')||localStorage.getItem('cos_src');if(!s&&document.referrer){var h=new URL(document.referrer).hostname.replace('www.','');if(/snap/.test(h))s='snapchat';else if(/tiktok/.test(h))s='tiktok';else if(/facebook|instagram|fb\./.test(h))s='meta';else if(/google/.test(h))s='google';else if(h&&h.indexOf(location.hostname)<0)s=h;}s=(s||'direct').toLowerCase();try{localStorage.setItem('cos_src',s);}catch(e){}return s;}catch(e){return 'direct';}}
 document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
 
-/* TIMER */
-var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts');
-var endTime=Date.now()+(15*60+Math.floor(Math.random()*120))*1000;
-function tickTimer(){var left=Math.max(0,Math.floor((endTime-Date.now())/1000));var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;tH.textContent=String(h).padStart(2,'0');tM.textContent=String(m).padStart(2,'0');tS.textContent=String(s).padStart(2,'0');if(left===0)endTime=Date.now()+15*60*1000;}
+/* ─── CONFIRMATION-CALL WINDOW ───────────────────────────────────────────
+   Counts down to the moment the call centre stops taking orders for tonight,
+   which is the only cutoff we can actually verify. The team works to Morocco
+   time and closes at 23:00 there; Morocco is UTC+1 and Riyadh UTC+3, so that
+   lands at 01:00 the next morning Riyadh-side. The label reads off the same
+   numbers, so it can't say "today" once the line has closed.
+   ── the two lines to keep in sync with the call centre (RIYADH hours) ──  */
+var CALL_CLOSE=1;                  /* 23:00 Morocco = 01:00 Riyadh          */
+var CALL_OPEN=10;                  /* 08:00 Morocco = 10:00 Riyadh          */
+/* ─────────────────────────────────────────────────────────────────────── */
+/* The clock only shows for the last stretch before close. Before that the band
+   states the promise instead: a long countdown gives permission to postpone. */
+var URGENT_H=3;                    /* show the countdown inside this many hours */
+var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts'),
+    tUnits=document.getElementById('callUnits'),tLblEl=document.getElementById('callLbl'),
+    tNight=document.getElementById('callNight'),tReady=document.getElementById('callReady');
+function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
+function callWindow(){
+  var n=ksaNow(),h=n.getHours();
+  /* the shift runs past midnight, so "tonight" covers CALL_OPEN..24 and 0..CALL_CLOSE */
+  if(!((h>=CALL_OPEN)||(h<CALL_CLOSE)))return {open:false,ms:0};
+  var c=new Date(n);
+  c.setHours(CALL_CLOSE,0,0,0);
+  if(c<=n)c.setDate(c.getDate()+1);            /* evening: close is after midnight */
+  return {open:true,ms:c-n};
+}
+function tickTimer(){
+  if(!tH||!tUnits)return;
+  var w=callWindow();
+  /* Closed: swap the whole band rather than counting down to opening. A clock
+     ticking toward 10am reads as "nothing happens if you wait", which is an
+     invitation to leave; the order itself is taken 24/7, so say that instead. */
+  var urgent=w.open&&w.ms<=URGENT_H*3600000;
+  tUnits.hidden=!urgent; tLblEl.hidden=!urgent;
+  if(tReady)tReady.hidden=!(w.open&&!urgent);
+  if(tNight)tNight.hidden=w.open;
+  if(!urgent)return;
+  var left=Math.max(0,Math.floor(w.ms/1000));
+  var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),sec=left%60;
+  tH.textContent=String(h).padStart(2,'0');
+  tM.textContent=String(m).padStart(2,'0');
+  tS.textContent=String(sec).padStart(2,'0');
+}
 tickTimer();setInterval(tickTimer,1000);
+
+
+
+/* National Day greeting — shows only up to NDG_UNTIL (Riyadh date). Change or
+   delete that one line; the banner then disappears on its own. */
+(function(){
+  var NDG_UNTIL='2026-10-02';               /* last day it may appear, inclusive */
+  var el=document.getElementById('ndGreet'); if(!el)return;
+  try{
+    var ksa=new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));
+    var today=ksa.getFullYear()+'-'+String(ksa.getMonth()+1).padStart(2,'0')+'-'+String(ksa.getDate()).padStart(2,'0');
+    if(today<=NDG_UNTIL)el.hidden=false;
+  }catch(e){}
+})();
 
 /* DOCTOR VIDEO */
 var docVideo=document.getElementById('docVideo'),videoCover=document.getElementById('videoCover');
