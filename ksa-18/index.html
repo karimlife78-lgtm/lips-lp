@@ -121,11 +121,16 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 /* Timer */
 .timer-wrap{max-width:var(--maxw);margin:20px auto 0;background:linear-gradient(135deg,var(--ink),#241c17);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(194,161,77,.25);box-shadow:var(--shadow)}
 .timer-wrap .lbl{color:rgba(255,255,255,.85);font-size:13px;font-weight:800}
-/* after-hours face of the call box — fills the same band, no countdown */
-.timer-wrap .night{display:flex;align-items:center;gap:11px;width:100%}
-.timer-wrap .night .n-ic{font-size:24px;flex:none}
-.timer-wrap .night .n-tx{font-size:13px;font-weight:700;line-height:1.7;color:rgba(255,255,255,.82)}
-.timer-wrap .night .n-tx b{color:#F5D87A;font-weight:900}
+/* the call box wears one of three faces; each fills the same band so the
+   header never changes height when the clock crosses a boundary */
+.timer-wrap .night,.timer-wrap .ready{display:flex;align-items:center;gap:11px;width:100%}
+.timer-wrap .night .n-ic,.timer-wrap .ready .n-ic{font-size:24px;flex:none}
+.timer-wrap .night .n-tx,.timer-wrap .ready .n-tx{font-size:13px;font-weight:700;line-height:1.7;color:rgba(255,255,255,.82)}
+.timer-wrap .night .n-tx b,.timer-wrap .ready .n-tx b{color:#F5D87A;font-weight:900}
+.timer-wrap .ready .n-ic{animation:callRing 2.6s ease-in-out infinite;transform-origin:50% 70%}
+@keyframes callRing{0%,58%,100%{transform:rotate(0)}64%{transform:rotate(-13deg)}
+  70%{transform:rotate(11deg)}76%{transform:rotate(-8deg)}82%{transform:rotate(5deg)}}
+@media (prefers-reduced-motion:reduce){.timer-wrap .ready .n-ic{animation:none}}
 .timer-units{display:flex;gap:7px;align-items:center}
 /* these blocks set their own display, which would otherwise beat the hidden
    attribute and leave both faces of the call box on screen at once */
@@ -320,10 +325,14 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 
 /* ═══ "that moment" — the emotional recognition beat ═══ */
 .mom-grid{display:grid;gap:10px;max-width:var(--maxw);margin:20px auto 0}
-.mom{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+.mom{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);
   border-radius:var(--r);padding:15px 16px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
 .mom::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;background:var(--red);opacity:.5}
 .mom .ic{font-size:22px;flex:none;line-height:1.4}
+.mom .ph{flex:none;width:96px;height:96px;border-radius:12px;overflow:hidden;
+  background:var(--paper-2);box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.mom .ph img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:360px){.mom .ph{width:78px;height:78px}}
 .mom .tx{font-size:14.5px;font-weight:700;color:var(--ink-2);line-height:1.75}
 .mom .tx b{color:var(--ink)}
 .mom-punch{max-width:var(--maxw);margin:18px auto 0;background:linear-gradient(160deg,var(--ink),#2a2420);
@@ -752,12 +761,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <span class="pain">☀️ اسمرار <b>الشمس</b></span>
       <span class="pain">🥀 جفاف و<b>تشققات</b></span>
     </div>
-    <!-- Call window. Two faces: a live deadline while the line is open, and an
-         after-hours face that still gives a reason to order now. Never a
-         countdown to opening — that only tells a late browser to come back. -->
+    <!-- Call window, three faces. A countdown only earns its place when the
+         number is small; a 15-hour clock reads as "take your time". So most of
+         the day this band simply promises the call and the dispatch, the clock
+         appears for the closing stretch, and after hours it keeps a reason to
+         order tonight instead of counting down to opening. -->
     <div class="timer-wrap" id="callBox">
-      <span class="lbl" id="callLbl">📞 نتصل فيك<br><b style="color:#F5D87A;font-size:15px" id="shipDay">اليوم</b></span>
-      <div class="timer-units" id="callUnits">
+      <div class="ready" id="callReady" hidden>
+        <span class="n-ic">📞</span>
+        <span class="n-tx">نتصل فيك <b>خلال دقائق</b> نأكد الطلب —
+          ويطلع من المستودع <b>اليوم</b></span>
+      </div>
+      <span class="lbl" id="callLbl" hidden>⏳ نسكّر طلبات<br><b style="color:#F5D87A;font-size:15px">اليوم بعد</b></span>
+      <div class="timer-units" id="callUnits" hidden>
         <div class="tu"><b id="th">00</b><span>ساعة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="tm">00</b><span>دقيقة</span></div><span class="tu-sep">:</span>
         <div class="tu"><b id="ts">00</b><span>ثانية</span></div>
@@ -794,10 +810,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="hairline"></div>
   </div>
   <div class="mom-grid">
-    <div class="mom"><span class="ic">📸</span><span class="tx">تطلع صورة جماعية حلوة — وأول شي عينك تروح على <b>شفايفك</b>، وتقرر ما تنشرها.</span></div>
-    <div class="mom"><span class="ic">🤭</span><span class="tx">تضحك من قلب، وبدون ما تفكر <b>يدك تغطي فمك</b>. صارت عادة ما تنتبه لها.</span></div>
-    <div class="mom"><span class="ic">💬</span><span class="tx">أحد يقولك بعفوية: <b>«شفايفك غامقة… تدخّن؟»</b> — ويمشي، وأنت تفكر فيها باقي اليوم.</span></div>
-    <div class="mom"><span class="ic">🪞</span><span class="tx">تفتح صورة لك من <b>سنتين</b>، وتلاحظ إن الفرق أكبر مما كنت تتخيل.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-1.webp" type="image/webp" /><img src="/assets/mom-1.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يشوف صورة جماعية في جواله" /></picture></span><span class="tx">تطلع صورة جماعية حلوة — وأول شي عينك تروح على <b>شفايفك</b>، وتقرر ما تنشرها.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-2.webp" type="image/webp" /><img src="/assets/mom-2.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يضحك ويغطي فمه بيده" /></picture></span><span class="tx">تضحك من قلب، وبدون ما تفكر <b>يدك تغطي فمك</b>. صارت عادة ما تنتبه لها.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-3.webp" type="image/webp" /><img src="/assets/mom-3.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يفكر بعد تعليق على شفايفه" /></picture></span><span class="tx">أحد يقولك بعفوية: <b>«شفايفك غامقة… تدخّن؟»</b> — ويمشي، وأنت تفكر فيها باقي اليوم.</span></div>
+    <div class="mom"><span class="ph"><picture><source srcset="/assets/mom-4.webp" type="image/webp" /><img src="/assets/mom-4.jpg" width="300" height="300" loading="lazy" decoding="async" alt="مقارنة بين صورة قديمة واللون الحالي" /></picture></span><span class="tx">تفتح صورة لك من <b>سنتين</b>، وتلاحظ إن الفرق أكبر مما كنت تتخيل.</span></div>
     <div class="mom"><span class="ic">💄</span><span class="tx">تشتري مرطّب ورا مرطّب — يرطّب أيام، وبعدين <b>يرجع نفس اللون</b>.</span></div>
   </div>
   <div class="mom-punch">
@@ -1502,9 +1518,12 @@ document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListene
 var CALL_CLOSE=1;                  /* 23:00 Morocco = 01:00 Riyadh          */
 var CALL_OPEN=10;                  /* 08:00 Morocco = 10:00 Riyadh          */
 /* ─────────────────────────────────────────────────────────────────────── */
+/* The clock only shows for the last stretch before close. Before that the band
+   states the promise instead: a long countdown gives permission to postpone. */
+var URGENT_H=3;                    /* show the countdown inside this many hours */
 var tH=document.getElementById('th'),tM=document.getElementById('tm'),tS=document.getElementById('ts'),
     tUnits=document.getElementById('callUnits'),tLblEl=document.getElementById('callLbl'),
-    tNight=document.getElementById('callNight');
+    tNight=document.getElementById('callNight'),tReady=document.getElementById('callReady');
 function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
 function callWindow(){
   var n=ksaNow(),h=n.getHours();
@@ -1521,9 +1540,11 @@ function tickTimer(){
   /* Closed: swap the whole band rather than counting down to opening. A clock
      ticking toward 10am reads as "nothing happens if you wait", which is an
      invitation to leave; the order itself is taken 24/7, so say that instead. */
-  tUnits.hidden=!w.open; tLblEl.hidden=!w.open;
+  var urgent=w.open&&w.ms<=URGENT_H*3600000;
+  tUnits.hidden=!urgent; tLblEl.hidden=!urgent;
+  if(tReady)tReady.hidden=!(w.open&&!urgent);
   if(tNight)tNight.hidden=w.open;
-  if(!w.open)return;
+  if(!urgent)return;
   var left=Math.max(0,Math.floor(w.ms/1000));
   var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),sec=left%60;
   tH.textContent=String(h).padStart(2,'0');
