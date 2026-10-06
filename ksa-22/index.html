@@ -653,6 +653,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .summary .total .v{color:var(--red)}
 .cod-note{display:flex;gap:9px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:14px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
 .cod-note .ic{flex:none;font-size:18px}
+/* what happens after the order — sits at the submit button, which is where
+   the unspoken "someone is going to call and pressure me" objection lives */
+.nxt{background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:14px 15px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.nxt-h{display:block;font-family:'Cairo',sans-serif;font-size:14px;font-weight:900;
+  color:var(--ink);margin-bottom:10px}
+.nxt-list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.nxt-list li{display:flex;gap:10px;align-items:flex-start}
+.nxt-list .s{flex:none;width:21px;height:21px;border-radius:50%;background:var(--ink);
+  color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;
+  justify-content:center;font-family:'Cairo',sans-serif;margin-top:1px}
+.nxt-list .t{font-size:13px;font-weight:700;color:var(--ink-soft);line-height:1.65}
+.nxt-list .t b{color:var(--ink);font-weight:800}
 .mini-trust{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap}
 .mini-trust span{font-size:11.5px;font-weight:800;color:var(--ink-soft);display:flex;gap:5px;align-items:center}
 .ty{text-align:center;padding:8px 4px 10px}
@@ -1375,6 +1388,14 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
           </label>
           <div id="pledgeErr" style="display:none;margin:4px 0 8px;padding:9px 13px;background:#fcedef;border:1px solid #f3d4d9;border-radius:10px;color:#A30821;font-size:12.5px;font-weight:700;text-align:center">فضلاً أكّد تعهدك بالاستلام حتى نقدر نشحن طلبك ✋</div>
           <div id="regionErr" style="display:none;margin-top:12px;padding:12px 15px;background:#fcedef;border:1px solid #f3d4d9;border-radius:12px;color:#A30821;font-size:14px;font-weight:700;text-align:center;">عذراً، الطلبات متاحة حالياً داخل المملكة العربية السعودية فقط 🌴</div>
+          <div class="nxt">
+            <b class="nxt-h">وش يصير بعد ما تطلب؟</b>
+            <ol class="nxt-list">
+              <li><span class="s">1</span><span class="t"><b>نتصل فيك نأكد الطلب والعنوان</b> — مكالمة قصيرة، وما نضغط عليك بشي</span></li>
+              <li><span class="s">2</span><span class="t">يوصلك لباب البيت خلال <b>٢-٤ أيام عمل</b></span></li>
+              <li><span class="s">3</span><span class="t">تدفع <b>بعد</b> ما تشوف المنتج بيدك — مو قبل</span></li>
+            </ol>
+          </div>
           <div class="mini-trust"><span>🔒 بياناتك سرّية</span><span>💵 دفع عند الاستلام</span><span>✔ بدون دفع مقدّم</span></div>
           <div class="cta-sticky">
             <button class="btn lg cta-pulse" id="submitBtn" type="submit">تأكيد الطلب ✅</button>
@@ -1727,7 +1748,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     var ksaH=(now.getUTCHours()+3)%24;
     var ksaMin=now.getUTCMinutes();
     // working = 09:00–02:00 KSA | off = 02:00–08:59 KSA
-    var working=!(ksaH>=2&&ksaH<9);
+    var working=!(ksaH>=1&&ksaH<10);   /* same window as CALL_CLOSE/CALL_OPEN */
     if(working){
       el.className='call call-active';
       el.innerHTML='<span class="call-live-dot"></span><div style="flex:1"><b style="font-size:15px">فريق التأكيد متاح الآن ✅</b><span style="display:block;margin-top:5px">سيتصل بك أحد ممثلينا <b>خلال 5 دقائق</b> لتأكيد طلبك 📱</span><span style="display:block;margin-top:6px;font-size:12px;background:rgba(31,157,85,.09);border:1px solid rgba(31,157,85,.28);border-radius:8px;padding:5px 10px;font-weight:700">📵 تنبيه: المكالمة بتجيك من رقم جديد عليك — لا تطنّشها، ردّك يثبّت حجز توصيلك</span></div>';
