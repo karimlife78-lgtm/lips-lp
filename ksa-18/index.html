@@ -682,6 +682,24 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   justify-content:center;font-family:'Cairo',sans-serif;margin-top:1px}
 .nxt-list .t{font-size:13px;font-weight:700;color:var(--ink-soft);line-height:1.65}
 .nxt-list .t b{color:var(--ink);font-weight:800}
+/* city picker — opens on tap, filters as you type, still accepts anything */
+.citybox{position:relative}
+.citybox input{padding-inline-end:44px}
+.city-toggle{position:absolute;inset-inline-end:7px;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border:0;background:transparent;color:var(--ink-soft);
+  font-size:13px;line-height:1;border-radius:9px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.city-toggle:active{background:#f3efe9}
+/* clears the sticky order bar, which sits at z-index 6 */
+.city-pop{position:absolute;z-index:20;inset-inline:0;top:calc(100% + 6px);
+  max-height:250px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 14px 34px -10px rgba(0,0,0,.28)}
+.city-opt{padding:12px 15px;font-size:15px;font-weight:700;color:var(--ink);
+  border-bottom:1px solid #f4f0ea;cursor:pointer}
+.city-opt:last-child{border-bottom:0}
+.city-opt.on,.city-opt:active{background:#faf6f0}
+.city-none{padding:13px 15px;font-size:13.5px;font-weight:700;color:var(--ink-soft)}
 .mini-trust{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap}
 .mini-trust span{font-size:11.5px;font-weight:800;color:var(--ink-soft);display:flex;gap:5px;align-items:center}
 .ty{text-align:center;padding:8px 4px 10px}
@@ -1419,7 +1437,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <form id="orderForm" novalidate>
           <div class="field" id="f-name"><label>الاسم الكامل <span class="req">*</span></label><input type="text" id="name" placeholder="مثال: محمد العتيبي" autocomplete="name" /><div class="errmsg">رجاءً اكتب اسمك.</div></div>
           <div class="field" id="f-phone"><label>رقم الجوال <span class="req">*</span></label><input type="tel" id="phone" class="ltr" placeholder="05XXXXXXXX" inputmode="numeric" autocomplete="tel" maxlength="10" /><div class="hint">نحتاجه للتواصل وتأكيد الطلب.</div><div class="errmsg">رقم جوال سعودي غير صحيح (يبدأ بـ 05 و10 أرقام).</div></div>
-          <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input type="text" id="city" list="cities" placeholder="اكتب مدينتك أو اخترها من القائمة" autocomplete="address-level2" />
+          <div class="field" id="f-city"><label>المدينة <span class="req">*</span></label><input type="text" id="city" list="cities" placeholder="اكتب مدينتك أو اخترها" autocomplete="address-level2" />
             <datalist id="cities"><option value="الرياض"></option><option value="جدة"></option><option value="مكة"></option><option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option><option value="الظهران"></option><option value="الجبيل"></option><option value="الأحساء"></option><option value="القطيف"></option><option value="سيهات"></option><option value="رأس تنورة"></option><option value="الطائف"></option><option value="تبوك"></option><option value="بريدة"></option><option value="عنيزة"></option><option value="الرس"></option><option value="أبها"></option><option value="خميس مشيط"></option><option value="محايل عسير"></option><option value="بيشة"></option><option value="حائل"></option><option value="نجران"></option><option value="جازان"></option><option value="صبيا"></option><option value="ينبع"></option><option value="رابغ"></option><option value="القنفذة"></option><option value="عرعر"></option><option value="سكاكا"></option><option value="القريات"></option><option value="طريف"></option><option value="الباحة"></option><option value="الخرج"></option><option value="حفر الباطن"></option><option value="الدوادمي"></option><option value="المجمعة"></option><option value="الزلفي"></option><option value="وادي الدواسر"></option><option value="الأفلاج"></option></datalist>
             <div class="errmsg">رجاءً اكتب مدينتك.</div></div>
           <div class="field" id="f-district"><label>الحي <span style="font-weight:400;font-size:12px;color:#999">(اختياري — يوصلك المندوب أسرع)</span></label><input type="text" id="district" placeholder="مثال: حي النرجس" autocomplete="address-level3" /></div>
@@ -1590,6 +1608,87 @@ tickTimer();setInterval(tickTimer,1000);
     var x=document.createElement('canvas').getContext('2d'); x.font='32px sans-serif';
     if(x.measureText('🇸🇦').width > x.measureText('🇸').width*1.5) f.textContent='💚';
   }catch(e){}
+})();
+
+/* ─── CITY PICKER ──────────────────────────────────────────────────────
+   The field kept a <datalist>, which on phones stays invisible until the
+   first keystroke — so tapping it showed nothing and read as broken. The
+   options below are still read from that datalist, so the city list has one
+   home, and the input stays a plain text input: anything can be typed and
+   a town that is not on the list is still accepted. */
+(function(){
+  var inp=document.getElementById('city'); if(!inp)return;
+  var dl=document.getElementById('cities'); if(!dl)return;
+  var all=[].map.call(dl.querySelectorAll('option'),function(o){return o.value;});
+  if(!all.length)return;
+  inp.removeAttribute('list');            /* ours replaces it, never both at once */
+
+  var box=document.createElement('div'); box.className='citybox';
+  inp.parentNode.insertBefore(box,inp); box.appendChild(inp);
+  var btn=document.createElement('button');
+  btn.type='button'; btn.className='city-toggle'; btn.textContent='▼';
+  btn.setAttribute('aria-label','اعرض قائمة المدن');
+  box.appendChild(btn);
+  var pop=document.createElement('div'); pop.className='city-pop'; pop.hidden=true;
+  box.appendChild(pop);
+  inp.setAttribute('autocomplete','off');
+  inp.setAttribute('role','combobox');
+  inp.setAttribute('aria-expanded','false');
+
+  /* أ إ آ are typed interchangeably with ا, and plenty of people write
+     الرياض as رياض, so both sides are flattened before comparing */
+  function norm(v){return (v||'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه')
+    .replace(/ى/g,'ي').replace(/\s+/g,'').replace(/^ال/,'');}
+
+  var open=false,idx=-1,shown=[];
+  function render(q){
+    var n=norm(q);
+    shown=n?all.filter(function(c){return norm(c).indexOf(n)>=0;}):all.slice();
+    idx=-1;
+    pop.innerHTML=shown.length
+      ? shown.map(function(c,i){return '<div class="city-opt" data-i="'+i+'">'+c+'</div>';}).join('')
+      : '<div class="city-none">ما لقينا المدينة — اكتبها بنفسك وبنوصلك</div>';
+  }
+  function show(q){render(q===undefined?inp.value:q);pop.hidden=false;open=true;
+    btn.textContent='▲';inp.setAttribute('aria-expanded','true');}
+  function hide(){pop.hidden=true;open=false;idx=-1;
+    btn.textContent='▼';inp.setAttribute('aria-expanded','false');}
+  /* the input event below is for the page's own validation; without this
+     flag the picker's own input handler would read it as typing and reopen
+     the list the moment a city was chosen */
+  var silent=false;
+  function pick(i){
+    if(!shown.length)return;
+    inp.value=shown[i]; hide();
+    silent=true;
+    inp.dispatchEvent(new Event('input',{bubbles:true}));
+    silent=false;
+  }
+
+  btn.addEventListener('click',function(){
+    if(open){hide();}else{show('');inp.focus();}
+  });
+  inp.addEventListener('focus',function(){show();});
+  inp.addEventListener('input',function(){if(silent)return;show();});
+  /* mousedown would blur the input before the click lands */
+  pop.addEventListener('mousedown',function(e){e.preventDefault();});
+  pop.addEventListener('click',function(e){
+    var t=e.target;
+    while(t&&t!==pop&&!(t.className&&String(t.className).indexOf('city-opt')>=0))t=t.parentNode;
+    if(t&&t!==pop)pick(+t.getAttribute('data-i'));
+  });
+  document.addEventListener('click',function(e){if(!box.contains(e.target))hide();});
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Escape')return hide();
+    if(!open&&e.key==='ArrowDown')return show();
+    var opts=pop.querySelectorAll('.city-opt'); if(!opts.length)return;
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+      e.preventDefault();
+      idx=(idx+(e.key==='ArrowDown'?1:-1)+opts.length)%opts.length;
+      for(var i=0;i<opts.length;i++)opts[i].classList.toggle('on',i===idx);
+      if(opts[idx].scrollIntoView)opts[idx].scrollIntoView({block:'nearest'});
+    }else if(e.key==='Enter'&&idx>=0){e.preventDefault();pick(idx);}
+  });
 })();
 
 /* DOCTOR VIDEO */
