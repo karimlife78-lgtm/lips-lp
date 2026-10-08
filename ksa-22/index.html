@@ -753,6 +753,18 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   .pticket,.code-chip{animation:none}.pt-main::after{display:none}
   .promo.flash .promo-row{animation:none}
 }
+/* the code sits with the field it is typed into. The floating ticket hides
+   itself on tap and the hero chip is long gone by then, so without this the
+   visitor arrives at the box with nothing on screen telling them what to write. */
+.promo-hint{margin-top:8px;padding:9px 11px;border-radius:11px;text-align:center;
+  background:#fff8e6;border:1px dashed #e4c87a;
+  font-size:12.5px;font-weight:700;color:#7a5a12}
+.promo-hint b{font-family:'Cairo',sans-serif;font-size:15px;font-weight:900;
+  letter-spacing:.07em;color:#2a1d05}
+.promo-hint .pv{color:var(--red);font-weight:900}
+.promo.flash .promo-hint{animation:hintPop 1.2s ease}
+@keyframes hintPop{0%,100%{transform:scale(1)}22%,55%{transform:scale(1.045)}}
+@media (prefers-reduced-motion:reduce){.promo.flash .promo-hint{animation:none}}
 .mini-trust{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap}
 .mini-trust span{font-size:11.5px;font-weight:800;color:var(--ink-soft);display:flex;gap:5px;align-items:center}
 .ty{text-align:center;padding:8px 4px 10px}
@@ -968,6 +980,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <input type="text" id="promoInput" placeholder="عندك كود خصم؟ اكتبه هنا" autocomplete="off" spellcheck="false" aria-label="كود الخصم" />
         <button type="button" class="promo-btn" id="promoBtn">فعّل</button>
       </div>
+        <div class="promo-hint" id="promoHint">كودك: <b>COSMA40</b> — اكتبه فوق وينزل السعر لـ <span class="pv">179 ر.س</span></div>
       <div class="promo-msg" id="promoMsg" hidden></div>
     </div>
     <div class="stock-bar">
@@ -1755,7 +1768,8 @@ tickTimer();setInterval(tickTimer,1000);
        per:['106 ر.س للقطعة','83 ر.س للقطعة'],save:'وفّر 70 ر.س'}
   };
   var box=document.getElementById('promoBox'),inp=document.getElementById('promoInput'),
-      btn=document.getElementById('promoBtn'),msg=document.getElementById('promoMsg');
+      btn=document.getElementById('promoBtn'),msg=document.getElementById('promoMsg'),
+      hint=document.getElementById('promoHint');
   var tk=document.getElementById('promoFloat'),tkGo=document.getElementById('promoFloatGo'),
       tkX=document.getElementById('promoFloatX'),sticky=document.getElementById('stickyCta'),
       wa=document.querySelector('.wa-float'),modalEl=document.getElementById('modal');
@@ -1795,6 +1809,8 @@ tickTimer();setInterval(tickTimer,1000);
       : 'وتنزل أسعار كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s>';
 
     if(box){box.classList.toggle('ok',on);}
+    /* once the price has dropped the reminder has done its job */
+    if(hint)hint.hidden=on;
     if(on&&inp){inp.value=CODE;inp.readOnly=true;}
     if(on&&btn){btn.textContent='مفعّل ✅';btn.disabled=true;}
 
