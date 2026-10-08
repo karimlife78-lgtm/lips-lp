@@ -1427,9 +1427,9 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <span class="pt-ic">🎟️</span>
     <span class="pt-tx">
       <b>لا تطلب بـ <s>199</s> ر.س!</b>
-      <span>معك كود <b>COSMA40</b> — اضغط ينزل السعر <b>179 ر.س</b></span>
+      <span>كودك <b>COSMA40</b> — اضغط واكتبه ينزل السعر <b>179 ر.س</b></span>
     </span>
-    <span class="pt-go">فعّله ←</span>
+    <span class="pt-go">اكتبه ←</span>
   </button>
   <button class="pt-x" id="promoFloatX" type="button" aria-label="إغلاق">×</button>
 </div>
@@ -1842,8 +1842,8 @@ tickTimer();setInterval(tickTimer,1000);
     if(e.key==='Enter'){e.preventDefault();tryCode(inp.value);}
   });
 
-  /* one tap claims the code: from the hero chip, or from the second ticket */
-  function goPromo(){
+  /* the hero chip claims the code outright */
+  function claimFromHero(){
     tryCode(CODE);
     tkShow(false);
     if(box){
@@ -1852,11 +1852,23 @@ tickTimer();setInterval(tickTimer,1000);
       setTimeout(function(){box.classList.remove('flash');},1400);
     }
   }
+  /* the floating ticket only points at the box: the visitor types the code
+     themselves, which is the small act of claiming that the whole idea rests
+     on. It carries the code in its own text so there is nothing to remember. */
+  function gotoBox(){
+    tkShow(false);
+    if(!box)return;
+    try{box.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}
+    box.classList.add('flash');
+    setTimeout(function(){box.classList.remove('flash');},1400);
+    /* focus after the scroll settles, or the keyboard fights the animation */
+    setTimeout(function(){if(inp&&!active){try{inp.focus();}catch(e){}}},520);
+  }
   /* the chip is rewritten by apply(), so the click is caught on the way up */
   document.addEventListener('click',function(e){
     var t=e.target;
     while(t&&t!==document.body&&t.id!=='ndaCode')t=t.parentNode;
-    if(t&&t.id==='ndaCode'){e.preventDefault();goPromo();}
+    if(t&&t.id==='ndaCode'){e.preventDefault();claimFromHero();}
   });
 
   /* The ticket sits above the order bar, and lifts the WhatsApp bubble clear
@@ -1882,7 +1894,7 @@ tickTimer();setInterval(tickTimer,1000);
   }
   window.addEventListener('scroll',tkSync,{passive:true});
   window.addEventListener('resize',place);
-  if(tkGo)tkGo.addEventListener('click',goPromo);
+  if(tkGo)tkGo.addEventListener('click',gotoBox);
   if(tkX)tkX.addEventListener('click',function(){
     dismissed=true;
     try{sessionStorage.setItem('cos_promo_x','1');}catch(e){}
