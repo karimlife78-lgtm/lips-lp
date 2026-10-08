@@ -448,8 +448,8 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .nda::before{content:"";position:absolute;inset:-25% -12%;z-index:0;opacity:.45;pointer-events:none;
   background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px),
                    repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px)}
-.nda::after{content:"٩٦";position:absolute;inset-inline-start:2px;bottom:-26px;z-index:0;
-  font-family:'Cairo',sans-serif;font-size:84px;font-weight:900;color:rgba(255,255,255,.07);
+.nda::after{content:"COSMA40";position:absolute;inset-inline-start:2px;bottom:-26px;z-index:0;
+  font-family:'Cairo',sans-serif;font-size:40px;font-weight:900;color:rgba(255,255,255,.07);
   line-height:1;pointer-events:none}
 .nda-in{position:relative;z-index:1}
 .nda-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Cairo',sans-serif;font-size:11px;
@@ -684,6 +684,27 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .city-opt:last-child{border-bottom:0}
 .city-opt.on,.city-opt:active{background:#faf6f0}
 .city-none{padding:13px 15px;font-size:13.5px;font-weight:700;color:var(--ink-soft)}
+/* discount code box — the code travels in the ad copy, so entering it is
+   also the visitor confirming which ad they came from */
+.promo{max-width:var(--maxw);margin:0 auto 14px}
+.promo-row{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px dashed var(--line);
+  border-radius:14px;padding:8px 10px;transition:border-color .2s,background .2s}
+.promo.ok .promo-row{border-style:solid;border-color:var(--ok);background:#f4fbf7}
+.promo-ic{font-size:18px;flex:none}
+.promo-row input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-family:inherit;
+  font-size:15px;font-weight:800;color:var(--ink);padding:7px 2px;letter-spacing:.04em}
+.promo-row input::placeholder{font-weight:600;color:#a89c8e;letter-spacing:0}
+.promo-btn{flex:none;border:0;border-radius:10px;background:var(--ink);color:#fff;
+  font-family:'Cairo',sans-serif;font-size:13px;font-weight:900;padding:10px 16px;cursor:pointer}
+.promo-btn:active{transform:scale(.97)}
+.promo.ok .promo-btn{background:var(--ok)}
+.promo-msg{margin-top:7px;font-size:12.5px;font-weight:800;padding-inline-start:4px}
+.promo-msg.good{color:#15803d}
+.promo-msg.bad{color:var(--red)}
+.promo.shake .promo-row{animation:promoShake .4s}
+@keyframes promoShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}
+  50%{transform:translateX(5px)}75%{transform:translateX(-3px)}}
+@media (prefers-reduced-motion:reduce){.promo.shake .promo-row{animation:none}}
 .mini-trust{display:flex;justify-content:center;gap:16px;margin-top:14px;flex-wrap:wrap}
 .mini-trust span{font-size:11.5px;font-weight:800;color:var(--ink-soft);display:flex;gap:5px;align-items:center}
 .ty{text-align:center;padding:8px 4px 10px}
@@ -740,9 +761,9 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <!-- hero discount announcement -->
     <div class="nda">
       <div class="nda-in">
-        <span class="nda-tag">🔥 عرض محدود</span>
-        <div class="nda-h">خصم <b>40%</b> شغّال الآن</div>
-        <div class="nda-sub">على كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>299 ر.س</s></div>
+        <span class="nda-tag" id="ndaTag">🎟️ كود خصم</span>
+        <div class="nda-h" id="ndaH">اكتب كود <b>COSMA40</b></div>
+        <div class="nda-sub" id="ndaSub">وتنزل أسعار كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s></div>
         <button class="nda-cta" type="button" data-scroll="#offers">شوف العروض 👇</button>
       </div>
     </div>
@@ -893,6 +914,14 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <p class="lead">كل ما زادت الكمية، كل ما وفّرت أكثر.</p>
     </div>
 
+    <div class="promo" id="promoBox">
+      <div class="promo-row">
+        <span class="promo-ic">🎟️</span>
+        <input type="text" id="promoInput" placeholder="عندك كود خصم؟ اكتبه هنا" autocomplete="off" spellcheck="false" aria-label="كود الخصم" />
+        <button type="button" class="promo-btn" id="promoBtn">فعّل</button>
+      </div>
+      <div class="promo-msg" id="promoMsg" hidden></div>
+    </div>
     <div class="stock-bar">
       <span>⚡ تبقّى عدد محدود</span>
       <span class="track"><span class="fill" id="stockFill"></span></span>
@@ -900,42 +929,42 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
 
     <!-- Offer 1 -->
-    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="179" data-label="قطعة واحدة">
+    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة">
       <span class="radio"></span>
       <div class="imgs"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="كريم تفتيح الشفاه" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">قطعة واحدة <small>للتجربة</small></div>
-        <div class="offer-price"><span class="now">179</span><span class="cur">ر.س</span><span class="was">299 ر.س</span></div>
-        <span class="save">وفّر 40%</span>
-        <div class="perunit">السعر للقطعة 179 ر.س</div>
+        <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was" hidden>199 ر.س</span></div>
+        <span class="save" hidden>وفّر 20 ر.س</span>
+        <div class="perunit">السعر للقطعة 199 ر.س</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 2 best -->
-    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="199" data-label="قطعتان — الثانية بـ 20 ريال بس">
+    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="249" data-label="قطعتان — الثانية بـ 50 ريال">
       <span class="ribbon">⭐ الأكثر طلباً</span>
       <span class="radio"></span>
       <div class="imgs two"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
-        <div class="offer-qty">قطعتان <small>الثانية بـ 20 ريال بس</small></div>
-        <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was">358 ر.س</span></div>
-        <span class="save">وفّر 159 ر.س</span>
-        <div class="perunit">أقل من 100 ر.س للقطعة</div>
+        <div class="offer-qty">قطعتان <small>الثانية بـ 50 ريال</small></div>
+        <div class="offer-price"><span class="now">249</span><span class="cur">ر.س</span><span class="was" hidden>249 ر.س</span></div>
+        <span class="save" hidden>وفّر 50 ر.س</span>
+        <div class="perunit">125 ر.س للقطعة</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 3 -->
-    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="249" data-label="3 قطع — الثالثة بـ 50 ريال بس">
+    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="319" data-label="3 قطع — الثالثة بـ 70 ريال">
       <span class="ribbon gold">👑 أفضل صفقة</span>
       <span class="radio"></span>
       <div class="imgs three"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
-        <div class="offer-qty">3 قطع <small>الثالثة بـ 50 ريال بس</small></div>
-        <div class="offer-price"><span class="now">249</span><span class="cur">ر.س</span><span class="was">537 ر.س</span></div>
-        <span class="save">وفّر 288 ر.س</span>
-        <div class="perunit">83 ر.س للقطعة</div>
+        <div class="offer-qty">3 قطع <small>الثالثة بـ 70 ريال</small></div>
+        <div class="offer-price"><span class="now">319</span><span class="cur">ر.س</span><span class="was" hidden>319 ر.س</span></div>
+        <span class="save" hidden>وفّر 70 ر.س</span>
+        <div class="perunit">106 ر.س للقطعة</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
@@ -1145,7 +1174,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="cost-i win">
       <span class="ic">🌸</span>
       <div class="t"><b>كريم Cosmarab</b><span>مرة وحدة، في بيتك، بدون مواعيد ولا ألم — ويشتغل على السبب مو على التغطية</span></div>
-      <span class="amt">179<small>ر.س</small></span>
+      <span class="amt"><span data-px="p1">199</span><small>ر.س</small></span>
     </div>
     <div class="cost-punch">
       يعني بأقل من <b>6 ر.س في اليوم</b> لمدة شهر كامل — أرخص من كوب قهوة،<br>وتدفع <b>عند الاستلام</b> بعد ما تشوف المنتج بيدك.
@@ -1247,7 +1276,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
   </div>
   <div class="tline-note wrap">
-    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b>20 ريال بس بدل 179</b>.
+    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b><span data-px="p2extra">50</span> ريال بدل <span data-px="p1">199</span></b>.
   </div>
   <div class="wrap" style="margin-top:16px">
     <button class="btn lg cta-pulse" data-scroll="#offers">خذ قطعتين وما تنقطع 👇</button>
@@ -1347,7 +1376,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- Sticky CTA -->
 <div class="sticky-cta" id="stickyCta">
   <div class="row">
-    <div class="px">يبدأ من<b>179 ر.س</b></div>
+    <div class="px">يبدأ من<b><span data-px="p1">199</span> ر.س</b></div>
     <button class="btn" data-scroll="#offers">اطلب الآن 💵</button>
   </div>
 </div>
@@ -1640,6 +1669,119 @@ tickTimer();setInterval(tickTimer,1000);
       if(opts[idx].scrollIntoView)opts[idx].scrollIntoView({block:'nearest'});
     }else if(e.key==='Enter'&&idx>=0){e.preventDefault();pick(idx);}
   });
+})();
+
+/* ─── DISCOUNT CODE ────────────────────────────────────────────────────
+   The page quotes list prices; the code from the ad copy drops them. Every
+   number lives in PRICE/COPY below — the cards, the hero, the sticky bar,
+   the cost anchor and the bundle note all redraw from it, so a price change
+   is one edit rather than a hunt through the markup.
+   This is marketing, not a security boundary: the code is readable in the
+   source, which is fine, because its job is to reward the ad click and tell
+   you the order came from that ad. */
+(function(){
+  var CODE='COSMA40';
+  var PRICE={1:{list:199,promo:179},2:{list:249,promo:199},3:{list:319,promo:249}};
+  var COPY={
+    1:{small:['للتجربة','للتجربة'],
+       label:['قطعة واحدة','قطعة واحدة'],
+       per:['السعر للقطعة 199 ر.س','السعر للقطعة 179 ر.س'],save:'وفّر 20 ر.س'},
+    2:{small:['الثانية بـ 50 ريال','الثانية بـ 20 ريال بس'],
+       label:['قطعتان — الثانية بـ 50 ريال','قطعتان — الثانية بـ 20 ريال بس'],
+       per:['125 ر.س للقطعة','أقل من 100 ر.س للقطعة'],save:'وفّر 50 ر.س'},
+    3:{small:['الثالثة بـ 70 ريال','الثالثة بـ 50 ريال بس'],
+       label:['3 قطع — الثالثة بـ 70 ريال','3 قطع — الثالثة بـ 50 ريال بس'],
+       per:['106 ر.س للقطعة','83 ر.س للقطعة'],save:'وفّر 70 ر.س'}
+  };
+  var box=document.getElementById('promoBox'),inp=document.getElementById('promoInput'),
+      btn=document.getElementById('promoBtn'),msg=document.getElementById('promoMsg');
+  var active=false;
+
+  function norm(v){return String(v||'').trim().toUpperCase().replace(/[\s-]/g,'');}
+
+  function apply(on){
+    active=on;
+    [1,2,3].forEach(function(q){
+      var card=document.querySelector('.offer[data-qty="'+q+'"]'); if(!card)return;
+      var p=on?PRICE[q].promo:PRICE[q].list, c=COPY[q], i=on?1:0;
+      card.setAttribute('data-price',p);
+      card.setAttribute('data-label',c.label[i]);
+      var el;
+      if((el=card.querySelector('.now')))el.textContent=p;
+      if((el=card.querySelector('.was'))){el.textContent=PRICE[q].list+' ر.س';el.hidden=!on;}
+      if((el=card.querySelector('.save'))){el.textContent=c.save;el.hidden=!on;}
+      if((el=card.querySelector('.perunit')))el.textContent=c.per[i];
+      if((el=card.querySelector('.offer-qty small')))el.textContent=c.small[i];
+    });
+    var p1=on?PRICE[1].promo:PRICE[1].list;
+    [].forEach.call(document.querySelectorAll('[data-px="p1"]'),function(e){e.textContent=p1;});
+    var extra=(on?PRICE[2].promo-PRICE[1].promo:PRICE[2].list-PRICE[1].list);
+    [].forEach.call(document.querySelectorAll('[data-px="p2extra"]'),function(e){e.textContent=extra;});
+
+    var tag=document.getElementById('ndaTag'),h=document.getElementById('ndaH'),
+        sub=document.getElementById('ndaSub');
+    if(tag)tag.textContent=on?'✅ الكود مفعّل':'🎟️ كود خصم';
+    if(h)h.innerHTML=on?'تم تفعيل <b>'+CODE+'</b>':'اكتب كود <b>'+CODE+'</b>';
+    if(sub)sub.innerHTML=on
+      ? 'الأسعار نزلت على كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s>'
+      : 'وتنزل أسعار كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s>';
+
+    if(box){box.classList.toggle('ok',on);}
+    if(on&&inp){inp.value=CODE;inp.readOnly=true;}
+    if(on&&btn){btn.textContent='مفعّل ✅';btn.disabled=true;}
+
+    /* an order panel opened before the code was entered must not keep the
+       old number on the summary or in what gets submitted */
+    /* state and renderSummaries live in the enclosing IIFE, not on window;
+       state is a hoisted var so it reads undefined until the offers code runs */
+    var st=(typeof state!=='undefined')?state:null;
+    if(st&&st.offer){
+      var sel=document.querySelector('.offer[data-offer="'+st.offer+'"]');
+      if(sel){
+        st.price=+sel.getAttribute('data-price');
+        st.label=sel.getAttribute('data-label');
+        var sp=document.getElementById('selPrice'); if(sp)sp.textContent=st.price;
+        var sn=document.getElementById('selName');
+        if(sn&&sn.childNodes[0])sn.childNodes[0].nodeValue=st.label.split('—')[0].trim()+' ';
+        var ss=document.getElementById('selSub');
+        if(ss)ss.textContent=st.label.indexOf('—')>-1?st.label.split('—')[1].trim():'الدفع عند الاستلام';
+        if(typeof renderSummaries==='function')renderSummaries();
+      }
+    }
+  }
+
+  function say(text,good){
+    if(!msg)return;
+    msg.textContent=text; msg.className='promo-msg '+(good?'good':'bad'); msg.hidden=false;
+  }
+
+  function tryCode(v){
+    if(norm(v)!==CODE){
+      say('الكود غير صحيح — تأكد منه ولا تنساه من الإعلان',false);
+      if(box){box.classList.add('shake');setTimeout(function(){box.classList.remove('shake');},420);}
+      return false;
+    }
+    apply(true);
+    say('تم تفعيل الكود — الأسعار نزلت 👇',true);
+    try{localStorage.setItem('cos_promo','1');}catch(e){}
+    if(typeof track==='function')track('PROMO_APPLIED',{code:CODE});
+    return true;
+  }
+
+  if(btn)btn.addEventListener('click',function(){tryCode(inp?inp.value:'');});
+  if(inp)inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();tryCode(inp.value);}
+  });
+
+  /* restore a code from a previous visit, or accept it on the link itself so
+     the same code can ride in the ad URL when it is not typed */
+  var pre=false;
+  try{pre=localStorage.getItem('cos_promo')==='1';}catch(e){}
+  var q='';
+  try{q=(location.search.match(/[?&]code=([^&]+)/)||[])[1]||'';}catch(e){}
+  if(q)q=decodeURIComponent(q);
+  if(pre||norm(q)===CODE){apply(true);if(msg)say('الكود مفعّل — الأسعار نزلت 👇',true);}
+  else apply(false);
 })();
 
 /* DOCTOR VIDEO */
