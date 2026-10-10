@@ -775,6 +775,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .promo-hint{margin-top:8px;padding:9px 11px;border-radius:11px;text-align:center;
   background:#fff8e6;border:1px dashed #e4c87a;
   font-size:12.5px;font-weight:700;color:#7a5a12}
+.promo-hint .ar-ok{display:inline-block;font-size:11px;font-weight:700;color:#9a7b2e}
 .promo-hint b{font-family:'Cairo',sans-serif;font-size:15px;font-weight:900;
   letter-spacing:.07em;color:#2a1d05}
 .promo-hint .pv{color:var(--red);font-weight:900}
@@ -1011,7 +1012,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
         <input type="text" id="promoInput" placeholder="عندك كود خصم؟ اكتبه هنا" autocomplete="off" spellcheck="false" aria-label="كود الخصم" />
         <button type="button" class="promo-btn" id="promoBtn">فعّل</button>
       </div>
-        <div class="promo-hint" id="promoHint">كودك: <b>COSMA40</b> — اكتبه فوق وينزل السعر لـ <span class="pv">179 ر.س</span></div>
+        <div class="promo-hint" id="promoHint">كودك: <b>COSMA40</b> <span class="ar-ok">(أو اكتبه عربي: كوزما٤٠)</span> — وينزل السعر لـ <span class="pv">179 ر.س</span></div>
       <div class="promo-msg" id="promoMsg" hidden></div>
     </div>
     <div class="stock-bar">
@@ -1826,7 +1827,20 @@ tickTimer();setInterval(tickTimer,1000);
   try{dismissed=sessionStorage.getItem('cos_promo_x')==='1';}catch(e){}
   var active=false;
 
-  function norm(v){return String(v||'').trim().toUpperCase().replace(/[\s-]/g,'');}
+  /* An Arabic keyboard produces ٤٠ rather than 40, and plenty of people will
+     reach for the Arabic spelling of the name rather than switch keyboards
+     part-way through a form. Neither should cost someone the discount, so the
+     digits fold to Latin and the Arabic spellings are accepted outright. */
+  var AR_DIG={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
+              '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+  function norm(v){
+    return String(v||'').trim().toUpperCase()
+      .replace(/[٠-٩۰-۹]/g,function(d){return AR_DIG[d];})
+      .replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')
+      .replace(/[\s\-_.]/g,'');
+  }
+  var ACCEPTED=['COSMA40','كوزما40','كوسما40','كزما40','كوزمه40','كوسمه40'];
+  function isCode(v){return ACCEPTED.indexOf(norm(v))>=0;}
 
   function apply(on){
     active=on;
@@ -1890,7 +1904,7 @@ tickTimer();setInterval(tickTimer,1000);
   }
 
   function tryCode(v){
-    if(norm(v)!==CODE){
+    if(!isCode(v)){
       say('الكود غير صحيح — تأكد منه ولا تنساه من الإعلان',false);
       if(box){box.classList.add('shake');setTimeout(function(){box.classList.remove('shake');},420);}
       return false;
@@ -1985,7 +1999,7 @@ tickTimer();setInterval(tickTimer,1000);
   var q='';
   try{q=(location.search.match(/[?&]code=([^&]+)/)||[])[1]||'';}catch(e){}
   if(q)q=decodeURIComponent(q);
-  if(pre||norm(q)===CODE){apply(true);if(msg)say('الكود مفعّل — الأسعار نزلت 👇',true);}
+  if(pre||isCode(q)){apply(true);if(msg)say('الكود مفعّل — الأسعار نزلت 👇',true);}
   else apply(false);
 })();
 

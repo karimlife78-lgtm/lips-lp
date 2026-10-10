@@ -1,0 +1,28 @@
+# Working media that is not part of the deployed site.
+#
+# These are source folders — raw video, unedited photos, exported frames —
+# kept beside the project for convenience. Nothing under them is referenced
+# by any page (checked across every .html in the repo), but they made every
+# deploy upload roughly 24MB, which on a slow connection is the difference
+# between a deploy that finishes and one that times out.
+#
+# Anything the site actually serves lives in assets/ or inside a page folder,
+# and is untouched by this file. If you ever reference a file from one of the
+# folders below, move it into assets/ first or it will 404 in production.
+
+calm video and photo/
+collagen glow/
+ksa gluco photos/
+cha3r/
+lug/
+
+# one-off frame exports left over from video work
+_frame_*.png
+
+# unused product shots sitting inside page folders
+ksa-glow/offers.png
+ksa-masar/ingredients.png
+
+# local tooling, never part of a deploy
+node_modules/
+.env.local
