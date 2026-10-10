@@ -1848,7 +1848,7 @@ tickTimer();setInterval(tickTimer,1000);
     }
     apply(true);
     say('تم تفعيل الكود — الأسعار نزلت 👇',true);
-    try{localStorage.setItem('cos_promo','1');}catch(e){}
+    try{sessionStorage.setItem('cos_promo','1');}catch(e){}
     if(typeof track==='function')track('PROMO_APPLIED',{code:CODE});
     return true;
   }
@@ -1925,8 +1925,14 @@ tickTimer();setInterval(tickTimer,1000);
 
   /* restore a code from a previous visit, or accept it on the link itself so
      the same code can ride in the ad URL when it is not typed */
+  /* The claim lasts for the visit, not for ever. Remembering it across
+     visits quietly turned the discount back into the price for anyone who
+     had ever entered it — the exact thing the code exists to stop. A reload
+     part-way through an order still keeps it, which is the case that matters. */
   var pre=false;
-  try{pre=localStorage.getItem('cos_promo')==='1';}catch(e){}
+  try{pre=sessionStorage.getItem('cos_promo')==='1';}catch(e){}
+  /* release devices still carrying the old permanent flag */
+  try{localStorage.removeItem('cos_promo');}catch(e){}
   var q='';
   try{q=(location.search.match(/[?&]code=([^&]+)/)||[])[1]||'';}catch(e){}
   if(q)q=decodeURIComponent(q);
