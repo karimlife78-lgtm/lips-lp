@@ -907,7 +907,7 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 
     <div class="unbox">
       <figure>
-        <img src="/assets/safa-unboxing.jpg" alt="طلب صَفاء كما يوصلك — علبة كرتون محايدة بدون اسم المنتج" width="1024" height="1024" loading="lazy" onerror="this.closest('figure').remove()" />
+        <img src="/assets/safa-unboxing.jpg" alt="طلب صَفاء كما يوصلك — علبة كرتون محايدة بدون اسم المنتج" width="1024" height="1024" onerror="this.closest('figure').remove()" />
         <span class="tagline">📦 هذا بالضبط اللي يوصل باب بيتك</span>
       </figure>
       <div class="ub-body">
@@ -1040,7 +1040,7 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 
   <figure class="infog">
     <picture>
-      <img src="/assets/safa-ingredients.jpg" alt="مكوّنات صَفاء — الزعفران، أشواجندا، رودِيولا روزيا، عشبة سانت جون، ل-ثيانين، 5-HTP، وجنكو بيلوبا" width="1024" height="1024" loading="lazy" onerror="this.closest('figure').style.display='none'" />
+      <img src="/assets/safa-ingredients.jpg" alt="مكوّنات صَفاء — الزعفران، أشواجندا، رودِيولا روزيا، عشبة سانت جون، ل-ثيانين، 5-HTP، وجنكو بيلوبا" width="1024" height="1024" onerror="this.closest('figure').style.display='none'" />
     </picture>
   </figure>
 
@@ -1126,7 +1126,7 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
     <h2>ليش وجود الزعفران<br><em>يغيّر كل شي؟</em></h2>
 
     <figure class="sa-photo">
-      <img src="/assets/safa-saffron.jpg" alt="خيوط الزعفران — المكوّن الأول في تركيبة صَفاء" width="1024" height="1024" loading="lazy" onerror="this.closest('figure').remove()" />
+      <img src="/assets/safa-saffron.jpg" alt="خيوط الزعفران — المكوّن الأول في تركيبة صَفاء" width="1024" height="1024" onerror="this.closest('figure').remove()" />
       <figcaption>خيوط الزعفران — تُقطف باليد، وحدة وحدة</figcaption>
     </figure>
 
@@ -1187,7 +1187,7 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
     <p class="sub">سوّه في أول يوم يوصلك فيه الطلب. ما ياخذ منك شي، ويعطيك جواب واضح.</p>
 
     <figure class="test-photo">
-      <img src="/assets/safa-test.jpg" alt="اختبار الـ٣٠ دقيقة — كبسولتان، كوب ماء، ومنبّه على نص ساعة" width="1024" height="1024" loading="lazy" onerror="this.closest('figure').remove()" />
+      <img src="/assets/safa-test.jpg" alt="اختبار الـ٣٠ دقيقة — كبسولتان، كوب ماء، ومنبّه على نص ساعة" width="1024" height="1024" onerror="this.closest('figure').remove()" />
     </figure>
 
     <div class="test-steps">
@@ -2041,8 +2041,12 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
 /* STICKY + REVEAL + STOCK */
 var sticky=document.getElementById('stickyCta');
 window.addEventListener('scroll',function(){sticky.classList.toggle('show',window.scrollY>700&&!modal.classList.contains('open'));},{passive:true});
-var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0,rootMargin:'300px 0px'});
 document.querySelectorAll('.section>.wrap,.tl,.comp-table,.certs-grid,.offer,.ing-list,.diff,.fit-grid,.dose,.map,.speeds,.speeds-punch,.test,.calc,.sa-facts').forEach(function(el){el.classList.add('reveal');io.observe(el);});
+/* the fade-in is decoration — it must never be the reason a section stays
+   invisible, so anything the observer has not reached is shown outright */
+setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el){el.classList.add('in');});},2600);
+window.addEventListener('load',function(){setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el){el.classList.add('in');});},400);});
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),sn=17;
 setInterval(function(){if(sn>5&&Math.random()>.5){sn--;stockN.textContent=sn;stockFill.style.width=(sn/30*100)+'%';}},11000);
 })();
