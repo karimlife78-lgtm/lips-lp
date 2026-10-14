@@ -515,3 +515,13 @@ body::before{
 
 .ty-pledge{background:rgba(99,200,136,.1);border-color:var(--ng-ok);color:var(--ng-cream)}
 .ty-pledge.done{background:var(--ng-ok);color:#06240f}
+
+/* ── the pack, shown as a pack ── */
+.offer-pics{row-gap:6px}
+.offer-pics[data-count="2"] img{height:68px}
+.offer-pics[data-count="4"] img{height:54px}
+.offer-pics[data-count="8"] img{height:40px}
+@media(max-width:420px){
+  .offer-pics[data-count="4"] img{height:48px}
+  .offer-pics[data-count="8"] img{height:35px}
+}
