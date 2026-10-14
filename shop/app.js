@@ -317,8 +317,16 @@ function val(id){var el=document.getElementById(id);return el?el.value.trim():''
 
 /* ── REVEAL ON SCROLL ── */
 (function(){
-  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  /* The fade-in is decoration. A missed callback used to leave a block at
+     opacity:0 for good — guarantees, FAQs and whole sections went unseen —
+     so it now fires 300px early and anything the observer never reaches is
+     shown outright. Visibility must never depend on the animation. */
+  function show(el){el.classList.add('in');}
+  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});},{threshold:0,rootMargin:'300px 0px'});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  function sweep(){document.querySelectorAll('.reveal:not(.in)').forEach(show);}
+  setTimeout(sweep,2600);
+  window.addEventListener('load',function(){setTimeout(sweep,400);});
 })();
 
 /* expose for inline onclicks if needed */
