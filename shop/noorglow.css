@@ -487,3 +487,31 @@ body::before{
   .spec-table .v{font-size:.94rem}
   .sx .sxi{width:40px;height:40px;font-size:19px}
 }
+
+/* ── COD pledge + thank-you on the midnight theme ──────────────────────
+   app.css tunes these for light pages; on this one the greens went muddy
+   against the dark glass, so the text and borders are lifted here only. */
+.pledge{background:rgba(99,200,136,.1);border-color:rgba(99,200,136,.4)}
+.pledge .pl-t{color:var(--ng-cream)}
+.pledge .pl-s{color:var(--ng-mute)}
+.pledge .pl-c{border-top-color:rgba(99,200,136,.3);color:var(--ng-cream)}
+.pledge .pl-c b{color:var(--ng-ok)}
+.pledge.flash{border-color:var(--ng-ok);box-shadow:0 0 0 3px rgba(99,200,136,.35)}
+
+.ty-call.live{background:rgba(99,200,136,.12);border-color:rgba(99,200,136,.45);color:var(--ng-cream)}
+.ty-call.live span.warn{background:rgba(99,200,136,.14);border-color:rgba(99,200,136,.3);color:var(--ng-cream)}
+.ty-call.sleep{background:rgba(233,190,110,.12);border-color:rgba(232,190,110,.45);color:var(--ng-cream)}
+.ty-call.sleep span.warn{background:rgba(233,190,110,.16);border-color:rgba(232,190,110,.38);color:var(--ng-gold-hi)}
+.ty-call b{color:#fff}
+
+.ty-card{background:rgba(8,6,20,.5)}
+.ty-card .b{color:var(--ng-cream)}
+.ty-card .r span{color:var(--ng-mute);opacity:1}
+.ty-card .r b{color:var(--ng-gold-hi)}
+.ty-card .r+.r{border-top-color:rgba(232,190,110,.25)}
+
+.ty-city{background:rgba(99,200,136,.12);border-color:rgba(99,200,136,.35);color:var(--ng-cream)}
+.ty-city b{color:var(--ng-ok)}
+
+.ty-pledge{background:rgba(99,200,136,.1);border-color:var(--ng-ok);color:var(--ng-cream)}
+.ty-pledge.done{background:var(--ng-ok);color:#06240f}

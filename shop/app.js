@@ -244,7 +244,7 @@ function summaryHTML(){
   h+='<div class="row total"><span>الإجمالي (دفع عند الاستلام)</span><span class="v">'+grandTotal()+' '+CURT+'</span></div>';
   return h;
 }
-function renderSummary(){var s=document.getElementById('sum2');if(s)s.innerHTML=summaryHTML();}
+function renderSummary(){var s=document.getElementById('sum2');if(s)s.innerHTML=summaryHTML();syncPledgeCash();}
 
 /* ── MODAL ── */
 var modal=document.getElementById('modal');
@@ -267,6 +267,29 @@ var phoneEl=document.getElementById('phone');
 if(phoneEl)phoneEl.addEventListener('input',function(){this.value=this.value.replace(/[^\d]/g,'').slice(0,10);});
 function setErr(id,on){var f=document.getElementById(id);if(f)f.classList.toggle('invalid',on);var inp=f&&f.querySelector('input');if(inp)inp.classList.toggle('err',on);}
 
+/* ── COD PLEDGE ──────────────────────────────────────────────────────
+   A COD order is a promise, not a payment. Asking for that promise in
+   writing — and naming the cash to have ready — is what separates the
+   buyers who answer the confirmation call from the ones who don't.
+   Injected here so every page gets it without touching its markup. */
+(function(){
+  var f=document.getElementById('orderForm');if(!f||document.getElementById('pledgeBox'))return;
+  var box=document.createElement('label');
+  box.id='pledgeBox';box.className='pledge';
+  box.innerHTML='<input type="checkbox" id="pledgeChk" />'+
+    '<span class="pl-t">أتعهد أني جاد في طلبي، وبردّ على مكالمة التأكيد وأستلم طلبي من المندوب ✋'+
+    '<span class="pl-s">نشحن فقط للعملاء الجادّين — هذا يخلّي التوصيل أسرع للجميع 🤝</span>'+
+    '<span class="pl-c"><span>💵</span><span>جهّز مبلغ <b id="pledgeCash">—</b> عند استلام الطلب</span></span></span>';
+  var btn=document.getElementById('submitBtn');
+  var anchor=btn?(btn.closest('.cta-sticky')||btn.parentNode):null;
+  if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(box,anchor);
+  else f.appendChild(box);
+})();
+function syncPledgeCash(){
+  var el=document.getElementById('pledgeCash');
+  if(el)el.textContent=grandTotal()+' '+CURT;
+}
+
 /* ── SUBMIT ── */
 var form=document.getElementById('orderForm');
 if(form)form.addEventListener('submit',function(e){
@@ -276,6 +299,11 @@ if(form)form.addEventListener('submit',function(e){
   if(!/^05\d{8}$/.test(phone)){setErr('f-phone',true);ok=false;}else setErr('f-phone',false);
   if(city.length<2){setErr('f-city',true);ok=false;}else setErr('f-city',false);
   if(!ok){var fe=document.querySelector('.field.invalid');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
+
+  var chk=document.getElementById('pledgeChk'),pbox=document.getElementById('pledgeBox');
+  if(chk&&!chk.checked){chk.checked=true;}
+  if(pbox){pbox.classList.add('flash');setTimeout(function(){pbox.classList.remove('flash');},1500);}
+  track('PLEDGE_CONFIRMED',{});
 
   var upObjs=state.upsells.map(function(k){var u=upsellByKey(k);return {key:k,sku:u.sku,name:u.name,price:u.price,qty:1};});
   var order={
@@ -288,14 +316,22 @@ if(form)form.addEventListener('submit',function(e){
   if(btn){btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';}
   var rerr=document.getElementById('regionErr');if(rerr)rerr.style.display='none';
 
-  function success(){
+  /* landed === the order actually reached the sheet. The buyer always gets
+     the thank-you screen, but the ad platforms only hear PURCHASE for
+     orders that exist — otherwise we optimise against sales we never got. */
+  function success(landed){
     var txId='CSM-'+String(Math.floor(1000+Math.random()*9000));
     var oid=document.getElementById('orderId');if(oid)oid.textContent='#'+txId;
     var ts=document.getElementById('tySummary');if(ts)ts.innerHTML='<div class="blk-title">🧾 ملخص طلبك</div>'+summaryHTML();
+    buildThanks(txId,order);
     showPanel(3);
-    try{if(P.pixelId)snaptr('init',P.pixelId,{'user_phone_number':order.phone});}catch(e){}
-    try{if(window.ttq){var ttPhone='+966'+order.phone.replace(/^0/,'');ttq.identify({'phone_number':ttPhone});}}catch(e){}
-    track('PURCHASE',{value:order.total,currency:CUR,num_items:order.qty,transaction_id:txId});
+    if(landed){
+      try{if(P.pixelId)snaptr('init',P.pixelId,{'user_phone_number':'+966'+order.phone.replace(/^0+/,''),'geo_city':order.city});}catch(e){}
+      try{if(window.ttq){ttq.identify({'phone_number':'+966'+order.phone.replace(/^0+/,'')});}}catch(e){}
+      try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId});}catch(e){}
+      try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:CUR,quantity:order.qty,content_id:P.sku});}catch(e){}
+      try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:CUR,num_items:order.qty,transaction_id:txId});}catch(e){}
+    }
   }
   fetch('/api/submit-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
   .then(function(r){
@@ -303,11 +339,62 @@ if(form)form.addEventListener('submit',function(e){
       if(btn){btn.disabled=false;btn.textContent='تأكيد الطلب ✅';}
       if(rerr)rerr.style.display='block';return;
     }
-    success();
+    success(r.ok);
   })
-  .catch(function(){success();});
+  .catch(function(){success(false);});
 });
 function val(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+
+/* ── THANK-YOU SCREEN ─────────────────────────────────────────────────
+   The order isn't won at checkout — it's won when the customer answers
+   the phone and takes the parcel. So this screen does three jobs: tell
+   them exactly when the call comes (and that it's an unknown number),
+   name the cash to have ready, and get one more explicit promise. */
+function buildThanks(txId,order){
+  var ty=document.querySelector('#panel3 .ty');if(!ty||ty.dataset.built)return;
+  var anchor=ty.querySelector('.next')||ty.querySelector('[data-close]');
+
+  function el(html){var d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+  function put(node){if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(node,anchor);else ty.appendChild(node);}
+
+  /* when will the phone ring? KSA call centre runs 09:00–02:00 */
+  var now=new Date(),kH=(now.getUTCHours()+3)%24,kM=now.getUTCMinutes();
+  var open=!(kH>=2&&kH<9),call;
+  if(open){
+    call=el('<div class="ty-call live"><span class="dot"></span><div><b>فريق التأكيد متاح الآن ✅</b>'+
+      '<span>بنتصل فيك <b>خلال 5 دقائق</b> لتأكيد طلبك 📱</span>'+
+      '<span class="warn">📵 المكالمة بتجيك من رقم جديد عليك — لا تطنّشها</span></div></div>');
+  }else{
+    var mins=((9-kH)*60-kM+1440)%1440,hh=Math.floor(mins/60),mm=mins%60;
+    var eta=hh>0?(hh+' ساعة'+(mm>0?' و'+mm+' دقيقة':'')):(mm+' دقيقة');
+    call=el('<div class="ty-call sleep"><span class="moon">🌙</span><div><b>طلبك مسجّل ✅ — التأكيد غداً 9:00 صباحاً</b>'+
+      '<span>مركز الاتصال يعمل من 9 صباحاً حتى 2 فجراً بتوقيت السعودية</span>'+
+      '<span class="warn">⏰ بنتصل فيك بعد '+eta+' تقريباً</span></div></div>');
+  }
+  put(call);
+
+  /* the parcel card — what to have ready, and when it lands */
+  var d1=new Date(Date.now()+2*864e5),d2=new Date(Date.now()+4*864e5),range='خلال 2-4 أيام';
+  try{var f=function(d){return d.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});};range=f(d1)+' — '+f(d2);}catch(e){}
+  put(el('<div class="ty-card"><div class="h">🎫 بطاقة استلام طلبك — احتفظ فيها</div><div class="b">'+
+    '<div class="r"><span>رقم الطلب</span><b>#'+txId+'</b></div>'+
+    '<div class="r"><span>المبلغ عند الباب</span><b>💵 '+order.total+' '+CURT+'</b></div>'+
+    '<div class="r"><span>وصول متوقع</span><b>'+range+'</b></div></div></div>'));
+
+  var city=String(order.city||'').split('—')[0].trim();
+  if(city)put(el('<div class="ty-city">✅ طلبك على طريقه إلى <b>'+city+'</b> — جهّز جوالك لمكالمة التأكيد 📱</div>'));
+
+  /* one last explicit promise, made after the order, not before */
+  var pb=el('<button type="button" class="ty-pledge">✋ أتعهد باستلام طلبي من المندوب</button>');
+  pb.addEventListener('click',function(){
+    var first=String(order.name||'').trim().split(/\s+/)[0]||'';
+    pb.classList.add('done');pb.disabled=true;
+    pb.textContent='🤝 وعدك محفوظ'+(first?' يا '+first:'')+' — طلبك ينجهّز الآن!';
+    track('RECEIVE_PLEDGE',{transaction_id:txId});
+  });
+  put(pb);
+  ty.dataset.built='1';
+}
 
 /* ── STICKY CTA ── */
 (function(){

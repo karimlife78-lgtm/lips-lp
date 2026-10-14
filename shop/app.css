@@ -334,3 +334,56 @@ h2.title{font-size:clamp(1.7rem,5.4vw,2.7rem);margin-bottom:8px}
 }
 @media(max-width:480px){.section{padding:48px 0}.ba{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* ═══════════════════════════════════════════════════════════════════
+   COD PLEDGE + THANK-YOU
+   A cash-on-delivery order is only revenue once someone answers the
+   phone and takes the parcel. These ask for that commitment in writing
+   and remove every excuse not to honour it.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── pledge (inside the order form) ── */
+.pledge{display:flex;gap:11px;align-items:flex-start;cursor:pointer;
+  background:rgba(31,157,85,.08);border:1.5px solid rgba(31,157,85,.38);
+  border-radius:14px;padding:13px 15px;margin:14px 0 4px;transition:box-shadow .25s,border-color .25s}
+.pledge.flash{border-color:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.35)}
+.pledge input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:#1f9d55;cursor:pointer}
+.pledge .pl-t{font-size:.86rem;line-height:1.75;font-weight:800;color:#1a5c36}
+.pledge .pl-s{display:block;font-weight:600;font-size:.76rem;color:#4a7a5c;margin-top:3px}
+.pledge .pl-c{display:flex;align-items:center;gap:7px;margin-top:9px;padding-top:9px;
+  border-top:1px dashed rgba(31,157,85,.35);font-weight:900;font-size:.86rem;color:#134e2e}
+.pledge .pl-c b{color:#0f7a3d}
+
+/* ── thank-you: when the phone rings ── */
+.ty-call{display:flex;gap:11px;align-items:flex-start;text-align:right;
+  border-radius:16px;padding:15px;margin-top:16px;font-size:.9rem;font-weight:700;line-height:1.7}
+.ty-call b{display:block;font-size:.98rem}
+.ty-call span.warn{display:block;margin-top:7px;font-size:.78rem;font-weight:800;
+  border-radius:8px;padding:6px 11px}
+.ty-call.live{background:rgba(58,209,127,.1);border:1px solid rgba(58,209,127,.45);color:#1a6640}
+.ty-call.live span.warn{background:rgba(31,157,85,.1);border:1px solid rgba(31,157,85,.3)}
+.ty-call.sleep{background:rgba(230,201,122,.1);border:1px solid rgba(230,201,122,.45);color:#7a5f10}
+.ty-call.sleep span.warn{background:rgba(230,201,122,.18);border:1px solid rgba(230,201,122,.4)}
+.ty-call .dot{width:10px;height:10px;border-radius:50%;background:#3ad17f;flex:none;margin-top:5px;
+  animation:tyPulse 1.4s infinite}
+.ty-call .moon{font-size:21px;flex:none}
+@keyframes tyPulse{0%{box-shadow:0 0 0 0 rgba(58,209,127,.6)}70%{box-shadow:0 0 0 9px rgba(58,209,127,0)}100%{box-shadow:0 0 0 0 rgba(58,209,127,0)}}
+
+/* ── thank-you: the parcel card ── */
+.ty-card{margin-top:14px;border-radius:15px;overflow:hidden;text-align:right;
+  border:2px solid var(--gold,#C2A14D);background:rgba(255,255,255,.04)}
+.ty-card .h{background:var(--gold,#C2A14D);color:#1b1405;font-weight:900;font-size:.84rem;padding:9px 15px}
+.ty-card .b{padding:12px 15px}
+.ty-card .r{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:.85rem;font-weight:700}
+.ty-card .r+.r{border-top:1px dashed rgba(194,161,77,.35)}
+.ty-card .r span{opacity:.72}
+.ty-card .r b{font-weight:900;text-align:left}
+
+.ty-city{margin-top:12px;border-radius:12px;padding:11px 14px;text-align:center;
+  font-size:.84rem;font-weight:800;line-height:1.7;
+  background:rgba(31,157,85,.1);border:1px solid rgba(31,157,85,.32);color:#1a6640}
+
+.ty-pledge{width:100%;margin-top:12px;padding:13px;border-radius:13px;cursor:pointer;
+  border:1.5px dashed #1f9d55;background:rgba(31,157,85,.08);color:#1a5c36;
+  font-weight:800;font-size:.88rem;font-family:inherit;transition:.25s}
+.ty-pledge.done{background:#1f9d55;color:#fff;border-style:solid;cursor:default}
