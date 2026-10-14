@@ -306,11 +306,16 @@ if(form)form.addEventListener('submit',function(e){
   track('PLEDGE_CONFIRMED',{});
 
   var upObjs=state.upsells.map(function(k){var u=upsellByKey(k);return {key:k,sku:u.sku,name:u.name,price:u.price,qty:1};});
+  /* Pages that split city and district send one combined address, so the
+     sheet keeps a single column and the courier still gets the detail.
+     Pages without a district field are unaffected — val() returns ''. */
+  var district=val('district');
+  var fullCity=district?(city+' — حي '+district.replace(/^حي\s*/,'')):city;
   var order={
     product:{sku:P.sku,name:P.name,page:P.page},
     offer:state.offer,qty:state.qty,basePrice:state.price,
     upsells:upObjs,total:grandTotal(),
-    name:name,phone:phone,city:city,currency:CUR,src:getSrc(),ts:new Date().toISOString()
+    name:name,phone:phone,city:fullCity,currency:CUR,src:getSrc(),ts:new Date().toISOString()
   };
   var btn=document.getElementById('submitBtn');
   if(btn){btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';}
