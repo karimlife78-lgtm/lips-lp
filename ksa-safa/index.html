@@ -687,6 +687,72 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 .reveal.in{opacity:1;transform:none}
 @media(max-width:360px){.hero h1{font-size:29px}h2.title{font-size:25px}.trust-grid{gap:3px}.comp-cell:first-child{font-size:11px;padding-right:9px}.offer .imgs{width:80px}.q6 h4{font-size:14.5px}.q6 .sb{font-size:11px;padding:9px 2px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+/* ═══ AUTHENTICITY CERTIFICATE ═══
+   Drawn entirely in CSS so it loads instantly and stays sharp: an
+   engine-turned guilloche wash, a struck seal, and a slow holographic
+   sweep — the visual grammar of something that is hard to counterfeit,
+   which is the argument the block is making. */
+.auth-section{padding-block:46px}
+.auth-card{position:relative;overflow:hidden;isolation:isolate;
+  background:linear-gradient(168deg,#fff 0%,var(--paper) 58%,#F3FAFB 100%);
+  border:2px solid var(--brand);border-radius:var(--r-lg);
+  padding:26px 20px 20px;box-shadow:0 26px 60px -28px rgba(13,110,126,.42)}
+.auth-card::before{content:'';position:absolute;inset:7px;border:1px dashed rgba(13,110,126,.3);
+  border-radius:20px;pointer-events:none;z-index:0}
+/* engine-turned wash */
+.auth-guilloche{position:absolute;inset:0;z-index:-1;opacity:.5;pointer-events:none;
+  background:
+    repeating-radial-gradient(circle at 12% 8%, rgba(13,110,126,.09) 0 1px, transparent 1px 9px),
+    repeating-radial-gradient(circle at 88% 94%, rgba(227,154,18,.12) 0 1px, transparent 1px 11px),
+    repeating-linear-gradient(58deg, rgba(13,110,126,.05) 0 1px, transparent 1px 12px)}
+.auth-sheen{position:absolute;top:-60%;bottom:-60%;width:24%;z-index:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75) 48%,rgba(240,250,251,.5) 56%,transparent);
+  filter:blur(9px);transform:translateX(-200%) rotate(9deg);animation:authSheen 7.5s cubic-bezier(.4,0,.5,1) infinite}
+@keyframes authSheen{0%{transform:translateX(-200%) rotate(9deg)}48%,100%{transform:translateX(520%) rotate(9deg)}}
+
+.auth-head{position:relative;z-index:1;display:flex;align-items:center;gap:15px;margin-bottom:18px}
+.auth-seal{position:relative;flex:none;width:76px;height:76px;display:grid;place-items:center}
+.auth-seal .rays{position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,var(--saff) 0 9deg,var(--saff-2) 9deg 18deg);
+  animation:authSpin 22s linear infinite;box-shadow:0 10px 26px -10px rgba(227,154,18,.7)}
+@keyframes authSpin{to{transform:rotate(360deg)}}
+.auth-seal .disc{position:relative;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(160deg,#fff,#FDF3E0);border:2px solid rgba(255,255,255,.95);
+  color:var(--saff-2);font-size:27px;font-weight:900;font-style:normal;
+  box-shadow:inset 0 2px 6px rgba(13,110,126,.18)}
+.auth-ht{flex:1;min-width:0}
+.auth-kicker{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.16em;
+  color:#fff;background:var(--brand);padding:4px 11px;border-radius:999px;margin-bottom:7px}
+.auth-card h2{font-family:'Cairo',sans-serif;font-size:25px;font-weight:900;line-height:1.2;color:var(--ink)}
+.auth-ht p{font-size:13.5px;font-weight:700;color:var(--ink-soft);margin-top:4px;line-height:1.6}
+
+.auth-checks{position:relative;z-index:1;display:grid;gap:10px}
+.ac{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.82);
+  border:1px solid rgba(13,110,126,.18);border-radius:16px;padding:14px 15px;backdrop-filter:blur(3px)}
+.acn{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--brand),var(--brand-3));color:#fff;
+  font-family:'Cairo',sans-serif;font-weight:900;font-size:14px;box-shadow:0 6px 14px -6px rgba(13,110,126,.6)}
+.ac b{display:block;font-size:14.5px;font-weight:900;color:var(--ink);line-height:1.45}
+/* the description span only — .ac span would also catch .acn and flatten the badge */
+.ac>div>span{display:block;font-size:12.8px;font-weight:600;color:var(--ink-2);line-height:1.8;margin-top:5px}
+.ac em{font-style:normal;font-weight:900;color:var(--brand-3)}
+
+.auth-stake{position:relative;z-index:1;display:flex;gap:12px;align-items:flex-start;margin-top:14px;
+  background:linear-gradient(150deg,var(--saff-soft),#FFFDF6);
+  border:1px solid rgba(227,154,18,.45);border-radius:16px;padding:14px 15px}
+.auth-stake .as-ic{flex:none;font-size:21px;line-height:1.3}
+.auth-stake p{font-size:13.2px;font-weight:700;color:#6B4A06;line-height:1.85}
+.auth-stake b{color:#4A3203;font-weight:900}
+
+.auth-foot{position:relative;z-index:1;display:flex;align-items:center;gap:11px;margin-top:17px}
+.af-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(13,110,126,.42),transparent)}
+.af-txt{flex:none;font-family:'Cairo',sans-serif;font-size:11px;font-weight:900;letter-spacing:.1em;
+  color:var(--brand-3);white-space:nowrap}
+@media(max-width:380px){
+  .auth-card h2{font-size:22px}
+  .auth-seal{width:64px;height:64px}.auth-seal .disc{width:48px;height:48px;font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){.auth-sheen,.auth-seal .rays{animation:none}}
 </style>
 </head>
 <body>
@@ -925,6 +991,58 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
     <div class="order-count">
       <span class="ic">🔴</span>
       <div><b><span id="liveCount">24</span> شخص يشوف هذا العرض الآن</b><span>تم طلب <span id="todayOrders">147</span> علبة اليوم في السعودية</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AUTHENTICITY ═══
+     Placed straight after the price, because that is the exact moment the
+     thought "maybe it's cheaper somewhere else" arrives. "منتجنا أصلي" is
+     a sentence a counterfeiter writes too, so this hands over checks the
+     buyer can actually run instead. -->
+<section class="section auth-section">
+  <div class="wrap">
+    <div class="auth-card">
+      <span class="auth-guilloche" aria-hidden="true"></span>
+      <span class="auth-sheen" aria-hidden="true"></span>
+
+      <div class="auth-head">
+        <span class="auth-seal" aria-hidden="true"><i class="rays"></i><i class="disc">✓</i></span>
+        <div class="auth-ht">
+          <span class="auth-kicker">تحذير مهم</span>
+          <h2>في مقلّد في السوق</h2>
+          <p>وهذي طريقتك تتأكد إنك ما وقعت فيه</p>
+        </div>
+      </div>
+
+      <div class="auth-checks">
+        <div class="ac">
+          <span class="acn">١</span>
+          <div><b>ما تدفع ولا ريال قبل ما تفتح وتتأكد</b>
+            <span>المقلّد يبيع بالدفع المسبق — لأنه ما يقدر يوقف قدامك وأنت تفحص المنتج. عندنا تستلم، تفتح، تتأكد، <em>وبعدها تدفع</em>.</span></div>
+        </div>
+        <div class="ac">
+          <span class="acn">٢</span>
+          <div><b>ما نبيع إلا من هذي الصفحة</b>
+            <span>ما عندنا موزّعين ولا بائعين في المتاجر. أي إعلان أو حساب ثاني يبيع «صَفاء» — <em>مو منّا، وما نضمنه</em>.</span></div>
+        </div>
+        <div class="ac">
+          <span class="acn">٣</span>
+          <div><b>رقم طلب وفاتورة باسمك</b>
+            <span>كل طلب له رقم تقدر تراجعنا فيه على الواتساب. المقلّد ما يعطيك رقم، لأنه ما يبي تلقاه مرة ثانية.</span></div>
+        </div>
+      </div>
+
+      <div class="auth-stake">
+        <span class="as-ic">💊</span>
+        <p>ومع مكمّل تبلعه كل يوم ٦٠ يوم، المقلّد ما يكلّفك فلوسك بس — يكلّفك <b>مكوّنات ما أحد يدري وش فيها ولا كم جرعتها</b>. ومع تركيبة فيها زعفران، أول شي يُحذف من المقلّد هو <b>أغلى مكوّن فيها</b>.</p>
+      </div>
+
+      <div class="auth-foot">
+        <span class="af-line" aria-hidden="true"></span>
+        <span class="af-txt">COSMARAB · البائع الرسمي الوحيد</span>
+        <span class="af-line" aria-hidden="true"></span>
+      </div>
     </div>
   </div>
 </section>

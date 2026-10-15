@@ -548,11 +548,46 @@ window.PRODUCT={
      anyone type a town that isn't on it. -->
 <script>
 (function(){
-  var CITIES=['الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','الطائف',
-    'تبوك','بريدة','عنيزة','أبها','خميس مشيط','حائل','نجران','جازان','ينبع','الأحساء','الهفوف',
-    'القطيف','الجبيل','عرعر','سكاكا','الباحة','الخرج','بيشة','رابغ','الزلفي','وادي الدواسر',
-    'الدوادمي','المجمعة','شقراء','القريات','الوجه','ضباء','أملج','صبيا','أبو عريش','محايل عسير',
-    'النماص','الرس','المذنب','البكيرية','حفر الباطن','الخفجي','رأس تنورة','سيهات','صفوى','بقيق'];
+  /* Arabic name + the ways people actually type it in Latin letters.
+     A Saudi buyer is as likely to type "jeddah" or "riyad" as جدة. */
+  var CITIES=[
+    ['الرياض','riyadh riyad ryad alriyadh'],['جدة','jeddah jedda jiddah jedah'],
+    ['مكة المكرمة','makkah mecca makka maka'],['المدينة المنورة','madinah medina almadinah madina'],
+    ['الدمام','dammam addammam'],['الخبر','khobar alkhobar khubar'],['الظهران','dhahran zahran'],
+    ['الطائف','taif altaif taef'],['تبوك','tabuk tabouk'],['بريدة','buraidah buraydah boraida'],
+    ['عنيزة','unaizah onaizah unayzah'],['أبها','abha'],['خميس مشيط','khamis mushait khamis mushayt'],
+    ['حائل','hail hael haiel'],['نجران','najran nejran'],['جازان','jazan jizan gizan'],
+    ['ينبع','yanbu yanbo'],['الأحساء','ahsa alahsa hasa'],['الهفوف','hofuf hufuf alhofuf'],
+    ['القطيف','qatif alqatif katif'],['الجبيل','jubail aljubail jubayl'],['عرعر','arar ar3ar'],
+    ['سكاكا','sakaka sakakah'],['الباحة','baha albaha bahah'],['الخرج','kharj alkharj'],
+    ['بيشة','bisha bishah'],['رابغ','rabigh rabig'],['الزلفي','zulfi alzulfi zulfy'],
+    ['وادي الدواسر','wadi aldawasir wadi dawasir'],['الدوادمي','dawadmi aldawadmi'],
+    ['المجمعة','majmaah almajmaah majma'],['شقراء','shaqra shaqraa'],['القريات','qurayyat guriat'],
+    ['الوجه','wajh alwajh'],['ضباء','duba dhuba'],['أملج','umluj amlaj'],['صبيا','sabya sabia'],
+    ['أبو عريش','abu arish abuarish'],['محايل عسير','muhayil mahayel'],['النماص','namas alnamas'],
+    ['الرس','rass alrass ras'],['المذنب','mudhnib almuznib'],['البكيرية','bukayriyah bukairiyah'],
+    ['حفر الباطن','hafar albatin hafar batin'],['الخفجي','khafji alkhafji'],
+    ['رأس تنورة','ras tanura rastanura'],['سيهات','saihat sayhat'],['صفوى','safwa safwah'],
+    ['بقيق','buqayq abqaiq bugaig'],['الليث','laith allith'],['القنفذة','qunfudhah gunfudah'],
+    ['الدرعية','diriyah addiriyah'],['الرياض الخرج','']
+  ].filter(function(c){return c[0]!=='الرياض الخرج';});
+
+  /* ا/أ/إ/آ, ة/ه and ى/ي are typed interchangeably, so fold them before
+     comparing — otherwise "احساء" misses الأحساء. */
+  function norm(s){
+    return String(s||'').toLowerCase()
+      .replace(/[أإآ]/g,'ا').replace(/ة/g,'ه')
+      .replace(/ى/g,'ي').replace(/[ً-ْـ]/g,'')
+      .replace(/[^؀-ۿ a-z0-9]/g,'').replace(/s+/g,' ').trim();
+  }
+  function matches(city,q){
+    if(!q)return true;
+    var ar=norm(city[0]), lat=norm(city[1]);
+    if(ar.indexOf(q)>-1||lat.indexOf(q)>-1)return true;
+    /* "al" prefix is optional either way: alkhobar ~ khobar */
+    var qq=q.replace(/^als?/,'');
+    return lat.replace(/al/g,'').indexOf(qq)>-1 || ar.replace(/^ال/,'').indexOf(qq)>-1;
+  }
 
   var box=document.getElementById('cityBox'),inp=document.getElementById('city'),
       btn=document.getElementById('cityToggle'),list=document.getElementById('cityList');
@@ -560,14 +595,14 @@ window.PRODUCT={
   var open=false,active=-1,shown=CITIES.slice();
 
   function render(filter){
-    var f=(filter||'').trim();
-    shown=f?CITIES.filter(function(c){return c.indexOf(f)>-1;}):CITIES.slice();
+    var q=norm(filter);
+    shown=q?CITIES.filter(function(c){return matches(c,q);}):CITIES.slice();
     if(!shown.length){
       list.innerHTML='<div class="city-none">ما لقينا مدينة بهذا الاسم — اكتبها ونوصلك فيها 👍</div>';
       return;
     }
     list.innerHTML=shown.map(function(c,i){
-      return '<button type="button" class="city-opt'+(i===active?' on':'')+'" role="option" data-c="'+c+'">'+c+'</button>';
+      return '<button type="button" class="city-opt'+(i===active?' on':'')+'" role="option" data-c="'+c[0]+'">'+c[0]+'</button>';
     }).join('');
   }
   function show(){ if(open)return; open=true;active=-1;render(inp.value);
@@ -594,7 +629,7 @@ window.PRODUCT={
       if(active<0)active=shown.length-1; if(active>=shown.length)active=0;
       render(inp.value);
       var on=list.querySelector('.city-opt.on'); if(on)on.scrollIntoView({block:'nearest'});
-    }else if(e.key==='Enter'){ if(open&&active>-1&&shown[active]){e.preventDefault();pick(shown[active]);} }
+    }else if(e.key==='Enter'){ if(open&&active>-1&&shown[active]){e.preventDefault();pick(shown[active][0]);} }
     else if(e.key==='Escape'){hide();}
   });
   document.addEventListener('click',function(e){ if(!box.contains(e.target))hide(); });
