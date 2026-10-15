@@ -117,13 +117,47 @@ module.exports = async function handler(req, res) {
     if (!sess) return res.status(401).json({ error: 'unauthorized' });
 
     // -------- ORDERS (read sheet) ------------------------------------------
+    // Orders live in two spreadsheets — ksa-18/ksa-26 in the main one, every
+    // other product in the calm one. Reading only the main sheet hid whole
+    // product lines from this dashboard, so both are read and merged.
     if (action === 'orders') {
-      try {
-        const data = await scriptGet({ action: 'orders' });
-        return res.status(200).json({ ok: true, ...data });
-      } catch (e) {
-        return res.status(200).json({ ok: false, error: e.message, rows: [] });
-      }
+      const sources = [
+        { name: 'main', url: process.env.GOOGLE_SCRIPT_URL },
+        { name: 'calm', url: process.env.GOOGLE_SCRIPT_URL_CALM }
+      ].filter(s => s.url);
+
+      const results = await Promise.all(sources.map(async (s) => {
+        try {
+          const u = new URL(s.url);
+          u.searchParams.set('token', process.env.SHEET_TOKEN || '');
+          u.searchParams.set('action', 'orders');
+          const r = await fetch(u.toString(), { redirect: 'follow' });
+          const data = await r.json();
+          if (!data || data.ok === false) {
+            return { source: s.name, ok: false, error: (data && data.error) || 'sheet_error', rows: [] };
+          }
+          return { source: s.name, ok: true, headers: data.headers || [], rows: data.rows || [] };
+        } catch (e) {
+          return { source: s.name, ok: false, error: e.message, rows: [] };
+        }
+      }));
+
+      const rows = [];
+      results.forEach(r => (r.rows || []).forEach(row => rows.push(row)));
+      // newest first — column 0 is the ISO timestamp on both sheets
+      rows.sort((a, b) => String(b[0] || '').localeCompare(String(a[0] || '')));
+
+      const headers = (results.find(r => r.ok && r.headers && r.headers.length) || {}).headers || [];
+      const failed = results.filter(r => !r.ok);
+
+      return res.status(200).json({
+        ok: results.some(r => r.ok),
+        headers,
+        rows,
+        sources: results.map(r => ({ source: r.source, ok: r.ok, count: (r.rows || []).length, error: r.error })),
+        // surfaced so a half-broken read never looks like "no orders yet"
+        warning: failed.length ? failed.map(f => f.source + ': ' + f.error).join(' | ') : undefined
+      });
     }
 
     // -------- REDIRECTS: list ----------------------------------------------
@@ -181,6 +215,16 @@ module.exports = async function handler(req, res) {
         '/ksa-feet':    { name: 'Silky Feet',           icon: '🦶', desc: 'Foot peel socks LP' },
         '/ksa-glow':    { name: 'Collagen Glow',        icon: '✨', desc: 'Collagen sachet LP' },
         '/ksa-gut':     { name: 'Gut Glow',             icon: '🌿', desc: 'Probiotic sachet LP' },
+        '/ksa-safa':    { name: 'صَفاء — Saffron Caps', icon: '🌾', desc: 'Saffron + ashwagandha mood capsules (COSDO sheet: Safa tab)' },
+        '/ksa-26':      { name: 'نورقلو — Solar Light', icon: '🪔', desc: 'Mandala solar garden light (COSDO · lips ksa tab)' },
+        '/ksa-rawaq':   { name: 'رَواق — Mushroom Gummies', icon: '🍄', desc: 'Stress & calm gummies' },
+        '/ksa-rawaq-tt':{ name: 'رَواق — TikTok',       icon: '🎵', desc: 'Copy of ksa-rawaq for TikTok ads' },
+        '/ksa-masar':   { name: 'مَسار — Tea',          icon: '🍵', desc: 'Digestive tea LP' },
+        '/ksa-gluco':   { name: 'جلوكو — Gluco',        icon: '🩸', desc: 'Blood-sugar support LP' },
+        '/ksa-24':      { name: 'سيلورا — Ceylora',     icon: '🌱', desc: 'Ceylon cinnamon LP' },
+        '/ksa-lung':    { name: 'نَفَس — Lung',          icon: '🫁', desc: 'Respiratory support LP' },
+        '/ksa-hair':    { name: 'لانثوم — Hair Serum',  icon: '💇', desc: 'Hair serum LP' },
+        '/ksa-mullein': { name: 'المولين — Mullein',    icon: '🌼', desc: 'Mullein leaf LP' },
         '/video-bot':   { name: 'Video Script Bot',     icon: '🎬', desc: 'AI script generator' },
         '/trends':      { name: 'Product Radar',        icon: '📡', desc: 'Trend discovery + GCC scoring + LP builder' },
         '/privacy':     { name: 'Privacy Policy',        icon: '🔒', desc: 'Required for ad approval' },
