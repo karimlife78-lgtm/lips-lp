@@ -528,3 +528,34 @@ body::before{
 
 /* optional-field marker in the order form */
 .field label .opt{font-weight:600;font-size:.76rem;color:var(--ng-dim);margin-inline-start:4px}
+
+/* ── city picker ──────────────────────────────────────────────────────
+   The 📍 is the whole point: it tells a thumb that a list exists, which
+   a bare <datalist> never does. */
+.citybox{position:relative}
+.citybox input{width:100%;padding-inline-end:52px}
+.city-toggle{position:absolute;inset-inline-end:6px;top:50%;transform:translateY(-50%);
+  width:40px;height:40px;border-radius:12px;border:1px solid rgba(232,190,110,.3);
+  background:rgba(233,190,110,.12);display:grid;place-items:center;cursor:pointer;
+  transition:background .2s,border-color .2s;z-index:2}
+.city-toggle:hover,.citybox.open .city-toggle{background:rgba(233,190,110,.22);border-color:var(--ng-gold)}
+.city-toggle .ci{font-size:17px;line-height:1}
+.city-toggle .cv{position:absolute;bottom:5px;inset-inline-end:5px;width:0;height:0;
+  border-inline-start:3.5px solid transparent;border-inline-end:3.5px solid transparent;
+  border-top:4px solid var(--ng-gold);transition:transform .22s}
+.citybox.open .city-toggle .cv{transform:rotate(180deg)}
+
+.city-list{position:absolute;z-index:30;inset-inline:0;top:calc(100% + 6px);
+  max-height:240px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:#131033;border:1px solid rgba(232,190,110,.32);border-radius:16px;
+  box-shadow:0 26px 60px -18px rgba(0,0,0,.85);padding:6px;
+  display:none}
+.citybox.open .city-list{display:block;animation:cityIn .16s ease-out}
+@keyframes cityIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.city-opt{display:block;width:100%;text-align:right;padding:11px 13px;border:0;border-radius:11px;
+  background:transparent;color:var(--ng-cream);font-family:'Tajawal',sans-serif;font-size:.95rem;
+  font-weight:700;cursor:pointer;transition:background .15s}
+.city-opt:hover,.city-opt.on{background:rgba(233,190,110,.16);color:#fff}
+.city-none{padding:14px 13px;text-align:center;color:var(--ng-mute);font-size:.85rem;font-weight:700;line-height:1.7}
+.city-list::-webkit-scrollbar{width:8px}
+.city-list::-webkit-scrollbar-thumb{background:rgba(232,190,110,.3);border-radius:99px}

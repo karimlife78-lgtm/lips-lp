@@ -488,20 +488,15 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
       <div class="field" id="f-name"><label>الاسم الكامل</label><input id="name" type="text" placeholder="مثال: خالد القحطاني" autocomplete="name" /></div>
       <div class="field" id="f-phone"><label>رقم الجوال</label><input id="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" autocomplete="tel" /><div class="hint">نتواصل معك لتأكيد الطلب فقط</div></div>
       <div class="field" id="f-city"><label>المدينة</label>
-        <input id="city" type="text" list="ksaCities" placeholder="اختر مدينتك أو اكتبها" autocomplete="address-level2" />
-        <datalist id="ksaCities">
-          <option value="الرياض"></option><option value="جدة"></option><option value="مكة المكرمة"></option>
-          <option value="المدينة المنورة"></option><option value="الدمام"></option><option value="الخبر"></option>
-          <option value="الظهران"></option><option value="الطائف"></option><option value="تبوك"></option>
-          <option value="بريدة"></option><option value="عنيزة"></option><option value="أبها"></option>
-          <option value="خميس مشيط"></option><option value="حائل"></option><option value="نجران"></option>
-          <option value="جازان"></option><option value="ينبع"></option><option value="الأحساء"></option>
-          <option value="الهفوف"></option><option value="القطيف"></option><option value="الجبيل"></option>
-          <option value="عرعر"></option><option value="سكاكا"></option><option value="الباحة"></option>
-          <option value="القصيم"></option><option value="الخرج"></option><option value="بيشة"></option>
-          <option value="رابغ"></option><option value="الزلفي"></option><option value="وادي الدواسر"></option>
-        </datalist>
-        <div class="hint">تقدر تختار من القائمة أو تكتب اسم مدينتك مباشرة</div>
+        <div class="citybox" id="cityBox">
+          <input id="city" type="text" placeholder="اختر مدينتك أو اكتبها" autocomplete="address-level2"
+                 role="combobox" aria-expanded="false" aria-controls="cityList" aria-autocomplete="list" />
+          <button type="button" class="city-toggle" id="cityToggle" aria-label="اعرض قائمة المدن">
+            <span class="ci">📍</span><span class="cv" aria-hidden="true"></span>
+          </button>
+          <div class="city-list" id="cityList" role="listbox"></div>
+        </div>
+        <div class="hint">اضغط <b>📍</b> لاختيار مدينتك من القائمة — أو اكتبها مباشرة</div>
       </div>
       <div class="field" id="f-district"><label>الحي <span class="opt">(اختياري — يوصلك المندوب أسرع)</span></label>
         <input id="district" type="text" placeholder="مثال: حي النرجس" autocomplete="address-level3" />
@@ -545,5 +540,66 @@ window.PRODUCT={
 };
 </script>
 <script src="/shop/app.js"></script>
+
+<!-- ═══════════ CITY PICKER ═══════════
+     A native <datalist> shows nothing until you type, so on a phone most
+     people never learn the list exists. This is the same field with a
+     visible 📍 that opens the list, filters as you type, and still lets
+     anyone type a town that isn't on it. -->
+<script>
+(function(){
+  var CITIES=['الرياض','جدة','مكة المكرمة','المدينة المنورة','الدمام','الخبر','الظهران','الطائف',
+    'تبوك','بريدة','عنيزة','أبها','خميس مشيط','حائل','نجران','جازان','ينبع','الأحساء','الهفوف',
+    'القطيف','الجبيل','عرعر','سكاكا','الباحة','الخرج','بيشة','رابغ','الزلفي','وادي الدواسر',
+    'الدوادمي','المجمعة','شقراء','القريات','الوجه','ضباء','أملج','صبيا','أبو عريش','محايل عسير',
+    'النماص','الرس','المذنب','البكيرية','حفر الباطن','الخفجي','رأس تنورة','سيهات','صفوى','بقيق'];
+
+  var box=document.getElementById('cityBox'),inp=document.getElementById('city'),
+      btn=document.getElementById('cityToggle'),list=document.getElementById('cityList');
+  if(!box||!inp||!btn||!list)return;
+  var open=false,active=-1,shown=CITIES.slice();
+
+  function render(filter){
+    var f=(filter||'').trim();
+    shown=f?CITIES.filter(function(c){return c.indexOf(f)>-1;}):CITIES.slice();
+    if(!shown.length){
+      list.innerHTML='<div class="city-none">ما لقينا مدينة بهذا الاسم — اكتبها ونوصلك فيها 👍</div>';
+      return;
+    }
+    list.innerHTML=shown.map(function(c,i){
+      return '<button type="button" class="city-opt'+(i===active?' on':'')+'" role="option" data-c="'+c+'">'+c+'</button>';
+    }).join('');
+  }
+  function show(){ if(open)return; open=true;active=-1;render(inp.value);
+    box.classList.add('open');inp.setAttribute('aria-expanded','true');
+    /* keep the list in view when the on-screen keyboard is up */
+    setTimeout(function(){try{box.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}},80); }
+  function hide(){ if(!open)return; open=false;box.classList.remove('open');inp.setAttribute('aria-expanded','false'); }
+  function pick(c){ inp.value=c;hide();
+    var fc=document.getElementById('f-city'); if(fc)fc.classList.remove('invalid');
+    inp.classList.remove('err');
+    try{inp.dispatchEvent(new Event('input',{bubbles:true}));}catch(e){} }
+
+  btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open?hide():(inp.focus(),show());});
+  inp.addEventListener('focus',show);
+  inp.addEventListener('input',function(){active=-1;open?render(inp.value):show();});
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('.city-opt'); if(b)pick(b.getAttribute('data-c'));
+  });
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+      if(!open)return show();
+      e.preventDefault();
+      active+= (e.key==='ArrowDown'?1:-1);
+      if(active<0)active=shown.length-1; if(active>=shown.length)active=0;
+      render(inp.value);
+      var on=list.querySelector('.city-opt.on'); if(on)on.scrollIntoView({block:'nearest'});
+    }else if(e.key==='Enter'){ if(open&&active>-1&&shown[active]){e.preventDefault();pick(shown[active]);} }
+    else if(e.key==='Escape'){hide();}
+  });
+  document.addEventListener('click',function(e){ if(!box.contains(e.target))hide(); });
+  render('');
+})();
+</script>
 </body>
 </html>
