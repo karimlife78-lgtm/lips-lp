@@ -1444,7 +1444,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <h2 class="title" style="color:#fff">مكونات فعّالة وآمنة</h2>
 
       <figure class="ing-photo">
-        <img src="/assets/lips-ingredients.jpg" alt="مكونات كريم تفتيح الشفاه — الأربوتين الطبيعي، جينشان، النياسيناميد، حمض الهيالورونيك، فيتامين E، وخلاصات نباتية" width="1024" height="1024" loading="lazy" decoding="async" onerror="this.closest('figure').remove()" />
+        <img src="/assets/lips-ingredients.jpg" alt="مكونات كريم تفتيح الشفاه — الأربوتين الطبيعي، جينشان، النياسيناميد، حمض الهيالورونيك، فيتامين E، وخلاصات نباتية" width="1024" height="1024" decoding="async" onerror="this.closest('figure').remove()" />
       </figure>
 
       <div class="ing-list">
@@ -1469,10 +1469,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <p class="lead" style="margin-bottom:22px">دقيقة وحدة بس صباحاً ومساءً.</p>
   </div>
   <div class="steps">
-    <div class="step"><span class="sph"><img src="/assets/lips-step-1.jpg" alt="ينشّف شفايفه بمنشفة قبل الاستخدام" width="1024" height="1024" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">1</i></span><div><b>نظّف شفايفك</b><p>تأكد إنها نظيفة وجافة.</p></div></div>
-    <div class="step"><span class="sph"><img src="/assets/lips-step-2.jpg" alt="يحط طبقة خفيفة من الكريم على شفايفه" width="1024" height="1024" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">2</i></span><div><b>حط طبقة خفيفة</b><p>وزّع الكريم بالتساوي على الشفايف.</p></div></div>
-    <div class="step"><span class="sph"><img src="/assets/lips-step-3.jpg" alt="يدلّك الكريم على شفايفه بلطف" width="1024" height="1024" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">3</i></span><div><b>دلّك بلطف</b><p>صباحاً ومساءً لأفضل نتيجة.</p></div></div>
-    <div class="step"><span class="sph"><img src="/assets/lips-step-4.jpg" alt="راضٍ عن النتيجة بعد الاستخدام المنتظم" width="1024" height="1024" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">4</i></span><div><b>استمتع بالنتيجة</b><p>النتائج تبدأ تبان خلال أسابيع.</p></div></div>
+    <div class="step"><span class="sph"><img src="/assets/lips-step-1.jpg" alt="ينشّف شفايفه بمنشفة قبل الاستخدام" width="1024" height="1024" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">1</i></span><div><b>نظّف شفايفك</b><p>تأكد إنها نظيفة وجافة.</p></div></div>
+    <div class="step"><span class="sph"><img src="/assets/lips-step-2.jpg" alt="يحط طبقة خفيفة من الكريم على شفايفه" width="1024" height="1024" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">2</i></span><div><b>حط طبقة خفيفة</b><p>وزّع الكريم بالتساوي على الشفايف.</p></div></div>
+    <div class="step"><span class="sph"><img src="/assets/lips-step-3.jpg" alt="يدلّك الكريم على شفايفه بلطف" width="1024" height="1024" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">3</i></span><div><b>دلّك بلطف</b><p>صباحاً ومساءً لأفضل نتيجة.</p></div></div>
+    <div class="step"><span class="sph"><img src="/assets/lips-step-4.jpg" alt="راضٍ عن النتيجة بعد الاستخدام المنتظم" width="1024" height="1024" decoding="async" onerror="this.parentElement.classList.add('noimg')" /><i class="n">4</i></span><div><b>استمتع بالنتيجة</b><p>النتائج تبدأ تبان خلال أسابيع.</p></div></div>
   </div>
 </section>
 
@@ -2515,8 +2515,15 @@ var sticky=document.getElementById('stickyCta');
 window.addEventListener('scroll',function(){sticky.classList.toggle('show',window.scrollY>700&&!modal.classList.contains('open'));},{passive:true});
 
 /* REVEAL */
-var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+/* The fade-in is decoration. A missed callback used to strand a block at
+   opacity:0 for good — the offers among them — so it fires 300px early and
+   anything the observer never reaches is shown outright. */
+function revealShow(el){el.classList.add('in');}
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){revealShow(e.target);io.unobserve(e.target);}});},{threshold:0,rootMargin:'300px 0px'});
 document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-table,.certs-grid,.expert-wrap,.offer').forEach(function(el){el.classList.add('reveal');io.observe(el);});
+function revealSweep(){document.querySelectorAll('.reveal:not(.in)').forEach(revealShow);}
+setTimeout(revealSweep,2600);
+window.addEventListener('load',function(){setTimeout(revealSweep,400);});
 
 /* STOCK */
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),n=17;
