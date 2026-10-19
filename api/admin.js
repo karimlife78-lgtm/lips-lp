@@ -216,7 +216,7 @@ module.exports = async function handler(req, res) {
         '/ksa-glow':    { name: 'Collagen Glow',        icon: '✨', desc: 'Collagen sachet LP' },
         '/ksa-gut':     { name: 'Gut Glow',             icon: '🌿', desc: 'Probiotic sachet LP' },
         '/ksa-safa':    { name: 'صَفاء — Saffron Caps', icon: '🌾', desc: 'Saffron + ashwagandha mood capsules (COSDO sheet: Safa tab)' },
-        '/ksa-26':      { name: 'نورقلو — Solar Light', icon: '🪔', desc: 'Mandala solar garden light (COSDO · lips ksa tab)' },
+        '/ksa-26':      { name: 'نورقلو — Solar Light', icon: '🪔', desc: 'Mandala solar garden light (DOCOSM · lips ksa tab)' },
         '/ksa-rawaq':   { name: 'رَواق — Mushroom Gummies', icon: '🍄', desc: 'Stress & calm gummies' },
         '/ksa-rawaq-tt':{ name: 'رَواق — TikTok',       icon: '🎵', desc: 'Copy of ksa-rawaq for TikTok ads' },
         '/ksa-masar':   { name: 'مَسار — Tea',          icon: '🍵', desc: 'Digestive tea LP' },
