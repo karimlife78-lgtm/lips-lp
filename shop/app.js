@@ -344,7 +344,18 @@ if(form)form.addEventListener('submit',function(e){
     buildThanks(txId,order);
     showPanel(3);
     if(landed){
-      try{if(P.pixelId)snaptr('init',P.pixelId,{'user_phone_number':'+966'+order.phone.replace(/^0+/,''),'geo_city':order.city});}catch(e){}
+      /* Every identifier Snap can match on lifts the match rate, and the name
+         was being left on the table — ksa-18 already sends it. The city field
+         may carry a district ('الرياض — حي النرجس'), so only the city part goes. */
+      try{if(P.pixelId){
+        var nm=String(order.name||'').trim().split(/\s+/);
+        snaptr('init',P.pixelId,{
+          'user_phone_number':'+966'+order.phone.replace(/^0+/,''),
+          'firstname':nm[0]||'',
+          'lastname':nm.length>1?nm.slice(1).join(' '):(nm[0]||''),
+          'geo_city':String(order.city||'').split('—')[0].trim()
+        });
+      }}catch(e){}
       try{if(window.ttq){ttq.identify({'phone_number':'+966'+order.phone.replace(/^0+/,'')});}}catch(e){}
       try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId,'item_ids':[P.sku||''],'item_category':P.category||'health','number_items':order.qty});}catch(e){}
       try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:CUR,quantity:order.qty,content_id:P.sku});}catch(e){}
