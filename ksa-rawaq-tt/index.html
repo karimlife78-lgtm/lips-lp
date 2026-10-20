@@ -1305,7 +1305,24 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
 var SNAP_PIXEL='bb229a11-695c-4629-a21b-e424a8b1e391';
 document.getElementById('yr').textContent=new Date().getFullYear();
 var STD_EV={'PURCHASE':'Purchase','VIEW_CONTENT':'ViewContent'};
-function track(ev,data){try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}try{if(window.ttq)ttq.track(STD_EV[ev]||ev,data||{});}catch(e){}try{if(window.fbq)fbq('track',STD_EV[ev]||ev,data||{});}catch(e){}}
+var SNAP_STD={PAGE_VIEW:1,VIEW_CONTENT:1,ADD_CART:1,START_CHECKOUT:1,ADD_BILLING:1,PURCHASE:1,SIGN_UP:1,SEARCH:1,SUBSCRIBE:1,LIST_VIEW:1,SAVE:1,SHARE:1,RATE:1,LOGIN:1};
+var SNAP_CUSTOM={STRESS_SCALE:'CUSTOM_EVENT_1',PLEDGE_CONFIRMED:'CUSTOM_EVENT_2',RECEIVE_PLEDGE:'CUSTOM_EVENT_3'};
+/* Snap only recognises a fixed set of event names and files the rest as
+   unrecognised/mislabelled. Standard names pass through, the custom
+   signals ride Snap's own CUSTOM_EVENT slots, and page noise goes to
+   TikTok/Meta only -- both accept arbitrary names without penalty. Also
+   fixes PURCHASE: it needs the key 'price', not 'value' -- Snap was
+   silently receiving every Purchase with no amount on it. */
+function track(ev,data){
+  data=data||{};
+  try{if(window.snaptr){
+    if(ev==='PURCHASE')snaptr('track','PURCHASE',Object.assign({},data,{price:data.price!=null?data.price:data.value}));
+    else if(SNAP_STD[ev])snaptr('track',ev,data);
+    else if(SNAP_CUSTOM[ev])snaptr('track',SNAP_CUSTOM[ev],data);
+  }}catch(e){}
+  try{if(window.ttq)ttq.track((window.TT_EV&&TT_EV[ev])||(window.STD_EV&&STD_EV[ev])||ev,data);}catch(e){}
+  try{if(window.fbq)fbq('track',(window.STD_EV&&STD_EV[ev])||ev,data);}catch(e){}
+}
 function getSrc(){try{var p=new URLSearchParams(location.search);var s=p.get('utm_source')||p.get('src')||localStorage.getItem('cos_src');if(!s&&document.referrer){var h=new URL(document.referrer).hostname.replace('www.','');if(/snap/.test(h))s='snapchat';else if(/tiktok/.test(h))s='tiktok';else if(/facebook|instagram|fb\./.test(h))s='meta';else if(/google/.test(h))s='google';else if(h&&h.indexOf(location.hostname)<0)s=h;}s=(s||'direct').toLowerCase();try{localStorage.setItem('cos_src',s);}catch(e){}return s;}catch(e){return 'direct';}}
 document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
 
@@ -1598,7 +1615,10 @@ function openOrder(){
   document.getElementById('selSub').textContent=parts.length>1?parts[1].trim():'الدفع عند الاستلام';
   document.getElementById('selPrice').textContent=state.price;
   renderSummaries();showPanel(2);openModal();
-  track('VIEW_CONTENT',{item:'offer_'+state.offer,price:state.price});
+  var itm={item_ids:['RWQ-GUM80'],item_category:'supplements',number_items:state.qty,price:state.price,value:state.price,currency:'SAR'};
+  track('VIEW_CONTENT',itm);
+  track('ADD_CART',itm);
+  track('START_CHECKOUT',itm);
   track('AddToCart',{value:state.price,currency:'SAR'});
 }
 
@@ -1704,7 +1724,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
       // Snap's PURCHASE reads 'price', not the 'value' the shared helper sends for
       // TikTok/Meta — so every Purchase it received arrived with no amount on it.
-      try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId});}catch(e){}
+      try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId,'item_ids':['RWQ-GUM80'],'item_category':'supplements','number_items':order.qty});}catch(e){}
       try{if(window.ttq)ttq.track('Purchase',{value:order.total,currency:'SAR',content_id:'product',content_type:'product',quantity:order.qty});}catch(e){}
       try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
     }
