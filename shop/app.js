@@ -19,11 +19,22 @@ var CUR = P.currency || 'SAR', CURT = 'ر.س';
 var yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
 
 /* ── multi-pixel tracking ── */
-var TT_EV={'PURCHASE':'CompletePayment','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart'};
+var TT_EV={'PURCHASE':'CompletePayment','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart','START_CHECKOUT':'InitiateCheckout'};
+var FB_EV={'PURCHASE':'Purchase','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart','START_CHECKOUT':'InitiateCheckout'};
+/* Snap only knows a fixed set of event names and files anything else as
+   unrecognised, which is what drags a pixel's Event Quality Score to
+   'mislabelled events'. Standard names pass through, the custom signals
+   ride Snap's own slots, and everything else goes to TikTok and Meta
+   only — both accept arbitrary names without penalty. */
+var SNAP_STD={PAGE_VIEW:1,VIEW_CONTENT:1,ADD_CART:1,START_CHECKOUT:1,ADD_BILLING:1,PURCHASE:1,SIGN_UP:1,SEARCH:1,SUBSCRIBE:1,LIST_VIEW:1,SAVE:1,SHARE:1,RATE:1,LOGIN:1};
+var SNAP_CUSTOM={QUIZ_COMPLETE:'CUSTOM_EVENT_1',PLEDGE_CONFIRMED:'CUSTOM_EVENT_2',RECEIVE_PLEDGE:'CUSTOM_EVENT_3'};
 function track(ev,data){
-  try{if(window.snaptr)snaptr('track',ev,data||{});}catch(e){}
+  try{if(window.snaptr){
+    if(SNAP_STD[ev])snaptr('track',ev,data||{});
+    else if(SNAP_CUSTOM[ev])snaptr('track',SNAP_CUSTOM[ev],data||{});
+  }}catch(e){}
   try{if(window.ttq)ttq.track(TT_EV[ev]||ev,data||{});}catch(e){}
-  try{if(window.fbq)fbq('track',ev,data||{});}catch(e){}
+  try{if(window.fbq)fbq(FB_EV[ev]?'track':'trackCustom',FB_EV[ev]||ev,data||{});}catch(e){}
 }
 
 /* ── traffic source (kept across funnel for channel reporting) ── */
@@ -206,8 +217,10 @@ function openOrder(){
   var bs=document.getElementById('selSub');if(bs)bs.textContent=d.sub;
   var bp=document.getElementById('selPrice');if(bp)bp.textContent=d.price+' '+CURT;
   resetUpsells();renderSummary();showPanel(2);openModal();
-  track('VIEW_CONTENT',{item:'offer_'+d.offer,value:d.price,currency:CUR});
-  track('AddToCart',{value:d.price,currency:CUR});
+  var itm={item_ids:[P.sku||''],item_category:P.category||'health',number_items:d.qty,price:d.price,value:d.price,currency:CUR};
+  track('VIEW_CONTENT',itm);
+  track('ADD_CART',itm);
+  track('START_CHECKOUT',itm);
 }
 
 /* ── UPSELLS (cross-sell other products) ── */
@@ -333,7 +346,7 @@ if(form)form.addEventListener('submit',function(e){
     if(landed){
       try{if(P.pixelId)snaptr('init',P.pixelId,{'user_phone_number':'+966'+order.phone.replace(/^0+/,''),'geo_city':order.city});}catch(e){}
       try{if(window.ttq){ttq.identify({'phone_number':'+966'+order.phone.replace(/^0+/,'')});}}catch(e){}
-      try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId});}catch(e){}
+      try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId,'item_ids':[P.sku||''],'item_category':P.category||'health','number_items':order.qty});}catch(e){}
       try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:CUR,quantity:order.qty,content_id:P.sku});}catch(e){}
       try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:CUR,num_items:order.qty,transaction_id:txId});}catch(e){}
     }
