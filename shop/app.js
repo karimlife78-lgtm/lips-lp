@@ -357,7 +357,7 @@ if(form)form.addEventListener('submit',function(e){
         });
       }}catch(e){}
       try{if(window.ttq){ttq.identify({'phone_number':'+966'+order.phone.replace(/^0+/,'')});}}catch(e){}
-      try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId,'item_ids':[P.sku||''],'item_category':P.category||'health','number_items':order.qty});}catch(e){}
+      try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId,'item_ids':[P.sku||''],'item_category':P.category||'health','number_items':order.qty,'success':1,'description':P.name||''});}catch(e){}
       try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:CUR,quantity:order.qty,content_id:P.sku});}catch(e){}
       try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:CUR,num_items:order.qty,transaction_id:txId});}catch(e){}
     }

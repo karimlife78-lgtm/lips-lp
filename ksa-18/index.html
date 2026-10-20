@@ -2467,7 +2467,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       // sends 'value' for TikTok/Meta, which Snap silently ignores, so every Purchase
       // it received had no amount on it. Fired directly here with Snap's own keys,
       // plus client_dedup_id so a retried request can't double-count.
-      try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId,'item_ids':[P_SKU],'item_category':'lip care','number_items':order.qty});}catch(e){}
+      try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId,'item_ids':[P_SKU],'item_category':'lip care','number_items':order.qty,'success':1,'description':'Jinshan Lip Serum'});}catch(e){}
       try{if(window.ttq)ttq.track('Purchase',{value:order.total,currency:'SAR',content_id:'lip-cream',content_type:'product',quantity:order.qty});}catch(e){}
       try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
     }
