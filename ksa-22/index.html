@@ -487,6 +487,27 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .steps{max-width:var(--maxw);margin-inline:auto;display:grid;gap:12px}
 .step{display:flex;gap:14px;align-items:center}
 .step .n{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--red);color:var(--red);display:grid;place-items:center;font-weight:900;font-size:18px;font-family:'Cairo';background:#fff}
+/* the infographic bleeds to the card edges — the dark art carries its own
+   frame, so a second border round it reads as a screenshot pasted in */
+.ing-photo{margin:18px -22px 0;line-height:0;position:relative}
+.ing-photo picture{display:block}
+.ing-photo img{width:100%;height:auto;display:block}
+.ing-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(21,17,15,.35) 0,transparent 14%,transparent 86%,rgba(21,17,15,.55) 100%)}
+/* each step carries the photo of itself being done — the number rides the
+   corner so the sequence still reads if a photo is missing */
+.step .sph{position:relative;flex:none;width:92px;height:92px;border-radius:18px;overflow:hidden;
+  background:var(--paper-2);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.step .sph picture{display:block;width:100%;height:100%}
+.step .sph img{width:100%;height:100%;object-fit:cover;display:block}
+.step .sph i.n{position:absolute;inset-inline-start:5px;top:5px;width:26px;height:26px;border-radius:50%;
+  display:grid;place-items:center;font-style:normal;font-family:'Cairo';font-weight:900;font-size:13px;
+  background:var(--red);color:#fff;border:2px solid #fff;box-shadow:0 3px 8px -2px rgba(217,10,44,.6)}
+/* no photo on disk yet -> fall back to the plain numbered circle */
+.step .sph.noimg{width:44px;height:44px;border-radius:50%;border:2px solid var(--red);background:#fff;box-shadow:none}
+.step .sph.noimg img,.step .sph.noimg picture{display:none}
+.step .sph.noimg i.n{position:static;width:auto;height:auto;background:none;color:var(--red);border:0;box-shadow:none;font-size:18px}
+@media(max-width:380px){.step .sph{width:76px;height:76px}}
 .step b{font-size:15.5px;font-weight:900}
 .step p{font-size:13.5px;color:var(--ink-soft)}
 
@@ -1270,6 +1291,11 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="ing">
       <span class="eyebrow">🧪 المكونات</span>
       <h2 class="title" style="color:#fff">مكونات فعّالة وآمنة</h2>
+
+      <figure class="ing-photo">
+        <picture><source srcset="/assets/lips-ingredients.webp" type="image/webp" /><img src="/assets/lips-ingredients.jpg" alt="مكونات كريم تفتيح الشفاه — الأربوتين الطبيعي، جينشان، النياسيناميد، حمض الهيالورونيك، فيتامين E، وخلاصات نباتية" width="1024" height="1024" decoding="async" onerror="this.closest('figure').remove()" /></picture>
+      </figure>
+
       <div class="ing-list">
         <div class="ing-i"><span class="ic">🌿</span><div><b>جينشان (Ginseng)</b><span>يثبّط إنزيم التيروزيناز لتفتيح طبيعي وآمن</span></div></div>
         <div class="ing-i"><span class="ic">🔬</span><div><b>الأربوتين الطبيعي</b><span>يقلّل الاسمرار والميلانين مباشرة</span></div></div>
@@ -1292,10 +1318,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <p class="lead" style="margin-bottom:22px">دقيقة وحدة بس صباحاً ومساءً.</p>
   </div>
   <div class="steps">
-    <div class="step"><span class="n">1</span><div><b>نظّف شفايفك</b><p>تأكد إنها نظيفة وجافة.</p></div></div>
-    <div class="step"><span class="n">2</span><div><b>حط طبقة خفيفة</b><p>وزّع الكريم بالتساوي على الشفايف.</p></div></div>
-    <div class="step"><span class="n">3</span><div><b>دلّك بلطف</b><p>صباحاً ومساءً لأفضل نتيجة.</p></div></div>
-    <div class="step"><span class="n">4</span><div><b>استمتع بالنتيجة</b><p>النتائج تبدأ تبان خلال أسابيع.</p></div></div>
+    <div class="step"><span class="sph"><picture><source srcset="/assets/lips-step-1.webp" type="image/webp" /><img src="/assets/lips-step-1.jpg" alt="ينشّف شفايفه بمنشفة قبل الاستخدام" width="1024" height="1024" decoding="async" onerror="this.closest('.sph').classList.add('noimg')" /></picture><i class="n">1</i></span><div><b>نظّف شفايفك</b><p>تأكد إنها نظيفة وجافة.</p></div></div>
+    <div class="step"><span class="sph"><picture><source srcset="/assets/lips-step-2.webp" type="image/webp" /><img src="/assets/lips-step-2.jpg" alt="يحط طبقة خفيفة من الكريم على شفايفه" width="1024" height="1024" decoding="async" onerror="this.closest('.sph').classList.add('noimg')" /></picture><i class="n">2</i></span><div><b>حط طبقة خفيفة</b><p>وزّع الكريم بالتساوي على الشفايف.</p></div></div>
+    <div class="step"><span class="sph"><picture><source srcset="/assets/lips-step-3.webp" type="image/webp" /><img src="/assets/lips-step-3.jpg" alt="يدلّك الكريم على شفايفه بلطف" width="1024" height="1024" decoding="async" onerror="this.closest('.sph').classList.add('noimg')" /></picture><i class="n">3</i></span><div><b>دلّك بلطف</b><p>صباحاً ومساءً لأفضل نتيجة.</p></div></div>
+    <div class="step"><span class="sph"><picture><source srcset="/assets/lips-step-4.webp" type="image/webp" /><img src="/assets/lips-step-4.jpg" alt="راضٍ عن النتيجة بعد الاستخدام المنتظم" width="1024" height="1024" decoding="async" onerror="this.closest('.sph').classList.add('noimg')" /></picture><i class="n">4</i></span><div><b>استمتع بالنتيجة</b><p>النتائج تبدأ تبان خلال أسابيع.</p></div></div>
   </div>
 </section>
 
@@ -2236,9 +2262,9 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
     // fire conversion pixels immediately — don't wait for the pledge-view beat
     // Advanced Matching needs +966..., not the local 0-prefixed number the form collects
     var e164Phone='+966'+order.phone.replace(/^0+/,'');
-    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':e164Phone});}catch(e){}
+    try{snaptr('init','bb229a11-695c-4629-a21b-e424a8b1e391',{'user_phone_number':e164Phone,'firstname':(String(name||'').trim().split(/\s+/)[0]||''),'lastname':(function(){var n=String(name||'').trim().split(/\s+/);return n.length>1?n.slice(1).join(' '):(n[0]||'');})(),'geo_city':String(city||'').split('—')[0].trim()});}catch(e){}
     try{if(window.ttq)ttq.identify({'phone_number':e164Phone});}catch(e){}
-    track('PURCHASE',{value:order.total,price:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId,content_id:'lip-serum',content_type:'product',quantity:order.qty,item_ids:['COSLIP'],item_category:'lip care',number_items:order.qty});
+    track('PURCHASE',{value:order.total,price:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId,content_id:'lip-serum',content_type:'product',quantity:order.qty,item_ids:['COSLIP'],item_category:'lip care',number_items:order.qty,success:1,description:'Jinshan Lip Serum'});
     // brief beat so the pledge the customer just affirmed stays visible before thank-you replaces it
     setTimeout(function(){showPanel(3);updateCallMsg();},1000);
   }
@@ -2303,8 +2329,15 @@ var sticky=document.getElementById('stickyCta');
 window.addEventListener('scroll',function(){sticky.classList.toggle('show',window.scrollY>700&&!modal.classList.contains('open'));},{passive:true});
 
 /* REVEAL */
-var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+/* The fade-in is decoration. A missed callback used to strand a block at
+   opacity:0 for good — the offers among them — so it fires 300px early and
+   anything the observer never reaches is shown outright. */
+function revealShow(el){el.classList.add('in');}
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){revealShow(e.target);io.unobserve(e.target);}});},{threshold:0,rootMargin:'300px 0px'});
 document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-table,.certs-grid,.expert-wrap,.offer').forEach(function(el){el.classList.add('reveal');io.observe(el);});
+function revealSweep(){document.querySelectorAll('.reveal:not(.in)').forEach(revealShow);}
+setTimeout(revealSweep,2600);
+window.addEventListener('load',function(){setTimeout(revealSweep,400);});
 
 /* STOCK */
 var stockN=document.getElementById('stockN'),stockFill=document.getElementById('stockFill'),n=17;
