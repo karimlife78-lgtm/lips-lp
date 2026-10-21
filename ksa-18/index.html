@@ -1771,6 +1771,9 @@ var WA_NUMBER='';
 document.getElementById('yr').textContent=new Date().getFullYear();
 var P_SKU='COSLIP';
 var STD_EV={'PURCHASE':'Purchase','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart','START_CHECKOUT':'InitiateCheckout'};
+/* TikTok's purchase event is CompletePayment; 'Purchase' is Meta's and is
+   not a TikTok standard event, so it cannot be optimised against there. */
+var TIKTOK_EV={'PURCHASE':'CompletePayment','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart','START_CHECKOUT':'InitiateCheckout','ADD_BILLING':'AddPaymentInfo','SIGN_UP':'CompleteRegistration','SEARCH':'Search','SUBSCRIBE':'Subscribe'};
 /* Snap scores a pixel on how much of what it receives it recognises, and it
    only knows a fixed set of names. Sending it QUIZ_COMPLETE or EXIT_INTENT
    files them as unrecognised and drags the Event Quality Score down, which
@@ -1785,7 +1788,7 @@ function track(ev,data){
     if(SNAP_STD[ev])snaptr('track',ev,data||{});
     else if(SNAP_CUSTOM[ev])snaptr('track',SNAP_CUSTOM[ev],data||{});
   }}catch(e){}
-  try{if(window.ttq)ttq.track(STD_EV[ev]||ev,data||{});}catch(e){}
+  try{if(window.ttq)ttq.track(TIKTOK_EV[ev]||ev,data||{});}catch(e){}
   try{if(window.fbq)fbq('track',STD_EV[ev]||ev,data||{});}catch(e){}
 }
 /* Traffic source for the admin "Revenue by Channel" report — captured once, kept across the funnel */
@@ -2468,7 +2471,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
       // it received had no amount on it. Fired directly here with Snap's own keys,
       // plus client_dedup_id so a retried request can't double-count.
       try{snaptr('track','PURCHASE',{'price':order.total,'currency':'SAR','transaction_id':txId,'client_dedup_id':txId,'item_ids':[P_SKU],'item_category':'lip care','number_items':order.qty,'success':1,'description':'Jinshan Lip Serum'});}catch(e){}
-      try{if(window.ttq)ttq.track('Purchase',{value:order.total,currency:'SAR',content_id:'lip-cream',content_type:'product',quantity:order.qty});}catch(e){}
+      try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:'SAR',content_id:P_SKU,content_type:'product',quantity:order.qty});}catch(e){}
       try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:'SAR',num_items:order.qty,transaction_id:txId});}catch(e){}
     }
     // brief beat so the pledge the customer just affirmed stays visible before thank-you replaces it

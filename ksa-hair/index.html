@@ -1373,6 +1373,8 @@ var WA_NUMBER='';
 })();
 document.getElementById('yr').textContent=new Date().getFullYear();
 var STD_EV={'PURCHASE':'Purchase','VIEW_CONTENT':'ViewContent'};
+var FB_EV={'PURCHASE':'Purchase','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart','START_CHECKOUT':'InitiateCheckout'};
+var TIKTOK_EV={'PURCHASE':'CompletePayment','VIEW_CONTENT':'ViewContent','ADD_CART':'AddToCart','START_CHECKOUT':'InitiateCheckout','ADD_BILLING':'AddPaymentInfo','SIGN_UP':'CompleteRegistration','SEARCH':'Search','SUBSCRIBE':'Subscribe'};
 var SNAP_STD={PAGE_VIEW:1,VIEW_CONTENT:1,ADD_CART:1,START_CHECKOUT:1,ADD_BILLING:1,PURCHASE:1,SIGN_UP:1,SEARCH:1,SUBSCRIBE:1,LIST_VIEW:1,SAVE:1,SHARE:1,RATE:1,LOGIN:1};
 var SNAP_CUSTOM={QUIZ_COMPLETE:'CUSTOM_EVENT_1',PLEDGE_CONFIRMED:'CUSTOM_EVENT_2',RECEIVE_PLEDGE:'CUSTOM_EVENT_3'};
 /* Snap only recognises a fixed set of event names and files the rest as
@@ -1388,8 +1390,8 @@ function track(ev,data){
     else if(SNAP_STD[ev])snaptr('track',ev,data);
     else if(SNAP_CUSTOM[ev])snaptr('track',SNAP_CUSTOM[ev],data);
   }}catch(e){}
-  try{if(window.ttq)ttq.track((window.TT_EV&&TT_EV[ev])||(window.STD_EV&&STD_EV[ev])||ev,data);}catch(e){}
-  try{if(window.fbq)fbq('track',(window.STD_EV&&STD_EV[ev])||ev,data);}catch(e){}
+  try{if(window.ttq)ttq.track(TIKTOK_EV[ev]||ev,data);}catch(e){}
+  try{if(window.fbq)fbq('track',FB_EV[ev]||ev,data);}catch(e){}
 }
 /* Traffic source for the admin "Revenue by Channel" report — captured once, kept across the funnel */
 function getSrc(){try{var p=new URLSearchParams(location.search);var s=p.get('utm_source')||p.get('src')||localStorage.getItem('cos_src');if(!s&&document.referrer){var h=new URL(document.referrer).hostname.replace('www.','');if(/snap/.test(h))s='snapchat';else if(/tiktok/.test(h))s='tiktok';else if(/facebook|instagram|fb\./.test(h))s='meta';else if(/google/.test(h))s='google';else if(h&&h.indexOf(location.hostname)<0)s=h;}s=(s||'direct').toLowerCase();try{localStorage.setItem('cos_src',s);}catch(e){}return s;}catch(e){return 'direct';}}
