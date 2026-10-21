@@ -356,9 +356,20 @@ if(form)form.addEventListener('submit',function(e){
           'geo_city':String(order.city||'').split('—')[0].trim()
         });
       }}catch(e){}
-      try{if(window.ttq){ttq.identify({'phone_number':'+966'+order.phone.replace(/^0+/,'')});}}catch(e){}
+      try{if(window.ttq){
+        var tn=String(order.name||'').trim().split(/\s+/);
+        ttq.identify({
+          'phone_number':'+966'+order.phone.replace(/^0+/,''),
+          'first_name':tn[0]||'',
+          'last_name':tn.length>1?tn.slice(1).join(' '):(tn[0]||''),
+          'city':String(order.city||'').split('—')[0].trim(),
+          'country':'SA'
+        });
+      }}catch(e){}
       try{if(window.snaptr)snaptr('track','PURCHASE',{'price':order.total,'currency':CUR,'transaction_id':txId,'client_dedup_id':txId,'item_ids':[P.sku||''],'item_category':P.category||'health','number_items':order.qty,'success':1,'description':P.name||''});}catch(e){}
-      try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:CUR,quantity:order.qty,content_id:P.sku});}catch(e){}
+      try{if(window.ttq)ttq.track('CompletePayment',{value:order.total,currency:CUR,quantity:order.qty,
+        content_id:P.sku,content_type:'product',content_name:P.name||'',
+        contents:[{content_id:P.sku,content_type:'product',content_name:P.name||'',quantity:order.qty,price:state.price}]});}catch(e){}
       try{if(window.fbq)fbq('track','Purchase',{value:order.total,currency:CUR,num_items:order.qty,transaction_id:txId});}catch(e){}
     }
   }
