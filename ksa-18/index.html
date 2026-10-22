@@ -1881,7 +1881,11 @@ document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListene
      loading, so they are ready before anyone scrolls this far, without
      competing with the first screen */
   function warm(){[].forEach.call(document.querySelectorAll('#baCmp img,#baTrack img'),function(i){if(i.loading==='lazy')i.loading='eager';});}
-  if(document.readyState==='complete')setTimeout(warm,900);else window.addEventListener('load',function(){setTimeout(warm,900);});
+  /* or on the first scroll, if that comes sooner: anyone scrolling is on
+     their way here, and the section sits several screens down */
+  var warmed=false;function warmOnce(){if(warmed)return;warmed=true;warm();window.removeEventListener('scroll',warmOnce);}
+  window.addEventListener('scroll',warmOnce,{passive:true});
+  if(document.readyState==='complete')setTimeout(warmOnce,900);else window.addEventListener('load',function(){setTimeout(warmOnce,900);});
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!reduce&&'IntersectionObserver' in window){
     var io=new IntersectionObserver(function(en){
