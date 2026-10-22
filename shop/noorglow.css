@@ -559,3 +559,48 @@ body::before{
 .city-none{padding:14px 13px;text-align:center;color:var(--ng-mute);font-size:.85rem;font-weight:700;line-height:1.7}
 .city-list::-webkit-scrollbar{width:8px}
 .city-list::-webkit-scrollbar-thumb{background:rgba(232,190,110,.3);border-radius:99px}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   CONVERSION ADDITIONS — arrival date, exit intent, WhatsApp
+   ═══════════════════════════════════════════════════════════════════ */
+.eta-line{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
+  max-width:560px;margin:12px auto 0;padding:12px 16px;border-radius:14px;text-align:center;
+  background:rgba(99,200,136,.1);border:1px solid rgba(99,200,136,.32);
+  font-size:.9rem;font-weight:800;color:var(--ng-cream);line-height:1.7}
+.eta-line b{color:var(--ng-ok)}
+.eta-line .eta-ic{font-size:1.15rem}
+
+.xi{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:18px}
+.xi.open{display:flex}
+.xi-bg{position:absolute;inset:0;background:rgba(4,3,12,.72);backdrop-filter:blur(5px);animation:xiFade .25s ease-out}
+.xi-card{position:relative;width:100%;max-width:400px;text-align:center;
+  background:linear-gradient(165deg,#1b1640,#0d0a22);border:1px solid rgba(233,190,110,.32);
+  border-radius:24px;padding:28px 22px 20px;box-shadow:0 30px 80px -20px rgba(0,0,0,.85),0 0 0 1px rgba(233,190,110,.08) inset;
+  animation:xiPop .32s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes xiFade{from{opacity:0}to{opacity:1}}
+@keyframes xiPop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.xi-x{position:absolute;top:12px;inset-inline-start:12px;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(233,190,110,.25);background:rgba(255,255,255,.05);color:var(--ng-mute);font-size:15px;cursor:pointer}
+.xi-glow{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-size:30px;
+  background:radial-gradient(circle,rgba(233,190,110,.35),rgba(233,190,110,0) 70%)}
+.xi-card h3{font-family:'Cairo',sans-serif;font-size:1.45rem;font-weight:900;color:#fff;line-height:1.3}
+.xi-sub{font-size:.95rem;font-weight:700;color:var(--ng-mute);margin:8px 0 16px;line-height:1.75}
+.xi-sub b{color:var(--ng-gold-hi)}
+.xi-list{display:grid;gap:8px;text-align:right;margin-bottom:18px}
+.xi-i{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:13px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(233,190,110,.14);
+  font-size:.88rem;font-weight:700;color:var(--ng-cream);line-height:1.6}
+.xi-i .ic{font-size:1.15rem;flex:none}
+.xi-i b{color:var(--ng-gold-hi)}
+.xi-cta{width:100%}
+.xi-no{display:block;width:100%;margin-top:10px;padding:8px;border:0;background:none;cursor:pointer;
+  font-family:inherit;font-size:.82rem;font-weight:700;color:var(--ng-dim);text-decoration:underline}
+
+/* clears the sticky order bar, which runs two to three lines on a phone */
+.wa-float{position:fixed;left:16px;bottom:calc(126px + env(safe-area-inset-bottom,0px));z-index:60;width:54px;height:54px;border-radius:50%;
+  background:#25d366;display:grid;place-items:center;
+  box-shadow:0 10px 26px -6px rgba(37,211,102,.6),0 0 0 4px rgba(37,211,102,.15);transition:transform .2s,opacity .2s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float.hide{opacity:0;pointer-events:none;transform:scale(.8)}
+@media(prefers-reduced-motion:reduce){.xi-bg,.xi-card{animation:none}}

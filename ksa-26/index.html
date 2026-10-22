@@ -261,6 +261,11 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     <span>📦 الطلبات قبل <b>5:00 م</b> تُشحن اليوم</span>
   </div>
 
+  <div class="eta-line reveal" id="etaLine">
+    <span class="eta-ic">🚚</span>
+    <span>اطلب الحين ويوصلك بين <b id="etaFrom">—</b> و <b id="etaTo">—</b></span>
+  </div>
+
   <div class="scarcity reveal">
     <div class="top"><span>⚡ دفعة جديدة هذا الأسبوع — كمية محدودة</span><span>متبقّي <b id="stockN">17</b> مجموعة</span></div>
     <div class="bar"><div class="fill" id="stockFill" style="width:54%"></div></div>
@@ -467,6 +472,30 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   <p>© <span id="yr"></span> Cosmarab — جميع الحقوق محفوظة · <a href="/privacy.html">الخصوصية</a> · <a href="/terms.html">الشروط</a></p>
 </div></footer>
 
+<!-- EXIT INTENT — only for someone who has seen the offers and is leaving -->
+<div class="xi" id="xi" aria-hidden="true">
+  <div class="xi-bg" data-xi-close></div>
+  <div class="xi-card" role="dialog" aria-modal="true" aria-labelledby="xiTitle">
+    <button type="button" class="xi-x" data-xi-close aria-label="إغلاق">✕</button>
+    <div class="xi-glow" aria-hidden="true">🌙</div>
+    <h3 id="xiTitle">لحظة… قبل ما تطلع</h3>
+    <p class="xi-sub">موسم الجلسات بدأ — وكل ليلة بدون جو، <b>جلسة عادية</b>.</p>
+    <div class="xi-list">
+      <div class="xi-i"><span class="ic">💵</span><span>تدفع <b>عند الاستلام</b> — ما تحوّل ولا تدفع أونلاين</span></div>
+      <div class="xi-i"><span class="ic">🛡️</span><span>ضمان <b>60 يوم</b> — ما عجبك الجو نرجّع فلوسك</span></div>
+      <div class="xi-i"><span class="ic">☀️</span><span><b>بلا كهرباء ولا أسلاك</b> — تركيب دقيقة وحدة</span></div>
+      <div class="xi-i"><span class="ic">🚚</span><span>توصيل <b>مجاني</b> لكل مدن السعودية</span></div>
+    </div>
+    <button type="button" class="btn lg btn-pulse xi-cta" id="xiCta"><span class="shine"></span>اختر مجموعتك 👇</button>
+    <button type="button" class="xi-no" data-xi-close>لا شكراً، أكمل التصفح</button>
+  </div>
+</div>
+
+<!-- WHATSAPP — a question answered is an order not lost -->
+<a href="https://wa.me/15707807569?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%B9%D9%86%D8%AF%D9%8A%20%D8%B3%D8%A4%D8%A7%D9%84%20%D8%B9%D9%86%20%D8%A5%D8%B6%D8%A7%D8%A1%D8%A9%20%D9%86%D9%88%D8%B1%D9%82%D9%84%D9%88%20%F0%9F%8C%99" target="_blank" rel="noopener" class="wa-float" id="waFloat" aria-label="تواصل معنا على واتساب">
+  <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="#fff" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.9 2 7L3 29l6.6-2.2c2 1.1 4.2 1.7 6.4 1.7 7 0 12.7-5.7 12.7-12.7S23 3 16 3zm0 23.1c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1.3 1.3-3.8-.3-.4c-1.1-1.8-1.7-3.8-1.7-5.9C5.3 9.8 10.1 5 16 5s10.7 4.8 10.7 10.7S21.9 26.1 16 26.1zm5.9-8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.1.8.4 1.4.6 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg>
+</a>
+
 <!-- STICKY -->
 <div class="sticky" id="stickyCta">
   <div class="info"><b>نورقلو — إضاءة ماندالا شمسية</b><span>من 48.75 ر.س / قطعة · الدفع عند الاستلام</span></div>
@@ -634,6 +663,63 @@ window.PRODUCT={
   });
   document.addEventListener('click',function(e){ if(!box.contains(e.target))hide(); });
   render('');
+})();
+</script>
+<script>
+/* ── ARRIVAL DATE ────────────────────────────────────────────────────────
+   Orders before 17:00 KSA ship today; after that, tomorrow. Delivery is the
+   2-4 days the page already promises, counted from the ship day. */
+(function(){
+  var f=document.getElementById('etaFrom'),t=document.getElementById('etaTo');if(!f||!t)return;
+  var now=new Date(),ksaH=(now.getUTCHours()+3)%24,ship=ksaH>=17?1:0;
+  function fmt(d){try{return d.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});}
+    catch(e){return d.getDate()+'/'+(d.getMonth()+1);}}
+  var a=new Date(now.getTime()+(2+ship)*864e5),b=new Date(now.getTime()+(4+ship)*864e5);
+  f.textContent=fmt(a);t.textContent=fmt(b);
+})();
+
+/* ── EXIT INTENT ─────────────────────────────────────────────────────────
+   Fires once a session, and only for someone who has actually seen the
+   offers — a pop-up on a bounce-in visitor is noise, on a visitor who
+   priced it and is leaving it is the last word. Never over the checkout,
+   never after an order. */
+(function(){
+  var xi=document.getElementById('xi');if(!xi)return;
+  var modal=document.getElementById('modal');
+  var shown=false,ordered=false,sawOffers=false,armedAt=Date.now()+12000;
+  try{if(sessionStorage.getItem('ng_xi'))shown=true;}catch(e){}
+  var offers=document.getElementById('offers');
+  if(offers&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(en){if(en[0].isIntersecting)sawOffers=true;},{threshold:.25}).observe(offers);
+  }
+  document.querySelectorAll('.offer-cta').forEach(function(b){b.addEventListener('click',function(){sawOffers=true;});});
+  function can(){return !shown&&!ordered&&sawOffers&&Date.now()>=armedAt&&!(modal&&modal.classList.contains('open'));}
+  function show(){if(!can())return;shown=true;try{sessionStorage.setItem('ng_xi','1');}catch(e){}
+    xi.classList.add('open');xi.setAttribute('aria-hidden','false');}
+  function hide(){xi.classList.remove('open');xi.setAttribute('aria-hidden','true');}
+  /* desktop: the pointer leaves through the top of the window */
+  document.addEventListener('mouseout',function(e){if(!e.relatedTarget&&e.clientY<=0)show();});
+  /* phone: a hard flick back up toward the top, the gesture before closing */
+  var lastY=window.scrollY,lastT=Date.now();
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY,tn=Date.now(),dt=tn-lastT;
+    if(dt>0&&(lastY-y)/dt>1.1&&y<600)show();
+    lastY=y;lastT=tn;
+  },{passive:true});
+  xi.querySelectorAll('[data-xi-close]').forEach(function(b){b.addEventListener('click',hide);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&xi.classList.contains('open'))hide();});
+  var cta=document.getElementById('xiCta');
+  if(cta)cta.addEventListener('click',function(){hide();
+    var o=document.querySelector('#offers .offer.selected')||offers;if(o)o.scrollIntoView({behavior:'smooth',block:'center'});});
+  var form=document.getElementById('orderForm');if(form)form.addEventListener('submit',function(){ordered=true;});
+})();
+
+/* ── WHATSAPP button stays out of the way of the checkout sheet ── */
+(function(){
+  var wa=document.getElementById('waFloat'),modal=document.getElementById('modal');if(!wa||!modal)return;
+  function sync(){wa.classList.toggle('hide',modal.classList.contains('open'));}
+  if('MutationObserver' in window)new MutationObserver(sync).observe(modal,{attributes:true,attributeFilter:['class']});
+  sync();
 })();
 </script>
 </body>
