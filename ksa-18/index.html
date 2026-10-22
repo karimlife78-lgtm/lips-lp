@@ -295,31 +295,70 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .cert-full h3{font-size:14px;font-weight:900}
 .cert-full p{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:3px;text-align:right}
 
-/* BEFORE/AFTER (single real photo) */
-.ba-photo{max-width:var(--maxw);margin:24px auto 0;position:relative;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
-.ba-photo img{width:100%;display:block;transform:scaleX(-1)}
-.ba-lbl{position:absolute;top:14px;font-size:13px;font-weight:900;color:#fff;padding:6px 15px;border-radius:999px;backdrop-filter:blur(6px);box-shadow:var(--shadow-sm);font-family:'Cairo'}
-.ba-lbl.before{right:14px;background:rgba(21,17,15,.78)}
-.ba-lbl.after{left:14px;background:linear-gradient(145deg,var(--red),var(--red-2))}
-/* extra real-results gallery — swipeable, one card per screen.
-   width/height are set on every img so the carousel reserves its box and
-   nothing shifts while the lazy images arrive (keeps CLS at ~0). */
-.ba-more{max-width:var(--maxw);margin:14px auto 0;padding-inline:20px}
-.ba-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+/* BEFORE/AFTER — drag-to-compare hero + peeking results carousel */
+.ba-sec{background:var(--paper-2)}
+.ba-lead{margin-bottom:4px;font-weight:800;color:var(--ink-2)}
+
+.ba-cmp{--pos:50%;position:relative;max-width:var(--maxw);margin:22px auto 0;aspect-ratio:720/934;
+  border-radius:var(--r-lg);overflow:hidden;isolation:isolate;background-color:#2a211c;
+  background-size:cover;background-position:center;box-shadow:0 26px 60px -26px rgba(21,17,15,.55);
+  border:1px solid rgba(21,17,15,.08);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:ew-resize}
+@media(max-width:560px){.ba-cmp{margin-inline:16px}}
+.ba-cmp picture,.ba-cmp img{display:block;width:100%;height:100%}
+.ba-cmp img{object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.ba-cmp-before{position:absolute;inset:0;clip-path:inset(0 0 0 var(--pos));z-index:1}
+.ba-cmp-line{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;z-index:3;
+  background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 0 18px rgba(0,0,0,.35)}
+.ba-cmp-knob{position:absolute;top:50%;left:var(--pos);z-index:4;width:52px;height:52px;margin:-26px 0 0 -26px;
+  border-radius:50%;border:3px solid #fff;background:linear-gradient(145deg,var(--red),var(--red-2));color:#fff;
+  display:grid;place-items:center;cursor:ew-resize;padding:0;
+  box-shadow:0 10px 26px -6px rgba(217,10,44,.7),0 0 0 6px rgba(255,255,255,.18);transition:transform .2s}
+.ba-cmp.dragging .ba-cmp-knob,.ba-cmp-knob:focus-visible{transform:scale(1.1)}
+.ba-cmp-knob:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.ba-cmp-hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:4;white-space:nowrap;
+  font-family:'Cairo';font-size:12.5px;font-weight:900;color:#fff;background:rgba(21,17,15,.7);
+  backdrop-filter:blur(6px);padding:7px 15px;border-radius:999px;transition:opacity .4s;pointer-events:none}
+.ba-cmp.touched .ba-cmp-hint{opacity:0}
+
+/* labels sit on the physical side they describe, not the reading side */
+.ba-tag{position:absolute;top:14px;z-index:5;font-family:'Cairo';font-size:13px;font-weight:900;color:#fff;
+  padding:6px 15px;border-radius:999px;backdrop-filter:blur(6px);box-shadow:0 6px 16px -6px rgba(0,0,0,.45);pointer-events:none}
+.ba-tag-before{right:14px;background:rgba(21,17,15,.78)}
+.ba-tag-after{left:14px;background:linear-gradient(145deg,var(--red),var(--red-2))}
+
+.ba-more{max-width:var(--maxw);margin:20px auto 0;padding-inline:20px}
+.ba-more-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}
+.ba-more-head b{font-family:'Cairo';font-size:15px;font-weight:900;color:var(--ink)}
+.ba-nav{display:flex;align-items:center;gap:7px}
+.ba-count{font-family:'Cairo';font-size:12.5px;font-weight:900;color:var(--ink-soft);min-width:38px;text-align:center}
+.ba-arrow{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);
+  line-height:1;display:grid;place-items:center;padding:0;cursor:pointer;
+  box-shadow:var(--shadow-sm);transition:background .2s,opacity .2s}
+.ba-arrow:hover{background:var(--paper)}
+.ba-arrow:disabled{opacity:.35;cursor:default}
+.ba-track{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;padding:2px 2px 6px;margin:-2px -2px 0}
 .ba-track::-webkit-scrollbar{display:none}
-.ba-slide{flex:0 0 100%;scroll-snap-align:center;position:relative;border-radius:var(--r-lg);
-  overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);background:#fff}
-.ba-slide img{width:100%;height:auto;display:block;transform:scaleX(-1)}
-.ba-swipe{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:11px;
-  font-size:12.5px;font-weight:800;color:var(--ink-soft);font-family:'Cairo'}
-.ba-swipe .ar{animation:baNudge 1.6s ease-in-out infinite}
-@keyframes baNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-5px)}}
-.ba-dots{display:flex;justify-content:center;gap:7px;margin-top:9px}
-.ba-dot{width:7px;height:7px;border-radius:50%;background:#d8d0c6;transition:all .25s}
+.ba-slide{flex:0 0 86%;margin:0;scroll-snap-align:center;position:relative;border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--line);background:#efe7de}
+/* every card the same shape, so the row never stretches around one tall photo.
+   Wide shots lose a sliver of their outer edges, square ones a band top and
+   bottom — the lips sit near the middle of each half, so they stay in frame. */
+.ba-slide picture{display:block;aspect-ratio:4/3}
+.ba-slide img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;transform:scaleX(-1)}
+/* the fade only applies once the script has armed it, so with no JS the
+   photos are simply there */
+.ba-track.js-fade .ba-slide img{opacity:0;transition:opacity .45s}
+.ba-track.js-fade .ba-slide.ok img{opacity:1}
+.ba-track.js-fade .ba-slide:not(.ok){background:linear-gradient(100deg,#efe7de 30%,#f8f3ee 50%,#efe7de 70%) 0 0/300% 100%;
+  animation:baShim 1.3s linear infinite}
+@keyframes baShim{to{background-position:-150% 0}}
+.ba-dots{display:flex;justify-content:center;gap:7px;margin-top:10px}
+.ba-dot{width:7px;height:7px;border-radius:50%;background:#d8d0c6;transition:all .25s;cursor:pointer}
 .ba-dot.on{background:var(--red);width:20px;border-radius:999px}
-@media (prefers-reduced-motion:reduce){.ba-swipe .ar{animation:none}}
-.timeline{max-width:var(--maxw);margin:18px auto 0;display:flex;gap:8px}
+@media(prefers-reduced-motion:reduce){.ba-track.js-fade .ba-slide:not(.ok){animation:none}.ba-cmp-knob{transition:none}}
+.timeline{max-width:var(--maxw);margin:18px auto 0;display:flex;gap:8px;padding-inline:20px;box-sizing:border-box}
+@media(min-width:580px){.timeline{padding-inline:0}}
 .tl{flex:1;text-align:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 6px;box-shadow:var(--shadow-sm)}
 .tl b{display:block;color:var(--red);font-size:17px;font-weight:900;font-family:'Cairo'}
 .tl span{font-size:11.5px;font-weight:700;color:var(--ink-soft)}
@@ -1268,53 +1307,61 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 </section>
 
 <!-- BEFORE/AFTER (real photo: dark left, pink right) -->
-<section class="section" style="background:var(--paper-2)">
+<section class="section ba-sec">
   <div class="wrap" style="text-align:center">
     <span class="eyebrow">📸 نتائج حقيقية</span>
     <h2 class="title">الفرق يبان <span class="gold">بنفسك</span></h2>
     <div class="hairline"></div>
-    <p class="lead" style="margin-bottom:4px">صورة حقيقية لعميل بعد الاستخدام المنتظم.</p>
-  </div>
-  <div class="ba-photo">
-    <picture>
-      <source srcset="/assets/before-after.webp" type="image/webp" />
-      <img src="/assets/before-after.jpg" alt="قبل وبعد استخدام كريم تفتيح الشفاه" loading="lazy" />
-    </picture>
-    <span class="ba-lbl before">قبل ❌</span>
-    <span class="ba-lbl after">بعد ✅</span>
+    <p class="lead ba-lead">حرّك الخط وشوف الفرق بعينك 👇</p>
   </div>
 
-  <!-- more real results — swipe through the rest -->
+  <!-- drag-to-compare: the two halves of one real photo, stacked. The "before"
+       half is clipped to the right of the handle — the side an Arabic reader
+       looks at first. dir=ltr keeps the pointer maths in screen coordinates. -->
+  <div class="ba-cmp" id="baCmp" dir="ltr" style="--pos:50%;background-image:url(data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAACQBQCdASoYAB8APu1qsFAppaSiqAqpMB2JYgCo9A8mRWOz/PI9aXhOIQ+pHUFyeBbvdTCfAAD96evrDJaWlds3emrntr0ZsKUSTc2UQ4jDRrKbncFhvldXvWR4XJODui4SoPxh8g9IxmxjUFAChFM/7OBO3khOaX1Z8x+7f1jeuTt7vxB3TZn3dl7ZJrtPVpcDF+Bmu54SYK4sKrXsUwAA)">
+    <picture><source srcset="/assets/ba-cmp-after.webp" type="image/webp" /><img src="/assets/ba-cmp-after.jpg" width="720" height="934" loading="lazy" decoding="async" alt="بعد استخدام كريم تفتيح الشفاه — شفايف وردية وموحّدة اللون" /></picture>
+    <div class="ba-cmp-before"><picture><source srcset="/assets/ba-cmp-before.webp" type="image/webp" /><img src="/assets/ba-cmp-before.jpg" width="720" height="934" loading="lazy" decoding="async" alt="قبل استخدام كريم تفتيح الشفاه — شفايف غامقة ومتشققة" /></picture></div>
+    <span class="ba-tag ba-tag-before">قبل</span>
+    <span class="ba-tag ba-tag-after">بعد ✨</span>
+    <div class="ba-cmp-line" aria-hidden="true"></div>
+    <button type="button" class="ba-cmp-knob" id="baKnob" role="slider" aria-label="اسحب للمقارنة بين قبل وبعد" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <span class="ba-cmp-hint" id="baHint">اسحب يمين ويسار</span>
+  </div>
+
+  <!-- more results — the next card peeks in so it is obvious there is more -->
   <div class="ba-more">
-    <div class="ba-track" id="baTrack">
-      <!-- strongest contrast of the set — leads, since most people swipe only once or twice -->
-      <div class="ba-slide">
-        <picture><source srcset="/assets/ba-1.webp" type="image/webp" />
-          <img src="/assets/ba-1.jpg" width="1024" height="770" loading="lazy" decoding="async" alt="قبل وبعد كريم تفتيح الشفاه — اسمرار واضح حول الشفاه يتحول للون وردي طبيعي" /></picture>
-        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
-      </div>
-      <div class="ba-slide">
-        <picture><source srcset="/assets/ba-2.webp" type="image/webp" />
-          <img src="/assets/ba-2.jpg" width="1024" height="672" loading="lazy" decoding="async" alt="قبل وبعد استخدام كريم تفتيح الشفاه — شفايف غامقة ومتشققة تتحول لوردية ورطبة" /></picture>
-        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
-      </div>
-      <div class="ba-slide">
-        <picture><source srcset="/assets/ba-3.webp" type="image/webp" />
-          <img src="/assets/ba-3.jpg" width="1024" height="635" loading="lazy" decoding="async" alt="نتيجة كريم تفتيح الشفاه — اختفاء التشققات وتوحّد لون الشفاه" /></picture>
-        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
-      </div>
-      <div class="ba-slide">
-        <picture><source srcset="/assets/ba-4.webp" type="image/webp" />
-          <img src="/assets/ba-4.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="قبل وبعد — تفتيح اسمرار الشفاه الناتج عن التدخين والجفاف" /></picture>
-        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
-      </div>
-      <div class="ba-slide">
-        <picture><source srcset="/assets/ba-5.webp" type="image/webp" />
-          <img src="/assets/ba-5.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم لكريم تفتيح الشفاه — لون وردي طبيعي موحّد" /></picture>
-        <span class="ba-lbl before">قبل ❌</span><span class="ba-lbl after">بعد ✅</span>
+    <div class="ba-more-head">
+      <b>نتائج عملاء ثانيين</b>
+      <div class="ba-nav">
+        <span class="ba-count" id="baCount">1 من 5</span>
+        <button type="button" class="ba-arrow" id="baPrev" aria-label="النتيجة السابقة"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="ba-arrow" id="baNext" aria-label="النتيجة التالية"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
-    <div class="ba-swipe"><span class="ar">←</span><span>اسحب لمشاهدة نتائج أكثر</span></div>
+    <div class="ba-track" id="baTrack">
+      <figure class="ba-slide">
+        <picture><source srcset="/assets/ba-1.webp" type="image/webp" /><img src="/assets/ba-1.jpg" width="720" height="541" loading="lazy" decoding="async" alt="قبل وبعد كريم تفتيح الشفاه — اسمرار واضح حول الشفاه يتحول للون وردي طبيعي" /></picture>
+        <span class="ba-tag ba-tag-before">قبل</span><span class="ba-tag ba-tag-after">بعد</span>
+      </figure>
+      <figure class="ba-slide">
+        <picture><source srcset="/assets/ba-2.webp" type="image/webp" /><img src="/assets/ba-2.jpg" width="720" height="473" loading="lazy" decoding="async" alt="قبل وبعد استخدام كريم تفتيح الشفاه — شفايف غامقة ومتشققة تتحول لوردية ورطبة" /></picture>
+        <span class="ba-tag ba-tag-before">قبل</span><span class="ba-tag ba-tag-after">بعد</span>
+      </figure>
+      <figure class="ba-slide">
+        <picture><source srcset="/assets/ba-3.webp" type="image/webp" /><img src="/assets/ba-3.jpg" width="720" height="446" loading="lazy" decoding="async" alt="نتيجة كريم تفتيح الشفاه — اختفاء التشققات وتوحّد لون الشفاه" /></picture>
+        <span class="ba-tag ba-tag-before">قبل</span><span class="ba-tag ba-tag-after">بعد</span>
+      </figure>
+      <figure class="ba-slide">
+        <picture><source srcset="/assets/ba-4.webp" type="image/webp" /><img src="/assets/ba-4.jpg" width="720" height="720" loading="lazy" decoding="async" alt="قبل وبعد — تفتيح اسمرار الشفاه الناتج عن التدخين والجفاف" /></picture>
+        <span class="ba-tag ba-tag-before">قبل</span><span class="ba-tag ba-tag-after">بعد</span>
+      </figure>
+      <figure class="ba-slide">
+        <picture><source srcset="/assets/ba-5.webp" type="image/webp" /><img src="/assets/ba-5.jpg" width="720" height="720" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم لكريم تفتيح الشفاه — لون وردي طبيعي موحّد" /></picture>
+        <span class="ba-tag ba-tag-before">قبل</span><span class="ba-tag ba-tag-after">بعد</span>
+      </figure>
+    </div>
     <div class="ba-dots" id="baDots"><i class="ba-dot on"></i><i class="ba-dot"></i><i class="ba-dot"></i><i class="ba-dot"></i><i class="ba-dot"></i></div>
   </div>
 
@@ -1795,27 +1842,110 @@ function track(ev,data){
 function getSrc(){try{var p=new URLSearchParams(location.search);var s=p.get('utm_source')||p.get('src')||localStorage.getItem('cos_src');if(!s&&document.referrer){var h=new URL(document.referrer).hostname.replace('www.','');if(/snap/.test(h))s='snapchat';else if(/tiktok/.test(h))s='tiktok';else if(/facebook|instagram|fb\./.test(h))s='meta';else if(/google/.test(h))s='google';else if(h&&h.indexOf(location.hostname)<0)s=h;}s=(s||'direct').toLowerCase();try{localStorage.setItem('cos_src',s);}catch(e){}return s;}catch(e){return 'direct';}}
 document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListener('click',function(){var t=document.querySelector(b.getAttribute('data-scroll'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
 
-/* results carousel dots — RTL scrollLeft is negative in some engines, so compare on |scrollLeft| */
+/* ── BEFORE/AFTER: drag-to-compare ──────────────────────────────────────
+   Horizontal drags move the handle; vertical drags are left to the page
+   (touch-action:pan-y), so the slider never traps someone who is scrolling. */
 (function(){
-  var tr=document.getElementById('baTrack'),dots=document.getElementById('baDots');
-  if(!tr||!dots)return;
-  var ds=dots.querySelectorAll('.ba-dot'),tick=null;
-  tr.addEventListener('scroll',function(){
-    if(tick)return;
-    tick=requestAnimationFrame(function(){
-      tick=null;
-      var i=Math.round(Math.abs(tr.scrollLeft)/tr.clientWidth);
-      for(var k=0;k<ds.length;k++)ds[k].classList.toggle('on',k===i);
-    });
-  },{passive:true});
-  /* a dot is a jump target too, not just an indicator */
-  for(var k=0;k<ds.length;k++)(function(k){
-    ds[k].style.cursor='pointer';
-    ds[k].addEventListener('click',function(){
-      var dir=getComputedStyle(tr).direction==='rtl'?-1:1;
-      tr.scrollTo({left:dir*k*tr.clientWidth,behavior:'smooth'});
-    });
-  })(k);
+  var el=document.getElementById('baCmp'),knob=document.getElementById('baKnob');
+  if(!el||!knob)return;
+  var pos=50,drag=false,sx=0,sy=0,pid=null;
+  function set(p){pos=Math.max(3,Math.min(97,p));el.style.setProperty('--pos',pos+'%');knob.setAttribute('aria-valuenow',Math.round(pos));}
+  function atX(x){var r=el.getBoundingClientRect();set((x-r.left)/r.width*100);}
+  function touched(){el.classList.add('touched');}
+  el.addEventListener('pointerdown',function(e){
+    pid=e.pointerId;sx=e.clientX;sy=e.clientY;
+    if(e.pointerType==='mouse'||e.target===knob||knob.contains(e.target)){drag=true;el.classList.add('dragging');touched();atX(e.clientX);
+      try{el.setPointerCapture(pid);}catch(_){}}
+  });
+  el.addEventListener('pointermove',function(e){
+    if(e.pointerId!==pid)return;
+    if(!drag){var dx=Math.abs(e.clientX-sx),dy=Math.abs(e.clientY-sy);
+      if(dx>6&&dx>dy){drag=true;el.classList.add('dragging');touched();try{el.setPointerCapture(pid);}catch(_){}}else return;}
+    atX(e.clientX);
+  });
+  function end(e){
+    if(e.pointerId!==pid)return;
+    /* a plain tap on the photo jumps the handle there */
+    if(!drag&&e.type==='pointerup'&&Math.abs(e.clientX-sx)<6&&Math.abs(e.clientY-sy)<6){touched();atX(e.clientX);}
+    drag=false;pid=null;el.classList.remove('dragging');
+  }
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+  knob.addEventListener('keydown',function(e){
+    var k=e.key;if(k==='ArrowLeft'){set(pos-5);touched();e.preventDefault();}
+    else if(k==='ArrowRight'){set(pos+5);touched();e.preventDefault();}
+    else if(k==='Home'){set(3);e.preventDefault();}else if(k==='End'){set(97);e.preventDefault();}
+  });
+  /* one gentle sweep the first time it comes into view, so it reads as
+     something you can move — skipped if they already touched it */
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){
+      if(!en[0].isIntersecting)return;io.disconnect();
+      setTimeout(function(){
+        if(el.classList.contains('touched'))return;
+        var t0=null,D=1700;
+        (function step(t){
+          if(el.classList.contains('touched'))return;
+          if(!t0)t0=t;var k=Math.min(1,(t-t0)/D);
+          set(50+Math.sin(k*Math.PI*2)*18*(1-k*.25));
+          if(k<1)requestAnimationFrame(step);else set(50);
+        })(performance.now());
+      },500);
+    },{threshold:.55});
+    io.observe(el);
+  }
+})();
+
+/* ── BEFORE/AFTER: results carousel ─────────────────────────────────────
+   The active card is read with an IntersectionObserver rather than from
+   scrollLeft, which RTL makes negative in some engines and positive in
+   others. The off-screen cards are fetched as the section approaches, so a
+   swipe never lands on a blank card. */
+(function(){
+  var tr=document.getElementById('baTrack');if(!tr)return;
+  var slides=[].slice.call(tr.querySelectorAll('.ba-slide'));
+  var dots=[].slice.call(document.querySelectorAll('#baDots .ba-dot'));
+  var cnt=document.getElementById('baCount'),prev=document.getElementById('baPrev'),next=document.getElementById('baNext');
+  var cur=0,n=slides.length;
+
+  tr.classList.add('js-fade');
+  slides.forEach(function(s){
+    var img=s.querySelector('img');if(!img)return;
+    function ok(){s.classList.add('ok');}
+    if(img.complete&&img.naturalWidth)ok();else{img.addEventListener('load',ok);img.addEventListener('error',ok);}
+  });
+  /* never leave a card stuck on its shimmer */
+  setTimeout(function(){slides.forEach(function(s){s.classList.add('ok');});},6000);
+
+  function warm(){slides.forEach(function(s){var i=s.querySelector('img');if(i&&i.loading==='lazy')i.loading='eager';});}
+  if('IntersectionObserver' in window){
+    var near=new IntersectionObserver(function(en){if(en[0].isIntersecting){warm();near.disconnect();}},{rootMargin:'900px 0px'});
+    near.observe(tr);
+  } else warm();
+
+  function paint(i){
+    cur=i;
+    if(cnt)cnt.textContent=(i+1)+' من '+n;
+    dots.forEach(function(d,k){d.classList.toggle('on',k===i);});
+    if(prev)prev.disabled=(i===0);
+    if(next)next.disabled=(i===n-1);
+  }
+  if('IntersectionObserver' in window){
+    var vis=new IntersectionObserver(function(en){
+      en.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>=.6)paint(slides.indexOf(e.target));});
+    },{root:tr,threshold:[.6]});
+    slides.forEach(function(s){vis.observe(s);});
+  }
+  function go(i){
+    i=Math.max(0,Math.min(n-1,i));var s=slides[i];
+    /* centre the card inside the track without moving the page */
+    var tb=tr.getBoundingClientRect(),sb=s.getBoundingClientRect();
+    tr.scrollBy({left:(sb.left+sb.width/2)-(tb.left+tb.width/2),behavior:'smooth'});
+  }
+  if(prev)prev.addEventListener('click',function(){go(cur-1);});
+  if(next)next.addEventListener('click',function(){go(cur+1);});
+  dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);});});
+  paint(0);
 })();
 
 /* ─── CONFIRMATION-CALL WINDOW ───────────────────────────────────────────
@@ -2550,7 +2680,7 @@ window.addEventListener('scroll',function(){sticky.classList.toggle('show',windo
    anything the observer never reaches is shown outright. */
 function revealShow(el){el.classList.add('in');}
 var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){revealShow(e.target);io.unobserve(e.target);}});},{threshold:0,rootMargin:'300px 0px'});
-document.querySelectorAll('.section>.wrap,.benefits,.ba-photo,.timeline,.comp-table,.certs-grid,.expert-wrap,.offer').forEach(function(el){el.classList.add('reveal');io.observe(el);});
+document.querySelectorAll('.section>.wrap,.benefits,.timeline,.comp-table,.certs-grid,.expert-wrap,.offer').forEach(function(el){el.classList.add('reveal');io.observe(el);});
 function revealSweep(){document.querySelectorAll('.reveal:not(.in)').forEach(revealShow);}
 setTimeout(revealSweep,2600);
 window.addEventListener('load',function(){setTimeout(revealSweep,400);});
