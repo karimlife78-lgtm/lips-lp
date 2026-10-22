@@ -387,3 +387,24 @@ h2.title{font-size:clamp(1.7rem,5.4vw,2.7rem);margin-bottom:8px}
   border:1.5px dashed #1f9d55;background:rgba(31,157,85,.08);color:#1a5c36;
   font-weight:800;font-size:.88rem;font-family:inherit;transition:.25s}
 .ty-pledge.done{background:#1f9d55;color:#fff;border-style:solid;cursor:default}
+
+
+/* ── monthly prize draw on the thank-you screen ── */
+.ty-draw{margin-top:14px;border-radius:16px;overflow:hidden;text-align:right;
+  border:2px solid #B57BD6;background:linear-gradient(150deg,#fef6ff,#f4e8ff)}
+.ty-draw .td-h{display:flex;align-items:center;gap:11px;padding:12px 15px;
+  background:linear-gradient(90deg,#7d34a6,#b57bd6);color:#fff}
+.ty-draw .td-gift{font-size:26px;flex:none;animation:tdBob 2.4s ease-in-out infinite}
+@keyframes tdBob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-3px) rotate(6deg)}}
+.ty-draw .td-h b{display:block;font-size:.95rem;font-weight:900;line-height:1.45}
+.ty-draw .td-h span{display:block;font-size:.78rem;font-weight:700;opacity:.9;margin-top:2px}
+.ty-draw .td-b{padding:13px 15px}
+.ty-draw .td-lbl{font-size:.82rem;font-weight:900;color:#5a2f70;margin-bottom:8px}
+.ty-draw .td-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:.84rem;font-weight:700;color:#4a2a5c;line-height:1.65}
+.ty-draw .td-step+.td-step{border-top:1px dashed rgba(181,123,214,.45)}
+.ty-draw .td-step i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;
+  font-size:.72rem;font-weight:900;color:#fff;background:#8b3fb0;margin-top:1px}
+.ty-draw .td-step b{color:#3a1d4d}
+.ty-draw .td-note{margin-top:10px;padding:9px 12px;border-radius:10px;background:#fff;border:1px dashed #d5b3e8;
+  font-size:.78rem;font-weight:700;color:#5a2f70;line-height:1.65}
+@media(prefers-reduced-motion:reduce){.ty-draw .td-gift{animation:none}}

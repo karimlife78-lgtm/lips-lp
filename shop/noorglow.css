@@ -604,3 +604,14 @@ body::before{
 .wa-float:hover{transform:scale(1.08)}
 .wa-float.hide{opacity:0;pointer-events:none;transform:scale(.8)}
 @media(prefers-reduced-motion:reduce){.xi-bg,.xi-card{animation:none}}
+
+
+/* prize draw on the midnight theme — violet glass, gold numbers */
+.ty-draw{border-color:rgba(181,123,214,.55);background:linear-gradient(160deg,rgba(60,30,90,.55),rgba(14,10,34,.8))}
+.ty-draw .td-h{background:linear-gradient(90deg,#5b2483,#8b4fc0)}
+.ty-draw .td-lbl{color:var(--ng-gold-hi)}
+.ty-draw .td-step{color:var(--ng-mute)}
+.ty-draw .td-step b{color:var(--ng-cream)}
+.ty-draw .td-step+.td-step{border-top-color:rgba(181,123,214,.3)}
+.ty-draw .td-step i{background:linear-gradient(145deg,var(--ng-gold),var(--ng-gold-lo));color:var(--ng-night)}
+.ty-draw .td-note{background:rgba(255,255,255,.04);border-color:rgba(181,123,214,.4);color:var(--ng-cream)}

@@ -424,6 +424,27 @@ function buildThanks(txId,order){
   var city=String(order.city||'').split('—')[0].trim();
   if(city)put(el('<div class="ty-city">✅ طلبك على طريقه إلى <b>'+city+'</b> — جهّز جوالك لمكالمة التأكيد 📱</div>'));
 
+  /* ── monthly prize draw (opt-in per page via PRODUCT.draw) ──
+     The prize is the hook; the mechanic is the point. On COD the money is
+     lost to unanswered confirmation calls and refused parcels, so the entry
+     only counts once both happen -- the draw becomes a reason to pick up
+     the phone and take the parcel. Entry rides on the name and phone already
+     in the sheet; no invented ticket number, no invented past winners. */
+  if(P.draw&&P.draw.prize){
+    var dfirst=String(order.name||'').trim().split(/\s+/)[0]||'';
+    var dnow=new Date(),dlast=new Date(dnow.getFullYear(),dnow.getMonth()+1,0),dday='آخر الشهر';
+    try{dday=dlast.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});}catch(e){}
+    put(el('<div class="ty-draw">'+
+      '<div class="td-h"><span class="td-gift">🎁</span><div><b>'+(dfirst?'مبروك يا '+dfirst+'! ':'مبروك! ')+'دخلت سحب '+P.draw.prize+'</b>'+
+        '<span>سحب هذا الشهر — '+dday+'</span></div></div>'+
+      '<div class="td-b">'+
+        '<div class="td-lbl">دخولك يتفعّل بخطوتين بس:</div>'+
+        '<div class="td-step"><i>1</i><span><b>ردّ على مكالمة التأكيد</b> — من رقم جديد عليك، لا تطنّشها</span></div>'+
+        '<div class="td-step"><i>2</i><span><b>استلم طلبك من المندوب</b> — الطلب المرفوض يطلع من السحب</span></div>'+
+        '<div class="td-note">📞 دخولك مسجّل باسمك ورقم جوالك — ونتواصل مع الفائز على نفس الرقم.</div>'+
+      '</div></div>'));
+  }
+
   /* one last explicit promise, made after the order, not before */
   var pb=el('<button type="button" class="ty-pledge">✋ أتعهد باستلام طلبي من المندوب</button>');
   pb.addEventListener('click',function(){
