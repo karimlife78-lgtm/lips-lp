@@ -1877,6 +1877,11 @@ document.querySelectorAll('[data-scroll]').forEach(function(b){b.addEventListene
   });
   /* one gentle sweep the first time it comes into view, so it reads as
      something you can move — skipped if they already touched it */
+  /* ~110KB for both halves: fetch them once the page itself has finished
+     loading, so they are ready before anyone scrolls this far, without
+     competing with the first screen */
+  function warm(){[].forEach.call(document.querySelectorAll('#baCmp img,#baTrack img'),function(i){if(i.loading==='lazy')i.loading='eager';});}
+  if(document.readyState==='complete')setTimeout(warm,900);else window.addEventListener('load',function(){setTimeout(warm,900);});
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!reduce&&'IntersectionObserver' in window){
     var io=new IntersectionObserver(function(en){
