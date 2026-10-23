@@ -212,6 +212,7 @@ module.exports = async function handler(req, res) {
         '/ksa-calm':    { name: 'Sukoon — Sleep Sachet', icon: '🌙', desc: 'Sleep & calm drink sachet' },
         '/ksa-20':      { name: 'Zebra T-Shirt',        icon: '🦓', desc: 'TikTok clean LP' },
         '/ksa-22':      { name: 'Lip Serum — TikTok',   icon: '💋', desc: 'Copy of ksa-18 for TikTok ads' },
+        '/ksa-28':      { name: 'Lip Serum — Rosé',    icon: '🌸', desc: 'New lip serum LP: drag slider hero + shade check (COSLIP · lips ksa tab)' },
         '/ksa-feet':    { name: 'Silky Feet',           icon: '🦶', desc: 'Foot peel socks LP' },
         '/ksa-glow':    { name: 'Collagen Glow',        icon: '✨', desc: 'Collagen sachet LP' },
         '/ksa-gut':     { name: 'Gut Glow',             icon: '🌿', desc: 'Probiotic sachet LP' },
