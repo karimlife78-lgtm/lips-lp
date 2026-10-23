@@ -299,6 +299,22 @@ b,strong{font-weight:800}
 .how3 span{display:block;font-size:.7rem;font-weight:700;color:var(--muted);margin-top:2px}
 .how3 li+li::before{content:'';position:absolute;top:24px;right:-8px;width:8px;height:2px;background:var(--blush-2)}
 
+
+/* ── reviews ── */
+.rvs{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;gap:10px}
+.rv{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;box-shadow:var(--sh-sm)}
+.rv-top{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+.rv-av{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--fh);font-weight:900;font-size:1.05rem;color:#fff;
+  background:linear-gradient(145deg,var(--rose),var(--berry))}
+.rv-top b{display:flex;align-items:center;gap:6px;font-family:var(--fh);font-size:.95rem}
+.rv-top small{display:block;font-size:.74rem;font-weight:700;color:var(--muted)}
+.rv-ok{font-family:var(--fb,inherit);font-size:.62rem;font-weight:800;color:#1f7a45;background:#e9f7ef;padding:2px 7px;border-radius:6px}
+.rv-st{margin-inline-start:auto;color:var(--gold);font-size:.85rem;letter-spacing:1px}
+.rv p{font-size:.9rem;font-weight:600;line-height:1.85;color:var(--text)}
+.rvs:not(.open) .rv-more{display:none}
+.rv-act{text-align:center;margin-top:12px}
+.rv-btn{font:inherit;font-family:var(--fh);font-size:.88rem;font-weight:800;color:var(--rose-2);background:#fff;border:1.5px solid var(--blush-2);border-radius:999px;padding:10px 22px;cursor:pointer}
+
 /* ── routine ── */
 .rt{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rt-i{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
@@ -693,7 +709,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ COMPARE ═══════════ -->
-<section class="section l-alt">
+<section class="section">
   <div class="l-head">
     <span class="l-eye">🆚 قبل لا تقرر</span>
     <h2>وش الفرق عن <span class="em">البدائل؟</span></h2>
@@ -709,6 +725,26 @@ b,strong{font-weight:800}
       </tbody>
     </table>
   </div>
+</section>
+
+<!-- ═══════════ REVIEWS ═══════════ -->
+<section class="section l-alt" id="reviews">
+  <div class="l-head">
+    <span class="l-eye">💬 آراء عملائنا</span>
+    <h2>ناس جرّبوه <span class="em">وقالوا</span></h2>
+    <p>كلام عملاء طلبوا ودفعوا عند الاستلام — من الرياض لأبها.</p>
+  </div>
+  <div class="rvs" id="rvs">
+    <div class="rv"><div class="rv-top"><span class="rv-av">ن</span><div><b>نورة <span class="rv-ok">✔ عميل</span></b><small>الرياض</small></div><span class="rv-st">★★★★★</span></div><p>«صدق فرق! شفايفي كانت غامقة من القهوة، بعد شهر صارت وردية وأنعم. أنصح فيه.»</p></div>
+    <div class="rv"><div class="rv-top"><span class="rv-av">ف</span><div><b>فهد <span class="rv-ok">✔ عميل</span></b><small>جدة</small></div><span class="rv-st">★★★★★</span></div><p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح.»</p></div>
+    <div class="rv"><div class="rv-top"><span class="rv-av">أ</span><div><b>أم خالد <span class="rv-ok">✔ عميل</span></b><small>مكة المكرمة</small></div><span class="rv-st">★★★★★</span></div><p>«اشتريت الكريم لزوجي كان يشتكي من سواد شفايفه من التدخين — بعد ثلاثة أسابيع فرق واضح وهو نفسه قالي راح يطلب مرة ثانية 😂 ينصح فيه 100%.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ع</span><div><b>عبدالرحمن <span class="rv-ok">✔ عميل</span></b><small>المدينة المنورة</small></div><span class="rv-st">★★★★★</span></div><p>«جربت منتجات كثيرة ما فادت، هذا أول شي يعطيني نتيجة حقيقية. الترطيب من أول يوم والسواد بدأ يخف من الأسبوع الثاني.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ر</span><div><b>ريم <span class="rv-ok">✔ عميل</span></b><small>الدمام</small></div><span class="rv-st">★★★★★</span></div><p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">س</span><div><b>سلطان <span class="rv-ok">✔ عميل</span></b><small>أبها</small></div><span class="rv-st">★★★★★</span></div><p>«وصل في يومين بالضبط. التغليف أنيق والمنتج أصلي. جربته أسبوع وشفايفي أنعم بوضوح. راح آخذ 3 قطع المرة الجاية.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">م</span><div><b>منى <span class="rv-ok">✔ عميل</span></b><small>تبوك</small></div><span class="rv-st">★★★★★</span></div><p>«كنت خايفة أدفع قبل ما أشوف المنتج بس الدفع عند الاستلام خلّاني أجرّب. والله ما ندمت — الكريم حلو ورايحة خفيفة.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ه</span><div><b>هيفاء <span class="rv-ok">✔ عميل</span></b><small>الخبر</small></div><span class="rv-st">★★★★★</span></div><p>«ما توقعت يكون بهالجودة بهالسعر. الشفايف صارت طرية وأخف لون. أنا وأختي نستخدمه الحين.»</p></div>
+  </div>
+  <div class="rv-act"><button type="button" class="rv-btn" id="rvMore">شوف كل الآراء (8) ⌄</button></div>
 </section>
 
 <!-- ═══════════ OFFERS ═══════════ -->
@@ -1128,6 +1164,11 @@ window.PRODUCT={
   paint();
 })();
 
+
+
+/* ── REVIEWS: three up front, the rest on tap ── */
+(function(){var b=document.getElementById('rvMore'),w=document.getElementById('rvs');if(!b||!w)return;
+  b.addEventListener('click',function(){w.classList.add('open');b.parentNode.style.display='none';});})();
 
 /* ── STICKY BAR names the pack the visitor picked ── */
 (function(){
