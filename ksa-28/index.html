@@ -436,14 +436,16 @@ b,strong{font-weight:800}
 <!-- ═══════════ SPECIALIST ═══════════ -->
 <section class="section">
   <div class="l-head">
-    <span class="l-eye">👨‍⚕️ رأي متخصص</span>
-    <h2>متخصص يشرح <span class="em">ليش يفرق</span></h2>
+    <span class="l-eye">🎬 شوف المنتج</span>
+    <h2>8 ثواني — <span class="em">شوفه عن قريب</span></h2>
   </div>
   <div class="vd"><div class="vd-box" id="vdBox">
-    <video id="vd" preload="none" playsinline controls poster="/assets/hero.webp" src="/assets/doctor.mp4"></video>
+    <!-- doctor-web.mp4: re-encoded 4.6MB -> 1.7MB with the index at the front,
+         so playback starts on the first bytes instead of after the whole file -->
+    <video id="vd" preload="none" playsinline controls poster="/assets/doctor-poster.webp" src="/assets/doctor-web.mp4"></video>
     <button type="button" class="vd-play" id="vdPlay" aria-label="شغّل الفيديو">
       <i><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#9e1538"/></svg></i>
-      <span class="cap">▶ دقيقة وحدة تفهم فيها السالفة كاملة</span>
+      <span class="cap">▶ اضغط وشوف — 8 ثواني</span>
     </button>
   </div></div>
 </section>

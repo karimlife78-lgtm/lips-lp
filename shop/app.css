@@ -302,6 +302,14 @@ h2.title{font-size:clamp(1.7rem,5.4vw,2.7rem);margin-bottom:8px}
 .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:8px 0 16px}
 .summary .row{display:flex;justify-content:space-between;margin:6px 0;font-size:.95rem}
 .summary .row.free b{color:var(--ok)}
+/* the thank-you recap reuses the summary rows but sits outside .summary,
+   so it needs the same layout or the label and amount run together */
+#tySummary{margin-top:14px;text-align:right;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+#tySummary .row{display:flex;justify-content:space-between;gap:12px;margin:6px 0;font-size:.92rem}
+#tySummary .row b,#tySummary .row .v{white-space:nowrap}
+#tySummary .row.free b{color:var(--ok)}
+#tySummary .row.total{font-weight:900}
+#tySummary hr{border:0;border-top:1px dashed var(--line);margin:8px 0}
 .summary hr{border:none;border-top:1px solid var(--line);margin:10px 0}
 .summary .total{font-family:var(--fh);font-weight:900;font-size:1.15rem}.summary .total .v{color:var(--gold2)}
 .region-err{display:none;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:12px;border-radius:12px;font-size:.88rem;margin-bottom:12px}
