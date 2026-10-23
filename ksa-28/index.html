@@ -300,6 +300,27 @@ b,strong{font-weight:800}
 .how3 li+li::before{content:'';position:absolute;top:24px;right:-8px;width:8px;height:2px;background:var(--blush-2)}
 
 
+
+/* ── discount ticket ── */
+.tkt{position:relative;display:flex;align-items:stretch;gap:0;max-width:430px;margin:0 auto 12px;border-radius:16px;overflow:hidden;
+  color:#fff;background:linear-gradient(135deg,#c23a5c,#7e1631);box-shadow:0 14px 30px -14px rgba(126,22,49,.75);text-align:right}
+.tkt-lg{max-width:var(--mw);margin-bottom:14px}
+.tkt::before,.tkt::after{content:'';position:absolute;right:122px;width:18px;height:18px;border-radius:50%;background:var(--ink);transform:translateX(50%)}
+.tkt::before{top:-9px}.tkt::after{bottom:-9px}
+.l-alt .tkt::before,.l-alt .tkt::after{background:var(--blush)}
+.tkt-l{flex:none;width:122px;display:grid;place-content:center;justify-items:center;padding:14px 8px;border-left:2px dashed rgba(255,255,255,.45)}
+.tkt-off{font-family:var(--fh);font-size:.76rem;font-weight:800;opacity:.9;letter-spacing:.04em}
+.tkt-num{font-family:var(--fh);font-size:2.5rem;font-weight:900;line-height:.95;margin-top:2px}
+.tkt-cur{font-size:.8rem;font-weight:800;opacity:.9}
+.tkt-r{flex:1;padding:13px 15px;display:flex;flex-direction:column;justify-content:center;gap:5px}
+.tkt-r b{font-family:var(--fh);font-size:.95rem;line-height:1.4}
+.tkt-p{display:flex;align-items:baseline;gap:9px}
+.tkt-p s{font-size:.85rem;font-weight:700;opacity:.65}
+.tkt-p i{font-family:var(--fh);font-style:normal;font-size:1.3rem;font-weight:900;color:#ffe08a}
+.tkt-r small{font-size:.72rem;font-weight:700;opacity:.85;line-height:1.5}
+@media(max-width:360px){.tkt-l{width:104px}.tkt::before,.tkt::after{right:104px}.tkt-num{font-size:2.1rem}}
+.l-price .was-h{font-size:.95rem;font-weight:800;color:var(--muted);text-decoration:line-through}
+
 /* ── reviews ── */
 .rvs{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;gap:10px}
 .rv{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;box-shadow:var(--sh-sm)}
@@ -483,7 +504,8 @@ b,strong{font-weight:800}
   </div>
 
   <div class="l-buy">
-    <div class="l-price"><span class="now">199 <small>ر.س</small></span><span class="deal">الثانية بـ 50 ريال بس</span></div>
+    <div class="tkt"><div class="tkt-l"><span class="tkt-off">خصم</span><span class="tkt-num">20</span><span class="tkt-cur">ر.س</span></div><div class="tkt-r"><b>عرض اليوم على كريم الشفايف</b><span class="tkt-p"><s>199 ر.س</s><i>179 ر.س</i></span><small>الخصم مطبّق تلقائياً — ما تحتاج كود</small></div></div>
+    <div class="l-price"><span class="now">179 <small>ر.س</small></span><span class="was-h">199 ر.س</span><span class="deal">الثانية بـ 50 ريال بس</span></div>
     <button class="btn lg btn-pulse" data-scroll="#offers"><span class="shine"></span>اطلب الآن — وادفع عند الاستلام</button>
     <div class="l-chips">
       <span>💵 تدفع عند الباب</span><span>🚚 يوصلك خلال 2-4 أيام</span>
@@ -721,7 +743,7 @@ b,strong{font-weight:800}
         <tr><td>يفتّح الاسمرار</td><td>❌</td><td>✅</td><td class="us">✅</td></tr>
         <tr><td>يرطّب ويرمّم التشقق</td><td>✅</td><td>❌</td><td class="us">✅</td></tr>
         <tr><td>في البيت وبدون ألم</td><td>✅</td><td>❌</td><td class="us">✅</td></tr>
-        <tr><td>التكلفة</td><td>رخيص</td><td>غالي — عدة جلسات</td><td class="us">من 199 ر.س</td></tr>
+        <tr><td>التكلفة</td><td>رخيص</td><td>غالي — عدة جلسات</td><td class="us">من 179 ر.س</td></tr>
       </tbody>
     </table>
   </div>
@@ -759,25 +781,27 @@ b,strong{font-weight:800}
     <li><i>2</i><b>نتصل نأكد</b><span>مكالمة قصيرة</span></li>
     <li><i>3</i><b>ادفع عند بابك</b><span>نقداً للمندوب</span></li>
   </ol>
+  <div class="tkt tkt-lg"><div class="tkt-l"><span class="tkt-off">خصم</span><span class="tkt-num">20</span><span class="tkt-cur">ر.س</span></div><div class="tkt-r"><b>عرض اليوم على كريم الشفايف</b><span class="tkt-p"><s>199 ر.س</s><i>179 ر.س</i></span><small>الخصم مطبّق تلقائياً — ما تحتاج كود</small></div></div>
   <div class="offers">
-    <div class="offer" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة" data-sub="تكفي 30 يوم">
+    <div class="offer" data-offer="1" data-qty="1" data-price="179" data-label="قطعة واحدة" data-sub="تكفي 30 يوم">
+      <span class="save">وفّر 20 ر.س</span>
       <div class="offer-pics" data-count="1"><img src="/assets/product.webp" alt="كريم Cosmarab" loading="lazy" /></div>
-      <div class="qty">قطعة واحدة</div><div class="unit">تكفي 30 يوم — للتجربة</div><div class="perunit">199 ر.س للقطعة</div>
-      <div class="price">199<small> ر.س</small></div>
+      <div class="qty">قطعة واحدة</div><div class="unit">تكفي 30 يوم — للتجربة</div><div class="perunit">179 ر.س للقطعة</div>
+      <div class="price">179<small> ر.س</small></div><div class="was">199 ر.س</div>
       <div class="check">○</div><button class="btn offer-cta">اطلب قطعة واحدة</button>
     </div>
-    <div class="offer" data-default data-offer="2" data-qty="2" data-price="249" data-label="قطعتان — الثانية بـ 50 ريال" data-sub="تكفي 60 يوم">
-      <span class="pop">⭐ ننصح فيها</span><span class="save">وفّر 149 ر.س</span>
+    <div class="offer" data-default data-offer="2" data-qty="2" data-price="229" data-label="قطعتان — الثانية بـ 50 ريال" data-sub="تكفي 60 يوم">
+      <span class="pop">⭐ ننصح فيها</span><span class="save">وفّر 169 ر.س</span>
       <div class="offer-pics" data-count="2"><img src="/assets/product.webp" alt="كريم Cosmarab" loading="lazy" /><img src="/assets/product.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-      <div class="qty">قطعتان</div><div class="unit">تكفي 60 يوم — الثانية بـ 50 ريال</div><div class="perunit">125 ر.س للقطعة</div>
-      <div class="price">249<small> ر.س</small></div><div class="was">398 ر.س</div>
+      <div class="qty">قطعتان</div><div class="unit">تكفي 60 يوم — الثانية بـ 50 ريال</div><div class="perunit">115 ر.س للقطعة</div>
+      <div class="price">229<small> ر.س</small></div><div class="was">398 ر.س</div>
       <div class="check">○</div><button class="btn offer-cta">اطلب القطعتين</button>
     </div>
-    <div class="offer" data-offer="3" data-qty="3" data-price="319" data-label="3 قطع — الثالثة بـ 70 ريال" data-sub="تكفي 90 يوم">
-      <span class="save">وفّر 278 ر.س</span>
+    <div class="offer" data-offer="3" data-qty="3" data-price="289" data-label="3 قطع — الثالثة بـ 60 ريال" data-sub="تكفي 90 يوم">
+      <span class="save">وفّر 308 ر.س</span>
       <div class="offer-pics" data-count="3"><img src="/assets/product.webp" alt="كريم Cosmarab" loading="lazy" /><img src="/assets/product.webp" alt="" aria-hidden="true" loading="lazy" /><img src="/assets/product.webp" alt="" aria-hidden="true" loading="lazy" /></div>
-      <div class="qty">3 قطع</div><div class="unit">تكفي 90 يوم — الثالثة بـ 70 ريال</div><div class="perunit">106 ر.س للقطعة</div>
-      <div class="price">319<small> ر.س</small></div><div class="was">597 ر.س</div>
+      <div class="qty">3 قطع</div><div class="unit">تكفي 90 يوم — الثالثة بـ 60 ريال</div><div class="perunit">96 ر.س للقطعة</div>
+      <div class="price">289<small> ر.س</small></div><div class="was">597 ر.س</div>
       <div class="check">○</div><button class="btn offer-cta">اطلب الـ 3 قطع</button>
     </div>
   </div>
@@ -821,7 +845,7 @@ b,strong{font-weight:800}
 <section class="section">
   <div class="fin"><div class="fin-c">
     <h2>الصورة الجاية… ابتسم فيها 📸</h2>
-    <p>من 199 ر.س · الثانية بـ 50 ريال · الدفع عند الاستلام</p>
+    <p>من 179 ر.س · الثانية بـ 50 ريال · الدفع عند الاستلام</p>
     <button class="btn lg" data-scroll="#offers">اختر باقتك الآن ↑</button>
   </div></div>
 </section>
@@ -855,7 +879,7 @@ b,strong{font-weight:800}
 
 <!-- STICKY -->
 <div class="sticky" id="stickyCta">
-  <div class="info"><b id="stkName">كريم تفتيح الشفاه</b><span id="stkSub">من 199 ر.س · الدفع عند الاستلام</span></div>
+  <div class="info"><b id="stkName">كريم تفتيح الشفاه</b><span id="stkSub">من 179 ر.س · الدفع عند الاستلام</span></div>
   <button class="btn" data-scroll="#offers">اطلب الآن</button>
 </div>
 
@@ -865,7 +889,7 @@ b,strong{font-weight:800}
   <div class="dots"><i id="dot1" class="on"></i><i id="dot2"></i></div>
 
   <div class="panel active" id="panel2">
-    <div class="sel-card"><div class="badge"><img src="/assets/product.webp" alt="كريم Cosmarab" /></div><div><div class="nm" id="selName">قطعتان</div><div class="sub" id="selSub">تكفي 60 يوم</div></div><div class="pr" id="selPrice">249 ر.س</div></div>
+    <div class="sel-card"><div class="badge"><img src="/assets/product.webp" alt="كريم Cosmarab" /></div><div><div class="nm" id="selName">قطعتان</div><div class="sub" id="selSub">تكفي 60 يوم</div></div><div class="pr" id="selPrice">229 ر.س</div></div>
 
     <form id="orderForm" novalidate>
       <div class="field" id="f-name"><label>الاسم الكامل</label><input id="name" type="text" placeholder="مثال: خالد القحطاني" autocomplete="name" /></div>
