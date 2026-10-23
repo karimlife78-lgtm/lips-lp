@@ -272,6 +272,33 @@ b,strong{font-weight:800}
 .lab-fly{position:fixed;z-index:200;font-size:1.6rem;pointer-events:none;will-change:transform}
 @media(prefers-reduced-motion:reduce){.lab-flask.on .bubbles circle,.lab-flask.shake .flask{animation:none}}
 
+
+/* ── SFDA + credentials ── */
+.l-sfda{display:flex;align-items:center;gap:11px;margin-top:10px;padding:11px 14px;border-radius:14px;text-align:right;
+  background:linear-gradient(135deg,#eef8f3,#f7fcf9);border:1px solid #bfe2cf}
+.l-sfda .sf-ic{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:1.15rem;background:#fff;border:1px solid #bfe2cf}
+.l-sfda b{display:block;font-family:var(--fh);font-size:.86rem;color:#14532d;line-height:1.4}
+.l-sfda small{display:block;font-size:.72rem;font-weight:800;color:#2f7a52;margin-top:1px;letter-spacing:.02em}
+.crt{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;gap:10px}
+.crt-main{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #bfe2cf;border-radius:var(--r);padding:16px;box-shadow:var(--sh-sm)}
+.crt-seal{flex:none;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;font-family:var(--fh);font-weight:900;font-size:.9rem;
+  letter-spacing:.06em;color:#fff;background:radial-gradient(circle at 35% 30%,#2f9a63,#14532d);border:3px solid #fff;box-shadow:0 0 0 2px #bfe2cf,0 10px 22px -10px rgba(20,83,45,.6)}
+.crt-main b{display:block;font-family:var(--fh);font-size:.98rem;color:#14532d}
+.crt-main p{font-size:.84rem;font-weight:600;color:var(--muted);line-height:1.75;margin-top:3px}
+.crt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.crt-i{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:.85rem}
+.crt-i span{font-size:1.15rem}.crt-i b{font-family:var(--fh)}
+
+/* ── mid CTA + how-to-order ── */
+.l-mid{margin-top:16px}
+.how3{list-style:none;max-width:var(--mw);margin:0 auto 18px;padding:0 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;counter-reset:none}
+.how3 li{position:relative;text-align:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 6px 10px}
+.how3 i{display:grid;place-items:center;width:26px;height:26px;margin:0 auto 6px;border-radius:50%;font-style:normal;font-family:var(--fh);font-weight:900;font-size:.8rem;
+  color:#fff;background:linear-gradient(145deg,var(--rose),var(--berry))}
+.how3 b{display:block;font-family:var(--fh);font-size:.82rem;line-height:1.35}
+.how3 span{display:block;font-size:.7rem;font-weight:700;color:var(--muted);margin-top:2px}
+.how3 li+li::before{content:'';position:absolute;top:24px;right:-8px;width:8px;height:2px;background:var(--blush-2)}
+
 /* ── routine ── */
 .rt{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rt-i{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
@@ -413,7 +440,7 @@ b,strong{font-weight:800}
 </head>
 <body>
 
-<div class="l-ann">🚚 توصيل مجاني · 💵 الدفع عند الاستلام · 🛡️ ضمان 30 يوم</div>
+<div class="l-ann">🏛️ مسجّل SFDA · 🚚 توصيل مجاني · 💵 الدفع عند الاستلام</div>
 <div class="l-top"><div class="in">
   <a href="/" class="l-logo"><span class="m">C</span><span><b>COSMARAB</b><span>LIP CARE</span></span></a>
   <a href="#offers" class="go" data-scroll="#offers">اطلب الآن</a>
@@ -446,6 +473,7 @@ b,strong{font-weight:800}
       <span>💵 تدفع عند الباب</span><span>🚚 يوصلك خلال 2-4 أيام</span>
       <span>🛡️ ضمان 30 يوم</span><span>📦 غلاف محايد بدون اسم</span>
     </div>
+    <div class="l-sfda"><span class="sf-ic">🏛️</span><span><b>مسجّل لدى الهيئة العامة للغذاء والدواء</b><small>SFDA · حلال · مختبر جلدياً</small></span></div>
   </div>
 </div></header>
 
@@ -540,6 +568,7 @@ b,strong{font-weight:800}
       <figure class="rs-c"><picture><source srcset="/assets/ba-5.webp" type="image/webp" /><img src="/assets/ba-5.jpg" width="720" height="720" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم — لون وردي موحّد" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
     </div>
     <div class="rs-dots" id="rsDots"><i class="on"></i><i></i><i></i><i></i></div>
+    <button class="btn lg l-mid" data-scroll="#offers">أبي نفس النتيجة 👇</button>
   </div>
 </section>
 
@@ -612,7 +641,23 @@ b,strong{font-weight:800}
       <button type="button" class="btn lg" data-scroll="#offers">اطلبها جاهزة 👇</button>
       <button type="button" class="lab-again" id="labAgain">↺ جرّب من جديد</button>
     </div>
-    <div class="ig-chips"><span>✅ حلال</span><span>✅ بدون Parabens</span><span>✅ بدون Sulfates</span><span>✅ للرجال والنساء</span></div>
+  </div>
+</section>
+
+<!-- ═══════════ CREDENTIALS ═══════════ -->
+<section class="section l-alt">
+  <div class="l-head">
+    <span class="l-eye">🏛️ معتمد وآمن</span>
+    <h2>تحطّه على شفايفك <span class="em">وأنت مطمّن</span></h2>
+  </div>
+  <div class="crt">
+    <div class="crt-main reveal"><span class="crt-seal">SFDA</span><div><b>مسجّل لدى الهيئة العامة للغذاء والدواء</b><p>المنتج مسجّل لدى الجهة الرسمية المسؤولة عن سلامة مستحضرات التجميل في السعودية.</p></div></div>
+    <div class="crt-grid">
+      <div class="crt-i reveal"><span>☪️</span><b>حلال 100%</b></div>
+      <div class="crt-i reveal"><span>🧪</span><b>مختبر جلدياً</b></div>
+      <div class="crt-i reveal"><span>🚫</span><b>بدون Parabens</b></div>
+      <div class="crt-i reveal"><span>🚫</span><b>بدون Sulfates</b></div>
+    </div>
   </div>
 </section>
 
@@ -673,6 +718,11 @@ b,strong{font-weight:800}
     <h2>كل ما زاد الاستمرار — <span class="em">زاد الفرق</span></h2>
     <p>القطعة تكفيك 30 يوم تقريباً. والدفع عند الاستلام.</p>
   </div>
+  <ol class="how3">
+    <li><i>1</i><b>اختر باقتك</b><span>وحط اسمك ورقمك</span></li>
+    <li><i>2</i><b>نتصل نأكد</b><span>مكالمة قصيرة</span></li>
+    <li><i>3</i><b>ادفع عند بابك</b><span>نقداً للمندوب</span></li>
+  </ol>
   <div class="offers">
     <div class="offer" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة" data-sub="تكفي 30 يوم">
       <div class="offer-pics" data-count="1"><img src="/assets/product.webp" alt="كريم Cosmarab" loading="lazy" /></div>
@@ -708,7 +758,6 @@ b,strong{font-weight:800}
     <div class="gt-l">
       <div><span>💵</span><span><b>ما تحوّل ولا تدفع أونلاين</b> — تدفع نقداً للمندوب عند بابك.</span></div>
       <div><span>📦</span><span><b>غلاف محايد</b> — بدون اسم المنتج ولا أي تفاصيل على الطرد.</span></div>
-      <div><span>🧾</span><span><b>نبيع من هنا بس</b> — أي حساب ثاني يبيع نفس المنتج مو منّا وما نضمنه.</span></div>
     </div>
   </div></div>
 </section>
@@ -725,6 +774,7 @@ b,strong{font-weight:800}
     <details class="fq"><summary>مناسب للمدخنين؟</summary><div>أكيد — مصمّم لاسمرار الشفايف الناتج عن التدخين والجفاف والشمس.</div></details>
     <details class="fq"><summary>هل المنتج للرجال والنساء؟</summary><div>نعم، مناسب للجنسين — للرجال أصحاب الشفايف الغامقة، ولمن تبغى لون وردي طبيعي.</div></details>
     <details class="fq"><summary>هل المنتج حلال ومعتمد؟</summary><div>نعم، تركيبة حلال 100% ومسجّلة لدى هيئة الغذاء والدواء SFDA ومختبرة جلدياً. بدون Parabens وبدون Sulfates.</div></details>
+    <details class="fq"><summary>هل يناسب الشفايف الحساسة؟</summary><div>مختبر جلدياً، وبدون Parabens وبدون Sulfates، ومناسب للاستخدام اليومي. إذا عندك حساسية معروفة من أي مكوّن، جرّبه على منطقة صغيرة أول.</div></details>
     <details class="fq"><summary>كيف أدفع؟</summary><div>الدفع عند الاستلام — ما تحوّل ولا تدفع أونلاين. تدفع نقداً للمندوب لما يوصل الطلب لبابك، وإذا ما ناسبك عندك 30 يوم ترجّعه.</div></details>
     <details class="fq"><summary>وش مدة التوصيل؟</summary><div>نوصّل لجميع مدن السعودية، عادة خلال 2-4 أيام عمل حسب مدينتك.</div></details>
     <details class="fq"><summary>هل الطلب يوصل بخصوصية؟</summary><div>نعم — بغلاف عادي محايد بدون اسم المنتج أو أي تفاصيل ظاهرة على الطرد.</div></details>
@@ -742,7 +792,7 @@ b,strong{font-weight:800}
 
 <footer class="l-foot">
   <a href="/">الرئيسية</a><a href="/lip-darkening-guide">دليل اسمرار الشفاه</a><a href="/privacy.html">سياسة الخصوصية</a>
-  <div style="margin-top:8px">© <span id="yr"></span> Cosmarab</div>
+  <div style="margin-top:8px">© <span id="yr"></span> Cosmarab · مسجّل لدى الهيئة العامة للغذاء والدواء SFDA</div>
 </footer>
 
 <!-- EXIT INTENT — only for someone who has seen the prices and is leaving -->
@@ -769,7 +819,7 @@ b,strong{font-weight:800}
 
 <!-- STICKY -->
 <div class="sticky" id="stickyCta">
-  <div class="info"><b>كريم تفتيح الشفاه</b><span>من 199 ر.س · الدفع عند الاستلام</span></div>
+  <div class="info"><b id="stkName">كريم تفتيح الشفاه</b><span id="stkSub">من 199 ر.س · الدفع عند الاستلام</span></div>
   <button class="btn" data-scroll="#offers">اطلب الآن</button>
 </div>
 
@@ -1076,6 +1126,18 @@ window.PRODUCT={
     say.innerHTML='👇 ابدأ بأي مكوّن';paint();
   });
   paint();
+})();
+
+
+/* ── STICKY BAR names the pack the visitor picked ── */
+(function(){
+  var n=document.getElementById('stkName'),s=document.getElementById('stkSub');if(!n||!s)return;
+  function sync(){var o=document.querySelector('#offers .offer.selected');if(!o)return;
+    n.textContent=(o.getAttribute('data-label')||'').split('—')[0].trim();
+    s.textContent=o.getAttribute('data-price')+' ر.س · الدفع عند الاستلام';}
+  document.querySelectorAll('#offers .offer').forEach(function(o){
+    if('MutationObserver' in window)new MutationObserver(sync).observe(o,{attributes:true,attributeFilter:['class']});});
+  sync();
 })();
 
 /* ── TIMELINE bar fills when it comes into view ── */
