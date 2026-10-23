@@ -217,6 +217,61 @@ b,strong{font-weight:800}
 .ig-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:14px}
 .ig-chips span{font-size:.78rem;font-weight:800;background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px}
 
+
+/* ── the lab ── */
+.lab{max-width:var(--mw);margin:0 auto;padding:0 18px}
+.lab-stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;background:linear-gradient(160deg,#fff,var(--blush));
+  border:1px solid var(--line);border-radius:var(--rl);padding:16px 14px;box-shadow:var(--sh)}
+.lab-flask{position:relative;display:grid;place-items:center;height:210px}
+.lab-flask .flask{height:190px;width:auto;transition:opacity .5s,transform .5s}
+.lab-flask.shake .flask{animation:labShake .5s ease-in-out 2}
+@keyframes labShake{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+#liqRect{transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+#liqTop,#liqBot{transition:stop-color .7s}
+.bubbles circle{fill:#fff;opacity:0}
+.lab-flask.on .bubbles circle{animation:bub 2.2s ease-in infinite}
+.lab-flask.on .bubbles circle:nth-child(2){animation-delay:.6s}.lab-flask.on .bubbles circle:nth-child(3){animation-delay:1.1s}.lab-flask.on .bubbles circle:nth-child(4){animation-delay:1.6s}
+@keyframes bub{0%{opacity:0;transform:translateY(0)}20%{opacity:.85}100%{opacity:0;transform:translateY(-70px)}}
+.lab-tube{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.6) rotate(-10deg);transition:opacity .6s .2s,transform .7s .2s cubic-bezier(.2,1.4,.4,1);pointer-events:none}
+.lab-tube img{height:180px;width:auto;filter:drop-shadow(0 0 22px rgba(224,90,120,.55)) drop-shadow(0 10px 14px rgba(0,0,0,.25))}
+.lab.done .lab-flask .flask{opacity:0;transform:scale(.7)}
+.lab.done .lab-tube{opacity:1;transform:none}
+.lab-count{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);font-family:var(--fh);font-weight:900;font-size:.78rem;
+  color:#fff;background:linear-gradient(135deg,var(--rose),var(--berry));padding:4px 12px;border-radius:999px;white-space:nowrap}
+.lab-side{display:grid;gap:8px}
+.lab-lips-w{text-align:center}
+.lab-lips{width:100%;max-width:150px;height:auto;display:block;margin:0 auto}
+#lipFill{transition:fill .8s}#lipCracks{transition:opacity .8s}#lipGloss{transition:opacity .8s}
+.lab-lips-cap{display:block;font-size:.72rem;font-weight:800;color:var(--muted);margin-top:2px}
+.lab-m{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:7px;font-size:.74rem;font-weight:900;color:var(--text)}
+.lab-m i{display:block;height:8px;border-radius:999px;background:var(--blush-2);overflow:hidden}
+.lab-m b{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--berry));transition:width .7s cubic-bezier(.3,.7,.2,1)}
+.lab-note{font-size:.62rem;font-weight:700;color:var(--dim);text-align:center}
+.lab-say{min-height:52px;margin:12px 0 10px;padding:10px 14px;border-radius:14px;background:#fff;border:1px dashed var(--blush-2);
+  font-size:.86rem;font-weight:800;line-height:1.65;text-align:center;color:var(--text)}
+.lab-say b{color:var(--berry)}
+.lab-say.pop{animation:scIn .35s ease-out}
+.lab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lab-i{display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 4px;border-radius:15px;cursor:pointer;font-family:inherit;
+  background:#fff;border:2px solid var(--line);box-shadow:var(--sh-sm);transition:transform .15s,border-color .2s,opacity .3s}
+.lab-i:active{transform:scale(.95)}
+.lab-i .ic{font-size:1.45rem;line-height:1}
+.lab-i b{font-family:var(--fh);font-size:.74rem;font-weight:900;color:var(--text)}
+.lab-i.in{border-color:var(--ok);background:#effaf3;opacity:.6;cursor:default}
+.lab-i.in .ic{filter:grayscale(.3)}
+.lab-i.in b::after{content:' ✓';color:var(--ok)}
+.lab-all{display:block;margin:10px auto 0;border:0;background:none;font-family:var(--fh);font-weight:900;font-size:.85rem;color:var(--rose-2);
+  text-decoration:underline;cursor:pointer;padding:6px}
+.lab-all[hidden]{display:none}
+.lab-done{display:none;margin-top:12px;text-align:center;background:#fff;border:2px solid var(--rose);border-radius:var(--r);padding:16px;box-shadow:var(--sh);animation:scIn .4s ease-out}
+.lab.done .lab-done{display:block}
+.lab.done .lab-grid,.lab.done .lab-all{display:none}
+.lab-done b{display:block;font-family:var(--fh);font-size:1.2rem;color:var(--berry)}
+.lab-done p{color:var(--muted);font-weight:700;font-size:.9rem;line-height:1.8;margin:6px 0 12px}
+.lab-again{margin-top:8px;border:0;background:none;color:var(--dim);font-family:inherit;font-weight:800;cursor:pointer;text-decoration:underline}
+.lab-fly{position:fixed;z-index:200;font-size:1.6rem;pointer-events:none;will-change:transform}
+@media(prefers-reduced-motion:reduce){.lab-flask.on .bubbles circle,.lab-flask.shake .flask{animation:none}}
+
 /* ── routine ── */
 .rt{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rt-i{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
@@ -488,14 +543,75 @@ b,strong{font-weight:800}
   </div>
 </section>
 
-<!-- ═══════════ INGREDIENTS ═══════════ -->
-<section class="section">
+<!-- ═══════════ THE LAB — build the formula yourself ═══════════
+     Each ingredient does one job. The lips beside the flask only turn fully
+     pink once all six are in, so the visitor works out for themselves why
+     the formula has six, then the flask becomes the tube. -->
+<section class="section" id="lab">
   <div class="l-head">
-    <span class="l-eye">🧪 المكونات</span>
-    <h2>ست مكونات — <span class="em">كل وحدة لها شغلة</span></h2>
+    <span class="l-eye">🧪 المختبر</span>
+    <h2>اصنع الجينشان <span class="em">بنفسك</span></h2>
+    <p>اضغط على كل مكوّن عشان تضيفه للتركيبة — وشوف وش يسوي للشفايف.</p>
   </div>
-  <div class="ig">
-    <picture><source srcset="/assets/lips-ingredients.webp" type="image/webp" /><img src="/assets/lips-ingredients.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="مكونات الكريم — الأربوتين، الجينشان، النياسيناميد، الهيالورونيك، فيتامين E، وخلاصات نباتية" /></picture>
+  <div class="lab">
+    <div class="lab-stage" id="labStage">
+      <div class="lab-flask" id="labFlask">
+        <svg viewBox="0 0 120 170" class="flask" aria-hidden="true">
+          <defs>
+            <clipPath id="flaskClip"><path d="M46 10h28v44l30 74a20 20 0 0 1-18 32H34a20 20 0 0 1-18-32l30-74z"/></clipPath>
+            <linearGradient id="liq" x1="0" y1="0" x2="0" y2="1">
+              <stop id="liqTop" offset="0" stop-color="#f6c9d1"/><stop id="liqBot" offset="1" stop-color="#e98aa0"/>
+            </linearGradient>
+          </defs>
+          <g clip-path="url(#flaskClip)">
+            <rect x="0" y="0" width="120" height="170" fill="#fff" opacity=".55"/>
+            <rect id="liqRect" x="0" y="170" width="120" height="170" fill="url(#liq)"/>
+            <g class="bubbles" id="bubbles"><circle cx="48" cy="150" r="2.4"/><circle cx="66" cy="155" r="1.8"/><circle cx="78" cy="148" r="2.2"/><circle cx="57" cy="158" r="1.6"/></g>
+          </g>
+          <path d="M46 10h28v44l30 74a20 20 0 0 1-18 32H34a20 20 0 0 1-18-32l30-74z" fill="none" stroke="#c99aa4" stroke-width="3"/>
+          <rect x="40" y="4" width="40" height="9" rx="4.5" fill="#fff" stroke="#c99aa4" stroke-width="3"/>
+          <path d="M34 110h52" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+        </svg>
+        <picture class="lab-tube"><source srcset="/assets/product-tube.webp" type="image/webp" /><img src="/assets/product-tube.png" width="91" height="360" alt="أنبوبة الجينشان" loading="lazy" decoding="async" /></picture>
+        <span class="lab-count" id="labCount">0 من 6</span>
+      </div>
+      <div class="lab-side">
+        <div class="lab-lips-w">
+          <svg viewBox="0 0 200 110" class="lab-lips" aria-hidden="true">
+            <path id="lipFill" d="M8 46C30 14 66 8 100 30C134 8 170 14 192 46C160 92 128 102 100 102C72 102 40 92 8 46Z" fill="#5a3134"/>
+            <g id="lipCracks" stroke="rgba(30,10,12,.55)" stroke-width="1.6" stroke-linecap="round" fill="none">
+              <path d="M70 62l3 12"/><path d="M88 60l2 15"/><path d="M106 60l-2 16"/><path d="M124 61l-3 13"/><path d="M60 40l4 8"/><path d="M140 40l-4 8"/><path d="M100 38v9"/>
+            </g>
+            <path d="M14 47C46 60 76 60 100 55C124 60 154 60 186 47" stroke="rgba(0,0,0,.35)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <ellipse id="lipGloss" cx="96" cy="76" rx="34" ry="7" fill="#fff" opacity="0"/>
+          </svg>
+          <span class="lab-lips-cap" id="lipCap">شفايفك الحين</span>
+        </div>
+        <div class="lab-m"><span>تفتيح</span><i><b id="mL"></b></i></div>
+        <div class="lab-m"><span>ترطيب</span><i><b id="mH"></b></i></div>
+        <div class="lab-m"><span>ترميم</span><i><b id="mR"></b></i></div>
+        <small class="lab-note">رسم توضيحي لدور كل مكوّن</small>
+      </div>
+    </div>
+
+    <div class="lab-say" id="labSay" aria-live="polite">👇 ابدأ بأي مكوّن</div>
+
+    <div class="lab-grid" id="labGrid">
+      <button type="button" class="lab-i" data-k="0"><span class="ic">🔬</span><b>الأربوتين</b></button>
+      <button type="button" class="lab-i" data-k="1"><span class="ic">🌿</span><b>الجينسنغ</b></button>
+      <button type="button" class="lab-i" data-k="2"><span class="ic">✨</span><b>النياسيناميد</b></button>
+      <button type="button" class="lab-i" data-k="3"><span class="ic">💧</span><b>الهيالورونيك</b></button>
+      <button type="button" class="lab-i" data-k="4"><span class="ic">🛡️</span><b>فيتامين E</b></button>
+      <button type="button" class="lab-i" data-k="5"><span class="ic">🌱</span><b>زيوت نباتية</b></button>
+    </div>
+    <button type="button" class="lab-all" id="labAll">أضف الباقي دفعة وحدة ⚡</button>
+
+    <div class="lab-done" id="labDone">
+      <b>✨ هذا هو الجينشان</b>
+      <p>ست مكونات، كل وحدة لها شغلة — في أنبوبة وحدة. مرتين باليوم، والفرق يبان من رابع أسبوع.</p>
+      <button type="button" class="btn lg" data-scroll="#offers">اطلبها جاهزة 👇</button>
+      <button type="button" class="lab-again" id="labAgain">↺ جرّب من جديد</button>
+    </div>
     <div class="ig-chips"><span>✅ حلال</span><span>✅ بدون Parabens</span><span>✅ بدون Sulfates</span><span>✅ للرجال والنساء</span></div>
   </div>
 </section>
@@ -888,6 +1004,78 @@ window.PRODUCT={
   var warmed=false;function warm(){if(warmed)return;warmed=true;cs.forEach(function(c){var im=c.querySelector('img');if(im)im.loading='eager';});window.removeEventListener('scroll',warm);}
   window.addEventListener('scroll',warm,{passive:true});
   paint(0);
+})();
+
+
+/* ── THE LAB ─────────────────────────────────────────────────────────────
+   Contributions are illustrative (the page says so under the bars): each
+   meter reaches 100 only when its ingredients are all in, and the lips are
+   driven by the meters -- lightening sets the colour, hydration the shine,
+   repair the cracks. */
+(function(){
+  var lab=document.querySelector('.lab');if(!lab)return;
+  var ING=[
+    {n:'الأربوتين الطبيعي',d:'يقلّل الميلانين — الشفايف بدت تفتح',L:40,H:0,R:0,c:'#f3d2d8'},
+    {n:'الجينسنغ',d:'يوقف الإنزيم اللي يغمّق الشفايف',L:35,H:0,R:0,c:'#efc0a8'},
+    {n:'النياسيناميد',d:'يوحّد اللون ويصحح الصبغة',L:25,H:0,R:10,c:'#f7dbe4'},
+    {n:'حمض الهيالورونيك',d:'ترطيب وامتلاء — شوف اللمعة',L:0,H:50,R:0,c:'#cfe6f5'},
+    {n:'فيتامين E',d:'يرمّم التشققات ويحمي',L:0,H:15,R:50,c:'#f6dc8a'},
+    {n:'الزيوت النباتية والجليسرين',d:'نعومة وتغذية — آخر لمسة',L:0,H:35,R:40,c:'#cfe8c4'}
+  ];
+  var got={},n=0,M={L:0,H:0,R:0},busy=0;
+  var $=function(id){return document.getElementById(id);};
+  var flask=$('labFlask'),liq=$('liqRect'),say=$('labSay'),cnt=$('labCount'),cap=$('lipCap');
+  var DARK=[90,49,52],PINK=[226,138,151];
+  function mix(a,b,t){return 'rgb('+a.map(function(v,i){return Math.round(v+(b[i]-v)*t);}).join(',')+')';}
+  function paint(){
+    var L=Math.min(100,M.L),H=Math.min(100,M.H),R=Math.min(100,M.R);
+    $('mL').style.width=L+'%';$('mH').style.width=H+'%';$('mR').style.width=R+'%';
+    $('lipFill').setAttribute('fill',mix(DARK,PINK,L/100));
+    $('lipGloss').style.opacity=(H/100*.55).toFixed(2);
+    $('lipCracks').style.opacity=(1-R/100).toFixed(2);
+    liq.style.transform='translateY('+(-(n/6)*112)+'px)';
+    var t=n/6;$('liqTop').style.stopColor=(mix([246,214,220],[244,170,186],t));$('liqBot').style.stopColor=(mix([236,180,196],[214,54,90],t));
+    flask.classList.toggle('on',n>0);
+    cnt.textContent=n+' من 6';
+    cap.textContent=n===0?'شفايفك الحين':(n<6?'بعد '+n+' من 6 مكونات':'بعد التركيبة كاملة');
+    $('labAll').hidden=(n===0||n===6);
+  }
+  function fly(btn,done){
+    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var ic=btn.querySelector('.ic');if(reduce||!ic||!ic.animate){done();return;}
+    var a=ic.getBoundingClientRect(),f=flask.getBoundingClientRect();
+    var g=document.createElement('span');g.className='lab-fly';g.textContent=ic.textContent;
+    g.style.left=a.left+'px';g.style.top=a.top+'px';document.body.appendChild(g);
+    var dx=(f.left+f.width/2)-(a.left+a.width/2),dy=(f.top+28)-(a.top+a.height/2);
+    g.animate([{transform:'translate(0,0) scale(1)'},{transform:'translate('+dx*.5+'px,'+(dy-60)+'px) scale(1.25)',offset:.5},{transform:'translate('+dx+'px,'+dy+'px) scale(.4)',opacity:.2}],
+      {duration:620,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=function(){g.remove();done();};
+  }
+  function add(k,quiet){
+    if(got[k])return;got[k]=1;var it=ING[k];
+    var btn=document.querySelector('.lab-i[data-k="'+k+'"]');btn.classList.add('in');btn.setAttribute('aria-pressed','true');
+    busy++;
+    fly(btn,function(){
+      busy--;n++;M.L+=it.L;M.H+=it.H;M.R+=it.R;paint();
+      if(!quiet){say.innerHTML='✓ <b>'+it.n+'</b> — '+it.d;say.classList.remove('pop');void say.offsetWidth;say.classList.add('pop');}
+      if(n===6)finish();
+    });
+  }
+  function finish(){
+    say.innerHTML='🔄 نخلط التركيبة…';
+    flask.classList.add('shake');
+    setTimeout(function(){flask.classList.remove('shake');lab.classList.add('done');say.innerHTML='✨ <b>التركيبة كاملة</b> — شوف الشفايف';},1100);
+  }
+  document.querySelectorAll('.lab-i').forEach(function(b){b.addEventListener('click',function(){add(+b.getAttribute('data-k'));});});
+  $('labAll').addEventListener('click',function(){
+    var left=ING.map(function(_,i){return i;}).filter(function(i){return !got[i];});
+    left.forEach(function(k,j){setTimeout(function(){add(k,true);},j*170);});
+  });
+  $('labAgain').addEventListener('click',function(){
+    got={};n=0;M={L:0,H:0,R:0};lab.classList.remove('done');
+    document.querySelectorAll('.lab-i').forEach(function(b){b.classList.remove('in');b.removeAttribute('aria-pressed');});
+    say.innerHTML='👇 ابدأ بأي مكوّن';paint();
+  });
+  paint();
 })();
 
 /* ── TIMELINE bar fills when it comes into view ── */
