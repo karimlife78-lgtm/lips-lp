@@ -334,6 +334,16 @@ b,strong{font-weight:800}
 .ty-rv p b{color:var(--rose)}
 .ty-rv-btn{display:block;text-align:center;font-family:var(--fh);font-weight:900;font-size:.9rem;color:#fff;background:#1fae5b;border-radius:12px;padding:11px;text-decoration:none}
 
+/* ── prize draw card in wine and gold, not the engine's purple ── */
+.ty-draw{border-color:var(--gold);background:linear-gradient(150deg,#fffaf2,#f8efe3)}
+.ty-draw .td-h{background:linear-gradient(90deg,#4a0c1a,#8c1d36)}
+.ty-draw .td-h span{color:#ffe08a;opacity:1}
+.ty-draw .td-lbl,.ty-draw .td-note{color:var(--berry)}
+.ty-draw .td-step{color:var(--text)}.ty-draw .td-step b{color:var(--berry)}
+.ty-draw .td-step+.td-step{border-top-color:rgba(201,154,62,.45)}
+.ty-draw .td-step i{background:var(--rose)}
+.ty-draw .td-note{border-color:rgba(201,154,62,.6)}
+
 /* ── order bump ── */
 .bump{position:relative;display:flex;align-items:center;gap:11px;margin:16px 0 16px;padding:13px 13px 13px 12px;border-radius:14px;cursor:pointer;text-align:right;
   background:linear-gradient(135deg,#fffaf0,#fdf3e1);border:2px dashed var(--gold);transition:.2s;-webkit-tap-highlight-color:transparent}
@@ -939,7 +949,7 @@ b,strong{font-weight:800}
 
     <div class="bump" id="bump" data-only-offer="1" data-to-offer="2" role="checkbox" aria-checked="false" tabindex="0" hidden>
       <span class="bx" aria-hidden="true"></span>
-      <span class="bt"><b>أضف قطعة ثانية بـ 50 ر.س بس</b><small>هدية لأخوك أو زوجتك — نفس الطرد، بدون توصيل إضافي</small></span>
+      <span class="bt"><b>أضف قطعة ثانية بـ 50 ر.س بس</b><small>هدية لأخوك أو زوجتك — نفس الطرد، بدون توصيل إضافي · <b>+ فرصة ثانية في سحب iPhone 18</b></small></span>
       <span class="bp"><bdi dir="ltr">+50</bdi><small> ر.س</small><s>179</s></span>
     </div>
 
@@ -991,7 +1001,8 @@ b,strong{font-weight:800}
 window.PRODUCT={
   sku:'COSLIP', name:'Jinshan Lip Serum.1', page:'ksa-28', category:'lip care',
   currency:'SAR', pixelId:'bb229a11-695c-4629-a21b-e424a8b1e391',
-  upsells:[]
+  upsells:[],
+  draw:{prize:'iPhone 18', perPiece:true, addOn:50}
 };
 </script>
 <script src="/shop/app.js"></script>

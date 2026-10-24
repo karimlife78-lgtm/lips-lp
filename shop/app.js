@@ -469,10 +469,16 @@ function buildThanks(txId,order){
     var dfirst=String(order.name||'').trim().split(/\s+/)[0]||'';
     var dnow=new Date(),dlast=new Date(dnow.getFullYear(),dnow.getMonth()+1,0),dday='آخر الشهر';
     try{dday=dlast.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});}catch(e){}
+    /* draw.perPiece: each piece in the order is one entry, so the bigger
+       packs carry more chances; a one-piece order is told how to get a
+       second one on the confirmation call (draw.addOn = that call's price) */
+    var dn=P.draw.perPiece?Math.max(1,+order.qty||1):0;
+    var dcount=dn?(dn===1?' بفرصة وحدة':dn===2?' بفرصتين':' بـ '+dn+' فرص'):'';
+    var dtip=(dn===1&&P.draw.addOn)?'<div class="td-tip">💡 <b>تبي فرصة ثانية؟</b> قول لفريق التأكيد في المكالمة إنك تبي قطعة ثانية بـ '+P.draw.addOn+' '+CURT+' — وتصير فرصتين.</div>':'';
     put(el('<div class="ty-draw">'+
-      '<div class="td-h"><span class="td-gift">🎁</span><div><b>'+(dfirst?'مبروك يا '+dfirst+'! ':'مبروك! ')+'دخلت سحب '+P.draw.prize+'</b>'+
-        '<span>سحب هذا الشهر — '+dday+'</span></div></div>'+
-      '<div class="td-b">'+
+      '<div class="td-h"><span class="td-gift">🎁</span><div><b>'+(dfirst?'مبروك يا '+dfirst+'! ':'مبروك! ')+'دخلت سحب '+P.draw.prize+dcount+'</b>'+
+        '<span>سحب هذا الشهر — '+dday+(dn?' · كل قطعة = فرصة':'')+'</span></div></div>'+
+      '<div class="td-b">'+dtip+
         '<div class="td-lbl">دخولك يتفعّل بخطوتين بس:</div>'+
         '<div class="td-step"><i>1</i><span><b>ردّ على مكالمة التأكيد</b> — من رقم جديد عليك، لا تطنّشها</span></div>'+
         '<div class="td-step"><i>2</i><span><b>استلم طلبك من المندوب</b> — الطلب المرفوض يطلع من السحب</span></div>'+
