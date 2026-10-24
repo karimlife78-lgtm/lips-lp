@@ -327,7 +327,7 @@ b,strong{font-weight:800}
 .l-price .was-h{font-size:.95rem;font-weight:800;color:var(--muted);text-decoration:line-through}
 
 /* ── order bump ── */
-.bump{position:relative;display:flex;align-items:center;gap:11px;margin:4px 0 12px;padding:13px 13px 13px 12px;border-radius:14px;cursor:pointer;text-align:right;
+.bump{position:relative;display:flex;align-items:center;gap:11px;margin:16px 0 16px;padding:13px 13px 13px 12px;border-radius:14px;cursor:pointer;text-align:right;
   background:linear-gradient(135deg,#fffaf0,#fdf3e1);border:2px dashed var(--gold);transition:.2s;-webkit-tap-highlight-color:transparent}
 .bump[hidden]{display:none}
 .bump::before{content:'🎁 عرض خاص لطلبك';position:absolute;top:-11px;right:14px;font-family:var(--fh);font-size:.66rem;font-weight:900;color:#fff;
@@ -929,6 +929,12 @@ b,strong{font-weight:800}
   <div class="panel active" id="panel2">
     <div class="sel-card"><div class="badge"><img src="/assets/product.webp" alt="كريم Cosmarab" /></div><div><div class="nm" id="selName">قطعتان</div><div class="sub" id="selSub">تكفي 60 يوم</div></div><div class="pr" id="selPrice">229 ر.س</div></div>
 
+    <div class="bump" id="bump" data-only-offer="1" data-to-offer="2" role="checkbox" aria-checked="false" tabindex="0" hidden>
+      <span class="bx" aria-hidden="true"></span>
+      <span class="bt"><b>أضف قطعة ثانية بـ 50 ر.س بس</b><small>هدية لأخوك أو زوجتك — نفس الطرد، بدون توصيل إضافي</small></span>
+      <span class="bp"><bdi dir="ltr">+50</bdi><small> ر.س</small><s>179</s></span>
+    </div>
+
     <form id="orderForm" novalidate>
       <div class="field" id="f-name"><label>الاسم الكامل</label><input id="name" type="text" placeholder="مثال: خالد القحطاني" autocomplete="name" /></div>
       <div class="field" id="f-phone"><label>رقم الجوال</label><input id="phone" type="tel" inputmode="numeric" placeholder="05xxxxxxxx" autocomplete="tel" /><div class="hint">نتواصل معك لتأكيد الطلب فقط</div></div>
@@ -947,11 +953,6 @@ b,strong{font-weight:800}
         <input id="district" type="text" placeholder="مثال: حي النرجس" autocomplete="address-level3" />
       </div>
       <div class="region-err" id="regionErr">عذراً، التوصيل متاح حالياً داخل السعودية فقط 🇸🇦</div>
-      <div class="bump" id="bump" data-only-offer="1" data-to-offer="2" role="checkbox" aria-checked="false" tabindex="0" hidden>
-        <span class="bx" aria-hidden="true"></span>
-        <span class="bt"><b>أضف قطعة ثانية بـ 50 ر.س بس</b><small>هدية لأخوك أو زوجتك — نفس الطرد، بدون توصيل إضافي</small></span>
-        <span class="bp"><bdi dir="ltr">+50</bdi><small> ر.س</small><s>179</s></span>
-      </div>
       <div class="summary" id="sum2"></div>
       <button class="btn lg btn-pulse" type="submit" id="submitBtn"><span class="shine"></span>تأكيد الطلب ✅</button>
       <p class="hint center" style="margin-top:10px;text-align:center">🔒 بياناتك آمنة · 💵 الدفع عند الاستلام · ما في دفع مسبق</p>
