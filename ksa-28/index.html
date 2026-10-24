@@ -218,59 +218,103 @@ b,strong{font-weight:800}
 .ig-chips span{font-size:.78rem;font-weight:800;background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px}
 
 
-/* ── the lab ── */
-.lab{max-width:var(--mw);margin:0 auto;padding:0 18px}
-.lab-stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;background:linear-gradient(160deg,#fff,var(--blush));
-  border:1px solid var(--line);border-radius:var(--rl);padding:16px 14px;box-shadow:var(--sh)}
-.lab-flask{position:relative;display:grid;place-items:center;height:210px}
-.lab-flask .flask{height:190px;width:auto;transition:opacity .5s,transform .5s}
+/* ── the lab: a dark wine "device" that breaks the page rhythm on purpose ── */
+.lab{position:relative;max-width:calc(var(--mw) - 36px);margin:0 auto;padding:14px 14px 16px;border-radius:28px;color:#f8efe6;overflow:hidden;isolation:isolate;
+  background:radial-gradient(120% 80% at 50% 0%,#5a1024 0%,#2a0711 55%,#170409 100%);
+  box-shadow:0 30px 60px -28px rgba(42,7,17,.85),inset 0 1px 0 rgba(255,255,255,.08);border:1px solid rgba(233,196,106,.22)}
+@media(max-width:420px){.lab{margin:0 14px}}
+.lab::before{content:'';position:absolute;inset:0;z-index:-1;opacity:.5;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(90% 70% at 50% 30%,#000,transparent);mask-image:radial-gradient(90% 70% at 50% 30%,#000,transparent)}
+.lab-hud{display:flex;align-items:center;gap:10px;padding:2px 2px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.lab-hud-t{display:flex;align-items:center;gap:7px;font-family:var(--fh);font-size:.74rem;font-weight:800;color:rgba(248,239,230,.75);white-space:nowrap}
+.lab-dot{width:7px;height:7px;border-radius:50%;background:#3ad17f;box-shadow:0 0 0 0 rgba(58,209,127,.6);animation:labLive 1.8s infinite}
+@keyframes labLive{70%{box-shadow:0 0 0 7px rgba(58,209,127,0)}100%{box-shadow:0 0 0 0 rgba(58,209,127,0)}}
+.lab-seg{flex:1;display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.lab-seg i{height:5px;border-radius:999px;background:rgba(255,255,255,.12);transition:background .4s,box-shadow .4s}
+.lab-seg i.on{background:linear-gradient(90deg,#f3d58a,#e9c46a);box-shadow:0 0 10px rgba(233,196,106,.6)}
+.lab-count{font-family:var(--fh);font-weight:900;font-size:.76rem;color:#f3d58a;white-space:nowrap;direction:rtl}
+
+.lab-stage{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center;padding:12px 0 4px}
+.lab-flask{position:relative;display:grid;place-items:center;height:200px}
+.lab-flask .flask{position:relative;z-index:1;height:180px;width:auto;transition:opacity .5s,transform .5s;filter:drop-shadow(0 0 18px rgba(233,196,106,.18))}
+.lab-flask.on .flask{filter:drop-shadow(0 0 24px rgba(240,138,166,.35))}
 .lab-flask.shake .flask{animation:labShake .5s ease-in-out 2}
 @keyframes labShake{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
-#liqRect{transition:transform .7s cubic-bezier(.3,.7,.2,1)}
-#liqTop,#liqBot{transition:stop-color .7s}
+#liqRect{transition:transform .8s cubic-bezier(.3,.7,.2,1)}
+#liqTop,#liqBot{transition:stop-color .8s}
 .bubbles circle{fill:#fff;opacity:0}
 .lab-flask.on .bubbles circle{animation:bub 2.2s ease-in infinite}
 .lab-flask.on .bubbles circle:nth-child(2){animation-delay:.6s}.lab-flask.on .bubbles circle:nth-child(3){animation-delay:1.1s}.lab-flask.on .bubbles circle:nth-child(4){animation-delay:1.6s}
 @keyframes bub{0%{opacity:0;transform:translateY(0)}20%{opacity:.85}100%{opacity:0;transform:translateY(-70px)}}
-.lab-tube{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.6) rotate(-10deg);transition:opacity .6s .2s,transform .7s .2s cubic-bezier(.2,1.4,.4,1);pointer-events:none}
-.lab-tube img{height:180px;width:auto;filter:drop-shadow(0 0 22px rgba(201,154,62,.5)) drop-shadow(0 10px 14px rgba(0,0,0,.25))}
+.lab-halo{position:absolute;width:170px;height:170px;border-radius:50%;opacity:0;transform:scale(.6);transition:opacity .6s .15s,transform .8s .15s cubic-bezier(.2,1.3,.4,1);
+  background:conic-gradient(from 0deg,rgba(243,213,138,0),rgba(243,213,138,.55),rgba(240,138,166,.35),rgba(243,213,138,0) 60%,rgba(243,213,138,.45),rgba(243,213,138,0));
+  -webkit-mask:radial-gradient(circle,transparent 52%,#000 54%,#000 70%,transparent 72%);mask:radial-gradient(circle,transparent 52%,#000 54%,#000 70%,transparent 72%)}
+.lab-halo::after{content:'';position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle,rgba(243,213,138,.35),transparent 70%)}
+.lab.done .lab-halo{opacity:1;transform:scale(1);animation:labSpin 9s linear infinite}
+@keyframes labSpin{to{rotate:360deg}}
+.lab-tube{position:absolute;inset:0;z-index:2;display:grid;place-items:center;opacity:0;transform:scale(.6) rotate(-10deg);transition:opacity .6s .25s,transform .8s .25s cubic-bezier(.2,1.4,.4,1);pointer-events:none}
+.lab-tube img{height:168px;width:auto;filter:drop-shadow(0 0 26px rgba(243,213,138,.55)) drop-shadow(0 12px 16px rgba(0,0,0,.45))}
 .lab.done .lab-flask .flask{opacity:0;transform:scale(.7)}
 .lab.done .lab-tube{opacity:1;transform:none}
-.lab-count{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);font-family:var(--fh);font-weight:900;font-size:.78rem;
-  color:#fff;background:linear-gradient(135deg,var(--rose),var(--berry));padding:4px 12px;border-radius:999px;white-space:nowrap}
-.lab-side{display:grid;gap:8px}
+.lab-fx{position:absolute;inset:0;z-index:3;pointer-events:none}
+.lab-sp{position:absolute;left:50%;top:38%;width:10px;height:10px;margin:-5px 0 0 -5px;opacity:0;
+  clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);animation:labSp 1.3s ease-out forwards}
+@keyframes labSp{0%{opacity:0;transform:translate(0,0) scale(.3) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(var(--s)) rotate(160deg)}}
+
 .lab-lips-w{text-align:center}
-.lab-lips{width:100%;max-width:150px;height:auto;display:block;margin:0 auto}
-#lipFill{transition:fill .8s}#lipCracks{transition:opacity .8s}#lipGloss{transition:opacity .8s}
-.lab-lips-cap{display:block;font-size:.72rem;font-weight:800;color:var(--muted);margin-top:2px}
-.lab-m{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:7px;font-size:.74rem;font-weight:900;color:var(--text)}
-.lab-m i{display:block;height:8px;border-radius:999px;background:var(--blush-2);overflow:hidden}
-.lab-m b{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--berry));transition:width .7s cubic-bezier(.3,.7,.2,1)}
-.lab-note{font-size:.62rem;font-weight:700;color:var(--dim);text-align:center}
-.lab-say{min-height:52px;margin:12px 0 10px;padding:10px 14px;border-radius:14px;background:#fff;border:1px dashed var(--blush-2);
-  font-size:.86rem;font-weight:800;line-height:1.65;text-align:center;color:var(--text)}
-.lab-say b{color:var(--berry)}
+.lab-lips{width:100%;max-width:150px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+#lipFill{transition:fill .9s}#lipCracks{transition:opacity .9s}#lipGloss{transition:opacity .9s}
+.lab-lips-cap{display:inline-block;margin-top:8px;font-size:.7rem;font-weight:800;color:rgba(248,239,230,.8);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:4px 11px}
+
+.lab-rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.lab-r{position:relative;display:grid;justify-items:center;gap:4px;padding:10px 4px 9px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.lab-r svg{width:58px;height:58px;transform:rotate(-90deg)}
+.lab-r circle{fill:none;stroke-width:5}
+.lab-r .bg{stroke:rgba(255,255,255,.1)}
+.lab-r .fg{stroke-linecap:round;stroke-dasharray:125.66;stroke-dashoffset:125.66;transition:stroke-dashoffset .9s cubic-bezier(.3,.7,.2,1);filter:drop-shadow(0 0 4px currentColor)}
+.lab-r.l .fg{stroke:#f08aa6;color:#f08aa6}.lab-r.h .fg{stroke:#8fd0f5;color:#8fd0f5}.lab-r.r .fg{stroke:#e9c46a;color:#e9c46a}
+.lab-r b{position:absolute;top:39px;left:50%;transform:translate(-50%,-50%);font-family:var(--fh);font-size:.82rem;font-weight:900;color:#fff;direction:ltr}
+.lab-r span{font-family:var(--fh);font-size:.74rem;font-weight:800;color:rgba(248,239,230,.85)}
+.lab-note{display:block;margin-top:6px;font-size:.6rem;font-weight:700;color:rgba(248,239,230,.4);text-align:center}
+
+.lab-say{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;margin:12px 0;padding:10px 14px;border-radius:14px;
+  background:rgba(0,0,0,.25);border:1px solid rgba(233,196,106,.25);font-size:.84rem;font-weight:700;line-height:1.6;text-align:center;color:rgba(248,239,230,.9)}
+.lab-say b{color:#f3d58a}
 .lab-say.pop{animation:scIn .35s ease-out}
-.lab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.lab-i{display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 4px;border-radius:15px;cursor:pointer;font-family:inherit;
-  background:#fff;border:2px solid var(--line);box-shadow:var(--sh-sm);transition:transform .15s,border-color .2s,opacity .3s}
-.lab-i:active{transform:scale(.95)}
-.lab-i .ic{font-size:1.45rem;line-height:1}
-.lab-i b{font-family:var(--fh);font-size:.74rem;font-weight:900;color:var(--text)}
-.lab-i.in{border-color:var(--ok);background:#effaf3;opacity:.6;cursor:default}
-.lab-i.in .ic{filter:grayscale(.3)}
-.lab-i.in b::after{content:' ✓';color:var(--ok)}
-.lab-all{display:block;margin:10px auto 0;border:0;background:none;font-family:var(--fh);font-weight:900;font-size:.85rem;color:var(--rose-2);
-  text-decoration:underline;cursor:pointer;padding:6px}
+
+.lab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.lab-i{position:relative;display:flex;align-items:center;gap:8px;padding:10px 9px 10px 26px;border-radius:16px;cursor:pointer;font-family:inherit;text-align:right;color:#f8efe6;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);transition:transform .15s,background .25s,border-color .25s;-webkit-tap-highlight-color:transparent}
+.lab-i:active{transform:scale(.96)}
+@media(hover:hover){.lab-i:not(.in):hover{background:rgba(255,255,255,.1);border-color:rgba(233,196,106,.45)}}
+.lab-i .orb{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:.95rem;
+  background:var(--c);background:radial-gradient(circle at 35% 30%,#fff 0,var(--c) 45%,color-mix(in srgb,var(--c) 70%,#000) 100%);box-shadow:0 0 0 3px rgba(255,255,255,.06),0 6px 14px -6px var(--c)}
+.lab-i .tx{flex:1;min-width:0}
+.lab-i .tx b{display:block;font-family:var(--fh);font-size:.78rem;font-weight:900;line-height:1.3}
+.lab-i .tx small{display:block;font-size:.66rem;font-weight:700;color:rgba(248,239,230,.6)}
+.lab-i .pl{position:absolute;top:7px;left:7px;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:.8rem;line-height:1;color:#2a0711;background:#f3d58a;transition:.25s}
+.lab-i.in{cursor:default;background:rgba(58,209,127,.1);border-color:rgba(58,209,127,.4)}
+.lab-i.in .pl{background:#3ad17f;color:#fff}
+.lab-i.in .pl::before{content:'✓'}.lab-i.in .pl{font-size:0}.lab-i.in .pl::before{font-size:.8rem}
+@media(max-width:374px){.lab{padding:12px 10px 14px}.lab-grid{gap:6px}.lab-i{gap:6px;padding:9px 6px 9px 20px}.lab-i .orb{width:28px;height:28px;font-size:.8rem}.lab-i .tx b{font-size:.68rem}.lab-i .tx small{font-size:.6rem}.lab-i .pl{top:5px;left:5px;width:16px;height:16px;font-size:.7rem}}
+.lab-all{display:block;margin:12px auto 0;border:0;background:none;font-family:var(--fh);font-weight:900;font-size:.84rem;color:#f3d58a;cursor:pointer;padding:6px;text-decoration:underline;text-underline-offset:4px}
 .lab-all[hidden]{display:none}
-.lab-done{display:none;margin-top:12px;text-align:center;background:#fff;border:2px solid var(--rose);border-radius:var(--r);padding:16px;box-shadow:var(--sh);animation:scIn .4s ease-out}
+
+.lab-done{display:none;margin-top:4px;text-align:center;padding:16px 14px;border-radius:20px;animation:scIn .45s ease-out;
+  background:linear-gradient(160deg,rgba(243,213,138,.14),rgba(243,213,138,.04));border:1px solid rgba(243,213,138,.45)}
 .lab.done .lab-done{display:block}
-.lab.done .lab-grid,.lab.done .lab-all{display:none}
-.lab-done b{display:block;font-family:var(--fh);font-size:1.2rem;color:var(--berry)}
-.lab-done p{color:var(--muted);font-weight:700;font-size:.9rem;line-height:1.8;margin:6px 0 12px}
-.lab-again{margin-top:8px;border:0;background:none;color:var(--dim);font-family:inherit;font-weight:800;cursor:pointer;text-decoration:underline}
-.lab-fly{position:fixed;z-index:200;font-size:1.6rem;pointer-events:none;will-change:transform}
-@media(prefers-reduced-motion:reduce){.lab-flask.on .bubbles circle,.lab-flask.shake .flask{animation:none}}
+.lab.done .lab-grid,.lab.done .lab-all,.lab.done .lab-say{display:none}
+.lab-done>b{display:block;font-family:var(--fh);font-size:1.25rem;color:#f3d58a}
+.lab-done p{color:rgba(248,239,230,.8);font-weight:700;font-size:.86rem;line-height:1.8;margin:6px 0 12px}
+.lab-list{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:10px 0 4px}
+.lab-list span{font-size:.7rem;font-weight:800;color:#f8efe6;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:4px 10px}
+.lab-list span::before{content:'✓ ';color:#3ad17f}
+.lab-done .btn{font-size:1rem;white-space:nowrap;background:linear-gradient(135deg,#f6dc95,#c99a3e);color:#2a0711;box-shadow:0 16px 30px -14px rgba(233,196,106,.8)}
+.lab-again{margin-top:10px;border:0;background:none;color:rgba(248,239,230,.55);font-family:inherit;font-weight:800;font-size:.8rem;cursor:pointer;text-decoration:underline}
+.lab-fly{position:fixed;z-index:200;width:22px;height:22px;border-radius:50%;pointer-events:none;will-change:transform;box-shadow:0 0 14px 2px currentColor}
+@media(prefers-reduced-motion:reduce){.lab-flask.on .bubbles circle,.lab-flask.shake .flask,.lab-dot,.lab.done .lab-halo,.lab-sp{animation:none}}
+
 
 
 /* ── SFDA + credentials ── */
@@ -744,62 +788,70 @@ b,strong{font-weight:800}
     <p>اضغط على كل مكوّن عشان تضيفه للتركيبة — وشوف وش يسوي للشفايف.</p>
   </div>
   <div class="lab">
+    <div class="lab-hud">
+      <span class="lab-hud-t"><i class="lab-dot"></i>مختبر Cosmarab</span>
+      <span class="lab-seg" id="labSeg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="lab-count" id="labCount">0 من 6</span>
+    </div>
     <div class="lab-stage" id="labStage">
       <div class="lab-flask" id="labFlask">
+        <span class="lab-halo" aria-hidden="true"></span>
         <svg viewBox="0 0 120 170" class="flask" aria-hidden="true">
           <defs>
             <clipPath id="flaskClip"><path d="M46 10h28v44l30 74a20 20 0 0 1-18 32H34a20 20 0 0 1-18-32l30-74z"/></clipPath>
             <linearGradient id="liq" x1="0" y1="0" x2="0" y2="1">
-              <stop id="liqTop" offset="0" stop-color="#f6c9d1"/><stop id="liqBot" offset="1" stop-color="#e98aa0"/>
+              <stop id="liqTop" offset="0" stop-color="#f6e2c8"/><stop id="liqBot" offset="1" stop-color="#e9c46a"/>
             </linearGradient>
+            <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".14"/><stop offset=".5" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
           </defs>
           <g clip-path="url(#flaskClip)">
-            <rect x="0" y="0" width="120" height="170" fill="#fff" opacity=".55"/>
+            <rect x="0" y="0" width="120" height="170" fill="url(#glass)"/>
             <rect id="liqRect" x="0" y="170" width="120" height="170" fill="url(#liq)"/>
             <g class="bubbles" id="bubbles"><circle cx="48" cy="150" r="2.4"/><circle cx="66" cy="155" r="1.8"/><circle cx="78" cy="148" r="2.2"/><circle cx="57" cy="158" r="1.6"/></g>
           </g>
-          <path d="M46 10h28v44l30 74a20 20 0 0 1-18 32H34a20 20 0 0 1-18-32l30-74z" fill="none" stroke="#b9a596" stroke-width="3"/>
-          <rect x="40" y="4" width="40" height="9" rx="4.5" fill="#fff" stroke="#b9a596" stroke-width="3"/>
-          <path d="M34 110h52" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+          <path d="M46 10h28v44l30 74a20 20 0 0 1-18 32H34a20 20 0 0 1-18-32l30-74z" fill="none" stroke="rgba(255,240,225,.6)" stroke-width="2.6"/>
+          <rect x="40" y="4" width="40" height="9" rx="4.5" fill="#2a0711" stroke="rgba(255,240,225,.6)" stroke-width="2.6"/>
+          <path d="M30 120c4-10 8-20 12-28" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".28"/>
         </svg>
         <picture class="lab-tube"><source srcset="/assets/product-tube.webp" type="image/webp" /><img src="/assets/product-tube.png" width="91" height="360" alt="أنبوبة الجينشان" loading="lazy" decoding="async" /></picture>
-        <span class="lab-count" id="labCount">0 من 6</span>
+        <div class="lab-fx" id="labFx"></div>
       </div>
-      <div class="lab-side">
-        <div class="lab-lips-w">
-          <svg viewBox="0 0 200 110" class="lab-lips" aria-hidden="true">
-            <path id="lipFill" d="M8 46C30 14 66 8 100 30C134 8 170 14 192 46C160 92 128 102 100 102C72 102 40 92 8 46Z" fill="#5a3134"/>
-            <g id="lipCracks" stroke="rgba(30,10,12,.55)" stroke-width="1.6" stroke-linecap="round" fill="none">
-              <path d="M70 62l3 12"/><path d="M88 60l2 15"/><path d="M106 60l-2 16"/><path d="M124 61l-3 13"/><path d="M60 40l4 8"/><path d="M140 40l-4 8"/><path d="M100 38v9"/>
-            </g>
-            <path d="M14 47C46 60 76 60 100 55C124 60 154 60 186 47" stroke="rgba(0,0,0,.35)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-            <ellipse id="lipGloss" cx="96" cy="76" rx="34" ry="7" fill="#fff" opacity="0"/>
-          </svg>
-          <span class="lab-lips-cap" id="lipCap">شفايفك الحين</span>
-        </div>
-        <div class="lab-m"><span>تفتيح</span><i><b id="mL"></b></i></div>
-        <div class="lab-m"><span>ترطيب</span><i><b id="mH"></b></i></div>
-        <div class="lab-m"><span>ترميم</span><i><b id="mR"></b></i></div>
-        <small class="lab-note">رسم توضيحي لدور كل مكوّن</small>
+      <div class="lab-lips-w">
+        <svg viewBox="0 0 200 110" class="lab-lips" aria-hidden="true">
+          <path id="lipFill" d="M8 46C30 14 66 8 100 30C134 8 170 14 192 46C160 92 128 102 100 102C72 102 40 92 8 46Z" fill="#5a3134"/>
+          <g id="lipCracks" stroke="rgba(30,10,12,.55)" stroke-width="1.6" stroke-linecap="round" fill="none">
+            <path d="M70 62l3 12"/><path d="M88 60l2 15"/><path d="M106 60l-2 16"/><path d="M124 61l-3 13"/><path d="M60 40l4 8"/><path d="M140 40l-4 8"/><path d="M100 38v9"/>
+          </g>
+          <path d="M14 47C46 60 76 60 100 55C124 60 154 60 186 47" stroke="rgba(0,0,0,.35)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <ellipse id="lipGloss" cx="96" cy="76" rx="34" ry="7" fill="#fff" opacity="0"/>
+        </svg>
+        <span class="lab-lips-cap" id="lipCap">شفايفك الحين</span>
       </div>
     </div>
+    <div class="lab-rings">
+      <div class="lab-r l"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="bg" cx="24" cy="24" r="20"/><circle class="fg" id="rL" cx="24" cy="24" r="20"/></svg><b id="nL">0%</b><span>تفتيح</span></div>
+      <div class="lab-r h"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="bg" cx="24" cy="24" r="20"/><circle class="fg" id="rH" cx="24" cy="24" r="20"/></svg><b id="nH">0%</b><span>ترطيب</span></div>
+      <div class="lab-r r"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="bg" cx="24" cy="24" r="20"/><circle class="fg" id="rR" cx="24" cy="24" r="20"/></svg><b id="nR">0%</b><span>ترميم</span></div>
+    </div>
+    <small class="lab-note">رسم توضيحي لدور كل مكوّن</small>
 
-    <div class="lab-say" id="labSay" aria-live="polite">👇 ابدأ بأي مكوّن</div>
+    <div class="lab-say" id="labSay" aria-live="polite">👇 اضغط أي مكوّن عشان تضيفه</div>
 
     <div class="lab-grid" id="labGrid">
-      <button type="button" class="lab-i" data-k="0"><span class="ic">🔬</span><b>الأربوتين</b></button>
-      <button type="button" class="lab-i" data-k="1"><span class="ic">🌿</span><b>الجينسنغ</b></button>
-      <button type="button" class="lab-i" data-k="2"><span class="ic">✨</span><b>النياسيناميد</b></button>
-      <button type="button" class="lab-i" data-k="3"><span class="ic">💧</span><b>الهيالورونيك</b></button>
-      <button type="button" class="lab-i" data-k="4"><span class="ic">🛡️</span><b>فيتامين E</b></button>
-      <button type="button" class="lab-i" data-k="5"><span class="ic">🌱</span><b>زيوت نباتية</b></button>
+      <button type="button" class="lab-i" data-k="0" style="--c:#f3c4cf"><span class="orb">🔬</span><span class="tx"><b>الأربوتين</b><small>تفتيح</small></span><span class="pl" aria-hidden="true">+</span></button>
+      <button type="button" class="lab-i" data-k="1" style="--c:#efc0a8"><span class="orb">🌿</span><span class="tx"><b>الجينسنغ</b><small>يوقف التغميق</small></span><span class="pl" aria-hidden="true">+</span></button>
+      <button type="button" class="lab-i" data-k="2" style="--c:#f7d7e2"><span class="orb">✨</span><span class="tx"><b>النياسيناميد</b><small>يوحّد اللون</small></span><span class="pl" aria-hidden="true">+</span></button>
+      <button type="button" class="lab-i" data-k="3" style="--c:#a9d8f3"><span class="orb">💧</span><span class="tx"><b>الهيالورونيك</b><small>ترطيب وامتلاء</small></span><span class="pl" aria-hidden="true">+</span></button>
+      <button type="button" class="lab-i" data-k="4" style="--c:#f2d27a"><span class="orb">🛡️</span><span class="tx"><b>فيتامين E</b><small>ترميم التشقق</small></span><span class="pl" aria-hidden="true">+</span></button>
+      <button type="button" class="lab-i" data-k="5" style="--c:#b9e0aa"><span class="orb">🌱</span><span class="tx"><b>زيوت نباتية</b><small>نعومة وتغذية</small></span><span class="pl" aria-hidden="true">+</span></button>
     </div>
     <button type="button" class="lab-all" id="labAll">أضف الباقي دفعة وحدة ⚡</button>
 
     <div class="lab-done" id="labDone">
-      <b>✨ هذا هو الجينشان</b>
+      <b>✨ تركيبتك جاهزة — هذا هو الجينشان</b>
+      <div class="lab-list"><span>الأربوتين</span><span>الجينسنغ</span><span>النياسيناميد</span><span>الهيالورونيك</span><span>فيتامين E</span><span>زيوت نباتية</span></div>
       <p>ست مكونات، كل وحدة لها شغلة — في أنبوبة وحدة. مرتين باليوم، والفرق يبان من رابع أسبوع.</p>
-      <button type="button" class="btn lg" data-scroll="#offers">اطلبها جاهزة 👇</button>
+      <button type="button" class="btn lg" data-scroll="#offers">اطلبها جاهزة — من 179 ر.س 👇</button>
       <button type="button" class="lab-again" id="labAgain">↺ جرّب من جديد</button>
     </div>
   </div>
@@ -1253,62 +1305,79 @@ window.PRODUCT={
 
 
 /* ── THE LAB ─────────────────────────────────────────────────────────────
-   Contributions are illustrative (the page says so under the bars): each
-   meter reaches 100 only when its ingredients are all in, and the lips are
-   driven by the meters -- lightening sets the colour, hydration the shine,
-   repair the cracks. */
+   Contributions are illustrative (the page says so under the gauges): each
+   gauge reaches 100 only when its ingredients are all in, and the lips are
+   driven by the gauges -- lightening sets the colour, hydration the shine,
+   repair the cracks. Each drop sends up sparkles; the full formula turns
+   the flask into the tube. */
 (function(){
   var lab=document.querySelector('.lab');if(!lab)return;
   var ING=[
-    {n:'الأربوتين الطبيعي',d:'يقلّل الميلانين — الشفايف بدت تفتح',L:40,H:0,R:0,c:'#f3d2d8'},
-    {n:'الجينسنغ',d:'يوقف الإنزيم اللي يغمّق الشفايف',L:35,H:0,R:0,c:'#efc0a8'},
-    {n:'النياسيناميد',d:'يوحّد اللون ويصحح الصبغة',L:25,H:0,R:10,c:'#f7dbe4'},
-    {n:'حمض الهيالورونيك',d:'ترطيب وامتلاء — شوف اللمعة',L:0,H:50,R:0,c:'#cfe6f5'},
-    {n:'فيتامين E',d:'يرمّم التشققات ويحمي',L:0,H:15,R:50,c:'#f6dc8a'},
-    {n:'الزيوت النباتية والجليسرين',d:'نعومة وتغذية — آخر لمسة',L:0,H:35,R:40,c:'#cfe8c4'}
+    {n:'الأربوتين الطبيعي',d:'يقلّل الميلانين — الشفايف بدت تفتح',L:40,H:0,R:0},
+    {n:'الجينسنغ',d:'يوقف الإنزيم اللي يغمّق الشفايف',L:35,H:0,R:0},
+    {n:'النياسيناميد',d:'يوحّد اللون ويصحح الصبغة',L:25,H:0,R:10},
+    {n:'حمض الهيالورونيك',d:'ترطيب وامتلاء — شوف اللمعة',L:0,H:50,R:0},
+    {n:'فيتامين E',d:'يرمّم التشققات ويحمي',L:0,H:15,R:50},
+    {n:'الزيوت النباتية والجليسرين',d:'نعومة وتغذية — آخر لمسة',L:0,H:35,R:40}
   ];
-  var got={},n=0,M={L:0,H:0,R:0},busy=0;
+  var got={},n=0,M={L:0,H:0,R:0},shown={L:0,H:0,R:0};
   var $=function(id){return document.getElementById(id);};
-  var flask=$('labFlask'),liq=$('liqRect'),say=$('labSay'),cnt=$('labCount'),cap=$('lipCap');
-  var DARK=[90,49,52],PINK=[226,138,151];
+  var flask=$('labFlask'),liq=$('liqRect'),say=$('labSay'),cnt=$('labCount'),cap=$('lipCap'),fx=$('labFx'),segs=$('labSeg').children;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DARK=[90,49,52],PINK=[226,138,151],C=125.66;
   function mix(a,b,t){return 'rgb('+a.map(function(v,i){return Math.round(v+(b[i]-v)*t);}).join(',')+')';}
+  function count(k,to){
+    var el=$('n'+k),from=shown[k];shown[k]=to;
+    if(reduce||!window.requestAnimationFrame){el.textContent=to+'%';return;}
+    var t0=null;(function step(t){if(!t0)t0=t;var p=Math.min(1,(t-t0)/800);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)))+'%';if(p<1)requestAnimationFrame(step);})(performance.now());
+  }
   function paint(){
     var L=Math.min(100,M.L),H=Math.min(100,M.H),R=Math.min(100,M.R);
-    $('mL').style.width=L+'%';$('mH').style.width=H+'%';$('mR').style.width=R+'%';
+    [['L',L],['H',H],['R',R]].forEach(function(x){$('r'+x[0]).style.strokeDashoffset=(C*(1-x[1]/100)).toFixed(1);if(shown[x[0]]!==x[1])count(x[0],x[1]);});
     $('lipFill').setAttribute('fill',mix(DARK,PINK,L/100));
     $('lipGloss').style.opacity=(H/100*.55).toFixed(2);
     $('lipCracks').style.opacity=(1-R/100).toFixed(2);
     liq.style.transform='translateY('+(-(n/6)*112)+'px)';
-    var t=n/6;$('liqTop').style.stopColor=(mix([246,214,220],[244,170,186],t));$('liqBot').style.stopColor=(mix([236,180,196],[214,54,90],t));
+    var t=n/6;$('liqTop').style.stopColor=mix([246,226,200],[247,176,196],t);$('liqBot').style.stopColor=mix([233,196,106],[168,39,74],t);
     flask.classList.toggle('on',n>0);
+    for(var i=0;i<segs.length;i++)segs[i].classList.toggle('on',i<n);
     cnt.textContent=n+' من 6';
-    cap.textContent=n===0?'شفايفك الحين':(n<6?'بعد '+n+' من 6 مكونات':'بعد التركيبة كاملة');
+    cap.textContent=n===0?'شفايفك الحين':(n<6?'بعد '+n+' من 6 مكونات':'بعد التركيبة كاملة ✨');
     $('labAll').hidden=(n===0||n===6);
   }
+  function sparkle(num,spread){
+    if(reduce)return;
+    var cols=['#f3d58a','#fff3d6','#f7b0c4','#e9c46a'];
+    for(var i=0;i<num;i++){
+      var s=document.createElement('i');s.className='lab-sp';
+      var a=-Math.PI/2+(Math.random()-.5)*spread,r=50+Math.random()*60;
+      s.style.cssText='background:'+cols[i%4]+';--dx:'+Math.round(Math.cos(a)*r)+'px;--dy:'+Math.round(Math.sin(a)*r)+'px;--s:'+(0.7+Math.random()*0.9).toFixed(2)+';animation-delay:'+Math.round(Math.random()*160)+'ms';
+      fx.appendChild(s);setTimeout(function(e){return function(){e.remove();};}(s),1600);
+    }
+  }
   function fly(btn,done){
-    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var ic=btn.querySelector('.ic');if(reduce||!ic||!ic.animate){done();return;}
-    var a=ic.getBoundingClientRect(),f=flask.getBoundingClientRect();
-    var g=document.createElement('span');g.className='lab-fly';g.textContent=ic.textContent;
-    g.style.left=a.left+'px';g.style.top=a.top+'px';document.body.appendChild(g);
-    var dx=(f.left+f.width/2)-(a.left+a.width/2),dy=(f.top+28)-(a.top+a.height/2);
-    g.animate([{transform:'translate(0,0) scale(1)'},{transform:'translate('+dx*.5+'px,'+(dy-60)+'px) scale(1.25)',offset:.5},{transform:'translate('+dx+'px,'+dy+'px) scale(.4)',opacity:.2}],
-      {duration:620,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=function(){g.remove();done();};
+    var orb=btn.querySelector('.orb');if(reduce||!orb||!orb.animate){done();return;}
+    var a=orb.getBoundingClientRect(),f=flask.getBoundingClientRect();
+    var c=getComputedStyle(btn).getPropertyValue('--c').trim()||'#f3d58a';
+    var g=document.createElement('span');g.className='lab-fly';g.style.background=c;g.style.color=c;
+    g.style.left=(a.left+a.width/2-11)+'px';g.style.top=(a.top+a.height/2-11)+'px';document.body.appendChild(g);
+    var dx=(f.left+f.width/2)-(a.left+a.width/2),dy=(f.top+30)-(a.top+a.height/2);
+    g.animate([{transform:'translate(0,0) scale(1)'},{transform:'translate('+dx*.5+'px,'+(dy-70)+'px) scale(1.3)',offset:.5},{transform:'translate('+dx+'px,'+dy+'px) scale(.35)',opacity:.3}],
+      {duration:650,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=function(){g.remove();done();};
   }
   function add(k,quiet){
     if(got[k])return;got[k]=1;var it=ING[k];
     var btn=document.querySelector('.lab-i[data-k="'+k+'"]');btn.classList.add('in');btn.setAttribute('aria-pressed','true');
-    busy++;
     fly(btn,function(){
-      busy--;n++;M.L+=it.L;M.H+=it.H;M.R+=it.R;paint();
-      if(!quiet){say.innerHTML='✓ <b>'+it.n+'</b> — '+it.d;say.classList.remove('pop');void say.offsetWidth;say.classList.add('pop');}
+      n++;M.L+=it.L;M.H+=it.H;M.R+=it.R;paint();sparkle(quiet?4:9,1.6);
+      if(!quiet){say.innerHTML='<span>✓</span><span><b>'+it.n+'</b> — '+it.d+'</span>';say.classList.remove('pop');void say.offsetWidth;say.classList.add('pop');}
       if(n===6)finish();
     });
   }
   function finish(){
     say.innerHTML='🔄 نخلط التركيبة…';
     flask.classList.add('shake');
-    setTimeout(function(){flask.classList.remove('shake');lab.classList.add('done');say.innerHTML='✨ <b>التركيبة كاملة</b> — شوف الشفايف';},1100);
+    setTimeout(function(){flask.classList.remove('shake');lab.classList.add('done');sparkle(26,6.3);paint();},1100);
   }
   document.querySelectorAll('.lab-i').forEach(function(b){b.addEventListener('click',function(){add(+b.getAttribute('data-k'));});});
   $('labAll').addEventListener('click',function(){
@@ -1318,7 +1387,8 @@ window.PRODUCT={
   $('labAgain').addEventListener('click',function(){
     got={};n=0;M={L:0,H:0,R:0};lab.classList.remove('done');
     document.querySelectorAll('.lab-i').forEach(function(b){b.classList.remove('in');b.removeAttribute('aria-pressed');});
-    say.innerHTML='👇 ابدأ بأي مكوّن';paint();
+    say.innerHTML='👇 اضغط أي مكوّن عشان تضيفه';paint();
+    lab.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
   });
   paint();
 })();
