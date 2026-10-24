@@ -326,6 +326,14 @@ b,strong{font-weight:800}
 @media(max-width:360px){.tkt-l{width:104px}.tkt::before,.tkt::after{right:104px}.tkt-num{font-size:2.1rem}}
 .l-price .was-h{font-size:.95rem;font-weight:800;color:var(--muted);text-decoration:line-through}
 
+/* ── review tags + thank-you review ask ── */
+.rv-tag{display:inline-block;margin:0 0 8px;font-size:.7rem;font-weight:800;color:var(--rose);background:var(--blush);border:1px solid var(--blush-2);border-radius:999px;padding:3px 10px}
+.ty-rv{margin:14px 0 4px;padding:14px;border-radius:14px;text-align:right;background:linear-gradient(135deg,#fffaf0,#fdf3e1);border:1.5px dashed var(--gold)}
+.ty-rv>b{display:block;font-family:var(--fh);font-size:.92rem;color:var(--text)}
+.ty-rv p{font-size:.82rem;font-weight:600;color:var(--muted);line-height:1.7;margin:4px 0 10px}
+.ty-rv p b{color:var(--rose)}
+.ty-rv-btn{display:block;text-align:center;font-family:var(--fh);font-weight:900;font-size:.9rem;color:#fff;background:#1fae5b;border-radius:12px;padding:11px;text-decoration:none}
+
 /* ── order bump ── */
 .bump{position:relative;display:flex;align-items:center;gap:11px;margin:16px 0 16px;padding:13px 13px 13px 12px;border-radius:14px;cursor:pointer;text-align:right;
   background:linear-gradient(135deg,#fffaf0,#fdf3e1);border:2px dashed var(--gold);transition:.2s;-webkit-tap-highlight-color:transparent}
@@ -795,14 +803,14 @@ b,strong{font-weight:800}
     <p>كلام عملاء طلبوا ودفعوا عند الاستلام — من الرياض لأبها.</p>
   </div>
   <div class="rvs" id="rvs">
-    <div class="rv"><div class="rv-top"><span class="rv-av">ف</span><div><b>فهد <span class="rv-ok">✔ عميل</span></b><small>جدة</small></div><span class="rv-st">★★★★★</span></div><p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح.»</p></div>
-    <div class="rv"><div class="rv-top"><span class="rv-av">ع</span><div><b>عبدالرحمن <span class="rv-ok">✔ عميل</span></b><small>المدينة المنورة</small></div><span class="rv-st">★★★★★</span></div><p>«جربت منتجات كثيرة ما فادت، هذا أول شي يعطيني نتيجة حقيقية. الترطيب من أول يوم والسواد بدأ يخف من الأسبوع الثاني.»</p></div>
-    <div class="rv"><div class="rv-top"><span class="rv-av">س</span><div><b>سلطان <span class="rv-ok">✔ عميل</span></b><small>أبها</small></div><span class="rv-st">★★★★★</span></div><p>«وصل في يومين بالضبط. التغليف أنيق والمنتج أصلي. جربته أسبوع وشفايفي أنعم بوضوح. راح آخذ 3 قطع المرة الجاية.»</p></div>
-    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">أ</span><div><b>أم خالد <span class="rv-ok">✔ عميل</span></b><small>مكة المكرمة</small></div><span class="rv-st">★★★★★</span></div><p>«اشتريت الكريم لزوجي كان يشتكي من سواد شفايفه من التدخين — بعد ثلاثة أسابيع فرق واضح وهو نفسه قالي راح يطلب مرة ثانية 😂 ينصح فيه 100%.»</p></div>
-    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ن</span><div><b>نورة <span class="rv-ok">✔ عميل</span></b><small>الرياض</small></div><span class="rv-st">★★★★★</span></div><p>«صدق فرق! شفايفي كانت غامقة من القهوة، بعد شهر صارت وردية وأنعم. أنصح فيه.»</p></div>
-    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ر</span><div><b>ريم <span class="rv-ok">✔ عميل</span></b><small>الدمام</small></div><span class="rv-st">★★★★★</span></div><p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p></div>
-    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">م</span><div><b>منى <span class="rv-ok">✔ عميل</span></b><small>تبوك</small></div><span class="rv-st">★★★★★</span></div><p>«كنت خايفة أدفع قبل ما أشوف المنتج بس الدفع عند الاستلام خلّاني أجرّب. والله ما ندمت — الكريم حلو ورايحة خفيفة.»</p></div>
-    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ه</span><div><b>هيفاء <span class="rv-ok">✔ عميل</span></b><small>الخبر</small></div><span class="rv-st">★★★★★</span></div><p>«ما توقعت يكون بهالجودة بهالسعر. الشفايف صارت طرية وأخف لون. أنا وأختي نستخدمه الحين.»</p></div>
+    <div class="rv"><div class="rv-top"><span class="rv-av">ف</span><div><b>فهد <span class="rv-ok">✔ عميل</span></b><small>جدة</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">🚬 مدخّن</span><p>«أنا مدخّن وشفايفي كانت غامقة مرة. الكريم رطّبها وخفّف السواد بشكل واضح.»</p></div>
+    <div class="rv"><div class="rv-top"><span class="rv-av">ع</span><div><b>عبدالرحمن <span class="rv-ok">✔ عميل</span></b><small>المدينة المنورة</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">🔁 جرّب منتجات قبله</span><p>«جربت منتجات كثيرة ما فادت، هذا أول شي يعطيني نتيجة حقيقية. الترطيب من أول يوم والسواد بدأ يخف من الأسبوع الثاني.»</p></div>
+    <div class="rv"><div class="rv-top"><span class="rv-av">س</span><div><b>سلطان <span class="rv-ok">✔ عميل</span></b><small>أبها</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">🚚 وصله في يومين</span><p>«وصل في يومين بالضبط. التغليف أنيق والمنتج أصلي. جربته أسبوع وشفايفي أنعم بوضوح. راح آخذ 3 قطع المرة الجاية.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">أ</span><div><b>أم خالد <span class="rv-ok">✔ عميل</span></b><small>مكة المكرمة</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">🎁 اشترته لزوجها المدخّن</span><p>«اشتريت الكريم لزوجي كان يشتكي من سواد شفايفه من التدخين — بعد ثلاثة أسابيع فرق واضح وهو نفسه قالي راح يطلب مرة ثانية 😂 ينصح فيه 100%.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ن</span><div><b>نورة <span class="rv-ok">✔ عميل</span></b><small>الرياض</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">☕ اسمرار من القهوة</span><p>«صدق فرق! شفايفي كانت غامقة من القهوة، بعد شهر صارت وردية وأنعم. أنصح فيه.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ر</span><div><b>ريم <span class="rv-ok">✔ عميل</span></b><small>الدمام</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">💧 تشققات</span><p>«وصل بسرعة ودفعت عند الاستلام بكل أريحية. الترطيب خرافي والتشققات راحت.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">م</span><div><b>منى <span class="rv-ok">✔ عميل</span></b><small>تبوك</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">💵 أول طلب أونلاين</span><p>«كنت خايفة أدفع قبل ما أشوف المنتج بس الدفع عند الاستلام خلّاني أجرّب. والله ما ندمت — الكريم حلو ورايحة خفيفة.»</p></div>
+    <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ه</span><div><b>هيفاء <span class="rv-ok">✔ عميل</span></b><small>الخبر</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">👭 تستخدمه مع أختها</span><p>«ما توقعت يكون بهالجودة بهالسعر. الشفايف صارت طرية وأخف لون. أنا وأختي نستخدمه الحين.»</p></div>
   </div>
   <div class="rv-act"><button type="button" class="rv-btn" id="rvMore">شوف كل الآراء (8) ⌄</button></div>
 </section>
@@ -962,6 +970,11 @@ b,strong{font-weight:800}
   <div class="panel" id="panel3"><div class="ty">
     <div class="big">🎉</div><h3>تم استلام طلبك!</h3><p>بنتواصل معك خلال دقائق لتأكيد الطلب.</p>
     <div class="oid" id="orderId">#CSM-0000</div><div id="tySummary"></div>
+    <div class="ty-rv">
+      <b>💬 بعد أسبوعين من الاستخدام</b>
+      <p>ابعث لنا رأيك أو صورة شفايفك على الواتساب — <b>وطلبك الجاي عليه خصم 30 ر.س</b>.</p>
+      <a class="ty-rv-btn" href="https://wa.me/15707807569?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D9%87%D8%B0%D8%A7%20%D8%B1%D8%A3%D9%8A%D9%8A%20%D9%81%D9%8A%20%D9%83%D8%B1%D9%8A%D9%85%20%D8%A7%D9%84%D8%B4%D9%81%D8%A7%D9%8A%D9%81%20%D8%A8%D8%B9%D8%AF%20%D8%A7%D9%84%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9%20%F0%9F%91%87" target="_blank" rel="noopener">ابعث رأيك على الواتساب</a>
+    </div>
     <div class="next"><b>📦 الخطوات القادمة</b>
       <div class="stp"><span>1️⃣</span><span>مكالمة تأكيد سريعة من فريقنا</span></div>
       <div class="stp"><span>2️⃣</span><span>شحن الطلب ووصوله خلال 2-4 أيام</span></div>
