@@ -216,7 +216,7 @@ function openOrder(){
   var bn=document.getElementById('selName');if(bn)bn.textContent=d.label;
   var bs=document.getElementById('selSub');if(bs)bs.textContent=d.sub;
   var bp=document.getElementById('selPrice');if(bp)bp.textContent=d.price+' '+CURT;
-  resetUpsells();renderSummary();showPanel(2);openModal();
+  resetUpsells();resetBump();renderSummary();showPanel(2);openModal();
   var itm={item_ids:[P.sku||''],item_category:P.category||'health',number_items:d.qty,price:d.price,value:d.price,currency:CUR};
   track('VIEW_CONTENT',itm);
   track('ADD_CART',itm);
@@ -243,6 +243,41 @@ document.querySelectorAll('.upsell').forEach(function(u){
   });
 });
 function upsellByKey(k){return (P.upsells||[]).filter(function(u){return u.key===k;})[0];}
+
+/* ── BUMP (same product, more pieces) ──
+   #bump[data-only-offer][data-to-offer] in the form. Ticking it turns the
+   order into the bigger pack rather than adding an upsell row, so the sheet
+   gets one line with one total and the call centre confirms it in one go.
+   Shown only when the visitor opened the pack named in data-only-offer. */
+var bump=document.getElementById('bump'),bumpPrev=null;
+function setSelCard(){
+  var bn=document.getElementById('selName');if(bn)bn.textContent=state.label;
+  var bs=document.getElementById('selSub');if(bs)bs.textContent=state.sub;
+  var bp=document.getElementById('selPrice');if(bp)bp.textContent=state.price+' '+CURT;
+}
+function resetBump(){
+  if(!bump)return;bumpPrev=null;
+  bump.classList.remove('on');bump.setAttribute('aria-checked','false');
+  bump.hidden=state.offer!==bump.getAttribute('data-only-offer');
+}
+function toggleBump(){
+  var to=document.querySelector('.offer[data-offer="'+bump.getAttribute('data-to-offer')+'"]');if(!to)return;
+  if(!bumpPrev){
+    bumpPrev={offer:state.offer,qty:state.qty,price:state.price,label:state.label,sub:state.sub};
+    var d=offerData(to);
+    state.offer=d.offer;state.qty=d.qty;state.price=d.price;state.label=d.label;state.sub=d.sub;
+    bump.classList.add('on');bump.setAttribute('aria-checked','true');
+    track('BUMP_ADDED',{item_ids:[P.sku||''],number_items:d.qty,price:d.price,currency:CUR});
+  }else{
+    state.offer=bumpPrev.offer;state.qty=bumpPrev.qty;state.price=bumpPrev.price;state.label=bumpPrev.label;state.sub=bumpPrev.sub;
+    bumpPrev=null;bump.classList.remove('on');bump.setAttribute('aria-checked','false');
+  }
+  setSelCard();renderSummary();
+}
+if(bump){
+  bump.addEventListener('click',toggleBump);
+  bump.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleBump();}});
+}
 
 /* ── SUMMARY ── */
 function grandTotal(){
