@@ -334,6 +334,73 @@ b,strong{font-weight:800}
 .ty-rv p b{color:var(--rose)}
 .ty-rv-btn{display:block;text-align:center;font-family:var(--fh);font-weight:900;font-size:.9rem;color:#fff;background:#1fae5b;border-radius:12px;padding:11px;text-decoration:none}
 
+
+/* ══ THANK-YOU — one flow: done → where it is now → receipt → draw → pledge ══
+   The engine still builds its blocks; the script below regroups them, and
+   these rules restyle them in the page's wine and gold. */
+.ty.tyx{display:flex;flex-direction:column;gap:12px;padding:4px 0 6px;text-align:right}
+.ty.tyx>.big,.ty.tyx>h3,.ty.tyx>p,.ty.tyx>.oid,.ty.tyx>#tySummary,.ty.tyx>.next,.ty.tyx .ty-card,.ty.tyx .ty-city{display:none}
+.tyx-hero{position:relative;text-align:center;padding:6px 0 2px}
+.tyx-seal{width:84px;height:84px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#a8274a,#4a0c1a);box-shadow:0 0 0 6px #f3e9df,0 16px 30px -12px rgba(74,12,26,.7)}
+.tyx-seal svg{width:48px;height:48px}
+.tyx-seal .k{fill:none;stroke:#fff;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:tyxK .55s .25s ease-out forwards}
+@keyframes tyxK{to{stroke-dashoffset:0}}
+.tyx-hero h3{font-family:var(--fh);font-size:1.45rem;line-height:1.35;color:var(--text);margin:0}
+.tyx-hero p{margin:6px 0 0;font-size:.86rem;font-weight:700;color:var(--muted)}
+.tyx-hero p b{font-family:var(--fh);color:var(--berry);letter-spacing:.02em;direction:ltr;unicode-bidi:isolate}
+.tyx-conf{position:absolute;inset:-10px 0 auto;height:0;pointer-events:none}
+.tyx-conf i{position:absolute;top:30px;width:7px;height:11px;border-radius:2px;opacity:0;animation:tyxC 1.5s ease-out forwards}
+@keyframes tyxC{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--r))}}
+
+/* where the order is now */
+.tyx-steps{list-style:none;margin:0;padding:14px 8px 12px;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--line);border-radius:16px;position:relative}
+.tyx-steps li{position:relative;text-align:center;font-size:.68rem;font-weight:800;color:var(--dim);line-height:1.35}
+.tyx-steps li::before{content:'';position:absolute;top:15px;left:50%;width:100%;height:3px;background:var(--line);z-index:0}
+.tyx-steps li:first-child::before{display:none}
+.tyx-steps i{position:relative;z-index:1;display:grid;place-items:center;width:32px;height:32px;margin:0 auto 6px;border-radius:50%;font-style:normal;font-size:.9rem;background:#f3ece4;border:2px solid var(--line)}
+.tyx-steps li.done{color:#1f7a45}.tyx-steps li.done i{background:#1f9d55;border-color:#1f9d55;color:#fff;font-weight:900}
+.tyx-steps li.now{color:var(--berry)}.tyx-steps li.now::before{background:linear-gradient(270deg,#1f9d55,var(--rose))}
+.tyx-steps li.now i{background:#fff;border-color:var(--rose);box-shadow:0 0 0 0 rgba(140,29,54,.45);animation:tyxP 1.6s infinite}
+@keyframes tyxP{70%{box-shadow:0 0 0 9px rgba(140,29,54,0)}100%{box-shadow:0 0 0 0 rgba(140,29,54,0)}}
+.ty.tyx .ty-call{margin:0;border-radius:14px}
+
+/* the receipt — same torn-ticket shape as the discount on the page */
+.tyx-rc{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--sh-sm)}
+.tyx-rc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 16px;background:linear-gradient(90deg,#4a0c1a,#8c1d36);color:#fff}
+.tyx-rc-top b{font-family:var(--fh);font-size:.88rem}
+.tyx-rc-top small{font-size:.66rem;font-weight:700;color:#ffe08a}
+.tyx-rc-amt{text-align:center;padding:16px 16px 18px}
+.tyx-rc-amt small{display:block;font-size:.74rem;font-weight:800;color:var(--muted)}
+.tyx-rc-amt b{display:block;font-family:var(--fh);font-size:2.4rem;font-weight:900;line-height:1.15;color:var(--berry)}
+.tyx-rc-amt b i{font-style:normal;font-size:1rem;color:var(--muted)}
+.tyx-rc-amt span{display:inline-block;margin-top:4px;font-size:.72rem;font-weight:800;color:#1f7a45;background:#e9f7ef;border-radius:999px;padding:3px 10px}
+.tyx-rc-cut{position:relative;height:0;border-top:2px dashed var(--line);margin:0 14px}
+.tyx-rc-cut::before,.tyx-rc-cut::after{content:'';position:absolute;top:-10px;width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid var(--line)}
+.tyx-rc-cut::before{right:-24px}.tyx-rc-cut::after{left:-24px}
+.tyx-rc-rows{padding:8px 16px 12px}
+.tyx-rc-rows div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:.82rem}
+.tyx-rc-rows div+div{border-top:1px solid #f3ece4}
+.tyx-rc-rows span{color:var(--muted);font-weight:700;flex:none}
+.tyx-rc-rows b{font-family:var(--fh);text-align:left}
+
+/* the draw — the reason to answer the phone, so it sits right after the receipt */
+.ty.tyx .ty-draw{margin:0}
+.tyx-tix{display:flex;justify-content:center;gap:10px;padding:14px 15px 0}
+.tyx-tix span{display:grid;place-items:center;width:62px;height:44px;border-radius:8px;font-family:var(--fh);font-size:.66rem;font-weight:900;color:#4a0c1a;line-height:1.2;
+  background:linear-gradient(135deg,#ffe08a,#c99a3e);box-shadow:0 6px 14px -8px rgba(164,118,31,.9);position:relative;transform:rotate(-4deg);animation:tyxT .45s backwards}
+.tyx-tix span:nth-child(2){transform:rotate(3deg);animation-delay:.12s}.tyx-tix span:nth-child(3){transform:rotate(-2deg);animation-delay:.24s}
+.tyx-tix span::before,.tyx-tix span::after{content:'';position:absolute;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#fffaf2}
+.tyx-tix span::before{right:-5px}.tyx-tix span::after{left:-5px}
+.tyx-tix span em{font-style:normal;font-size:1rem;line-height:1}
+@keyframes tyxT{from{opacity:0;transform:translateY(8px) scale(.8)}}
+
+.ty.tyx .ty-pledge{margin:0;background:#fff;border:2px dashed var(--rose);color:var(--berry);font-family:var(--fh);font-weight:900}
+.ty.tyx .ty-pledge.done{background:#1f9d55;border:2px solid #1f9d55;color:#fff}
+.ty.tyx .ty-rv{margin:0}
+.ty.tyx>[data-close]{margin-top:2px!important}
+@media(prefers-reduced-motion:reduce){.tyx-seal .k{animation:none;stroke-dashoffset:0}.tyx-conf{display:none}.tyx-steps li.now i,.tyx-tix span{animation:none}}
+
 /* ── prize draw card in wine and gold, not the engine's purple ── */
 .ty-draw{border-color:var(--gold);background:linear-gradient(150deg,#fffaf2,#f8efe3)}
 .ty-draw .td-h{background:linear-gradient(90deg,#4a0c1a,#8c1d36)}
@@ -1257,6 +1324,60 @@ window.PRODUCT={
 })();
 
 
+
+
+/* ── THANK-YOU: regroup what the engine builds into one short flow ──
+   Runs once the engine marks the screen built; if anything is missing it
+   leaves the engine's layout as it was. */
+(function(){
+  var ty=document.querySelector('#panel3 .ty');if(!ty||!('MutationObserver' in window))return;
+  function txt(s){var e=document.querySelector(s);return e?e.textContent.trim():'';}
+  function v(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+  function mk(html){var d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function build(){
+    try{
+      var card=ty.querySelector('.ty-card');if(!card)return;
+      var rows=card.querySelectorAll('.r b');
+      var oid=txt('#orderId').replace(/^#/,''),amt=(rows[1]?rows[1].textContent:'').replace(/[^0-9]/g,''),eta=rows[2]?rows[2].textContent.trim():'';
+      var first=v('name').split(/\s+/)[0]||'';
+      var pack=txt('#selName').split('—')[0].trim();
+      var city=v('city'),dist=v('district').replace(/^حي\s*/,'');
+      var where=city+(dist?' — حي '+dist:'');
+      var qty=/3/.test(pack)?3:/قطعتان/.test(pack)?2:1;
+
+      var conf='',cols=['#8c1d36','#c99a3e','#ffe08a','#1f9d55','#4a0c1a'];
+      for(var i=0;i<18;i++){var a=(i/18)*Math.PI*2,r=60+(i%3)*28;
+        conf+='<i style="left:50%;background:'+cols[i%5]+';--dx:'+Math.round(Math.cos(a)*r*1.6)+'px;--dy:'+Math.round(Math.sin(a)*r+40)+'px;--r:'+(i*47%360)+'deg;animation-delay:'+(i%4)*40+'ms"></i>';}
+      var hero=mk('<div class="tyx-hero"><div class="tyx-conf" aria-hidden="true">'+conf+'</div>'+
+        '<div class="tyx-seal"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="k" d="M12 25l8 8 16-17"/></svg></div>'+
+        '<h3>'+(first?'تم يا '+esc(first)+'! ':'تم! ')+'طلبك وصلنا 🎉</h3>'+
+        '<p>رقم طلبك <b>#'+esc(oid)+'</b></p></div>');
+      var steps=mk('<ol class="tyx-steps" aria-label="حالة الطلب">'+
+        '<li class="done"><i>✓</i>تم الطلب</li><li class="now"><i>📞</i>مكالمة التأكيد</li>'+
+        '<li><i>🚚</i>الشحن</li><li><i>💵</i>الاستلام</li></ol>');
+      var rc=mk('<div class="tyx-rc">'+
+        '<div class="tyx-rc-top"><b>🎫 بطاقة استلام طلبك</b><small>خذ لها سكرين شوت 📸</small></div>'+
+        '<div class="tyx-rc-amt"><small>جهّز عند الباب</small><b>'+esc(amt)+' <i>ر.س</i></b><span>💵 نقداً للمندوب · التوصيل مجاني</span></div>'+
+        '<div class="tyx-rc-cut"></div>'+
+        '<div class="tyx-rc-rows">'+
+          (pack?'<div><span>طلبك</span><b>'+esc(pack)+'</b></div>':'')+
+          (eta?'<div><span>يوصلك</span><b>'+esc(eta)+'</b></div>':'')+
+          (city?'<div><span>إلى</span><b>'+esc(where)+'</b></div>':'')+
+        '</div></div>');
+
+      var call=ty.querySelector('.ty-call'),draw=ty.querySelector('.ty-draw'),pledge=ty.querySelector('.ty-pledge'),
+          rv=ty.querySelector('.ty-rv'),close=null;
+      Array.prototype.forEach.call(ty.children,function(c){if(c.hasAttribute('data-close'))close=c;});
+      if(draw){var t='';for(var k=1;k<=qty;k++)t+='<span><em>🎟️</em>فرصة '+k+'</span>';
+        var tb=draw.querySelector('.td-b');if(tb)draw.insertBefore(mk('<div class="tyx-tix" aria-hidden="true">'+t+'</div>'),tb);}
+
+      ty.classList.add('tyx');
+      [hero,steps,call,rc,draw,pledge,rv,close].forEach(function(n){if(n)ty.appendChild(n);});
+    }catch(e){ty.classList.remove('tyx');}
+  }
+  new MutationObserver(function(){if(ty.dataset.built&&!ty.classList.contains('tyx'))build();}).observe(ty,{attributes:true,attributeFilter:['data-built']});
+})();
 
 /* ── REVIEWS: three up front, the rest on tap ── */
 (function(){var b=document.getElementById('rvMore'),w=document.getElementById('rvs');if(!b||!w)return;
