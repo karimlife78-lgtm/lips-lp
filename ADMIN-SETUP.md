@@ -2,14 +2,19 @@
 
 Your private control center lives at **`cosmarab.com/admin`**. It's password-protected and gives you:
 
-| Tab | What it does |
+| View | What it does |
 |---|---|
-| 📊 **Overview** | Live revenue, orders, AOV, units, top channel, daily trend, revenue by channel, top cities — all filterable by date. |
-| 🧾 **Orders** | Every order by date, searchable, one-click **CSV export**. |
-| 🧮 **Profit Calculator** | The COD Network breakeven + profit-at-scale P&L (Section 1 & 2). Math validated against the reference dashboard. Every fee is editable. |
-| 🔗 **Ad Smart-Links** | Stable links for ads (`cosmarab.com/r/snap-oct`). Change where they point anytime — **no ad re-launch**. |
-| 🚀 **My Pages** | Quick-open every published page (landing, privacy, terms…). |
-| ⚙️ **Settings** | Connection status + system health. |
+| **Command** | Tracking health for every funnel, a "needs attention" list (missing or stub pixels, missing purchase events, hijacked pages, broken smart-links, losing campaigns), 14-day spend chart, one-click TikTok/Snap ad URLs. |
+| **Pages** | Every published page scanned live: TikTok / Snap / Meta pixel IDs, purchase events, SKU, which sheet + tab its orders land in, smart-link overrides. Rename the label, set a main URL, add extra URLs. |
+| **Ad Launcher** | Builds the destination URL for TikTok, Snap, Meta or a custom source, with each platform's dynamic macros. Direct or `/r/` smart-link. Runs a pre-launch pixel check. |
+| **Campaigns** | Daily spend + leads log (+ confirmed / delivered from the call center). CPL, est. net profit and a SCALE / WATCH / KILL call per platform and per page. |
+| **Smart-links** | Stable links for ads (`cosmarab.com/r/snap-oct`). Change where they point anytime, with **no ad re-launch**. Flags links that point to missing pages or hide real ones. |
+| **Profit Lab** | The COD Network breakeven + profit-at-scale P&L, a CPL × delivery-rate sensitivity grid, and per-page AOV / cost. |
+| **System** | Connections, which env vars are set, full pixel audit, backup export / import. |
+
+Press **Ctrl K** (or `/`) anywhere to jump to any page, copy any ad URL, or run an action.
+
+> The admin does **not** read or show orders, and nothing in it touches the order flow (`/api/submit-order`, the sheets, the Apps Scripts). Campaign numbers are entered by hand and stored in your browser, so export a backup from **System** now and then.
 
 ---
 

@@ -79,6 +79,68 @@ async function scriptPost(body) {
   return r.json();
 }
 
+// ---- page scanner (read-only) ----------------------------------------------
+// Reads a page's HTML and reports what the admin's Pages view needs: pixels,
+// SKU, title and which sheet its orders land in. It never writes anything.
+
+// Display-only mirror of the routing in api/submit-order.js — keep in sync.
+const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa']);
+const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa' };
+
+// A page can init several pixels (and some still carry a dead 'SNAP_PIXEL_ID'
+// stub), so every id is collected: ok = at least one real id, warn = real id
+// plus a stub, placeholder = stubs only, missing = none at all.
+function pixelState(ids, okRe) {
+  const all = Array.from(new Set(ids.filter(Boolean)));
+  const real = all.filter(id => okRe.test(id));
+  const stubs = all.filter(id => !okRe.test(id));
+  const state = real.length ? (stubs.length ? 'warn' : 'ok') : (stubs.length ? 'placeholder' : 'missing');
+  return { state, ids: real, stubs };
+}
+
+function allMatches(html, re) {
+  return Array.from(html.matchAll(re), m => m[1].trim());
+}
+
+function scanPage(file, slug) {
+  let html = '';
+  try { html = require('fs').readFileSync(file, 'utf8'); } catch (_) { return { scanned: false }; }
+  const pick = (re) => { const m = html.match(re); return m ? m[1].trim() : ''; };
+
+  const snapIds = allMatches(html, /snaptr\(\s*['"]init['"]\s*,\s*['"]([^'"]+)['"]/g)
+    .concat(allMatches(html, /pixelId\s*:\s*['"]([^'"]+)['"]/g))
+    .concat(allMatches(html, /SNAP_PIXEL\s*=\s*['"]([^'"]+)['"]/g));
+  const ttIds = allMatches(html, /ttq\.load\(\s*['"]([^'"]+)['"]/g);
+  const metaIds = allMatches(html, /fbq\(\s*['"]init['"]\s*,\s*['"]([^'"]+)['"]/g);
+  const engine = /\/shop\/app\.js/.test(html);
+  const sells = engine || /\/api\/submit-order/.test(html);
+  const page = slug.replace(/^\//, '');
+
+  return {
+    scanned: true,
+    title: pick(/<title>([^<]*)<\/title>/i).slice(0, 120),
+    sku: pick(/sku\s*:\s*['"]([A-Za-z0-9-]+)['"]/),
+    sizeKb: Math.round(Buffer.byteLength(html) / 1024),
+    noindex: /<meta[^>]+name=["']robots["'][^>]*noindex/i.test(html),
+    sells,
+    engine,
+    pixels: {
+      snap: pixelState(snapIds, /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i),
+      tiktok: pixelState(ttIds, /^[A-Z0-9]{16,24}$/),
+      meta: pixelState(metaIds, /^\d{10,20}$/)
+    },
+    // purchase events: the shared shop engine fires both. Hand-built pages route
+    // events through a map (e.g. TIKTOK_EV={'PURCHASE':'CompletePayment'}), so
+    // the event name anywhere next to a track call counts.
+    events: {
+      snapPurchase: engine || (/snaptr\(\s*['"]track['"]/.test(html) && /['"]PURCHASE['"]/.test(html)),
+      tiktokPurchase: engine || (/ttq\.track\(/.test(html) && /['"](CompletePayment|PlaceAnOrder|Purchase)['"]/.test(html))
+    },
+    sheet: sells ? (CALM_SHEET_PAGES.has(page) ? 'calm' : 'main') : '',
+    tab: sells ? (TAB_BY_PAGE[page] || (CALM_SHEET_PAGES.has(page) ? 'ksa-calm' : 'default')) : ''
+  };
+}
+
 // ============================================================================
 module.exports = async function handler(req, res) {
   const action = (req.query && req.query.action) || '';
@@ -227,6 +289,9 @@ module.exports = async function handler(req, res) {
         '/ksa-lung':    { name: 'نَفَس — Lung',          icon: '🫁', desc: 'Respiratory support LP' },
         '/ksa-hair':    { name: 'لانثوم — Hair Serum',  icon: '💇', desc: 'Hair serum LP' },
         '/ksa-mullein': { name: 'المولين — Mullein',    icon: '🌼', desc: 'Mullein leaf LP' },
+        '/ksa-lips':    { name: 'Lip Serum — Classic',  icon: '👄', desc: 'Earlier lip serum LP' },
+        '/ksa-sleep':   { name: 'ليلة — Sleep Patch',    icon: '😴', desc: 'Sleep patch LP' },
+        '/lip-darkening-guide': { name: 'Lip Darkening Guide', icon: '📚', desc: 'SEO article → lip serum' },
         '/video-bot':   { name: 'Video Script Bot',     icon: '🎬', desc: 'AI script generator' },
         '/trends':      { name: 'Product Radar',        icon: '📡', desc: 'Trend discovery + GCC scoring + LP builder' },
         '/privacy':     { name: 'Privacy Policy',        icon: '🔒', desc: 'Required for ad approval' },
@@ -239,7 +304,7 @@ module.exports = async function handler(req, res) {
       const rootFiles = fs.readdirSync(root).filter(f => f.endsWith('.html') && !SKIP.has(f));
       rootFiles.forEach(f => {
         const slug = f === 'index.html' ? '/' : '/' + f.replace(/\.html$/, '');
-        pages.push({ path: slug, ...(META[slug] || { name: slug, icon: '📄', desc: 'Published page' }) });
+        pages.push({ path: slug, ...(META[slug] || { name: slug, icon: '📄', desc: 'Published page' }), ...scanPage(path.join(root, f), slug) });
       });
 
       // sub-folder index.html files (e.g. ksa-18/index.html)
@@ -250,7 +315,7 @@ module.exports = async function handler(req, res) {
         if (fs.existsSync(idx)) {
           const slug = '/' + d.name;
           if (!pages.find(p => p.path === slug)) {
-            pages.push({ path: slug, ...(META[slug] || { name: d.name, icon: '📄', desc: 'Published page' }) });
+            pages.push({ path: slug, ...(META[slug] || { name: d.name, icon: '📄', desc: 'Published page' }), ...scanPage(idx, slug) });
           }
         }
       });
@@ -258,6 +323,21 @@ module.exports = async function handler(req, res) {
       // sort: root first, then alphabetical
       pages.sort((a, b) => (a.path === '/' ? -1 : b.path === '/' ? 1 : a.path.localeCompare(b.path)));
       return res.status(200).json({ ok: true, pages });
+    }
+
+    // -------- ENV: which settings are present (never their values) ----------
+    if (action === 'env') {
+      const has = (k) => Boolean(process.env[k]);
+      return res.status(200).json({
+        ok: true,
+        env: {
+          ADMIN_USER: has('ADMIN_USER'), ADMIN_PASS: has('ADMIN_PASS'), ADMIN_SECRET: has('ADMIN_SECRET'),
+          SHEET_TOKEN: has('SHEET_TOKEN'), GOOGLE_SCRIPT_URL: has('GOOGLE_SCRIPT_URL'),
+          GOOGLE_SCRIPT_URL_CALM: has('GOOGLE_SCRIPT_URL_CALM'), REDIRECT_FALLBACK: has('REDIRECT_FALLBACK')
+        },
+        region: process.env.VERCEL_REGION || '',
+        deployment: (process.env.VERCEL_GIT_COMMIT_SHA || '').slice(0, 7)
+      });
     }
 
     return res.status(404).json({ error: 'unknown_action' });
