@@ -25,7 +25,8 @@ function blocked() {
 // must remain redirectable via smart-links (important business feature).
 const NEVER_REDIRECT = new Set([
   'video-bot','trends','shop','privacy','terms','favicon.svg','favicon.ico','robots.txt','sitemap.xml',
-  'lip-darkening-guide','smoker-lips','lip-lightening-home-remedies'
+  'lip-darkening-guide','smoker-lips','lip-lightening-home-remedies',
+  'lip-lightening-men','dark-lips-women','dark-skin-around-lips','lip-lightening-laser-vs-cream','sudden-dark-lips','lip-lightening-fast-vaseline'
 ]);
 
 // ── redirect map cache — "stale-while-revalidate" ──────────────────────────
