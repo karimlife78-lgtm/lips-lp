@@ -631,6 +631,27 @@ b,strong{font-weight:800}
 .wa-float.hide{opacity:0;pointer-events:none;transform:scale(.8)}
 @media(min-width:620px){.l-hero h1{font-size:2.5rem}.rs-c{flex-basis:70%}.mo{flex-basis:46%}}
 @media(prefers-reduced-motion:reduce){.sc-r,.xi-card{animation:none}.tl-bar i{transition:none}}
+
+/* ═══ CALL BAND — the same promise-of-a-call widget as ksa-18, restyled to
+   this page's berry/gold palette. It wears one of three faces depending on
+   the call centre's real hours (Riyadh time), so it never claims "we'll
+   call now" once the line has closed. ═══ */
+.callband{max-width:var(--mw);margin:14px auto 0;background:linear-gradient(135deg,var(--berry),var(--red2));border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--gold-glow);box-shadow:var(--sh-sm)}
+.callband [hidden]{display:none!important}
+.callband .cb-lbl{color:rgba(255,255,255,.85);font-size:13px;font-weight:800}
+.callband .cb-night,.callband .cb-ready{display:flex;align-items:center;gap:11px;width:100%}
+.callband .cb-ic{font-size:24px;flex:none}
+.callband .cb-tx{font-size:13px;font-weight:700;line-height:1.7;color:rgba(255,255,255,.85)}
+.callband .cb-tx b,.callband .cb-gold{color:var(--gold);font-weight:900}
+.callband .cb-ready .cb-ic{animation:cbRing 2.6s ease-in-out infinite;transform-origin:50% 70%}
+@keyframes cbRing{0%,58%,100%{transform:rotate(0)}64%{transform:rotate(-13deg)}
+  70%{transform:rotate(11deg)}76%{transform:rotate(-8deg)}82%{transform:rotate(5deg)}}
+@media (prefers-reduced-motion:reduce){.callband .cb-ready .cb-ic{animation:none}}
+.callband .cb-units{display:flex;gap:7px;align-items:center}
+.callband .cb-u{text-align:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:8px 9px;min-width:46px}
+.callband .cb-u b{display:block;color:#fff;font-size:22px;font-weight:900;line-height:1;font-family:'Cairo',inherit;min-width:2ch;font-variant-numeric:tabular-nums}
+.callband .cb-u span{display:block;color:var(--gold);font-size:9px;font-weight:800;letter-spacing:.08em;margin-top:3px}
+.callband .cb-sep{color:var(--gold);font-size:20px;font-weight:900;margin-top:-6px}
 </style>
 </head>
 <body>
@@ -664,6 +685,24 @@ b,strong{font-weight:800}
   <div class="l-buy">
     <div class="tkt"><div class="tkt-l"><span class="tkt-off">خصم</span><span class="tkt-num">20</span><span class="tkt-cur">ر.س</span></div><div class="tkt-r"><b>عرض اليوم على كريم الشفايف</b><span class="tkt-p"><s>199 ر.س</s><i>179 ر.س</i></span><small>الخصم مطبّق تلقائياً — ما تحتاج كود</small></div></div>
     <div class="l-price"><span class="now">179 <small>ر.س</small></span><span class="was-h">199 ر.س</span><span class="deal">الثانية بـ 50 ريال بس</span></div>
+    <div class="callband" id="callBox">
+      <div class="cb-ready" id="callReady" hidden>
+        <span class="cb-ic">📞</span>
+        <span class="cb-tx">نتصل فيك <b>خلال دقائق</b> نأكد الطلب —
+          ويطلع من المستودع <b id="cbShip">اليوم</b></span>
+      </div>
+      <span class="cb-lbl" id="callLbl" hidden>⏳ نسكّر طلبات<br><b class="cb-gold">اليوم بعد</b></span>
+      <div class="cb-units" id="callUnits" hidden>
+        <div class="cb-u"><b id="th">00</b><span>ساعة</span></div><span class="cb-sep">:</span>
+        <div class="cb-u"><b id="tm">00</b><span>دقيقة</span></div><span class="cb-sep">:</span>
+        <div class="cb-u"><b id="ts">00</b><span>ثانية</span></div>
+      </div>
+      <div class="cb-night" id="callNight" hidden>
+        <span class="cb-ic">🌙</span>
+        <span class="cb-tx">نستقبل طلبك <b>الحين</b> — واللي يطلب بالليل
+          <b>أول من نتصل فيه</b> الصباح</span>
+      </div>
+    </div>
     <button class="btn lg btn-pulse" data-scroll="#offers"><span class="shine"></span>اطلب الآن — وادفع عند الاستلام</button>
     <div class="l-chips">
       <span>💵 تدفع عند الباب</span><span>🚚 يوصلك خلال 2-4 أيام</span>
@@ -1480,6 +1519,43 @@ window.PRODUCT={
   var now=new Date(),ship=((now.getUTCHours()+3)%24)>=17?1:0;
   function fmt(d){try{return d.toLocaleDateString('ar-SA-u-ca-gregory',{weekday:'long',day:'numeric',month:'long'});}catch(e){return d.getDate()+'/'+(d.getMonth()+1);}}
   f.textContent=fmt(new Date(now.getTime()+(2+ship)*864e5));t.textContent=fmt(new Date(now.getTime()+(4+ship)*864e5));})();
+
+/* ── CALL BAND: same three faces as ksa-18. Call centre runs on Morocco time,
+   closing 23:00 / opening 08:00 there = 01:00 / 10:00 Riyadh — keep these two
+   numbers in sync with ksa-18's CALL_CLOSE/CALL_OPEN if the hours change. ── */
+(function(){
+  var CALL_CLOSE=1,CALL_OPEN=10,URGENT_H=3;
+  /* same cutoff as the ARRIVAL DATE block above — the band must not promise
+     same-day dispatch after the ETA has already rolled to tomorrow */
+  var SHIP_CUTOFF=17;
+  var th=document.getElementById('th'),tm=document.getElementById('tm'),ts=document.getElementById('ts'),
+      units=document.getElementById('callUnits'),lbl=document.getElementById('callLbl'),
+      night=document.getElementById('callNight'),ready=document.getElementById('callReady'),
+      ship=document.getElementById('cbShip');
+  if(!th||!units)return;
+  function ksaNow(){return new Date(Date.now()+(new Date().getTimezoneOffset()*60000)+(3*3600000));}
+  function callWindow(){
+    var n=ksaNow(),h=n.getHours();
+    if(!((h>=CALL_OPEN)||(h<CALL_CLOSE)))return {open:false,ms:0};
+    var c=new Date(n);c.setHours(CALL_CLOSE,0,0,0);
+    if(c<=n)c.setDate(c.getDate()+1);
+    return {open:true,ms:c-n};
+  }
+  function tick(){
+    var w=callWindow(),urgent=w.open&&w.ms<=URGENT_H*3600000;
+    units.hidden=!urgent;lbl.hidden=!urgent;
+    if(ready)ready.hidden=!(w.open&&!urgent);
+    if(night)night.hidden=w.open;
+    if(ship){var kh=ksaNow().getHours(),t=(kh>=SHIP_CUTOFF||kh<CALL_CLOSE)?'بكرة الصبح':'اليوم';if(ship.textContent!==t)ship.textContent=t;}
+    if(!urgent)return;
+    var left=Math.max(0,Math.floor(w.ms/1000));
+    var h=Math.floor(left/3600),m=Math.floor((left%3600)/60),s=left%60;
+    th.textContent=String(h).padStart(2,'0');
+    tm.textContent=String(m).padStart(2,'0');
+    ts.textContent=String(s).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+})();
 
 /* ── EXIT INTENT: once, only after the prices were seen, never over checkout ── */
 (function(){
