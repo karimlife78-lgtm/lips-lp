@@ -150,6 +150,7 @@ label.lb{display:block;font-family:var(--mono);font-size:10px;font-weight:500;le
 
 .view{padding:30px 28px 90px;max-width:1280px;animation:viewIn .45s cubic-bezier(.2,.8,.2,1) both}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}}
+.view.still,.view.still .stagger>*{animation:none}
 .vhead{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:26px}
 .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold-d)}
@@ -418,9 +419,16 @@ function esc(s){return String(s==null?'':s).replace(/[<>&"']/g,function(c){retur
 function fmt(n,d){n=+n||0;return n.toLocaleString('en-US',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});}
 function money(n,d){return (n<0?'−':'')+'$'+fmt(Math.abs(n),d==null?2:d);}
 function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on');},2400);}
-function api(action,opts){opts=opts||{};
-  return fetch('/api/admin?action='+action,{method:opts.method||'GET',headers:opts.body?{'Content-Type':'application/json'}:{},body:opts.body?JSON.stringify(opts.body):undefined,credentials:'same-origin'})
-    .then(function(r){return r.json().catch(function(){return {ok:false,error:'bad_json'};}).then(function(j){j._status=r.status;return j;});});}
+/* Smart-links live in Google Apps Script, which answers in 1.5–13 s. Every call
+   gets a timeout, and reads retry once, so a slow answer never hangs the screen. */
+function api(action,opts){opts=opts||{};var tries=opts.method?1:2;
+  function once(){
+    var ctl=window.AbortController?new AbortController():null,t=ctl?setTimeout(function(){ctl.abort();},opts.timeout||30000):0;
+    return fetch('/api/admin?action='+action+(opts.method?'':'&_='+Date.now()),{method:opts.method||'GET',headers:opts.body?{'Content-Type':'application/json'}:{},body:opts.body?JSON.stringify(opts.body):undefined,credentials:'same-origin',cache:'no-store',signal:ctl?ctl.signal:undefined})
+      .then(function(r){clearTimeout(t);return r.json().catch(function(){return {ok:false,error:'bad_json'};}).then(function(j){j._status=r.status;return j;});},
+            function(e){clearTimeout(t);if(--tries>0)return once();throw e;});
+  }
+  return once();}
 var LS={
   get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},
   set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}},
@@ -493,7 +501,11 @@ function adUrl(base,plat,o){return base+(base.indexOf('?')<0?'?':'&')+qString(ad
 /* =====================================================================
    STATE
    ===================================================================== */
-var S={pages:[],pagesOk:null,links:[],linksOk:null,env:null,main:{snap:'',tiktok:''}};
+var S={pages:[],pagesOk:null,links:[],linksOk:null,linksLoading:false,env:null,main:{snap:'',tiktok:''}};
+/* local copy updated the moment a save/delete succeeds, so the screen never waits on a slow re-read */
+function upsertLink(r){S.links=S.links.filter(function(l){return l.slug!==r.slug;});S.links.unshift(Object.assign({updated:new Date().toISOString()},r));}
+function removeLink(slug){S.links=S.links.filter(function(l){return l.slug!==slug;});}
+function setLinks(j){S.linksOk=j.ok!==false;if(j.ok!==false)S.links=(j.redirects||[]).map(function(r){r.slug=String(r.slug||'').toLowerCase();return r;});}
 var VIEWS=[
   {id:'home',label:'Command',icon:'home',group:'Desk'},
   {id:'pages',label:'Pages',icon:'pages',group:'Desk'},
@@ -708,12 +720,13 @@ function enterApp(){
   loadAll();
 }
 function loadAll(){
-  var b=$('#refreshBtn');b.classList.add('spin');
-  return Promise.all([
-    api('pages').then(function(j){S.pagesOk=!!j.ok;S.pages=(j.pages||[]).map(decorate);}).catch(function(){S.pagesOk=false;}),
-    api('redirects').then(function(j){S.linksOk=j.ok!==false;S.links=(j.redirects||[]).map(function(r){r.slug=String(r.slug||'').toLowerCase();return r;});}).catch(function(){S.linksOk=false;S.links=[];}),
-    api('env').then(function(j){S.env=j.ok?j:null;}).catch(function(){S.env=null;})
-  ]).then(function(){computeMainPixels();b.classList.remove('spin');updateHealth();buildNav();render();});
+  var b=$('#refreshBtn');b.classList.add('spin');S.linksLoading=true;
+  /* pages (fast) paint as soon as they land; smart-links (slow Apps Script) fill in after */
+  var refresh=function(){computeMainPixels();updateHealth();buildNav();render(true);};
+  var pages=api('pages').then(function(j){S.pagesOk=!!j.ok;S.pages=(j.pages||[]).map(decorate);}).catch(function(){S.pagesOk=false;}).then(refresh);
+  var links=api('redirects').then(setLinks).catch(function(){S.linksOk=false;}).then(function(){S.linksLoading=false;return pages;}).then(refresh);
+  var env=api('env').then(function(j){S.env=j.ok?j:null;}).catch(function(){S.env=null;});
+  return Promise.all([pages,links,env]).then(function(){b.classList.remove('spin');});
 }
 function tickClock(){var d=ksa();$('#clock').textContent=String(d.getUTCHours()).padStart(2,'0')+':'+String(d.getUTCMinutes()).padStart(2,'0');}
 function updateHealth(){
@@ -746,7 +759,16 @@ function go(id,silent){
   render();window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',function(){var h=location.hash.replace('#','');if(h&&h!==CUR)go(h,true);});
-function render(){var fn=R[CUR]||R.home;$('#views').innerHTML='<div class="view">'+fn()+'</div>';var after=AFTER[CUR];if(after)after();}
+/* render(true) = data refresh: keeps whatever you were typing in the current view */
+var LAST_VIEW='';
+function render(keep){
+  var saved={},focus=document.activeElement&&document.activeElement.id;
+  if(keep&&LAST_VIEW===CUR)$$('#views input[id],#views select[id],#views textarea[id]').forEach(function(el){if(el.type!=='file')saved[el.id]=el.type==='checkbox'?el.checked:el.value;});
+  var fn=R[CUR]||R.home;$('#views').innerHTML='<div class="view'+(keep&&LAST_VIEW===CUR?' still':'')+'">'+fn()+'</div>';LAST_VIEW=CUR;
+  var after=AFTER[CUR];if(after)after();
+  Object.keys(saved).forEach(function(id){var el=document.getElementById(id);if(!el)return;if(el.type==='checkbox')el.checked=saved[id];else el.value=saved[id];});
+  if(focus&&saved.hasOwnProperty(focus)){var f=document.getElementById(focus);if(f)f.focus();}
+}
 function head(eyebrow,title,sub,acts){return '<div class="vhead"><div><div class="eyebrow">'+eyebrow+'</div><h1 class="vtitle">'+title+'</h1>'+(sub?'<p class="vsub">'+sub+'</p>':'')+'</div>'+(acts?'<div class="acts">'+acts+'</div>':'')+'</div>';}
 
 var R={},AFTER={};
@@ -887,29 +909,32 @@ function editPage(path){
     if(m==='main'||m==='add'){
       var slug=cleanSlug($(m==='main'?'#mMain':'#mAdd').value);if(!slug){toast('Enter a URL name');return;}
       if(pageByPath('/'+slug)&&'/'+slug!==p.path&&!confirm('/'+slug+' is a real page. This smart-link will hide it. Continue?'))return;
-      b.disabled=true;
-      api('saveRedirect',{method:'POST',body:{slug:slug,target:p.path,note:m==='main'?'rename-url':'custom-url'}}).then(function(j){
-        if(j.ok===false||j._status>=400){b.disabled=false;toast('Save failed: '+(j.error||'unknown'));return;}
+      var note=m==='main'?'rename-url':'custom-url';busy(b,'Saving…');
+      api('saveRedirect',{method:'POST',body:{slug:slug,target:p.path,note:note}}).then(function(j){
+        if(j.ok===false||j._status>=400){busy(b);toast('Save failed: '+(j.error||'unknown'));return;}
         if(m==='main')setPrimary(p.path,slug);
+        upsertLink({slug:slug,target:p.path,note:note});refreshPages();
         toast((m==='main'?'Main URL':'URL')+' /'+slug+' saved. Live within about 15 s.');
-        reloadLinks().then(function(){closeScrim();editPage(path);});
-      }).catch(function(){b.disabled=false;toast('Network error');});
+        closeScrim();editPage(path);reloadLinks();
+      }).catch(function(){busy(b);toast('Google didn\'t answer in time. Try again.');});
       return;
     }
-    if(m==='del'){var s=b.getAttribute('data-s');if(!confirm('Delete '+HOST+'/'+s+' ?'))return;b.disabled=true;
-      deleteLink(s).then(function(){if(p.primary===s)setPrimary(p.path,'');refreshPages();closeScrim();editPage(path);});}
+    if(m==='del'){var s=b.getAttribute('data-s');if(!confirm('Delete '+HOST+'/'+s+' ?'))return;busy(b,'…');
+      deleteLink(s).then(function(ok){if(!ok){busy(b);return;}if(p.primary===s)setPrimary(p.path,'');refreshPages();closeScrim();editPage(path);});}
   });
 }
 function refreshPages(){S.pages=S.pages.map(function(p){return decorate(p);});render();}
-function reloadLinks(){return api('redirects').then(function(j){S.linksOk=j.ok!==false;S.links=(j.redirects||[]).map(function(r){r.slug=String(r.slug||'').toLowerCase();return r;});buildNav();updateHealth();render();});}
+/* background re-read after a change; render(true) keeps anything typed meanwhile */
+function reloadLinks(){S.linksLoading=true;return api('redirects').then(setLinks).catch(function(){}).then(function(){S.linksLoading=false;buildNav();updateHealth();render(true);});}
+/* resolves true when the link is gone, so callers can update the screen at once */
 function deleteLink(slug){
   return api('deleteRedirect',{method:'POST',body:{slug:slug}}).then(function(j){
-    if(j&&j.ok===false)toast('Delete failed: '+(j.error||'unknown'));
-    else if(j&&j.deleted===false)toast('/'+slug+' was already gone');
-    else toast('Deleted /'+slug);
-    return reloadLinks();
-  }).catch(function(){toast('Delete failed: network error');});
+    if(j&&(j.ok===false||j._status>=400)){toast('Delete failed: '+(j.error||'unknown'));return false;}
+    toast(j&&j.deleted===false?'/'+slug+' was already gone':'Deleted /'+slug);
+    removeLink(slug);buildNav();updateHealth();render(true);reloadLinks();return true;
+  }).catch(function(){toast('Google didn\'t answer in time. Try the delete again.');return false;});
 }
+function busy(b,label){if(!b)return;if(label){b._html=b._html||b.innerHTML;b.disabled=true;b.innerHTML=label;}else{b.disabled=false;if(b._html)b.innerHTML=b._html;}}
 
 /* =====================================================================
    VIEW · AD LAUNCHER
@@ -1098,7 +1123,8 @@ R.links=function(){
     '<div class="fld"><label class="lb">Note</label><input class="in" id="lfNote" placeholder="Snap, October promo" /></div>'+
   '</div><div style="display:flex;gap:8px"><button class="btn pri" type="submit" id="lfSave">'+I.plus+'Save smart-link</button><button class="btn hide" type="button" id="lfCancel">Cancel</button></div></form></div>'+
   '<div class="card"><div class="card-h"><h3>All smart-links</h3><span class="s">'+S.links.length+' total</span><div class="r"><input class="in" id="lq" placeholder="Search…" value="'+esc(LQ)+'" style="width:220px;padding:8px 12px" /></div></div>'+
-    (S.linksOk===false?'<div class="empty"><div class="ic">⚠</div>Couldn\'t reach the smart-link store.</div>':rows?'<div class="twrap"><table class="tbl"><thead><tr><th>Slug</th><th>Target</th><th>Status</th><th>Updated</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="empty"><div class="ic">🔗</div>No smart-links yet.</div>')+
+    (S.linksLoading&&!S.links.length?'<div class="empty"><div class="ic">⏳</div><b>Loading smart-links from Google…</b><br>This can take up to 10 seconds.</div>':
+     S.linksOk===false&&!S.links.length?'<div class="empty"><div class="ic">⚠</div>Couldn\'t reach the smart-link store. <button class="btn sm" data-act="refresh">Try again</button></div>':rows?'<div class="twrap"><table class="tbl"><thead><tr><th>Slug</th><th>Target</th><th>Status</th><th>Updated</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>':'<div class="empty"><div class="ic">🔗</div>No smart-links yet.</div>')+
   '</div>';
 };
 AFTER.links=function(){
@@ -1109,12 +1135,12 @@ AFTER.links=function(){
     e.preventDefault();var slug=cleanSlug($('#lfSlug').value),target=$('#lfTarget').value.trim();
     if(!slug||!target){toast('Slug and target are required');return;}
     if(!/^https?:\/\//.test(target)&&target[0]!=='/')target='https://'+target;
-    var b=$('#lfSave');b.disabled=true;
-    api('saveRedirect',{method:'POST',body:{slug:slug,target:target,note:$('#lfNote').value.trim()}}).then(function(j){
-      b.disabled=false;
-      if(j.ok===false||j._status>=400){toast('Save failed: '+(j.error||'check the sheet connection'));return;}
-      toast('Smart-link /r/'+slug+' saved. Live within about 15 s.');reloadLinks();
-    }).catch(function(){b.disabled=false;toast('Network error');});
+    var b=$('#lfSave'),note=$('#lfNote').value.trim();busy(b,'Saving… (Google can take ~10 s)');
+    api('saveRedirect',{method:'POST',body:{slug:slug,target:target,note:note}}).then(function(j){
+      if(j.ok===false||j._status>=400){busy(b);toast('Save failed: '+(j.error||'check the sheet connection'));return;}
+      upsertLink({slug:slug,target:target,note:note});buildNav();updateHealth();render();
+      toast('Smart-link /'+slug+' saved. Live within about 15 s.');reloadLinks();
+    }).catch(function(){busy(b);toast('Google didn\'t answer in time. Try again.');});
   });
 };
 function editLink(slug){var l=S.links.filter(function(x){return x.slug===slug;})[0];if(!l)return;
@@ -1274,10 +1300,11 @@ document.addEventListener('click',function(e){
   else if(a==='lcopy'){var r=launchUrl();if(!r.url)return;pushHist(r.url,L.plat,r.p.path);copy(r.url,'Ad URL copied');}
   else if(a==='ltest'){var r2=launchUrl();if(r2.url)window.open(r2.url,'_blank');}
   else if(a==='lclear'){LS.set('cos_launch_hist',[]);render();}
-  else if(a==='lcreate'){var r3=launchUrl();if(!r3.slug)return;b.disabled=true;
-    api('saveRedirect',{method:'POST',body:{slug:r3.slug,target:r3.p.realUrl,note:PLAT[L.plat].name+' ad · '+r3.p.path}}).then(function(j){b.disabled=false;
+  else if(a==='lcreate'){var r3=launchUrl();if(!r3.slug)return;var n3=PLAT[L.plat].name+' ad · '+r3.p.path;busy(b,'Creating…');
+    api('saveRedirect',{method:'POST',body:{slug:r3.slug,target:r3.p.realUrl,note:n3}}).then(function(j){busy(b);
       if(j.ok===false||j._status>=400){toast('Save failed: '+(j.error||'unknown'));return;}
-      pushHist(r3.url,L.plat,r3.p.path);copy(r3.url,'Smart-link /r/'+r3.slug+' created and URL copied');reloadLinks();}).catch(function(){b.disabled=false;toast('Network error');});}
+      upsertLink({slug:r3.slug,target:r3.p.realUrl,note:n3});buildNav();render(true);
+      pushHist(r3.url,L.plat,r3.p.path);copy(r3.url,'Smart-link /r/'+r3.slug+' created and URL copied');reloadLinks();}).catch(function(){busy(b);toast('Google didn\'t answer in time. Try again.');});}
   else if(a==='cdel'){if(!confirm('Delete this row?'))return;saveCamps(camps().filter(function(x){return x.id!==b.getAttribute('data-id');}));toast('Row deleted');render();}
   else if(a==='cedit'){editCamp(b.getAttribute('data-id'));}
   else if(a==='cexport'){var l=camps().sort(function(x,y){return x.date<y.date?-1:1;});if(!l.length){toast('Nothing to export');return;}
