@@ -114,9 +114,11 @@ export default async function middleware(request, event) {
     : target.replace(/^\/+/, '').replace(/\/+$/, '').split('/')[0];
   if (targetPath === slug) return;
 
-  const dest = /^https?:\/\//.test(target)
-    ? target
-    : new URL(target.startsWith('/') ? target : '/' + target, url.origin).toString();
+  const dest = new URL(/^https?:\/\//.test(target) ? target : (target.startsWith('/') ? target : '/' + target), url.origin);
+  // carry the ad's own query across the hop — click ids (ScCid, ttclid, fbclid)
+  // and utm tags. Dropping them blinds the pixels' click matching and the
+  // landing pages' paid-traffic detection. The target's own params win.
+  url.searchParams.forEach((v, k) => { if (!dest.searchParams.has(k)) dest.searchParams.append(k, v); });
 
-  return Response.redirect(dest, 302);
+  return Response.redirect(dest.toString(), 302);
 }
