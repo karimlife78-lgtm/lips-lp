@@ -676,6 +676,28 @@ b,strong{font-weight:800}
 .btn-pulse:active{animation:none}
 @keyframes btnBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
 @media(prefers-reduced-motion:reduce){.btn-pulse{animation:none}}
+
+/* ── TEAM VOICE NOTES — WhatsApp-style, from فريق Cosmarab (not customers).
+   Audio loads only on play; the key line is written under each note so a
+   visitor scrolling with sound off still gets the message. ── */
+.vn{max-width:var(--mw);margin:18px auto 0;padding:0 18px}
+.vn-b{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:11px 13px;box-shadow:var(--sh-sm)}
+.vn-av{position:relative;flex:none;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;display:grid;place-items:center;font-family:var(--fh);font-weight:900;font-size:1.05rem}
+.vn-av i{position:absolute;bottom:-3px;left:-3px;width:19px;height:19px;border-radius:50%;background:#25d366;border:2px solid #fff;display:grid;place-items:center;font-style:normal;font-size:9px}
+.vn-main{flex:1;min-width:0}
+.vn-who{font-family:var(--fh);font-weight:900;font-size:.82rem;color:var(--text)}
+.vn-who span{font-weight:700;color:var(--muted)}
+.vn-row{display:flex;align-items:center;gap:9px;margin-top:5px}
+.vn-play{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--berry);color:#fff;display:grid;place-items:center;cursor:pointer}
+.vn-play .i-pause{display:none}
+.vn.on .vn-play .i-pause{display:block}
+.vn.on .vn-play .i-play{display:none}
+.vn-wave{flex:1;height:30px;display:flex;align-items:center;gap:2px;cursor:pointer}
+.vn-wave i{flex:1;min-width:2px;border-radius:2px;background:#d8ccc3;transition:background .15s}
+.vn-wave i.p{background:var(--rose)}
+.vn-t{flex:none;font-size:.75rem;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums;min-width:30px;text-align:right}
+.vn-tx{margin:7px 0 0;font-size:.84rem;font-weight:700;line-height:1.7;color:var(--muted)}
+.vn-tx b{color:var(--berry)}
 </style>
 </head>
 <body>
@@ -956,6 +978,21 @@ b,strong{font-weight:800}
     <div class="rt-i reveal"><span class="n">3</span><picture><source srcset="/assets/lips-step-3.webp" type="image/webp" /><img src="/assets/lips-step-3.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="يدلّك بلطف" /></picture><b>دلّك بلطف</b><p>صباحاً ومساءً.</p></div>
     <div class="rt-i reveal"><span class="n">4</span><picture><source srcset="/assets/lips-step-4.webp" type="image/webp" /><img src="/assets/lips-step-4.jpg" width="1024" height="1024" loading="lazy" decoding="async" alt="راضٍ عن النتيجة" /></picture><b>كمّل يومياً</b><p>الاستمرار هو السر.</p></div>
   </div>
+  <div class="vn" data-dur="0:16">
+    <div class="vn-b">
+      <span class="vn-av" aria-hidden="true">C<i>🎤</i></span>
+      <div class="vn-main">
+        <div class="vn-who">فريق Cosmarab <span>· رسالة صوتية</span></div>
+        <div class="vn-row" dir="ltr">
+          <button type="button" class="vn-play" aria-label="شغّل الرسالة الصوتية: كيف تستخدمه"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="i-play" d="M8 5v14l11-7z" fill="currentColor"/><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>
+          <div class="vn-wave" aria-hidden="true"></div>
+          <span class="vn-t">0:16</span>
+        </div>
+        <p class="vn-tx">🎧 <b>مرتين باليوم</b> — الصبح وقبل النوم، طبقة خفيفة على شفايف نظيفة ونشفانة.</p>
+      </div>
+    </div>
+    <audio preload="none" src="/assets/vn-ksa28-use.mp3"></audio>
+  </div>
 </section>
 
 <!-- ═══════════ TIMELINE ═══════════ -->
@@ -978,6 +1015,21 @@ b,strong{font-weight:800}
       <div class="tl-p"><span class="d" style="background:#e7a2ad"></span><b>أسبوع 2-3</b><span>تقل التشققات ويبدأ اللون يفتح</span></div>
       <div class="tl-p"><span class="d" style="background:var(--rose)"></span><b>أسبوع 4+</b><span>لون وردي أكثر توحيداً</span></div>
     </div>
+  </div>
+  <div class="vn" data-dur="0:16">
+    <div class="vn-b">
+      <span class="vn-av" aria-hidden="true">C<i>🎤</i></span>
+      <div class="vn-main">
+        <div class="vn-who">فريق Cosmarab <span>· رسالة صوتية</span></div>
+        <div class="vn-row" dir="ltr">
+          <button type="button" class="vn-play" aria-label="شغّل الرسالة الصوتية: متى يبان الفرق"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="i-play" d="M8 5v14l11-7z" fill="currentColor"/><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>
+          <div class="vn-wave" aria-hidden="true"></div>
+          <span class="vn-t">0:16</span>
+        </div>
+        <p class="vn-tx">🎧 ترطيب من <b>أول أسبوع</b> · التشققات تخف بأسبوعين لثلاثة · اللون يتوحّد من <b>رابع أسبوع</b>. الاسمرار القديم ياخذ وقت أطول.</p>
+      </div>
+    </div>
+    <audio preload="none" src="/assets/vn-ksa28-when.mp3"></audio>
   </div>
 </section>
 
@@ -1032,6 +1084,21 @@ b,strong{font-weight:800}
     <li><i>2</i><b>نتصل نأكد</b><span>مكالمة قصيرة</span></li>
     <li><i>3</i><b>ادفع عند بابك</b><span>نقداً للمندوب</span></li>
   </ol>
+  <div class="vn" data-dur="0:16">
+    <div class="vn-b">
+      <span class="vn-av" aria-hidden="true">C<i>🎤</i></span>
+      <div class="vn-main">
+        <div class="vn-who">فريق Cosmarab <span>· رسالة صوتية</span></div>
+        <div class="vn-row" dir="ltr">
+          <button type="button" class="vn-play" aria-label="شغّل الرسالة الصوتية: كيف يمشي الطلب"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="i-play" d="M8 5v14l11-7z" fill="currentColor"/><path class="i-pause" d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>
+          <div class="vn-wave" aria-hidden="true"></div>
+          <span class="vn-t">0:16</span>
+        </div>
+        <p class="vn-tx">🎧 ما تدفع <b>ولا ريال</b> إلا لما يوصلك المندوب — وإذا ما عجبك عندك <b>30 يوم</b> ترجّعه.</p>
+      </div>
+    </div>
+    <audio preload="none" src="/assets/vn-ksa28-order.mp3"></audio>
+  </div>
   <div class="tkt tkt-lg"><div class="tkt-l"><span class="tkt-off">خصم</span><span class="tkt-num">20</span><span class="tkt-cur">ر.س</span></div><div class="tkt-r"><b>عرض اليوم على كريم الشفايف</b><span class="tkt-p"><s>199 ر.س</s><i>179 ر.س</i></span><small>الخصم مطبّق تلقائياً — ما تحتاج كود</small></div></div>
   <div class="offers">
     <div class="offer" data-offer="1" data-qty="1" data-price="179" data-label="قطعة واحدة" data-sub="تكفي 30 يوم">
@@ -1613,6 +1680,30 @@ window.PRODUCT={
   var f=document.getElementById('orderForm');if(f)f.addEventListener('submit',function(){ordered=true;});
 })();
 
+
+/* ── TEAM VOICE NOTES: one plays at a time; the waveform fills as it plays
+   and can be tapped to seek. ── */
+(function(){
+  var notes=[].slice.call(document.querySelectorAll('.vn'));if(!notes.length)return;
+  function bars(el,seed){var h='',x=seed*9301+49297;for(var i=0;i<30;i++){x=(x*9301+49297)%233280;var v=0.28+0.72*Math.abs(Math.sin(i*0.55+seed))*(0.55+0.45*(x/233280));h+='<i style="height:'+Math.round(v*100)+'%"></i>';}el.innerHTML=h;}
+  function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+  notes.forEach(function(n,k){
+    var a=n.querySelector('audio'),btn=n.querySelector('.vn-play'),wave=n.querySelector('.vn-wave'),t=n.querySelector('.vn-t'),dur=n.getAttribute('data-dur');
+    bars(wave,k+1);var bs=[].slice.call(wave.children);
+    function paint(){var f=a.duration?a.currentTime/a.duration:0,on=Math.round(f*bs.length);bs.forEach(function(b,i){b.classList.toggle('p',i<on);});t.textContent=a.currentTime>0?fmt(a.currentTime):dur;}
+    btn.addEventListener('click',function(){
+      if(a.paused){notes.forEach(function(o){var oa=o.querySelector('audio');if(o!==n&&!oa.paused)oa.pause();});a.play().catch(function(){});}
+      else a.pause();
+    });
+    wave.addEventListener('click',function(e){var r=wave.getBoundingClientRect(),f=(e.clientX-r.left)/r.width;
+      function seek(){if(a.duration){a.currentTime=Math.max(0,Math.min(1,f))*a.duration;paint();}}
+      if(a.readyState<1){a.addEventListener('loadedmetadata',seek,{once:true});btn.click();}else{seek();if(a.paused)btn.click();}});
+    a.addEventListener('play',function(){n.classList.add('on');});
+    a.addEventListener('pause',function(){n.classList.remove('on');});
+    a.addEventListener('timeupdate',paint);
+    a.addEventListener('ended',function(){n.classList.remove('on');a.currentTime=0;paint();t.textContent=dur;});
+  });
+})();
 
 /* ── WhatsApp bubble: a door for doubters, not an exit for buyers ──
    A green WhatsApp button at the top of the page reads as "order here", so
