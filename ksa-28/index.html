@@ -173,14 +173,54 @@ b,strong{font-weight:800}
 .sc-r .btn{margin-top:12px}
 
 /* ── moments ── */
-.mo-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 18px 10px;scrollbar-width:none;max-width:var(--mw);margin:0 auto}
-.mo-track::-webkit-scrollbar{display:none}
-.mo{flex:0 0 78%;scroll-snap-align:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm)}
-.mo picture,.mo img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
-.mo p{padding:12px 14px 15px;font-size:.9rem;font-weight:700;line-height:1.75}
-.mo p b{color:var(--berry)}
-.mo-punch{max-width:var(--mw);margin:10px auto 0;padding:0 18px;text-align:center;font-family:var(--fh);font-weight:900;font-size:1.05rem;line-height:1.6}
-.mo-punch .em{display:inline}
+/* ── MOMENTS as stories: the format Snap/TikTok visitors already read.
+   Tap the left side for the next moment (RTL), hold to pause. «صارت لي»
+   counts only this visitor's own taps; the last card answers with it. ── */
+.sy{max-width:420px;margin:0 auto;padding:0 18px}
+.sy-card{position:relative;background:#140b0d;border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);color:#fff;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.sy-bars{position:absolute;top:10px;left:12px;right:12px;z-index:4;display:flex;gap:4px;pointer-events:none}
+.sy-bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.35);overflow:hidden}
+.sy-bars b{display:block;height:100%;background:#fff;transform:scaleX(0);transform-origin:right}
+.sy-top{position:absolute;top:21px;left:12px;right:12px;z-index:4;display:flex;align-items:center;gap:7px;font-size:.82rem;pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.sy-av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--rose),var(--gold));box-shadow:0 0 0 2px #fff;font-size:15px}
+.sy-top b{font-family:var(--fh);font-weight:900}
+.sy-top small{font-weight:700;opacity:.8}
+.sy-pp{pointer-events:auto;margin-inline-start:auto;width:34px;height:34px;border:0;border-radius:50%;background:rgba(0,0,0,.3);color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
+.sy-pp .i-pl,.sy-card.paused .sy-pp .i-pa{display:none}
+.sy-card.paused .sy-pp .i-pl{display:block}
+.sy-taps{position:absolute;top:0;left:0;right:0;aspect-ratio:1/1;z-index:3;display:flex}
+.sy-tap{flex:1;border:0;background:none;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sy-tap:focus-visible{outline:3px solid #fff;outline-offset:-6px}
+.sy-card.is-end .sy-taps{display:none}
+.sy-stage{display:grid}
+.sy-s{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;display:flex;flex-direction:column}
+.sy-s.on{opacity:1;visibility:visible}
+.sy-s picture{position:relative;display:block;aspect-ratio:1/1;overflow:hidden}
+.sy-s picture::after{content:"";position:absolute;inset:0 0 auto;height:34%;background:linear-gradient(rgba(0,0,0,.55),transparent);pointer-events:none}
+.sy-s img{display:block;width:100%;height:100%;object-fit:cover}
+.sy-s.on img{animation:syKb 6.5s ease-out both}
+@keyframes syKb{from{transform:scale(1)}to{transform:scale(1.07)}}
+.sy-card.paused .sy-s.on img,.sy-card.held .sy-s.on img{animation-play-state:paused}
+.sy-cap{flex:1;display:flex;flex-direction:column;gap:12px;padding:14px 16px 16px}
+.sy-cap p{margin:0;font-size:.95rem;font-weight:700;line-height:1.75}
+.sy-cap p b{color:#ffb7c5}
+.sy-me{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:6px;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:9px 16px;font:inherit;font-family:var(--fh);font-weight:900;font-size:.88rem;cursor:pointer}
+.sy-me .y,.sy-me[aria-pressed=true] .o{display:none}
+.sy-me[aria-pressed=true] .y{display:inline}
+.sy-me[aria-pressed=true]{background:#fff;border-color:#fff;color:var(--rose);animation:syPop .35s ease-out}
+@keyframes syPop{50%{transform:scale(1.12)}}
+.sy-end{background:radial-gradient(120% 90% at 50% 0%,#8c1d36 0%,#3a0a15 62%,#140b0d 100%)}
+.sy-end-in{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:64px 22px 24px;text-align:center}
+.sy-score{display:flex;align-items:baseline;justify-content:center;gap:2px;width:96px;height:96px;border-radius:50%;border:3px solid rgba(255,255,255,.85);font-family:var(--fh);font-weight:900;line-height:96px}
+.sy-score[hidden]{display:none}
+.sy-score b{font-size:2.6rem}
+.sy-score span{font-size:1.1rem;opacity:.75}
+.sy-msg{margin:0;font-size:.98rem;font-weight:800;line-height:1.7;opacity:.92}
+.sy-punch{margin:0;font-family:var(--fh);font-weight:900;font-size:1.3rem;line-height:1.55}
+.sy-punch em{font-style:normal;color:#ffb7c5}
+.sy-end .btn{margin-top:6px}
+.sy-again{border:0;background:none;color:rgba(255,255,255,.8);font:inherit;font-weight:800;font-size:.85rem;cursor:pointer;padding:6px 10px}
+@media(prefers-reduced-motion:reduce){.sy-s.on img,.sy-me[aria-pressed=true]{animation:none}.sy-s{transition:none}}
 
 /* ── how it works ── */
 .hw{max-width:var(--mw);margin:0 auto;padding:0 18px;display:grid;gap:12px}
@@ -199,23 +239,51 @@ b,strong{font-weight:800}
 .vd-box.playing .vd-play{display:none}
 
 /* ── results carousel ── */
-.rs{max-width:var(--mw);margin:0 auto;padding:0 18px}
-.rs-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.rs-head span{font-family:var(--fh);font-weight:900;font-size:.85rem;color:var(--muted)}
-.rs-nav{display:flex;gap:7px}
-.rs-arw{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--text);display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:var(--sh-sm)}
-.rs-arw:disabled{opacity:.35;cursor:default}
-.rs-track{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px 2px 8px;margin:0 -2px}
-.rs-track::-webkit-scrollbar{display:none}
-.rs-c{flex:0 0 86%;margin:0;scroll-snap-align:center;position:relative;border-radius:var(--r);overflow:hidden;background:#f3e3e6;border:1px solid var(--line);box-shadow:var(--sh-sm)}
-.rs-c picture{display:block;aspect-ratio:4/3}
-.rs-c img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;transform:scaleX(-1)}
-.rs-c .t{position:absolute;top:11px;font-family:var(--fh);font-size:.74rem;font-weight:900;color:#fff;padding:5px 12px;border-radius:999px;pointer-events:none}
-.rs-c .t.b{right:11px;background:rgba(30,16,18,.72)}
-.rs-c .t.a{left:11px;background:linear-gradient(145deg,var(--rose),var(--rose-2))}
-.rs-dots{display:flex;justify-content:center;gap:7px;margin-top:8px}
-.rs-dots i{width:7px;height:7px;border-radius:50%;background:var(--blush-2);transition:all .25s;cursor:pointer}
-.rs-dots i.on{width:20px;border-radius:999px;background:var(--rose)}
+/* ── RESULTS: scratch the «بعد» side with the cream tube. The cover is a
+   blurred, tinted copy of the very photo underneath, so it teases without
+   faking anything; a tap or the button sweeps it for you, and an untouched
+   card sweeps itself after a few seconds so nobody misses the proof. ── */
+.rx{max-width:var(--mw);margin:0 auto;padding:0 18px}
+.rx-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-family:var(--fh);font-weight:900;font-size:.85rem}
+.rx-head #rxCount{color:var(--muted)}
+.rx-got{color:var(--rose)}
+.rx-stage{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:#f3e3e6;border:1px solid var(--line);box-shadow:var(--sh-sm)}
+.rx-c{position:absolute;inset:0;margin:0;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.rx-c.on{opacity:1;visibility:visible}
+.rx-c picture{display:block;width:100%;height:100%}
+.rx-c img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;transform:scaleX(-1)}
+.rx-c .t{position:absolute;top:11px;z-index:3;font-family:var(--fh);font-size:.74rem;font-weight:900;color:#fff;padding:5px 12px;border-radius:999px;pointer-events:none}
+.rx-c .t.b{right:11px;background:rgba(30,16,18,.72)}
+.rx-c .t.a{left:11px;background:linear-gradient(145deg,var(--rose),var(--rose-2))}
+.rx-cv{position:absolute;top:0;left:0;z-index:2;width:calc(50% + 2px);height:100%;touch-action:pan-y;cursor:crosshair;background:linear-gradient(135deg,#f7e4e8,#ecc9d0);transition:opacity .5s}
+.rx-cv.ready{background:none}
+.rx-cv.gone{opacity:0;pointer-events:none}
+.rx-cv[hidden]{display:none}
+.rx-hint{position:absolute;top:50%;left:25%;z-index:3;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.82);color:var(--berry);box-shadow:var(--sh-sm);pointer-events:none;transition:opacity .25s;white-space:nowrap}
+.rx-hint i{font-style:normal;font-size:1.4rem;animation:rxSwipe 1.6s ease-in-out infinite}
+.rx-hint b{font-family:var(--fh);font-weight:900;font-size:.95rem}
+.rx-hint small{font-weight:800;font-size:.72rem;color:var(--muted)}
+.rx-hint.off{opacity:0}
+@keyframes rxSwipe{0%,100%{transform:translateX(10px)}50%{transform:translateX(-10px)}}
+.rx-tube{position:absolute;top:0;left:0;z-index:4;width:24px;height:auto;pointer-events:none;opacity:0;transition:opacity .15s;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.rx-tube.on{opacity:1}
+.rx-fx{position:absolute;inset:0 50% 0 0;z-index:4;pointer-events:none}
+.rx-fx span{position:absolute;font-size:18px;animation:rxSpark .9s ease-out forwards}
+@keyframes rxSpark{0%{transform:scale(.2);opacity:0}30%{opacity:1}100%{transform:scale(1.3) translateY(-18px);opacity:0}}
+.rx-reveal{position:absolute;bottom:10px;left:25%;z-index:3;transform:translateX(-50%);border:0;border-radius:999px;background:rgba(74,12,26,.85);color:#fff;font:inherit;font-family:var(--fh);font-weight:900;font-size:.76rem;padding:6px 13px;cursor:pointer;white-space:nowrap}
+.rx-reveal[hidden],.rx-next[hidden]{display:none}
+.rx-next{position:absolute;bottom:10px;left:50%;z-index:3;transform:translateX(-50%);border:0;border-radius:999px;background:#fff;color:var(--rose);font:inherit;font-family:var(--fh);font-weight:900;font-size:.82rem;padding:8px 16px;box-shadow:var(--sh-sm);cursor:pointer;white-space:nowrap;animation:rxIn .35s ease-out}
+@keyframes rxIn{from{opacity:0;transform:translate(-50%,8px)}}
+.rx-th{display:flex;justify-content:center;gap:9px;margin-top:12px}
+.rx-th button{position:relative;width:58px;height:58px;padding:0;border-radius:14px;overflow:hidden;border:2px solid transparent;background:#f3e3e6;cursor:pointer;opacity:.6;transition:opacity .2s,border-color .2s}
+.rx-th button.on{opacity:1;border-color:var(--rose)}
+.rx-th picture,.rx-th img{display:block;width:100%;height:100%}
+.rx-th img{object-fit:cover;object-position:0% 35%;transform:scaleX(-1)}
+.rx-th i{position:absolute;bottom:3px;left:3px;width:18px;height:18px;border-radius:50%;background:rgba(74,12,26,.85);color:#fff;font-style:normal;font-size:11px;font-weight:900;display:grid;place-items:center}
+.rx-th i::before{content:"؟"}
+.rx-th button.done i{background:var(--ok)}
+.rx-th button.done i::before{content:"✓"}
+@media(prefers-reduced-motion:reduce){.rx-hint i,.rx-fx span,.rx-next{animation:none}.rx-cv,.rx-c{transition:none}}
 
 /* ── ingredients ── */
 .ig{max-width:var(--mw);margin:0 auto;padding:0 18px}
@@ -645,7 +713,7 @@ b,strong{font-weight:800}
 .fq-help .fh-tx b{font-family:var(--fh);font-weight:900;font-size:.95rem}
 .fq-help .fh-tx span{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.75)}
 .fq-help .fh-go{flex:none;background:#25d366;color:#063d1c;font-weight:900;font-size:.82rem;padding:9px 12px;border-radius:11px;white-space:nowrap}
-@media(min-width:620px){.l-hero h1{font-size:2.5rem}.rs-c{flex-basis:70%}.mo{flex-basis:46%}}
+@media(min-width:620px){.l-hero h1{font-size:2.5rem}}
 @media(prefers-reduced-motion:reduce){.sc-r,.xi-card{animation:none}.tl-bar i{transition:none}}
 
 /* ═══ CALL BAND — the same promise-of-a-call widget as ksa-18, restyled to
@@ -799,18 +867,37 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ MOMENTS ═══════════ -->
-<section class="section">
+<section class="section" id="moments">
   <div class="l-head">
     <span class="l-eye">🫣 بينك وبين نفسك</span>
     <h2>تعرف <span class="em">هاللحظة؟</span></h2>
+    <p>4 لحظات — اضغط <b>«صارت لي»</b> على اللي مرّت عليك.</p>
   </div>
-  <div class="mo-track">
-    <div class="mo"><picture><source srcset="/assets/mom-1.webp" type="image/webp" /><img src="/assets/mom-1.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يشوف صورة جماعية في جواله" /></picture><p>تطلع صورة جماعية حلوة — وأول شي عينك تروح على <b>شفايفك</b>، وتقرر ما تنشرها.</p></div>
-    <div class="mo"><picture><source srcset="/assets/mom-2.webp" type="image/webp" /><img src="/assets/mom-2.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يضحك ويغطي فمه بيده" /></picture><p>تضحك من قلب، وبدون ما تفكر <b>يدك تغطي فمك</b>. صارت عادة ما تنتبه لها.</p></div>
-    <div class="mo"><picture><source srcset="/assets/mom-3.webp" type="image/webp" /><img src="/assets/mom-3.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يفكر بعد تعليق على شفايفه" /></picture><p>أحد يقولك بعفوية: <b>«شفايفك غامقة… تدخّن؟»</b> — ويمشي، وأنت تفكر فيها باقي اليوم.</p></div>
-    <div class="mo"><picture><source srcset="/assets/mom-4.webp" type="image/webp" /><img src="/assets/mom-4.jpg" width="300" height="300" loading="lazy" decoding="async" alt="مقارنة بين صورة قديمة واللون الحالي" /></picture><p>تفتح صورة لك من <b>سنتين</b>، وتلاحظ إن الفرق أكبر مما كنت تتخيل.</p></div>
+  <div class="sy" id="sy">
+    <div class="sy-card">
+      <div class="sy-bars" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      <div class="sy-top"><span class="sy-av" aria-hidden="true">🫣</span><b>يومياتك</b><small>· الحين</small>
+        <button type="button" class="sy-pp" aria-label="إيقاف مؤقت"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path class="i-pa" d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/><path class="i-pl" d="M8 5v14l11-7z" fill="currentColor"/></svg></button></div>
+      <div class="sy-taps"><button type="button" class="sy-tap" data-d="-1" aria-label="اللحظة السابقة"></button><button type="button" class="sy-tap" data-d="1" aria-label="اللحظة التالية"></button></div>
+      <div class="sy-stage">
+        <div class="sy-s on"><picture><source srcset="/assets/mom-1.webp" type="image/webp" /><img src="/assets/mom-1.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يشوف صورة جماعية في جواله" /></picture>
+          <div class="sy-cap"><p>تطلع صورة جماعية حلوة — وأول شي عينك تروح على <b>شفايفك</b>، وتقرر ما تنشرها.</p><button type="button" class="sy-me" aria-pressed="false"><span class="o">😔</span><span class="y">✓</span> صارت لي</button></div></div>
+        <div class="sy-s"><picture><source srcset="/assets/mom-2.webp" type="image/webp" /><img src="/assets/mom-2.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يضحك ويغطي فمه بيده" /></picture>
+          <div class="sy-cap"><p>تضحك من قلب، وبدون ما تفكر <b>يدك تغطي فمك</b>. صارت عادة ما تنتبه لها.</p><button type="button" class="sy-me" aria-pressed="false"><span class="o">😔</span><span class="y">✓</span> صارت لي</button></div></div>
+        <div class="sy-s"><picture><source srcset="/assets/mom-3.webp" type="image/webp" /><img src="/assets/mom-3.jpg" width="300" height="300" loading="lazy" decoding="async" alt="شاب يفكر بعد تعليق على شفايفه" /></picture>
+          <div class="sy-cap"><p>أحد يقولك بعفوية: <b>«شفايفك غامقة… تدخّن؟»</b> — ويمشي، وأنت تفكر فيها باقي اليوم.</p><button type="button" class="sy-me" aria-pressed="false"><span class="o">😔</span><span class="y">✓</span> صارت لي</button></div></div>
+        <div class="sy-s"><picture><source srcset="/assets/mom-4.webp" type="image/webp" /><img src="/assets/mom-4.jpg" width="300" height="300" loading="lazy" decoding="async" alt="مقارنة بين صورة قديمة واللون الحالي" /></picture>
+          <div class="sy-cap"><p>تفتح صورة لك من <b>سنتين</b>، وتلاحظ إن الفرق أكبر مما كنت تتخيل.</p><button type="button" class="sy-me" aria-pressed="false"><span class="o">😔</span><span class="y">✓</span> صارت لي</button></div></div>
+        <div class="sy-s sy-end" aria-live="polite"><div class="sy-end-in">
+          <div class="sy-score" id="syScore" dir="ltr" hidden><b id="syN">0</b><span>/4</span></div>
+          <p class="sy-msg" id="syMsg">كل وحدة من هاللحظات سببها شي واحد:</p>
+          <p class="sy-punch">هذا مو لونك الحقيقي —<br><em>هذا تراكم.</em> والتراكم يرجع.</p>
+          <button type="button" class="btn lg" data-scroll="#offers">أبي أرجّع لوني 👇</button>
+          <button type="button" class="sy-again">↻ شوفها من جديد</button>
+        </div></div>
+      </div>
+    </div>
   </div>
-  <p class="mo-punch">الخبر الزين: هذا مو لونك الحقيقي — <span class="em">هذا تراكم.</span><br>والتراكم يرجع.</p>
 </section>
 
 <!-- ═══════════ HOW IT WORKS ═══════════ -->
@@ -844,26 +931,33 @@ b,strong{font-weight:800}
   </div></div>
 </section>
 
-<!-- ═══════════ RESULTS ═══════════ -->
-<section class="section l-alt">
+<!-- ═══════════ RESULTS — scratch the «بعد» side to reveal it ═══════════ -->
+<section class="section l-alt" id="results">
   <div class="l-head">
     <span class="l-eye">📸 نتائج حقيقية</span>
     <h2>نفس الشي صار <span class="em">مع غيرك</span></h2>
+    <p>امسح بإصبعك على جهة <b>«بعد»</b> — وشوف النتيجة بنفسك.</p>
   </div>
-  <div class="rs">
-    <div class="rs-head"><span id="rsCount">1 من 4</span>
-      <div class="rs-nav">
-        <button type="button" class="rs-arw" id="rsPrev" aria-label="السابق"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button type="button" class="rs-arw" id="rsNext" aria-label="التالي"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      </div>
+  <div class="rx" id="rx">
+    <div class="rx-head"><span id="rxCount">النتيجة 1 من 4</span><span class="rx-got" id="rxGot">✨ كشفت 0 من 4</span></div>
+    <div class="rx-stage" id="rxStage">
+      <figure class="rx-c on"><picture><source srcset="/assets/ba-1.webp" type="image/webp" /><img src="/assets/ba-1.jpg" width="720" height="541" loading="lazy" decoding="async" alt="قبل وبعد — اسمرار واضح يتحول للون وردي طبيعي" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
+      <figure class="rx-c"><picture><source srcset="/assets/ba-2.webp" type="image/webp" /><img src="/assets/ba-2.jpg" width="720" height="473" loading="lazy" decoding="async" alt="قبل وبعد — شفايف غامقة ومتشققة تتحول لوردية ورطبة" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
+      <figure class="rx-c"><picture><source srcset="/assets/ba-4.webp" type="image/webp" /><img src="/assets/ba-4.jpg" width="720" height="720" loading="lazy" decoding="async" alt="قبل وبعد — تفتيح اسمرار التدخين والجفاف" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
+      <figure class="rx-c"><picture><source srcset="/assets/ba-5.webp" type="image/webp" /><img src="/assets/ba-5.jpg" width="720" height="720" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم — لون وردي موحّد" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
+      <canvas class="rx-cv" id="rxCv" aria-hidden="true"></canvas>
+      <div class="rx-hint" id="rxHint" aria-hidden="true"><i>👆</i><b>امسح هنا</b><small>وشوف «بعد»</small></div>
+      <img class="rx-tube" id="rxTube" src="/assets/product-tube.webp" width="91" height="360" alt="" aria-hidden="true" />
+      <div class="rx-fx" id="rxFx" aria-hidden="true"></div>
+      <button type="button" class="rx-reveal" id="rxBtn">اكشف «بعد»</button>
+      <button type="button" class="rx-next" id="rxNext" hidden>النتيجة التالية ←</button>
     </div>
-    <div class="rs-track" id="rsTrack">
-      <figure class="rs-c"><picture><source srcset="/assets/ba-1.webp" type="image/webp" /><img src="/assets/ba-1.jpg" width="720" height="541" loading="lazy" decoding="async" alt="قبل وبعد — اسمرار واضح يتحول للون وردي طبيعي" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
-      <figure class="rs-c"><picture><source srcset="/assets/ba-2.webp" type="image/webp" /><img src="/assets/ba-2.jpg" width="720" height="473" loading="lazy" decoding="async" alt="قبل وبعد — شفايف غامقة ومتشققة تتحول لوردية ورطبة" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
-      <figure class="rs-c"><picture><source srcset="/assets/ba-4.webp" type="image/webp" /><img src="/assets/ba-4.jpg" width="720" height="720" loading="lazy" decoding="async" alt="قبل وبعد — تفتيح اسمرار التدخين والجفاف" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
-      <figure class="rs-c"><picture><source srcset="/assets/ba-5.webp" type="image/webp" /><img src="/assets/ba-5.jpg" width="720" height="720" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم — لون وردي موحّد" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
+    <div class="rx-th" id="rxTh">
+      <button type="button" class="on" aria-label="النتيجة 1"><picture><source srcset="/assets/ba-1.webp" type="image/webp" /><img src="/assets/ba-1.jpg" width="720" height="541" loading="lazy" decoding="async" alt="" /></picture><i aria-hidden="true"></i></button>
+      <button type="button" aria-label="النتيجة 2"><picture><source srcset="/assets/ba-2.webp" type="image/webp" /><img src="/assets/ba-2.jpg" width="720" height="473" loading="lazy" decoding="async" alt="" /></picture><i aria-hidden="true"></i></button>
+      <button type="button" aria-label="النتيجة 3"><picture><source srcset="/assets/ba-4.webp" type="image/webp" /><img src="/assets/ba-4.jpg" width="720" height="720" loading="lazy" decoding="async" alt="" /></picture><i aria-hidden="true"></i></button>
+      <button type="button" aria-label="النتيجة 4"><picture><source srcset="/assets/ba-5.webp" type="image/webp" /><img src="/assets/ba-5.jpg" width="720" height="720" loading="lazy" decoding="async" alt="" /></picture><i aria-hidden="true"></i></button>
     </div>
-    <div class="rs-dots" id="rsDots"><i class="on"></i><i></i><i></i><i></i></div>
     <button class="btn lg l-mid" data-scroll="#offers">أبي نفس النتيجة 👇</button>
   </div>
 </section>
@@ -1435,20 +1529,169 @@ window.PRODUCT={
   b.addEventListener('click',function(){box.classList.add('playing');try{v.play();}catch(e){}});
 })();
 
-/* ── RESULTS: active card read from what is in view, not from RTL scrollLeft ── */
+/* ── MOMENTS as stories: plays only while in view and the tab is open;
+   holding a finger on the photo pauses, reduced-motion never auto-plays. ── */
 (function(){
-  var tr=document.getElementById('rsTrack');if(!tr)return;
-  var cs=[].slice.call(tr.children),dots=[].slice.call(document.querySelectorAll('#rsDots i'));
-  var cnt=document.getElementById('rsCount'),pv=document.getElementById('rsPrev'),nx=document.getElementById('rsNext'),cur=0,n=cs.length;
-  function paint(i){cur=i;cnt.textContent=(i+1)+' من '+n;dots.forEach(function(d,k){d.classList.toggle('on',k===i);});pv.disabled=i===0;nx.disabled=i===n-1;}
-  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>=.6)paint(cs.indexOf(e.target));});},{root:tr,threshold:[.6]});cs.forEach(function(c){io.observe(c);});}
-  function go(i){i=Math.max(0,Math.min(n-1,i));var tb=tr.getBoundingClientRect(),sb=cs[i].getBoundingClientRect();tr.scrollBy({left:(sb.left+sb.width/2)-(tb.left+tb.width/2),behavior:'smooth'});}
-  pv.addEventListener('click',function(){go(cur-1);});nx.addEventListener('click',function(){go(cur+1);});
-  dots.forEach(function(d,k){d.addEventListener('click',function(){go(k);});});
-  /* fetch the off-screen cards once the visitor starts down the page */
-  var warmed=false;function warm(){if(warmed)return;warmed=true;cs.forEach(function(c){var im=c.querySelector('img');if(im)im.loading='eager';});window.removeEventListener('scroll',warm);}
-  window.addEventListener('scroll',warm,{passive:true});
-  paint(0);
+  var root=document.getElementById('sy');if(!root)return;
+  var card=root.querySelector('.sy-card'),slides=[].slice.call(root.querySelectorAll('.sy-s')),bars=[].slice.call(root.querySelectorAll('.sy-bars b')),
+      mes=[].slice.call(root.querySelectorAll('.sy-me')),pp=root.querySelector('.sy-pp'),last=slides.length-1,
+      DUR=5500,cur=0,t=0,prev=0,raf=0,inView=false,held=false,paused=false,
+      still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function running(){return inView&&!held&&!paused&&!still&&!document.hidden&&cur<last;}
+  function score(){
+    var n=mes.filter(function(b){return b.getAttribute('aria-pressed')==='true';}).length,m=mes.length;
+    document.getElementById('syScore').hidden=!n;document.getElementById('syN').textContent=n;
+    document.getElementById('syMsg').textContent=!n?'كل وحدة من هاللحظات سببها شي واحد:':
+      n===m?'مرّت عليك اللحظات كلها — وكلها سببها شي واحد:':
+      n===1?'مرّت عليك لحظة وحدة منها — وسببها شي واحد:':
+      n===2?'مرّت عليك لحظتين منها — وكلها سببها شي واحد:':'مرّت عليك '+n+' لحظات منها — وكلها سببها شي واحد:';
+  }
+  function show(i){
+    cur=Math.max(0,Math.min(last,i));t=0;prev=0;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===cur);});
+    bars.forEach(function(b,k){b.style.transform='scaleX('+(k<cur||(k===last&&cur===last)?1:0)+')';});
+    card.classList.toggle('is-end',cur===last);if(cur===last)score();
+  }
+  function loop(now){
+    raf=0;if(!running()){prev=0;return;}
+    if(prev)t+=now-prev;prev=now;
+    if(t>=DUR){show(cur+1);}else bars[cur].style.transform='scaleX('+(t/DUR)+')';
+    kick();
+  }
+  function kick(){if(!raf&&running())raf=requestAnimationFrame(loop);}
+  function go(d){show(cur+d);kick();}
+  [].forEach.call(root.querySelectorAll('.sy-tap'),function(z){
+    var timer=0,long=false;
+    z.addEventListener('pointerdown',function(){long=false;clearTimeout(timer);timer=setTimeout(function(){long=true;held=true;card.classList.add('held');},230);});
+    function up(){clearTimeout(timer);if(held){held=false;card.classList.remove('held');kick();}}
+    z.addEventListener('pointerup',up);z.addEventListener('pointerleave',up);
+    z.addEventListener('pointercancel',function(){long=true;up();});
+    z.addEventListener('contextmenu',function(e){e.preventDefault();});
+    z.addEventListener('click',function(){if(long){long=false;return;}go(+z.getAttribute('data-d'));});
+  });
+  mes.forEach(function(b){b.addEventListener('click',function(){
+    var on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on?'true':'false');
+    if(on){var s=slides[cur];setTimeout(function(){if(slides[cur]===s)go(1);},700);}
+  });});
+  pp.addEventListener('click',function(){paused=!paused;card.classList.toggle('paused',paused);pp.setAttribute('aria-label',paused?'تشغيل':'إيقاف مؤقت');kick();});
+  root.querySelector('.sy-again').addEventListener('click',function(){show(0);kick();});
+  if('IntersectionObserver' in window){new IntersectionObserver(function(en){inView=en[0].isIntersecting;kick();},{threshold:.55}).observe(card);}
+  else inView=true;
+  document.addEventListener('visibilitychange',kick);
+  show(0);kick();
+})();
+
+/* ── RESULTS: scratch to reveal. One canvas sits over the «بعد» half of
+   whichever result is showing; its cover is that same photo shrunk to a few
+   pixels and stretched back (a blur that works in every browser) under a
+   blush tint. Past ~45% scratched, the rest clears by itself. ── */
+(function(){
+  var stage=document.getElementById('rxStage');if(!stage)return;
+  var figs=[].slice.call(stage.querySelectorAll('.rx-c')),ths=[].slice.call(document.querySelectorAll('#rxTh button')),
+      cv=document.getElementById('rxCv'),ctx=cv.getContext('2d',{willReadFrequently:true}),hint=document.getElementById('rxHint'),tube=document.getElementById('rxTube'),
+      fx=document.getElementById('rxFx'),btn=document.getElementById('rxBtn'),nxt=document.getElementById('rxNext'),
+      n=figs.length,cur=0,done=[],W=0,H=0,D=1,dirty=false,moves=0,drawing=false,lastP=null,downAt=null,sweeping=false,inView=false,idleA=0,idleB=0,cw0=0,
+      still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function img(i){return figs[i].querySelector('img');}
+  function paint(){
+    var r=cv.getBoundingClientRect();if(!r.width)return;
+    D=Math.min(2,window.devicePixelRatio||1);cv.width=W=Math.round(r.width*D);cv.height=H=Math.round(r.height*D);cw0=r.width;
+    ctx.globalCompositeOperation='source-over';
+    var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#f7e4e8');g.addColorStop(.5,'#ecc9d0');g.addColorStop(1,'#f4dde2');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    var im=img(cur);
+    if(im.complete&&im.naturalWidth){
+      /* the strip of the photo that sits under the canvas: object-fit cover,
+         object-position 50% 35%, mirrored by scaleX(-1) */
+      var sr=stage.getBoundingClientRect(),Sw=sr.width,Sh=sr.height,iw=im.naturalWidth,ih=im.naturalHeight,s=Math.max(Sw/iw,Sh/ih),
+          ox=(Sw-iw*s)*.5,oy=(Sh-ih*s)*.35,cwid=r.width,
+          sx=(Sw-cwid-ox)/s,sy=-oy/s,sw=cwid/s,sh=Sh/s,
+          tw=10,th=Math.max(6,Math.round(10*Sh/cwid)),tc=document.createElement('canvas'),tx=tc.getContext('2d');
+      tc.width=tw;tc.height=th;tx.translate(tw,0);tx.scale(-1,1);tx.drawImage(im,sx,sy,sw,sh,0,0,tw,th);
+      ctx.imageSmoothingEnabled=true;ctx.drawImage(tc,0,0,W,H);
+      ctx.fillStyle='rgba(240,205,212,.5)';ctx.fillRect(0,0,W,H);
+    }
+    ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=2*D;
+    for(var x=-H;x<W;x+=16*D){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+H,H);ctx.stroke();}
+    cv.classList.add('ready');dirty=false;moves=0;
+  }
+  function pt(e){var r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+  function tubeAt(p){var sr=stage.getBoundingClientRect(),cr=cv.getBoundingClientRect();
+    tube.style.transform='translate('+(p.x+cr.left-sr.left-4)+'px,'+(p.y+cr.top-sr.top-8)+'px) rotate(-32deg)';}
+  function scratch(a,b){
+    ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='#000';ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=Math.max(34,cw0*.2)*D;
+    ctx.beginPath();ctx.moveTo(a.x*D,a.y*D);ctx.lineTo(b.x*D+.1,b.y*D);ctx.stroke();
+    if(!dirty){dirty=true;hint.classList.add('off');}
+    if(++moves%6===0&&cleared()>.45)reveal();
+  }
+  function cleared(){
+    var d=ctx.getImageData(0,0,W,H).data,c=0,k=0;
+    for(var i=3;i<d.length;i+=4*23){k++;if(d[i]<40)c++;}
+    return k?c/k:0;
+  }
+  function counts(){
+    var got=done.filter(Boolean).length;
+    document.getElementById('rxGot').textContent='✨ كشفت '+got+' من '+n;
+    document.getElementById('rxCount').textContent='النتيجة '+(cur+1)+' من '+n;
+    ths.forEach(function(t,k){t.classList.toggle('on',k===cur);t.classList.toggle('done',!!done[k]);});
+  }
+  function sparkle(){if(still)return;fx.innerHTML='';
+    for(var i=0;i<9;i++){var s=document.createElement('span');s.textContent='✨';s.style.left=(8+Math.random()*78)+'%';s.style.top=(10+Math.random()*75)+'%';s.style.animationDelay=(i*45)+'ms';fx.appendChild(s);}
+    setTimeout(function(){fx.innerHTML='';},1400);}
+  function nextUndone(){for(var k=1;k<=n;k++){var j=(cur+k)%n;if(!done[j])return j;}return -1;}
+  function reveal(){
+    if(done[cur])return;done[cur]=true;clearIdle();drawing=false;tube.classList.remove('on');
+    cv.classList.add('gone');hint.classList.add('off');btn.hidden=true;sparkle();counts();
+    var j=nextUndone();nxt.hidden=j<0;nxt.textContent=j<0?'':'النتيجة التالية ←';
+  }
+  function sweep(){
+    if(done[cur]||sweeping)return;sweeping=true;clearIdle();
+    var w=cv.getBoundingClientRect().width,h=cv.getBoundingClientRect().height;
+    if(still||!w){sweeping=false;reveal();return;}
+    var path=[[.12,.22],[.88,.3],[.12,.46],[.88,.56],[.12,.72],[.88,.82]],t0=0,DUR=850,p0={x:path[0][0]*w,y:path[0][1]*h};
+    tube.classList.add('on');
+    (function step(now){
+      if(!t0)t0=now;var f=Math.max(0,Math.min(1,(now-t0)/DUR)),seg=f*(path.length-1),k=Math.min(path.length-2,Math.floor(seg)),u=seg-k,
+          p={x:(path[k][0]+(path[k+1][0]-path[k][0])*u)*w,y:(path[k][1]+(path[k+1][1]-path[k][1])*u)*h};
+      scratch(p0,p);tubeAt(p);p0=p;
+      if(f<1&&!done[cur])requestAnimationFrame(step);else{sweeping=false;reveal();}
+    })(performance.now());
+  }
+  function hintStroke(){ /* a short demo stroke so the gesture explains itself */
+    if(done[cur]||dirty||sweeping||still)return;
+    var w=cv.getBoundingClientRect().width,h=cv.getBoundingClientRect().height,t0=0,p0={x:w*.2,y:h*.62};
+    tube.classList.add('on');
+    (function step(now){if(!t0)t0=now;var f=Math.max(0,Math.min(1,(now-t0)/600)),p={x:w*(.2+.55*f),y:h*(.62-.06*Math.sin(f*Math.PI))};
+      ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='#000';ctx.lineCap='round';ctx.lineWidth=Math.max(34,cw0*.2)*D*.6;
+      ctx.beginPath();ctx.moveTo(p0.x*D,p0.y*D);ctx.lineTo(p.x*D,p.y*D);ctx.stroke();tubeAt(p);p0=p;
+      if(f<1)requestAnimationFrame(step);else setTimeout(function(){if(!drawing&&!sweeping)tube.classList.remove('on');},250);
+    })(performance.now());
+  }
+  function clearIdle(){clearTimeout(idleA);clearTimeout(idleB);}
+  function arm(){clearIdle();if(!inView||done[cur])return;idleA=setTimeout(hintStroke,2200);idleB=setTimeout(function(){if(!drawing)sweep();},8000);}
+  function select(i){
+    cur=(i+n)%n;clearIdle();figs.forEach(function(f,k){f.classList.toggle('on',k===cur);});
+    nxt.hidden=true;fx.innerHTML='';tube.classList.remove('on');
+    if(done[cur]){cv.hidden=true;hint.classList.add('off');btn.hidden=true;}
+    else{cv.hidden=false;cv.classList.remove('gone','ready');hint.classList.remove('off');btn.hidden=false;paint();
+      var im=img(cur);if(!(im.complete&&im.naturalWidth)){im.addEventListener('load',function(){if(cur===figs.indexOf(im.closest('.rx-c'))&&!dirty&&!done[cur])paint();},{once:true});}
+      arm();}
+    counts();
+  }
+  cv.addEventListener('pointerdown',function(e){if(done[cur]||sweeping)return;drawing=true;clearIdle();lastP=pt(e);downAt={x:lastP.x,y:lastP.y,t:Date.now()};
+    try{cv.setPointerCapture(e.pointerId);}catch(_){}tube.classList.add('on');tubeAt(lastP);scratch(lastP,lastP);});
+  cv.addEventListener('pointermove',function(e){if(!drawing)return;var p=pt(e);scratch(lastP,p);tubeAt(p);lastP=p;});
+  function end(e){if(!drawing)return;drawing=false;tube.classList.remove('on');
+    var p=lastP;if(downAt&&e.type==='pointerup'&&Math.abs(p.x-downAt.x)+Math.abs(p.y-downAt.y)<8&&Date.now()-downAt.t<350){sweep();return;}
+    if(!done[cur])arm();}
+  cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  btn.addEventListener('click',sweep);
+  nxt.addEventListener('click',function(){var j=nextUndone();if(j>=0)select(j);});
+  ths.forEach(function(t,k){t.addEventListener('click',function(){select(k);});});
+  var lw=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===lw)return;lw=window.innerWidth;if(!done[cur]&&!cv.hidden)paint();});
+  if('IntersectionObserver' in window){new IntersectionObserver(function(en){var was=inView;inView=en[0].isIntersecting;
+      if(inView&&!was){figs.forEach(function(f){f.querySelector('img').loading='eager';});arm();}else if(!inView)clearIdle();},{threshold:.6}).observe(stage);}
+  select(0);
 })();
 
 
