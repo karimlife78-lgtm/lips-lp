@@ -240,10 +240,9 @@ b,strong{font-weight:800}
 .vd-box.playing .vd-play{display:none}
 
 /* ── results carousel ── */
-/* ── RESULTS: scratch the «بعد» side with the cream tube. The cover is a
-   blurred, tinted copy of the very photo underneath, so it teases without
-   faking anything; a tap or the button sweeps it for you, and an untouched
-   card sweeps itself after a few seconds so nobody misses the proof. ── */
+/* ── RESULTS: the «بعد» half of each photo reveals itself on screen (the
+   cream tube sweeps a blurred copy of the photo away), then the next one
+   follows. No gesture needed; thumbnails jump anywhere. ── */
 .rx{max-width:var(--mw);margin:0 auto;padding:0 18px}
 .rx-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-family:var(--fh);font-weight:900;font-size:.85rem}
 .rx-head #rxCount{color:var(--muted)}
@@ -256,23 +255,16 @@ b,strong{font-weight:800}
 .rx-c .t{position:absolute;top:11px;z-index:3;font-family:var(--fh);font-size:.74rem;font-weight:900;color:#fff;padding:5px 12px;border-radius:999px;pointer-events:none}
 .rx-c .t.b{right:11px;background:rgba(30,16,18,.72)}
 .rx-c .t.a{left:11px;background:linear-gradient(145deg,var(--rose),var(--rose-2))}
-.rx-cv{position:absolute;top:0;left:0;z-index:2;width:calc(50% + 2px);height:100%;touch-action:pan-y;cursor:crosshair;background:linear-gradient(135deg,#f7e4e8,#ecc9d0);transition:opacity .5s}
+.rx-cv{position:absolute;top:0;left:0;z-index:2;width:calc(50% + 2px);height:100%;pointer-events:none;background:linear-gradient(135deg,#f7e4e8,#ecc9d0);transition:opacity .5s}
 .rx-cv.ready{background:none}
 .rx-cv.gone{opacity:0;pointer-events:none}
 .rx-cv[hidden]{display:none}
-.rx-hint{position:absolute;top:50%;left:25%;z-index:3;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.82);color:var(--berry);box-shadow:var(--sh-sm);pointer-events:none;transition:opacity .25s;white-space:nowrap}
-.rx-hint i{font-style:normal;font-size:1.4rem;animation:rxSwipe 1.6s ease-in-out infinite}
-.rx-hint b{font-family:var(--fh);font-weight:900;font-size:.95rem}
-.rx-hint small{font-weight:800;font-size:.72rem;color:var(--muted)}
-.rx-hint.off{opacity:0}
-@keyframes rxSwipe{0%,100%{transform:translateX(10px)}50%{transform:translateX(-10px)}}
 .rx-tube{position:absolute;top:0;left:0;z-index:4;width:24px;height:auto;pointer-events:none;opacity:0;transition:opacity .15s;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
 .rx-tube.on{opacity:1}
 .rx-fx{position:absolute;inset:0 50% 0 0;z-index:4;pointer-events:none}
 .rx-fx span{position:absolute;font-size:18px;animation:rxSpark .9s ease-out forwards}
 @keyframes rxSpark{0%{transform:scale(.2);opacity:0}30%{opacity:1}100%{transform:scale(1.3) translateY(-18px);opacity:0}}
-.rx-reveal{position:absolute;bottom:10px;left:25%;z-index:3;transform:translateX(-50%);border:0;border-radius:999px;background:rgba(74,12,26,.85);color:#fff;font:inherit;font-family:var(--fh);font-weight:900;font-size:.76rem;padding:6px 13px;cursor:pointer;white-space:nowrap}
-.rx-reveal[hidden],.rx-next[hidden]{display:none}
+.rx-next[hidden]{display:none}
 .rx-next{position:absolute;bottom:10px;left:50%;z-index:3;transform:translateX(-50%);border:0;border-radius:999px;background:#fff;color:var(--rose);font:inherit;font-family:var(--fh);font-weight:900;font-size:.82rem;padding:8px 16px;box-shadow:var(--sh-sm);cursor:pointer;white-space:nowrap;animation:rxIn .35s ease-out}
 @keyframes rxIn{from{opacity:0;transform:translate(-50%,8px)}}
 .rx-th{display:flex;justify-content:center;gap:9px;margin-top:12px}
@@ -284,7 +276,7 @@ b,strong{font-weight:800}
 .rx-th i::before{content:"؟"}
 .rx-th button.done i{background:var(--ok)}
 .rx-th button.done i::before{content:"✓"}
-@media(prefers-reduced-motion:reduce){.rx-hint i,.rx-fx span,.rx-next{animation:none}.rx-cv,.rx-c{transition:none}}
+@media(prefers-reduced-motion:reduce){.rx-fx span,.rx-next{animation:none}.rx-cv,.rx-c{transition:none}}
 
 /* ── ingredients ── */
 .ig{max-width:var(--mw);margin:0 auto;padding:0 18px}
@@ -932,25 +924,23 @@ b,strong{font-weight:800}
   </div></div>
 </section>
 
-<!-- ═══════════ RESULTS — scratch the «بعد» side to reveal it ═══════════ -->
+<!-- ═══════════ RESULTS — each «بعد» reveals itself ═══════════ -->
 <section class="section l-alt" id="results">
   <div class="l-head">
     <span class="l-eye">📸 نتائج حقيقية</span>
     <h2>نفس الشي صار <span class="em">مع غيرك</span></h2>
-    <p>امسح بإصبعك على جهة <b>«بعد»</b> — وشوف النتيجة بنفسك.</p>
+    <p>4 نتائج من عملائنا — <b>«قبل»</b> يمين و<b>«بعد»</b> يسار.</p>
   </div>
   <div class="rx" id="rx">
-    <div class="rx-head"><span id="rxCount">النتيجة 1 من 4</span><span class="rx-got" id="rxGot">✨ كشفت 0 من 4</span></div>
+    <div class="rx-head"><span id="rxCount">النتيجة 1 من 4</span><span class="rx-got">✨ صور حقيقية</span></div>
     <div class="rx-stage" id="rxStage">
       <figure class="rx-c on"><picture><source srcset="/assets/ba-1.webp" type="image/webp" /><img src="/assets/ba-1.jpg" width="720" height="541" loading="lazy" decoding="async" alt="قبل وبعد — اسمرار واضح يتحول للون وردي طبيعي" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
       <figure class="rx-c"><picture><source srcset="/assets/ba-2.webp" type="image/webp" /><img src="/assets/ba-2.jpg" width="720" height="473" loading="lazy" decoding="async" alt="قبل وبعد — شفايف غامقة ومتشققة تتحول لوردية ورطبة" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
       <figure class="rx-c"><picture><source srcset="/assets/ba-4.webp" type="image/webp" /><img src="/assets/ba-4.jpg" width="720" height="720" loading="lazy" decoding="async" alt="قبل وبعد — تفتيح اسمرار التدخين والجفاف" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
       <figure class="rx-c"><picture><source srcset="/assets/ba-5.webp" type="image/webp" /><img src="/assets/ba-5.jpg" width="720" height="720" loading="lazy" decoding="async" alt="نتيجة الاستخدام المنتظم — لون وردي موحّد" /></picture><span class="t b">قبل</span><span class="t a">بعد</span></figure>
       <canvas class="rx-cv" id="rxCv" aria-hidden="true"></canvas>
-      <div class="rx-hint" id="rxHint" aria-hidden="true"><i>👆</i><b>امسح هنا</b><small>وشوف «بعد»</small></div>
       <img class="rx-tube" id="rxTube" src="/assets/product-tube.webp" width="91" height="360" alt="" aria-hidden="true" />
       <div class="rx-fx" id="rxFx" aria-hidden="true"></div>
-      <button type="button" class="rx-reveal" id="rxBtn">اكشف «بعد»</button>
       <button type="button" class="rx-next" id="rxNext" hidden>النتيجة التالية ←</button>
     </div>
     <div class="rx-th" id="rxTh">
@@ -1582,18 +1572,20 @@ window.PRODUCT={
   show(0);kick();
 })();
 
-/* ── RESULTS: scratch to reveal. One canvas sits over the «بعد» half of
-   whichever result is showing; its cover is that same photo shrunk to a few
-   pixels and stretched back (a blur that works in every browser) under a
-   blush tint. Past ~45% scratched, the rest clears by itself. ── */
+/* ── RESULTS: every «بعد» reveals itself, no effort asked. When the photo
+   is on screen the cream tube sweeps a blurred, tinted copy of that same
+   photo off the «بعد» half, holds it, then the next result follows (one
+   round). A thumbnail or «التالية» jumps anywhere and stops the auto-round.
+   Nothing runs off-screen. ── */
 (function(){
   var stage=document.getElementById('rxStage');if(!stage)return;
   var figs=[].slice.call(stage.querySelectorAll('.rx-c')),ths=[].slice.call(document.querySelectorAll('#rxTh button')),
-      cv=document.getElementById('rxCv'),ctx=cv.getContext('2d',{willReadFrequently:true}),hint=document.getElementById('rxHint'),tube=document.getElementById('rxTube'),
-      fx=document.getElementById('rxFx'),btn=document.getElementById('rxBtn'),nxt=document.getElementById('rxNext'),
-      n=figs.length,cur=0,done=[],W=0,H=0,D=1,dirty=false,moves=0,drawing=false,lastP=null,downAt=null,sweeping=false,inView=false,idleA=0,idleB=0,cw0=0,
-      still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+      cv=document.getElementById('rxCv'),ctx=cv.getContext('2d'),tube=document.getElementById('rxTube'),
+      fx=document.getElementById('rxFx'),nxt=document.getElementById('rxNext'),
+      n=figs.length,cur=0,done=[],W=0,H=0,D=1,cw0=0,sweeping=false,inView=false,manual=false,timer=0,
+      HOLD=3400,still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function img(i){return figs[i].querySelector('img');}
+  function ready(i){var im=img(i);return im.complete&&im.naturalWidth>0;}
   function paint(){
     var r=cv.getBoundingClientRect();if(!r.width)return;
     D=Math.min(2,window.devicePixelRatio||1);cv.width=W=Math.round(r.width*D);cv.height=H=Math.round(r.height*D);cw0=r.width;
@@ -1601,97 +1593,73 @@ window.PRODUCT={
     var g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#f7e4e8');g.addColorStop(.5,'#ecc9d0');g.addColorStop(1,'#f4dde2');
     ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
     var im=img(cur);
-    if(im.complete&&im.naturalWidth){
-      /* the strip of the photo that sits under the canvas: object-fit cover,
+    if(ready(cur)){
+      /* the strip of the photo under the canvas: object-fit cover,
          object-position 50% 35%, mirrored by scaleX(-1) */
       var sr=stage.getBoundingClientRect(),Sw=sr.width,Sh=sr.height,iw=im.naturalWidth,ih=im.naturalHeight,s=Math.max(Sw/iw,Sh/ih),
           ox=(Sw-iw*s)*.5,oy=(Sh-ih*s)*.35,cwid=r.width,
-          sx=(Sw-cwid-ox)/s,sy=-oy/s,sw=cwid/s,sh=Sh/s,
           tw=10,th=Math.max(6,Math.round(10*Sh/cwid)),tc=document.createElement('canvas'),tx=tc.getContext('2d');
-      tc.width=tw;tc.height=th;tx.translate(tw,0);tx.scale(-1,1);tx.drawImage(im,sx,sy,sw,sh,0,0,tw,th);
+      tc.width=tw;tc.height=th;tx.translate(tw,0);tx.scale(-1,1);tx.drawImage(im,(Sw-cwid-ox)/s,-oy/s,cwid/s,Sh/s,0,0,tw,th);
       ctx.imageSmoothingEnabled=true;ctx.drawImage(tc,0,0,W,H);
       ctx.fillStyle='rgba(240,205,212,.5)';ctx.fillRect(0,0,W,H);
     }
     ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=2*D;
     for(var x=-H;x<W;x+=16*D){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x+H,H);ctx.stroke();}
-    cv.classList.add('ready');dirty=false;moves=0;
+    cv.classList.add('ready');
   }
-  function pt(e){var r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
   function tubeAt(p){var sr=stage.getBoundingClientRect(),cr=cv.getBoundingClientRect();
     tube.style.transform='translate('+(p.x+cr.left-sr.left-4)+'px,'+(p.y+cr.top-sr.top-8)+'px) rotate(-32deg)';}
-  function scratch(a,b){
-    ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='#000';ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=Math.max(34,cw0*.2)*D;
+  function erase(a,b){
+    ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='#000';ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=Math.max(34,cw0*.22)*D;
     ctx.beginPath();ctx.moveTo(a.x*D,a.y*D);ctx.lineTo(b.x*D+.1,b.y*D);ctx.stroke();
-    if(!dirty){dirty=true;hint.classList.add('off');}
-    if(++moves%6===0&&cleared()>.45)reveal();
-  }
-  function cleared(){
-    var d=ctx.getImageData(0,0,W,H).data,c=0,k=0;
-    for(var i=3;i<d.length;i+=4*23){k++;if(d[i]<40)c++;}
-    return k?c/k:0;
   }
   function counts(){
-    var got=done.filter(Boolean).length;
-    document.getElementById('rxGot').textContent='✨ كشفت '+got+' من '+n;
     document.getElementById('rxCount').textContent='النتيجة '+(cur+1)+' من '+n;
     ths.forEach(function(t,k){t.classList.toggle('on',k===cur);t.classList.toggle('done',!!done[k]);});
   }
   function sparkle(){if(still)return;fx.innerHTML='';
     for(var i=0;i<9;i++){var s=document.createElement('span');s.textContent='✨';s.style.left=(8+Math.random()*78)+'%';s.style.top=(10+Math.random()*75)+'%';s.style.animationDelay=(i*45)+'ms';fx.appendChild(s);}
     setTimeout(function(){fx.innerHTML='';},1400);}
-  function nextUndone(){for(var k=1;k<=n;k++){var j=(cur+k)%n;if(!done[j])return j;}return -1;}
+  function showNext(){nxt.textContent=cur<n-1?'النتيجة التالية ←':'من الأول ↺';nxt.hidden=false;}
   function reveal(){
-    if(done[cur])return;done[cur]=true;clearIdle();drawing=false;tube.classList.remove('on');
-    cv.classList.add('gone');hint.classList.add('off');btn.hidden=true;sparkle();counts();
-    var j=nextUndone();nxt.hidden=j<0;nxt.textContent=j<0?'':'النتيجة التالية ←';
+    if(done[cur])return;done[cur]=true;tube.classList.remove('on');
+    cv.classList.add('gone');sparkle();counts();showNext();schedule();
   }
   function sweep(){
-    if(done[cur]||sweeping)return;sweeping=true;clearIdle();
-    var w=cv.getBoundingClientRect().width,h=cv.getBoundingClientRect().height;
+    if(done[cur]||sweeping)return;sweeping=true;
+    var r=cv.getBoundingClientRect(),w=r.width,h=r.height;
     if(still||!w){sweeping=false;reveal();return;}
-    var path=[[.12,.22],[.88,.3],[.12,.46],[.88,.56],[.12,.72],[.88,.82]],t0=0,DUR=850,p0={x:path[0][0]*w,y:path[0][1]*h};
+    var path=[[.1,.16],[.9,.27],[.1,.42],[.9,.55],[.1,.7],[.9,.86]],t0=0,DUR=1100,p0={x:path[0][0]*w,y:path[0][1]*h},at=cur;
     tube.classList.add('on');
     (function step(now){
+      if(at!==cur){sweeping=false;return;}
       if(!t0)t0=now;var f=Math.max(0,Math.min(1,(now-t0)/DUR)),seg=f*(path.length-1),k=Math.min(path.length-2,Math.floor(seg)),u=seg-k,
           p={x:(path[k][0]+(path[k+1][0]-path[k][0])*u)*w,y:(path[k][1]+(path[k+1][1]-path[k][1])*u)*h};
-      scratch(p0,p);tubeAt(p);p0=p;
-      if(f<1&&!done[cur])requestAnimationFrame(step);else{sweeping=false;reveal();}
+      erase(p0,p);tubeAt(p);p0=p;
+      if(f<1)requestAnimationFrame(step);else{sweeping=false;reveal();}
     })(performance.now());
   }
-  function hintStroke(){ /* a short demo stroke so the gesture explains itself */
-    if(done[cur]||dirty||sweeping||still)return;
-    var w=cv.getBoundingClientRect().width,h=cv.getBoundingClientRect().height,t0=0,p0={x:w*.2,y:h*.62};
-    tube.classList.add('on');
-    (function step(now){if(!t0)t0=now;var f=Math.max(0,Math.min(1,(now-t0)/600)),p={x:w*(.2+.55*f),y:h*(.62-.06*Math.sin(f*Math.PI))};
-      ctx.globalCompositeOperation='destination-out';ctx.strokeStyle='#000';ctx.lineCap='round';ctx.lineWidth=Math.max(34,cw0*.2)*D*.6;
-      ctx.beginPath();ctx.moveTo(p0.x*D,p0.y*D);ctx.lineTo(p.x*D,p.y*D);ctx.stroke();tubeAt(p);p0=p;
-      if(f<1)requestAnimationFrame(step);else setTimeout(function(){if(!drawing&&!sweeping)tube.classList.remove('on');},250);
-    })(performance.now());
+  function schedule(){
+    clearTimeout(timer);if(!inView)return;
+    if(!done[cur]){
+      if(!ready(cur)){img(cur).addEventListener('load',function(){if(!done[cur]){paint();schedule();}},{once:true});return;}
+      timer=setTimeout(sweep,650);return;
+    }
+    if(!manual&&cur<n-1)timer=setTimeout(function(){select(cur+1);},HOLD);
   }
-  function clearIdle(){clearTimeout(idleA);clearTimeout(idleB);}
-  function arm(){clearIdle();if(!inView||done[cur])return;idleA=setTimeout(hintStroke,2200);idleB=setTimeout(function(){if(!drawing)sweep();},8000);}
   function select(i){
-    cur=(i+n)%n;clearIdle();figs.forEach(function(f,k){f.classList.toggle('on',k===cur);});
+    cur=(i+n)%n;clearTimeout(timer);figs.forEach(function(f,k){f.classList.toggle('on',k===cur);});
     nxt.hidden=true;fx.innerHTML='';tube.classList.remove('on');
-    if(done[cur]){cv.hidden=true;hint.classList.add('off');btn.hidden=true;}
-    else{cv.hidden=false;cv.classList.remove('gone','ready');hint.classList.remove('off');btn.hidden=false;paint();
-      var im=img(cur);if(!(im.complete&&im.naturalWidth)){im.addEventListener('load',function(){if(cur===figs.indexOf(im.closest('.rx-c'))&&!dirty&&!done[cur])paint();},{once:true});}
-      arm();}
-    counts();
+    if(done[cur]){cv.hidden=true;showNext();}
+    else{cv.hidden=false;cv.classList.remove('gone','ready');paint();}
+    counts();schedule();
   }
-  cv.addEventListener('pointerdown',function(e){if(done[cur]||sweeping)return;drawing=true;clearIdle();lastP=pt(e);downAt={x:lastP.x,y:lastP.y,t:Date.now()};
-    try{cv.setPointerCapture(e.pointerId);}catch(_){}tube.classList.add('on');tubeAt(lastP);scratch(lastP,lastP);});
-  cv.addEventListener('pointermove',function(e){if(!drawing)return;var p=pt(e);scratch(lastP,p);tubeAt(p);lastP=p;});
-  function end(e){if(!drawing)return;drawing=false;tube.classList.remove('on');
-    var p=lastP;if(downAt&&e.type==='pointerup'&&Math.abs(p.x-downAt.x)+Math.abs(p.y-downAt.y)<8&&Date.now()-downAt.t<350){sweep();return;}
-    if(!done[cur])arm();}
-  cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
-  btn.addEventListener('click',sweep);
-  nxt.addEventListener('click',function(){var j=nextUndone();if(j>=0)select(j);});
-  ths.forEach(function(t,k){t.addEventListener('click',function(){select(k);});});
-  var lw=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===lw)return;lw=window.innerWidth;if(!done[cur]&&!cv.hidden)paint();});
+  nxt.addEventListener('click',function(){manual=true;select(cur+1);});
+  ths.forEach(function(t,k){t.addEventListener('click',function(){manual=true;select(k);});});
+  var lw=window.innerWidth;window.addEventListener('resize',function(){if(window.innerWidth===lw)return;lw=window.innerWidth;if(!done[cur]&&!sweeping)paint();});
   if('IntersectionObserver' in window){new IntersectionObserver(function(en){var was=inView;inView=en[0].isIntersecting;
-      if(inView&&!was){figs.forEach(function(f){f.querySelector('img').loading='eager';});arm();}else if(!inView)clearIdle();},{threshold:.6}).observe(stage);}
+      if(inView&&!was){figs.forEach(function(f){f.querySelector('img').loading='eager';});schedule();}else if(!inView)clearTimeout(timer);},{threshold:.6}).observe(stage);}
+  else inView=true;
   select(0);
 })();
 
