@@ -878,9 +878,9 @@ b,strong{font-weight:800}
       </div>
       <span class="cb-lbl" id="callLbl" hidden>⏳ نسكّر طلبات<br><b class="cb-gold">اليوم بعد</b></span>
       <div class="cb-units" id="callUnits" hidden>
-        <div class="cb-u"><b id="th">00</b><span>ساعة</span></div><span class="cb-sep">:</span>
-        <div class="cb-u"><b id="tm">00</b><span>دقيقة</span></div><span class="cb-sep">:</span>
-        <div class="cb-u"><b id="ts">00</b><span>ثانية</span></div>
+        <div class="cb-u"><b id="cbH">00</b><span>ساعة</span></div><span class="cb-sep">:</span>
+        <div class="cb-u"><b id="cbM">00</b><span>دقيقة</span></div><span class="cb-sep">:</span>
+        <div class="cb-u"><b id="cbS">00</b><span>ثانية</span></div>
       </div>
       <div class="cb-night" id="callNight" hidden>
         <span class="cb-ic">🌙</span>
@@ -1982,7 +1982,7 @@ window.PRODUCT={
   /* same cutoff as the ARRIVAL DATE block above — the band must not promise
      same-day dispatch after the ETA has already rolled to tomorrow */
   var SHIP_CUTOFF=17;
-  var th=document.getElementById('th'),tm=document.getElementById('tm'),ts=document.getElementById('ts'),
+  var th=document.getElementById('cbH'),tm=document.getElementById('cbM'),ts=document.getElementById('cbS'),
       units=document.getElementById('callUnits'),lbl=document.getElementById('callLbl'),
       night=document.getElementById('callNight'),ready=document.getElementById('callReady'),
       ship=document.getElementById('cbShip');
