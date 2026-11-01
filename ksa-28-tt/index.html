@@ -914,8 +914,34 @@ b,strong{font-weight:800}
   </div>
 </div></header>
 
+<!-- ═══════════ SHADE CHECK — one tap, a plan and a pack ═══════════ -->
+<section class="section l-alt" id="shade">
+  <div class="l-head">
+    <span class="l-eye">🎯 تشخيص سريع</span>
+    <h2>وين شفايفك <span class="em">الحين؟</span></h2>
+    <p>اختر اللون الأقرب لشفايفك — ونقولك وش تتوقع ومتى، وأي باقة تناسبك.</p>
+  </div>
+  <div class="sc">
+    <div class="sc-grid" role="radiogroup" aria-label="لون الشفايف">
+      <button type="button" class="sc-o" data-s="0" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#b77f80"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>اسمرار<br>خفيف</b></button>
+      <button type="button" class="sc-o" data-s="1" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#94585a"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>اسمرار<br>متوسط</b></button>
+      <button type="button" class="sc-o" data-s="2" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#6f3d3f"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>غامقة</b></button>
+      <button type="button" class="sc-o" data-s="3" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#4a2729"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>غامقة جداً<br>(مدخّن)</b></button>
+    </div>
+    <div class="sc-r" id="scR" aria-live="polite">
+      <div class="top"><small>نتيجتك</small><b id="scT">—</b></div>
+      <div class="bd">
+        <div class="ln"><span class="ic">🗓️</span><span id="scW">—</span></div>
+        <div class="ln"><span class="ic">💡</span><span id="scH">—</span></div>
+        <div class="rec" id="scRec">—</div>
+        <button type="button" class="btn lg" id="scGo">اعرض الباقة المناسبة ↓</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════ MOMENTS ═══════════ -->
-<section class="section l-alt" id="moments">
+<section class="section" id="moments">
   <div class="l-head">
     <span class="l-eye">🫣 بينك وبين نفسك</span>
     <h2>تعرف <span class="em">هاللحظة؟</span></h2>
@@ -949,7 +975,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ RESULTS — each «بعد» reveals itself ═══════════ -->
-<section class="section" id="results">
+<section class="section l-alt" id="results">
   <div class="l-head">
     <span class="l-eye">📸 نتائج حقيقية</span>
     <h2>نفس الشي صار <span class="em">مع غيرك</span></h2>
@@ -978,7 +1004,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ HOW IT WORKS ═══════════ -->
-<section class="section l-alt">
+<section class="section">
   <div class="l-head">
     <span class="l-eye">🔬 وش يصير بالضبط</span>
     <h2>ليش تغمق شفايفك — <span class="em">وكيف ترجع</span></h2>
@@ -995,7 +1021,7 @@ b,strong{font-weight:800}
      Each ingredient does one job. The lips beside the flask only turn fully
      pink once all six are in, so the visitor works out for themselves why
      the formula has six, then the flask becomes the tube. -->
-<section class="section" id="lab">
+<section class="section l-alt" id="lab">
   <div class="l-head">
     <span class="l-eye">🧪 المختبر</span>
     <h2>اصنع الجينشان <span class="em">بنفسك</span></h2>
@@ -1072,7 +1098,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ SPECIALIST ═══════════ -->
-<section class="section l-alt">
+<section class="section">
   <div class="l-head">
     <span class="l-eye">🎬 شوف المنتج</span>
     <h2>8 ثواني — <span class="em">شوفه عن قريب</span></h2>
@@ -1089,7 +1115,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ CREDENTIALS ═══════════ -->
-<section class="section">
+<section class="section l-alt">
   <div class="l-head">
     <span class="l-eye">🏛️ معتمد وآمن</span>
     <h2>تحطّه على شفايفك <span class="em">وأنت مطمّن</span></h2>
@@ -1106,7 +1132,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ ROUTINE ═══════════ -->
-<section class="section l-alt">
+<section class="section">
   <div class="l-head">
     <span class="l-eye">⏱️ 30 ثانية</span>
     <h2>الروتين كامل — <span class="em">مرتين باليوم</span></h2>
@@ -1135,7 +1161,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ UGC STORIES — three selfie clips played like a Snap story ═══════════ -->
-<section class="section" id="ugc">
+<section class="section l-alt" id="ugc">
   <div class="l-head">
     <span class="l-eye">📱 من يومك</span>
     <h2>الصبح، بالسيارة، وقبل النوم — <span class="em">ثواني وتمشي</span></h2>
@@ -1167,7 +1193,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ TIMELINE ═══════════ -->
-<section class="section l-alt">
+<section class="section">
   <div class="l-head">
     <span class="l-eye">📅 الجدول الزمني</span>
     <h2>متى بالضبط <span class="em">يبان الفرق؟</span></h2>
@@ -1205,7 +1231,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ COMPARE ═══════════ -->
-<section class="section">
+<section class="section l-alt">
   <div class="l-head">
     <span class="l-eye">🆚 قبل لا تقرر</span>
     <h2>وش الفرق عن <span class="em">البدائل؟</span></h2>
@@ -1224,7 +1250,7 @@ b,strong{font-weight:800}
 </section>
 
 <!-- ═══════════ REVIEWS ═══════════ -->
-<section class="section l-alt" id="reviews">
+<section class="section" id="reviews">
   <div class="l-head">
     <span class="l-eye">💬 آراء عملائنا</span>
     <h2>ناس جرّبوه <span class="em">وقالوا</span></h2>
@@ -1241,32 +1267,6 @@ b,strong{font-weight:800}
     <div class="rv rv-more"><div class="rv-top"><span class="rv-av">ه</span><div><b>هيفاء <span class="rv-ok">✔ عميل</span></b><small>الخبر</small></div><span class="rv-st">★★★★★</span></div><span class="rv-tag">👭 تستخدمه مع أختها</span><p>«ما توقعت يكون بهالجودة بهالسعر. الشفايف صارت طرية وأخف لون. أنا وأختي نستخدمه الحين.»</p></div>
   </div>
   <div class="rv-act"><button type="button" class="rv-btn" id="rvMore">شوف كل الآراء (8) ⌄</button></div>
-</section>
-
-<!-- ═══════════ SHADE CHECK — one tap, a plan and a pack ═══════════ -->
-<section class="section" id="shade">
-  <div class="l-head">
-    <span class="l-eye">🎯 تشخيص سريع</span>
-    <h2>وين شفايفك <span class="em">الحين؟</span></h2>
-    <p>اختر اللون الأقرب لشفايفك — ونقولك وش تتوقع ومتى، وأي باقة تناسبك.</p>
-  </div>
-  <div class="sc">
-    <div class="sc-grid" role="radiogroup" aria-label="لون الشفايف">
-      <button type="button" class="sc-o" data-s="0" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#b77f80"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>اسمرار<br>خفيف</b></button>
-      <button type="button" class="sc-o" data-s="1" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#94585a"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>اسمرار<br>متوسط</b></button>
-      <button type="button" class="sc-o" data-s="2" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#6f3d3f"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>غامقة</b></button>
-      <button type="button" class="sc-o" data-s="3" role="radio" aria-checked="false"><span class="sc-lip"><svg viewBox="0 0 64 34" aria-hidden="true"><path d="M2 15C10 4 22 2 32 9C42 2 54 4 62 15C52 30 40 33 32 33C24 33 12 30 2 15Z" fill="#4a2729"/><path d="M4 15.5C16 19 24 19 32 17C40 19 48 19 60 15.5" stroke="rgba(0,0,0,.35)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 9C20 6 26 7 31 11" stroke="rgba(255,255,255,.28)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><b>غامقة جداً<br>(مدخّن)</b></button>
-    </div>
-    <div class="sc-r" id="scR" aria-live="polite">
-      <div class="top"><small>نتيجتك</small><b id="scT">—</b></div>
-      <div class="bd">
-        <div class="ln"><span class="ic">🗓️</span><span id="scW">—</span></div>
-        <div class="ln"><span class="ic">💡</span><span id="scH">—</span></div>
-        <div class="rec" id="scRec">—</div>
-        <button type="button" class="btn lg" id="scGo">اعرض الباقة المناسبة ↓</button>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- ═══════════ OFFERS ═══════════ -->
