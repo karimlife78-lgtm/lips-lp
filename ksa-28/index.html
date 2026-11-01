@@ -37,6 +37,47 @@
 @font-face{font-family:'Tajawal';font-style:normal;font-weight:800;font-display:optional;src:url(/assets/fonts/tajawal-800-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Tajawal';font-style:normal;font-weight:900;font-display:optional;src:url(/assets/fonts/tajawal-900-arabic.woff2) format('woff2');unicode-range:U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1}
 @font-face{font-family:'Tajawal';font-style:normal;font-weight:900;font-display:optional;src:url(/assets/fonts/tajawal-900-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+
+/* ── UGC STORIES: three selfie clips played the way Snap/TikTok stories play.
+   Nothing downloads until the section is near; plays muted, only while on
+   screen; tap left = next (RTL), hold = pause; story bubbles jump around. ── */
+.ug{max-width:400px;margin:0 auto;padding:0 18px}
+.ug-rings{display:flex;justify-content:center;gap:18px;margin-bottom:14px}
+.ug-ring{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:var(--text)}
+.ug-ring span{width:64px;height:64px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#ffd43b,var(--rose),#c13584,#ffd43b);display:block}
+.ug-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #fff;display:block;background:#ddd}
+.ug-ring.seen span{background:#cfc6be}
+.ug-ring.on span{transform:scale(1.08);transition:transform .2s}
+.ug-ring b{font-size:.78rem;font-weight:800}
+.ug-card{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:#111;box-shadow:var(--sh);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.ug-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#111}
+.ug-card::before{content:"";position:absolute;inset:0 0 auto;height:22%;background:linear-gradient(rgba(0,0,0,.5),transparent);z-index:1;pointer-events:none}
+.ug-bars{position:absolute;top:9px;left:10px;right:10px;z-index:4;display:flex;gap:4px;pointer-events:none}
+.ug-bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.38);overflow:hidden}
+.ug-bars b{display:block;height:100%;background:#fff;transform:scaleX(0);transform-origin:right}
+.ug-top{position:absolute;top:20px;left:10px;right:10px;z-index:4;display:flex;align-items:center;gap:8px;color:#fff;font-size:.84rem;text-shadow:0 1px 5px rgba(0,0,0,.5);pointer-events:none}
+.ug-av{width:32px;height:32px;border-radius:50%;overflow:hidden;border:2px solid #fff;flex:none}
+.ug-av img{width:100%;height:100%;object-fit:cover;display:block}
+.ug-top b{font-family:var(--fh);font-weight:900}
+.ug-top small{opacity:.8;font-weight:700}
+.ug-pp{pointer-events:auto;margin-inline-start:auto;width:34px;height:34px;border:0;border-radius:50%;background:rgba(0,0,0,.28);color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
+.ug-pp .i-pl,.ug-card.paused .ug-pp .i-pa{display:none}
+.ug-card.paused .ug-pp .i-pl{display:block}
+/* the Snapchat caption: a full-width translucent strip */
+.ug-cap{position:absolute;left:0;right:0;top:62%;z-index:3;margin:0;padding:7px 14px;background:rgba(0,0,0,.52);color:#fff;text-align:center;font-size:.97rem;font-weight:700;line-height:1.45;pointer-events:none}
+.ug-taps{position:absolute;inset:60px 0 0;z-index:2;display:flex}
+.ug-tap{flex:1;border:0;background:none;padding:0;cursor:pointer}
+.ug-tap:focus-visible{outline:3px solid #fff;outline-offset:-6px}
+.ug-big{position:absolute;inset:0;margin:auto;z-index:5;width:76px;height:76px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;cursor:pointer}
+.ug-big[hidden],.ug-end[hidden]{display:none}
+.ug-end{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:26px 20px;text-align:center;color:#fff;background:linear-gradient(180deg,rgba(31,21,23,.55),rgba(31,21,23,.92))}
+.ug-end>b{font-family:var(--fh);font-size:1.6rem;font-weight:900;line-height:1.3}
+.ug-end>b span{color:var(--gold)}
+.ug-end p{margin:0;font-size:.95rem;font-weight:700;opacity:.9;line-height:1.7}
+.ug-end .btn{margin-top:4px}
+.ug-card.ended .ug-cap,.ug-card.ended .ug-taps{display:none}
+.ug-cod{font-size:.8rem;font-weight:700;opacity:.85}
+.ug-again{border:0;background:none;color:rgba(255,255,255,.85);font:inherit;font-weight:800;font-size:.88rem;cursor:pointer;padding:6px 10px}
 </style>
 <!-- TikTok: the stub queues every call; the 677KB bundle is fetched after load -->
 <script>
@@ -1118,6 +1159,38 @@ b,strong{font-weight:800}
   </div>
 </section>
 
+<!-- ═══════════ UGC STORIES — three selfie clips played like a Snap story ═══════════ -->
+<section class="section l-alt" id="ugc">
+  <div class="l-head">
+    <span class="l-eye">📱 من يومك</span>
+    <h2>الصبح، بالسيارة، وقبل النوم — <span class="em">ثواني وتمشي</span></h2>
+    <p>اضغط على أي ستوري — أو خلّها تمشي لحالها.</p>
+  </div>
+  <div class="ug" id="ug">
+    <div class="ug-rings">
+      <button type="button" class="ug-ring on" data-i="0" aria-label="ستوري الصبح"><span><img src="/assets/ugc28-morning-thumb.webp" width="120" height="120" alt="" loading="lazy" decoding="async" /></span><b>الصبح</b></button>
+      <button type="button" class="ug-ring" data-i="1" aria-label="ستوري بالسيارة"><span><img src="/assets/ugc28-car-thumb.webp" width="120" height="120" alt="" loading="lazy" decoding="async" /></span><b>بالسيارة</b></button>
+      <button type="button" class="ug-ring" data-i="2" aria-label="ستوري قبل النوم"><span><img src="/assets/ugc28-night-thumb.webp" width="120" height="120" alt="" loading="lazy" decoding="async" /></span><b>قبل النوم</b></button>
+    </div>
+    <div class="ug-card" id="ugCard">
+      <video class="ug-v" id="ugV" muted playsinline preload="none" poster="/assets/ugc28-morning.webp" width="540" height="960"></video>
+      <div class="ug-bars" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      <div class="ug-top"><span class="ug-av"><img id="ugAv" src="/assets/ugc28-morning-thumb.webp" width="120" height="120" alt="" loading="lazy" decoding="async" /></span><b id="ugName">روتين الصبح</b><small id="ugTime">7:40 ص</small>
+        <button type="button" class="ug-pp" id="ugPP" aria-label="إيقاف مؤقت"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path class="i-pa" d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/><path class="i-pl" d="M8 5v14l11-7z" fill="currentColor"/></svg></button></div>
+      <p class="ug-cap" id="ugCap">قبل الدوام ☀️ طبقة خفيفة وأطلع</p>
+      <div class="ug-taps"><button type="button" class="ug-tap" data-d="-1" aria-label="الستوري السابقة"></button><button type="button" class="ug-tap" data-d="1" aria-label="الستوري التالية"></button></div>
+      <button type="button" class="ug-big" id="ugBig" hidden aria-label="شغّل"><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
+      <div class="ug-end" id="ugEnd" hidden>
+        <b>مرتين باليوم — <span>وبس.</span></b>
+        <p>الصبح وقبل النوم، طبقة خفيفة من الأنبوبة على شفايفك مباشرة.</p>
+        <button class="btn lg btn-pulse" data-scroll="#offers">اطلب كريمك الحين 👇</button>
+        <small class="ug-cod">💵 الدفع عند الاستلام · 🚚 توصيل لكل المملكة</small>
+        <button type="button" class="ug-again" id="ugAgain">↻ شوفها من جديد</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════ TIMELINE ═══════════ -->
 <section class="section">
   <div class="l-head">
@@ -2011,6 +2084,68 @@ window.PRODUCT={
     wasOpen=open;render();
   }).observe(m,{attributes:true,attributeFilter:['class']});
   render();
+})();
+</script>
+<script>
+/* ── UGC STORIES: three selfie clips as one Snap-style story. The video
+   only gets a source once the section is near, plays muted while at least
+   half of it is on screen, and the bar follows the clip's own time. ── */
+(function(){
+  var card=document.getElementById('ugCard');if(!card)return;
+  var S=[{"k":"morning","n":"روتين الصبح","t":"7:40 ص","c":"قبل الدوام ☀️ طبقة خفيفة وأطلع"},{"k":"car","n":"بالسيارة","t":"2:15 م","c":"قبل الاجتماع 🚗 ثانيتين وخلاص"},{"k":"night","n":"قبل النوم","t":"11:30 م","c":"آخر شي قبل النوم 🌙"}];
+  var v=document.getElementById('ugV'),bars=[].slice.call(card.querySelectorAll('.ug-bars b')),rings=[].slice.call(document.querySelectorAll('.ug-ring')),
+      pp=document.getElementById('ugPP'),big=document.getElementById('ugBig'),end=document.getElementById('ugEnd'),
+      cur=0,inView=false,near=false,paused=false,held=false,done=false,raf=0,
+      still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function src(i){return '/assets/ugc28-'+S[i].k+'.mp4';}
+  function want(){return inView&&!paused&&!held&&!done&&!document.hidden&&!still;}
+  function bar(){var f=v.duration?Math.min(1,v.currentTime/v.duration):0;bars[cur].style.transform='scaleX('+f+')';}
+  function tick(){raf=0;bar();if(!v.paused)raf=requestAnimationFrame(tick);}
+  function sync(){
+    if(want()&&v.currentSrc){var p=v.play();if(p&&p.catch)p.catch(function(e){if(e&&e.name==='NotAllowedError')big.hidden=false;});}
+    else if(!v.paused)v.pause();
+    card.classList.toggle('paused',paused);
+  }
+  function show(i,go){
+    cur=i;done=false;end.hidden=true;big.hidden=true;card.classList.remove('ended');
+    bars.forEach(function(b,k){b.style.transform='scaleX('+(k<i?1:0)+')';});
+    rings.forEach(function(r,k){r.classList.toggle('on',k===i);if(k<i)r.classList.add('seen');});
+    document.getElementById('ugName').textContent=S[i].n;document.getElementById('ugTime').textContent=S[i].t;
+    document.getElementById('ugCap').textContent=S[i].c;document.getElementById('ugAv').src='/assets/ugc28-'+S[i].k+'-thumb.webp';
+    v.poster='/assets/ugc28-'+S[i].k+'.webp';
+    if(near){v.src=src(i);v.load();}
+    if(go!==false)sync();
+    /* warm the next clip so the jump is instant */
+    if(near&&i+1<S.length&&window.fetch){try{fetch(src(i+1),{priority:'low'}).catch(function(){});}catch(e){}}
+  }
+  function next(d){
+    var i=cur+d;
+    if(i<0)i=0;
+    if(i>=S.length){rings[cur].classList.add('seen');bars[cur].style.transform='scaleX(1)';done=true;v.pause();end.hidden=false;card.classList.add('ended');return;}
+    show(i);
+  }
+  v.addEventListener('play',function(){if(!raf)raf=requestAnimationFrame(tick);big.hidden=true;});
+  v.addEventListener('ended',function(){next(1);});
+  v.addEventListener('loadeddata',sync);
+  [].forEach.call(card.querySelectorAll('.ug-tap'),function(z){
+    var timer=0,long=false;
+    z.addEventListener('pointerdown',function(){long=false;clearTimeout(timer);timer=setTimeout(function(){long=true;held=true;sync();},230);});
+    function up(){clearTimeout(timer);if(held){held=false;sync();}}
+    z.addEventListener('pointerup',up);z.addEventListener('pointerleave',up);
+    z.addEventListener('pointercancel',function(){long=true;up();});
+    z.addEventListener('contextmenu',function(e){e.preventDefault();});
+    z.addEventListener('click',function(){if(long){long=false;return;}next(+z.getAttribute('data-d'));});
+  });
+  rings.forEach(function(r,k){r.addEventListener('click',function(){paused=false;show(k);});});
+  pp.addEventListener('click',function(){paused=!paused;pp.setAttribute('aria-label',paused?'تشغيل':'إيقاف مؤقت');sync();});
+  big.addEventListener('click',function(){paused=false;still=false;big.hidden=true;var p=v.play();if(p&&p.catch)p.catch(function(){});});
+  document.getElementById('ugAgain').addEventListener('click',function(){rings.forEach(function(r){r.classList.remove('seen');});show(0);});
+  document.addEventListener('visibilitychange',sync);
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(en){if(en[0].isIntersecting&&!near){near=true;show(cur);}},{rootMargin:'600px 0px'}).observe(card);
+    new IntersectionObserver(function(en){inView=en[0].isIntersecting;sync();},{threshold:.5}).observe(card);
+  }else{near=true;inView=true;show(0);}
+  if(still)big.hidden=false;
 })();
 </script>
 </body>
