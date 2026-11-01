@@ -132,11 +132,39 @@ b,strong{font-weight:800}
 .hs.touched .hs-hint{opacity:0}
 
 .l-buy{max-width:var(--mw);margin:18px auto 0}
-.l-price{display:flex;align-items:baseline;justify-content:center;gap:10px;flex-wrap:wrap}
-.l-price .now{font-family:var(--fh);font-size:2.2rem;font-weight:900;color:var(--berry);line-height:1}
-.l-price .now small{font-size:1rem;color:var(--muted)}
-.l-price .deal{font-size:.86rem;font-weight:800;color:#fff;background:var(--ok);padding:5px 12px;border-radius:999px}
 .l-buy .btn{margin-top:14px}
+/* ── HERO QUICK PICK: the three packs as mini tickets, so a visitor who is
+   already sold orders from the top without scrolling. Prices are read from
+   the offers section at load, so the two can never disagree. ── */
+.qk{display:flex;flex-direction:column;gap:9px;max-width:430px;margin:0 auto 4px}
+.qk-t{position:relative;display:flex;align-items:stretch;width:100%;padding:0;border:1.5px solid var(--line);border-radius:14px;background:#fff;color:var(--text);font:inherit;text-align:right;cursor:pointer;box-shadow:var(--sh-sm);transition:transform .15s,border-color .2s;-webkit-tap-highlight-color:transparent}
+.qk-t::before,.qk-t::after{content:"";position:absolute;left:92px;width:14px;height:14px;border-radius:50%;background:var(--ink);border:1.5px solid var(--line);transform:translateX(-50%);box-sizing:border-box}
+.qk-t::before{top:-8px;clip-path:inset(50% 0 0 0)}
+.qk-t::after{bottom:-8px;clip-path:inset(0 0 50% 0)}
+.qk-t:active{transform:scale(.985)}
+.qk-r{flex:1;display:flex;align-items:center;gap:10px;padding:11px 13px}
+.qk-r>span{display:flex;flex-direction:column;gap:1px;min-width:0}
+.qk-r b{font-family:var(--fh);font-weight:900;font-size:1rem;line-height:1.3}
+.qk-r small{font-size:.74rem;font-weight:700;color:var(--muted);line-height:1.4}
+.qk-dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--blush-2);display:grid;place-items:center}
+.qk-l{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;border-right:2px dashed var(--line);line-height:1.05}
+.qk-l s{font-size:.72rem;font-weight:700;color:var(--muted)}
+.qk-l b{font-family:var(--fh);font-weight:900;font-size:1.45rem;color:var(--berry)}
+.qk-l small{font-size:.66rem;font-weight:800;color:var(--muted)}
+.qk-pop{position:absolute;top:-10px;right:12px;z-index:1;font-style:normal;font-family:var(--fh);font-weight:900;font-size:.68rem;color:#4a3000;background:linear-gradient(135deg,#ffe08a,#e7b84c);padding:3px 10px;border-radius:999px;box-shadow:0 4px 10px -6px rgba(0,0,0,.4)}
+.qk-t.rec{margin-top:6px}
+.qk-t.on{border-color:transparent;background:linear-gradient(135deg,#8c1d36,#3d0a16);color:#fff;box-shadow:0 14px 30px -14px rgba(60,18,28,.75)}
+.qk-t.on::before,.qk-t.on::after{border-color:transparent}
+.qk-t.on .qk-r small,.qk-t.on .qk-l s,.qk-t.on .qk-l small{color:rgba(255,255,255,.75)}
+.qk-t.on .qk-l{border-right-color:rgba(255,255,255,.45)}
+.qk-t.on .qk-l b{color:#ffe08a}
+.qk-t.on .qk-dot{border-color:#fff;background:#fff}
+.qk-t.on .qk-dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--rose)}
+.qk-t:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+#qkGo{display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.3}
+.qk-cod{font-size:.76rem;font-weight:800;opacity:.9}
+.qk-more{display:block;margin:10px auto 0;border:0;background:none;color:var(--rose);font:inherit;font-family:var(--fh);font-weight:900;font-size:.85rem;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:4px 10px}
+@media(max-width:360px){.qk-l{width:80px}.qk-t::before,.qk-t::after{left:80px}.qk-r small{font-size:.7rem}}
 .l-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
 .l-chips span{display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:12px;
   padding:9px 8px;font-size:.78rem;font-weight:800;color:var(--text)}
@@ -436,7 +464,6 @@ b,strong{font-weight:800}
 .tkt-p i{font-family:var(--fh);font-style:normal;font-size:1.3rem;font-weight:900;color:#ffe08a}
 .tkt-r small{font-size:.72rem;font-weight:700;opacity:.85;line-height:1.5}
 @media(max-width:360px){.tkt-l{width:104px}.tkt::before,.tkt::after{right:104px}.tkt-num{font-size:2.1rem}}
-.l-price .was-h{font-size:.95rem;font-weight:800;color:var(--muted);text-decoration:line-through}
 
 /* ── review tags + thank-you review ask ── */
 .rv-tag{display:inline-block;margin:0 0 8px;font-size:.7rem;font-weight:800;color:var(--rose);background:var(--blush);border:1px solid var(--blush-2);border-radius:999px;padding:3px 10px}
@@ -788,8 +815,20 @@ b,strong{font-weight:800}
   </div>
 
   <div class="l-buy">
-    <div class="tkt"><div class="tkt-l"><span class="tkt-off">خصم</span><span class="tkt-num">20</span><span class="tkt-cur">ر.س</span></div><div class="tkt-r"><b>عرض اليوم على كريم الشفايف</b><span class="tkt-p"><s>199 ر.س</s><i>179 ر.س</i></span><small>الخصم مطبّق تلقائياً — ما تحتاج كود</small></div></div>
-    <div class="l-price"><span class="now">179 <small>ر.س</small></span><span class="was-h">199 ر.س</span><span class="deal">الثانية بـ 50 ريال بس</span></div>
+    <div class="qk" id="qk" role="radiogroup" aria-label="اختر باقتك">
+      <button type="button" class="qk-t" data-to="1" data-cta="قطعة واحدة" role="radio" aria-checked="false">
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعة واحدة</b><small>تكفي 30 يوم</small></span></span>
+        <span class="qk-l"><s>199</s><b class="qk-p">179</b><small>ر.س</small></span>
+      </button>
+      <button type="button" class="qk-t rec" data-to="2" data-cta="القطعتين" role="radio" aria-checked="false">
+        <em class="qk-pop">⭐ ننصح فيها · وفّر 169 ر.س</em><span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعتان</b><small>تكفي 60 يوم · الثانية بـ 50 ريال</small></span></span>
+        <span class="qk-l"><s>398</s><b class="qk-p">229</b><small>ر.س</small></span>
+      </button>
+      <button type="button" class="qk-t" data-to="3" data-cta="الـ 3 قطع" role="radio" aria-checked="false">
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>3 قطع</b><small>تكفي 90 يوم · 96 ر.س للقطعة</small></span></span>
+        <span class="qk-l"><s>597</s><b class="qk-p">289</b><small>ر.س</small></span>
+      </button>
+    </div>
     <div class="callband" id="callBox">
       <div class="cb-ready" id="callReady" hidden>
         <span class="cb-ic">📞</span>
@@ -808,7 +847,8 @@ b,strong{font-weight:800}
           <b>أول من نتصل فيه</b> الصباح</span>
       </div>
     </div>
-    <button class="btn lg btn-pulse" data-scroll="#offers"><span class="shine"></span>اطلب الآن — وادفع عند الاستلام</button>
+    <button type="button" class="btn lg btn-pulse" id="qkGo"><span class="shine"></span><span id="qkGoTx">اطلب القطعتين — 229 ر.س</span><small class="qk-cod">💵 تدفع عند الاستلام</small></button>
+    <button type="button" class="qk-more" data-scroll="#offers">أو شوف تفاصيل الباقات ↓</button>
     <div class="l-chips">
       <span>💵 تدفع عند الباب</span><span>🚚 يوصلك خلال 2-4 أيام</span>
       <span>🛡️ ضمان 30 يوم</span><span>📦 غلاف محايد بدون اسم</span>
@@ -1517,6 +1557,29 @@ window.PRODUCT={
 (function(){
   var v=document.getElementById('vd'),b=document.getElementById('vdPlay'),box=document.getElementById('vdBox');if(!v||!b)return;
   b.addEventListener('click',function(){box.classList.add('playing');try{v.play();}catch(e){}});
+})();
+
+/* ── HERO QUICK PICK: a ticket clicks the matching card in the offers
+   section, and the hero button clicks that card's own order button, so the
+   order goes down exactly the same path as one placed further down (the
+   shop engine keeps its functions private). Picking a card further down
+   updates the tickets too. ── */
+(function(){
+  var box=document.getElementById('qk'),go=document.getElementById('qkGo');if(!box||!go)return;
+  var ts=[].slice.call(box.querySelectorAll('.qk-t')),tx=document.getElementById('qkGoTx'),cur=null;
+  function card(k){return document.querySelector('.offer[data-offer="'+k+'"]');}
+  ts.forEach(function(t){var o=card(t.getAttribute('data-to'));if(!o){t.hidden=true;return;}
+    t.querySelector('.qk-p').textContent=o.getAttribute('data-price');});
+  function paint(k){
+    var o=card(k);if(!o)return;
+    ts.forEach(function(t){var on=t.getAttribute('data-to')===String(k);t.classList.toggle('on',on);t.setAttribute('aria-checked',on?'true':'false');if(on)cur=t;});
+    tx.textContent='اطلب '+cur.getAttribute('data-cta')+' — '+o.getAttribute('data-price')+' ر.س';
+  }
+  ts.forEach(function(t){t.addEventListener('click',function(){var o=card(t.getAttribute('data-to'));if(o)o.click();});});
+  document.querySelectorAll('.offer').forEach(function(o){o.addEventListener('click',function(){paint(o.getAttribute('data-offer'));});});
+  go.addEventListener('click',function(){var o=cur&&card(cur.getAttribute('data-to')),b=o&&o.querySelector('.offer-cta');if(b)b.click();});
+  var start=document.querySelector('.offer.selected')||document.querySelector('.offer[data-default]');
+  paint(start?start.getAttribute('data-offer'):'2');
 })();
 
 /* ── MOMENTS as stories: plays only while in view and the tab is open;
