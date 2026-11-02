@@ -865,6 +865,39 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .reveal.in{opacity:1;transform:none}
 @media(max-width:360px){.hero h1{font-size:30px}h2.title{font-size:25px}.trust-grid{gap:3px}.comp-cell:first-child{font-size:11.5px;padding-right:10px}.offer .imgs{width:74px}}
 
+
+/* ── HERO QUICK PICK: the three packs as mini tickets, so a visitor who is
+   already sold orders from the top. They mirror the offer cards, code
+   prices included, and the button opens the form through the card's own
+   order button. ── */
+.qk{display:flex;flex-direction:column;gap:9px;max-width:440px;margin:0 auto 14px;text-align:right}
+.qk-t{position:relative;display:flex;align-items:stretch;width:100%;padding:0;border:1.5px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;text-align:right;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s,border-color .2s}
+.qk-t::before,.qk-t::after{content:"";position:absolute;left:92px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:1.5px solid var(--line);transform:translateX(-50%);box-sizing:border-box}
+.qk-t::before{top:-8px;clip-path:inset(50% 0 0 0)}
+.qk-t::after{bottom:-8px;clip-path:inset(0 0 50% 0)}
+.qk-t:active{transform:scale(.985)}
+.qk-r{flex:1;display:flex;align-items:center;gap:10px;padding:11px 13px}
+.qk-r>span{display:flex;flex-direction:column;gap:1px;min-width:0}
+.qk-r b{font-family:'Cairo';font-weight:900;font-size:16px;line-height:1.3}
+.qk-r small{font-size:12px;font-weight:700;color:var(--ink-soft);line-height:1.4}
+.qk-dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid #d9cfc6;display:grid;place-items:center}
+.qk-l{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;border-right:2px dashed var(--line);line-height:1.05}
+.qk-l s{font-size:12px;font-weight:700;color:var(--ink-soft)}
+.qk-l s:empty{display:none}
+.qk-l b{font-family:'Cairo';font-weight:900;font-size:24px;color:var(--red)}
+.qk-l small{font-size:11px;font-weight:800;color:var(--ink-soft)}
+.qk-pop{position:absolute;top:-10px;right:12px;z-index:1;font-style:normal;font-family:'Cairo';font-weight:900;font-size:11px;color:#4a3000;background:linear-gradient(135deg,#ffe08a,#e7b84c);padding:3px 10px;border-radius:999px;box-shadow:0 4px 10px -6px rgba(0,0,0,.4)}
+.qk-t.rec{margin-top:6px}
+.qk-t.on{border-color:transparent;background:linear-gradient(135deg,var(--red),var(--red-3));color:#fff;box-shadow:var(--shadow-red)}
+.qk-t.on::before,.qk-t.on::after{border-color:transparent}
+.qk-t.on .qk-r small,.qk-t.on .qk-l s,.qk-t.on .qk-l small{color:rgba(255,255,255,.78)}
+.qk-t.on .qk-l{border-right-color:rgba(255,255,255,.45)}
+.qk-t.on .qk-l b{color:#ffe08a}
+.qk-t.on .qk-dot{border-color:#fff;background:#fff}
+.qk-t.on .qk-dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--red)}
+.qk-t:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.qk-more{display:block;margin:10px auto 0;border:0;background:none;color:var(--red-2);font:inherit;font-family:'Cairo';font-weight:900;font-size:14.5px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:4px 10px}
+@media(max-width:360px){.qk-l{width:80px}.qk-t::before,.qk-t::after{left:80px}.qk-r small{font-size:11px}}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product",
@@ -961,7 +994,22 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
   </div>
   <div class="wrap" style="padding-top:22px;padding-bottom:8px">
-    <button class="btn lg cta-pulse" data-scroll="#quiz-section">اكتشف كريمك المناسب 👇</button>
+    <div class="qk" id="qk" role="radiogroup" aria-label="اختر باقتك">
+      <button type="button" class="qk-t" data-to="1" data-cta="قطعة واحدة" role="radio" aria-checked="false">
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعة واحدة</b><small>للتجربة</small></span></span>
+        <span class="qk-l"><s></s><b class="qk-p">199</b><small>ر.س</small></span>
+      </button>
+      <button type="button" class="qk-t rec" data-to="2" data-cta="القطعتين" role="radio" aria-checked="false">
+        <em class="qk-pop">⭐ ننصح فيها</em><span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعتان</b><small>الثانية بـ 50 ريال · 125 ر.س للقطعة</small></span></span>
+        <span class="qk-l"><s></s><b class="qk-p">249</b><small>ر.س</small></span>
+      </button>
+      <button type="button" class="qk-t" data-to="3" data-cta="الـ 3 قطع" role="radio" aria-checked="false">
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>3 قطع</b><small>الثالثة بـ 70 ريال · 106 ر.س للقطعة</small></span></span>
+        <span class="qk-l"><s></s><b class="qk-p">319</b><small>ر.س</small></span>
+      </button>
+    </div>
+    <button type="button" class="btn lg cta-pulse" id="qkGo"><span id="qkGoTx">اطلب القطعتين — 249 ر.س</span></button>
+    <button type="button" class="qk-more" data-scroll="#quiz-section">مو متأكد أي باقة؟ اكتشف كريمك المناسب 👇</button>
     <p class="btn-note">💵 الدفع <b>عند الاستلام</b> · بدون أي دفع مقدّم</p>
   </div>
 </section>
@@ -2589,6 +2637,41 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
       || (e.ctrlKey&&e.shiftKey&&(k===73||k===74||k===67)) /*Ctrl+Shift+I/J/C*/
       || (e.ctrlKey&&(k===85||k===83)) /*Ctrl+U / Ctrl+S*/){ e.preventDefault(); return false; }
   },{capture:true});
+})();
+</script>
+<script>
+/* ── HERO QUICK PICK: a ticket clicks the matching offer card and the
+   button clicks that card's own order button, so the order (and every
+   pixel event) goes down the same path as one placed further down. The
+   tickets copy the cards and refresh whenever COSMA40 rewrites them. ── */
+(function(){
+  var box=document.getElementById('qk'),go=document.getElementById('qkGo');if(!box||!go)return;
+  var ts=[].slice.call(box.querySelectorAll('.qk-t')),tx=document.getElementById('qkGoTx'),cur=null;
+  function card(k){return document.querySelector('.offer[data-offer="'+k+'"]');}
+  function shown(o,sel){var e=o.querySelector(sel);return e&&!e.hidden?e.textContent.trim():'';}
+  function fill(){
+    ts.forEach(function(t){
+      var o=card(t.getAttribute('data-to'));if(!o){t.hidden=true;return;}
+      t.querySelector('.qk-p').textContent=o.getAttribute('data-price');
+      t.querySelector('.qk-l s').textContent=shown(o,'.was').replace(/\s*ر\.س\s*$/,'');
+      var small=shown(o,'.offer-qty small'),per=+o.getAttribute('data-qty')>1?shown(o,'.perunit'):'';
+      t.querySelector('.qk-r small').textContent=[small,per].filter(Boolean).join(' · ');
+    });
+    if(cur)paint(cur.getAttribute('data-to'));
+  }
+  function paint(k){
+    var o=card(k);if(!o)return;
+    ts.forEach(function(t){var on=t.getAttribute('data-to')===String(k);t.classList.toggle('on',on);t.setAttribute('aria-checked',on?'true':'false');if(on)cur=t;});
+    tx.textContent='اطلب '+cur.getAttribute('data-cta')+' — '+o.getAttribute('data-price')+' ر.س';
+  }
+  ts.forEach(function(t){t.addEventListener('click',function(){var o=card(t.getAttribute('data-to'));if(o)o.click();});});
+  document.querySelectorAll('.offer').forEach(function(o){
+    o.addEventListener('click',function(){paint(o.getAttribute('data-offer'));});
+    if(window.MutationObserver)new MutationObserver(fill).observe(o,{attributes:true,attributeFilter:['data-price','data-label'],subtree:true,childList:true,characterData:true});
+  });
+  go.addEventListener('click',function(){var o=cur&&card(cur.getAttribute('data-to')),b=o&&o.querySelector('.offer-cta');if(b)b.click();});
+  var start=document.querySelector('.offer.selected')||card(2);
+  fill();paint(start?start.getAttribute('data-offer'):'2');
 })();
 </script>
 </body>
