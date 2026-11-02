@@ -429,7 +429,7 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
 .tline-i.hot .nx{border-inline-start-color:var(--gold)}
 .tline-note{max-width:var(--maxw);margin:14px auto 0;background:#FFFBEB;border:1px solid #FDE68A;border-radius:16px;padding:15px 16px;font-size:13.5px;font-weight:700;color:#78350F;line-height:1.8}
 .tline-note b{color:#92400E}
-/* cost anchor — reframes 199 against what the alternatives actually cost */
+/* cost anchor — reframes 179 against what the alternatives actually cost */
 .costs{max-width:var(--maxw);margin-inline:auto}
 .cost-i{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
 .cost-i .ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--paper-2);display:grid;place-items:center;font-size:21px}
@@ -492,33 +492,6 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(251,248,245,.82);bac
   .ndg::after{opacity:0}
 }
 
-/* ═══ hero discount announcement — evergreen, brand palette ═══ */
-.nda{position:relative;overflow:hidden;max-width:var(--maxw);margin:16px auto 2px;
-  border-radius:20px;padding:15px 16px 14px;text-align:center;
-  background:linear-gradient(145deg,#2B0309 0%,#7c0518 24%,#A30821 55%,#D90A2C 80%,#7c0518 100%);
-  border:2px solid rgba(201,161,77,.55);
-  box-shadow:0 18px 40px -20px rgba(122,5,24,.7),inset 0 1px 0 rgba(255,255,255,.14)}
-.nda::before{content:"";position:absolute;inset:-25% -12%;z-index:0;opacity:.45;pointer-events:none;
-  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px),
-                   repeating-linear-gradient(-45deg,rgba(255,255,255,.07) 0 5px,transparent 5px 12px)}
-.nda::after{content:"COSMA40";position:absolute;inset-inline-start:2px;bottom:-26px;z-index:0;
-  font-family:'Cairo',sans-serif;font-size:40px;font-weight:900;color:rgba(255,255,255,.07);
-  line-height:1;pointer-events:none}
-.nda-in{position:relative;z-index:1}
-.nda-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Cairo',sans-serif;font-size:11px;
-  font-weight:900;letter-spacing:.07em;color:#F5E3A8;background:rgba(0,0,0,.3);
-  border:1px solid rgba(201,162,39,.55);padding:4px 13px;border-radius:999px;margin-bottom:8px}
-.nda-h{font-family:'Cairo',sans-serif;font-size:23px;font-weight:900;line-height:1.25;color:#fff;
-  text-shadow:0 2px 10px rgba(0,0,0,.3)}
-.nda-h b{color:#F5D87A}
-.nda-sub{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-top:6px;line-height:1.6}
-.nda-sub s{color:rgba(255,255,255,.55);margin-inline-end:4px}
-.nda-cta{display:block;width:100%;margin-top:11px;background:linear-gradient(145deg,#F5E3A8,#C9A227);
-  color:#00381B;font-family:'Cairo',sans-serif;font-weight:900;font-size:15.5px;padding:13px 18px;
-  border-radius:13px;cursor:pointer;box-shadow:0 12px 26px -12px rgba(201,162,39,.9)}
-.nda-foot{text-align:center;font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:8px}
-.nda-foot b{color:var(--red)}
-@media(max-width:360px){.nda-h{font-size:20px}.nda-sub{font-size:12px}}
 .benefits{display:grid;gap:12px;max-width:var(--maxw);margin-inline:auto}
 .ben{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
 .ben .ic{flex:none;width:46px;height:46px;border-radius:13px;background:var(--red-soft);display:grid;place-items:center;font-size:23px}
@@ -867,8 +840,8 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 
 
 /* ── HERO QUICK PICK: the three packs as mini tickets, so a visitor who is
-   already sold orders from the top. They mirror the offer cards, code
-   prices included, and the button opens the form through the card's own
+   already sold orders from the top. They mirror the offer cards, and the
+   button opens the form through the card's own
    order button. ── */
 .qk{display:flex;flex-direction:column;gap:9px;max-width:440px;margin:0 auto 14px;text-align:right}
 .qk-t{position:relative;display:flex;align-items:stretch;width:100%;padding:0;border:1.5px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;text-align:right;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s,border-color .2s}
@@ -906,7 +879,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
  "image":["https://cosmarab.com/assets/hero.jpg"],
  "sku":"COSLIP","brand":{"@type":"Brand","name":"Cosmarab"},
  "offers":{"@type":"Offer","url":"https://cosmarab.com/ksa-18",
-   "priceCurrency":"SAR","price":"199","availability":"https://schema.org/InStock",
+   "priceCurrency":"SAR","price":"179","availability":"https://schema.org/InStock",
    "areaServed":{"@type":"Country","name":"SA"},
    "seller":{"@type":"Organization","name":"Cosmarab","url":"https://cosmarab.com/"}}}
 </script>
@@ -944,16 +917,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
-    <!-- hero discount announcement -->
-    <div class="nda">
-      <div class="nda-in">
-        <span class="nda-tag" id="ndaTag">🎟️ كود خصم</span>
-        <div class="nda-h" id="ndaH">اكتب كود <b>COSMA40</b></div>
-        <div class="nda-sub" id="ndaSub">وتنزل أسعار كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s></div>
-        <button class="nda-cta" type="button" data-scroll="#offers">شوف العروض 👇</button>
-      </div>
-    </div>
-    <p class="nda-foot">🔥 العرض ساري <b>حتى نفاد الكمية</b></p>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -997,18 +960,18 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="qk" id="qk" role="radiogroup" aria-label="اختر باقتك">
       <button type="button" class="qk-t" data-to="1" data-cta="قطعة واحدة" role="radio" aria-checked="false">
         <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعة واحدة</b><small>للتجربة</small></span></span>
-        <span class="qk-l"><s></s><b class="qk-p">199</b><small>ر.س</small></span>
+        <span class="qk-l"><s>199</s><b class="qk-p">179</b><small>ر.س</small></span>
       </button>
       <button type="button" class="qk-t rec" data-to="2" data-cta="القطعتين" role="radio" aria-checked="false">
-        <em class="qk-pop">⭐ ننصح فيها</em><span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعتان</b><small>الثانية بـ 50 ريال · 125 ر.س للقطعة</small></span></span>
-        <span class="qk-l"><s></s><b class="qk-p">249</b><small>ر.س</small></span>
+        <em class="qk-pop">⭐ ننصح فيها</em><span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعتان</b><small>الثانية بـ 50 ريال · 115 ر.س للقطعة</small></span></span>
+        <span class="qk-l"><s>398</s><b class="qk-p">229</b><small>ر.س</small></span>
       </button>
       <button type="button" class="qk-t" data-to="3" data-cta="الـ 3 قطع" role="radio" aria-checked="false">
-        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>3 قطع</b><small>الثالثة بـ 70 ريال · 106 ر.س للقطعة</small></span></span>
-        <span class="qk-l"><s></s><b class="qk-p">319</b><small>ر.س</small></span>
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>3 قطع</b><small>الثالثة بـ 60 ريال · 96 ر.س للقطعة</small></span></span>
+        <span class="qk-l"><s>597</s><b class="qk-p">289</b><small>ر.س</small></span>
       </button>
     </div>
-    <button type="button" class="btn lg cta-pulse" id="qkGo"><span id="qkGoTx">اطلب القطعتين — 249 ر.س</span></button>
+    <button type="button" class="btn lg cta-pulse" id="qkGo"><span id="qkGoTx">اطلب القطعتين — 229 ر.س</span></button>
     <button type="button" class="qk-more" data-scroll="#quiz-section">مو متأكد أي باقة؟ اكتشف كريمك المناسب 👇</button>
     <p class="btn-note">💵 الدفع <b>عند الاستلام</b> · بدون أي دفع مقدّم</p>
   </div>
@@ -1115,15 +1078,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <p class="lead">كل ما زادت الكمية، كل ما وفّرت أكثر.</p>
     </div>
 
-    <div class="promo" id="promoBox">
-      <div class="promo-row">
-        <span class="promo-ic">🎟️</span>
-        <input type="text" id="promoInput" placeholder="عندك كود خصم؟ اكتبه هنا" autocomplete="off" spellcheck="false" aria-label="كود الخصم" />
-        <button type="button" class="promo-btn" id="promoBtn">فعّل</button>
-      </div>
-        <div class="promo-hint" id="promoHint">كودك: <b>COSMA40</b> <span class="ar-ok">(أو اكتبه عربي: كوزما٤٠)</span> — وينزل السعر لـ <span class="pv">179 ر.س</span></div>
-      <div class="promo-msg" id="promoMsg" hidden></div>
-    </div>
     <div class="stock-bar">
       <span>⚡ تبقّى عدد محدود</span>
       <span class="track"><span class="fill" id="stockFill"></span></span>
@@ -1131,42 +1085,42 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
 
     <!-- Offer 1 -->
-    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="199" data-label="قطعة واحدة">
+    <div class="offer" id="offer1" data-offer="1" data-qty="1" data-price="179" data-label="قطعة واحدة">
       <span class="radio"></span>
       <div class="imgs"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="كريم تفتيح الشفاه" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">قطعة واحدة <small>للتجربة</small></div>
-        <div class="offer-price"><span class="now">199</span><span class="cur">ر.س</span><span class="was" hidden>199 ر.س</span></div>
-        <span class="save" hidden>وفّر 20 ر.س</span>
-        <div class="perunit">السعر للقطعة 199 ر.س</div>
+        <div class="offer-price"><span class="now">179</span><span class="cur">ر.س</span><span class="was">199 ر.س</span></div>
+        <span class="save">وفّر 20 ر.س</span>
+        <div class="perunit">السعر للقطعة 179 ر.س</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 2 best -->
-    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="249" data-label="قطعتان — الثانية بـ 50 ريال">
+    <div class="offer" id="offer2" data-offer="2" data-qty="2" data-price="229" data-label="قطعتان — الثانية بـ 50 ريال">
       <span class="ribbon">⭐ الأكثر طلباً</span>
       <span class="radio"></span>
       <div class="imgs two"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
         <div class="offer-qty">قطعتان <small>الثانية بـ 50 ريال</small></div>
-        <div class="offer-price"><span class="now">249</span><span class="cur">ر.س</span><span class="was" hidden>249 ر.س</span></div>
-        <span class="save" hidden>وفّر 50 ر.س</span>
-        <div class="perunit">125 ر.س للقطعة</div>
+        <div class="offer-price"><span class="now">229</span><span class="cur">ر.س</span><span class="was">398 ر.س</span></div>
+        <span class="save">وفّر 169 ر.س</span>
+        <div class="perunit">115 ر.س للقطعة</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
 
     <!-- Offer 3 -->
-    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="319" data-label="3 قطع — الثالثة بـ 70 ريال">
+    <div class="offer" id="offer3" data-offer="3" data-qty="3" data-price="289" data-label="3 قطع — الثالثة بـ 60 ريال">
       <span class="ribbon gold">👑 أفضل صفقة</span>
       <span class="radio"></span>
       <div class="imgs three"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" loading="lazy" /></picture></div>
       <div class="obody">
-        <div class="offer-qty">3 قطع <small>الثالثة بـ 70 ريال</small></div>
-        <div class="offer-price"><span class="now">319</span><span class="cur">ر.س</span><span class="was" hidden>319 ر.س</span></div>
-        <span class="save" hidden>وفّر 70 ر.س</span>
-        <div class="perunit">106 ر.س للقطعة</div>
+        <div class="offer-qty">3 قطع <small>الثالثة بـ 60 ريال</small></div>
+        <div class="offer-price"><span class="now">289</span><span class="cur">ر.س</span><span class="was">597 ر.س</span></div>
+        <span class="save">وفّر 308 ر.س</span>
+        <div class="perunit">96 ر.س للقطعة</div>
       </div>
       <button class="offer-cta">اطلب الآن وادفع عند الاستلام 💵</button>
     </div>
@@ -1386,7 +1340,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     <div class="cost-i win">
       <span class="ic">🌸</span>
       <div class="t"><b>كريم Cosmarab</b><span>مرة وحدة، في بيتك، بدون مواعيد ولا ألم — ويشتغل على السبب مو على التغطية</span></div>
-      <span class="amt"><span data-px="p1">199</span><small>ر.س</small></span>
+      <span class="amt"><span data-px="p1">179</span><small>ر.س</small></span>
     </div>
     <div class="cost-punch">
       يعني بأقل من <b>6 ر.س في اليوم</b> لمدة شهر كامل — أرخص من كوب قهوة،<br>وتدفع <b>عند الاستلام</b> — ما تحوّل ولا تدفع أونلاين.
@@ -1493,7 +1447,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
   </div>
   <div class="tline-note wrap">
-    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b><span data-px="p2extra">50</span> ريال بدل <span data-px="p1">199</span></b>.
+    ⚠️ <b>القطعة الوحدة تكفيك 30 يوم تقريباً</b> — يعني تخلص بالضبط لما تبدأ تشوف النتيجة الحقيقية. اللي ياخذون قطعتين ما ينقطعون في نص الطريق، والقطعة الثانية تجيهم بـ<b><span data-px="p2extra">50</span> ريال بدل <span data-px="p1">179</span></b>.
   </div>
   <div class="wrap" style="margin-top:16px">
     <button class="btn lg cta-pulse" data-scroll="#offers">خذ قطعتين وما تنقطع 👇</button>
@@ -1598,23 +1552,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 
 <a href="https://wa.me/15707807569" target="_blank" rel="noopener" class="wa-float" aria-label="تواصل معنا على واتساب">💬</a>
 
-<!-- second discount ticket — for anyone who scrolled past the first -->
-<div class="pticket" id="promoFloat" hidden>
-  <button class="pt-main" id="promoFloatGo" type="button">
-    <span class="pt-ic">🎟️</span>
-    <span class="pt-tx">
-      <b>لا تطلب بـ <s>199</s> ر.س!</b>
-      <span>كودك <b>COSMA40</b> — اضغط واكتبه ينزل السعر <b>179 ر.س</b></span>
-    </span>
-    <span class="pt-go">اكتبه ←</span>
-  </button>
-  <button class="pt-x" id="promoFloatX" type="button" aria-label="إغلاق">×</button>
-</div>
-
 <!-- Sticky CTA -->
 <div class="sticky-cta" id="stickyCta">
   <div class="row">
-    <div class="px">يبدأ من<b><span data-px="p1">199</span> ر.س</b></div>
+    <div class="px">يبدأ من<b><span data-px="p1">179</span> ر.س</b></div>
     <button class="btn" data-scroll="#offers">اطلب الآن 💵</button>
   </div>
 </div>
@@ -1654,7 +1595,7 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
       <div class="sel-offer" id="selOffer">
         <div class="badge"><picture><source srcset="/assets/product.webp" type="image/webp" /><img src="/assets/product.png" alt="" id="selImg" loading="lazy" /></picture></div>
         <div><div class="nm" id="selName">قطعتان <small id="selSub">الثانية بنص السعر</small></div></div>
-        <div class="pr"><span id="selPrice">199</span> ر.س</div>
+        <div class="pr"><span id="selPrice">229</span> ر.س</div>
       </div>
       <!-- Panel 2 — STEP 2: delivery info -->
       <div class="panel" id="panel2">
@@ -2027,214 +1968,6 @@ tickTimer();setInterval(tickTimer,1000);
       if(opts[idx].scrollIntoView)opts[idx].scrollIntoView({block:'nearest'});
     }else if(e.key==='Enter'&&idx>=0){e.preventDefault();pick(idx);}
   });
-})();
-
-/* ─── DISCOUNT CODE ────────────────────────────────────────────────────
-   The page quotes list prices; the code from the ad copy drops them. Every
-   number lives in PRICE/COPY below — the cards, the hero, the sticky bar,
-   the cost anchor and the bundle note all redraw from it, so a price change
-   is one edit rather than a hunt through the markup.
-   This is marketing, not a security boundary: the code is readable in the
-   source, which is fine, because its job is to reward the ad click and tell
-   you the order came from that ad. */
-(function(){
-  var CODE='COSMA40';
-  var PRICE={1:{list:199,promo:179},2:{list:249,promo:199},3:{list:319,promo:249}};
-  var COPY={
-    1:{small:['للتجربة','للتجربة'],
-       label:['قطعة واحدة','قطعة واحدة'],
-       per:['السعر للقطعة 199 ر.س','السعر للقطعة 179 ر.س'],save:'وفّر 20 ر.س'},
-    2:{small:['الثانية بـ 50 ريال','الثانية بـ 20 ريال بس'],
-       label:['قطعتان — الثانية بـ 50 ريال','قطعتان — الثانية بـ 20 ريال بس'],
-       per:['125 ر.س للقطعة','أقل من 100 ر.س للقطعة'],save:'وفّر 50 ر.س'},
-    3:{small:['الثالثة بـ 70 ريال','الثالثة بـ 50 ريال بس'],
-       label:['3 قطع — الثالثة بـ 70 ريال','3 قطع — الثالثة بـ 50 ريال بس'],
-       per:['106 ر.س للقطعة','83 ر.س للقطعة'],save:'وفّر 70 ر.س'}
-  };
-  var box=document.getElementById('promoBox'),inp=document.getElementById('promoInput'),
-      btn=document.getElementById('promoBtn'),msg=document.getElementById('promoMsg'),
-      hint=document.getElementById('promoHint');
-  var tk=document.getElementById('promoFloat'),tkGo=document.getElementById('promoFloatGo'),
-      tkX=document.getElementById('promoFloatX'),sticky=document.getElementById('stickyCta'),
-      wa=document.querySelector('.wa-float'),modalEl=document.getElementById('modal');
-  var dismissed=false,boxSeen=false;
-  try{dismissed=sessionStorage.getItem('cos_promo_x')==='1';}catch(e){}
-  var active=false;
-
-  /* An Arabic keyboard produces ٤٠ rather than 40, and plenty of people will
-     reach for the Arabic spelling of the name rather than switch keyboards
-     part-way through a form. Neither should cost someone the discount, so the
-     digits fold to Latin and the Arabic spellings are accepted outright. */
-  var AR_DIG={'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9',
-              '۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
-  function norm(v){
-    return String(v||'').trim().toUpperCase()
-      .replace(/[٠-٩۰-۹]/g,function(d){return AR_DIG[d];})
-      .replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي')
-      .replace(/[\s\-_.]/g,'');
-  }
-  var ACCEPTED=['COSMA40','كوزما40','كوسما40','كزما40','كوزمه40','كوسمه40'];
-  function isCode(v){return ACCEPTED.indexOf(norm(v))>=0;}
-
-  function apply(on){
-    active=on;
-    [1,2,3].forEach(function(q){
-      var card=document.querySelector('.offer[data-qty="'+q+'"]'); if(!card)return;
-      var p=on?PRICE[q].promo:PRICE[q].list, c=COPY[q], i=on?1:0;
-      card.setAttribute('data-price',p);
-      card.setAttribute('data-label',c.label[i]);
-      var el;
-      if((el=card.querySelector('.now')))el.textContent=p;
-      if((el=card.querySelector('.was'))){el.textContent=PRICE[q].list+' ر.س';el.hidden=!on;}
-      if((el=card.querySelector('.save'))){el.textContent=c.save;el.hidden=!on;}
-      if((el=card.querySelector('.perunit')))el.textContent=c.per[i];
-      if((el=card.querySelector('.offer-qty small')))el.textContent=c.small[i];
-    });
-    var p1=on?PRICE[1].promo:PRICE[1].list;
-    [].forEach.call(document.querySelectorAll('[data-px="p1"]'),function(e){e.textContent=p1;});
-    var extra=(on?PRICE[2].promo-PRICE[1].promo:PRICE[2].list-PRICE[1].list);
-    [].forEach.call(document.querySelectorAll('[data-px="p2extra"]'),function(e){e.textContent=extra;});
-
-    var tag=document.getElementById('ndaTag'),h=document.getElementById('ndaH'),
-        sub=document.getElementById('ndaSub');
-    if(tag)tag.textContent=on?'✅ الكود مفعّل':'🎟️ كود خصم';
-    if(h)h.innerHTML=on
-      ? 'تم تفعيل <b>'+CODE+'</b>'
-      : 'اضغط لتفعيل كود <button type="button" class="code-chip" id="ndaCode">'+CODE+'</button>';
-    if(sub)sub.innerHTML=on
-      ? 'الأسعار نزلت على كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s>'
-      : 'وتنزل أسعار كل الباقات — القطعة بـ <b>179 ر.س</b> بدل <s>199 ر.س</s>';
-
-    if(box){box.classList.toggle('ok',on);}
-    /* once the price has dropped the reminder has done its job */
-    if(hint)hint.hidden=on;
-    if(on&&inp){inp.value=CODE;inp.readOnly=true;}
-    if(on&&btn){btn.textContent='مفعّل ✅';btn.disabled=true;}
-
-    /* an order panel opened before the code was entered must not keep the
-       old number on the summary or in what gets submitted */
-    /* state and renderSummaries live in the enclosing IIFE, not on window;
-       state is a hoisted var so it reads undefined until the offers code runs */
-    var st=(typeof state!=='undefined')?state:null;
-    if(st&&st.offer){
-      var sel=document.querySelector('.offer[data-offer="'+st.offer+'"]');
-      if(sel){
-        st.price=+sel.getAttribute('data-price');
-        st.label=sel.getAttribute('data-label');
-        var sp=document.getElementById('selPrice'); if(sp)sp.textContent=st.price;
-        var sn=document.getElementById('selName');
-        if(sn&&sn.childNodes[0])sn.childNodes[0].nodeValue=st.label.split('—')[0].trim()+' ';
-        var ss=document.getElementById('selSub');
-        if(ss)ss.textContent=st.label.indexOf('—')>-1?st.label.split('—')[1].trim():'الدفع عند الاستلام';
-        if(typeof renderSummaries==='function')renderSummaries();
-      }
-    }
-    tkSync();
-  }
-
-  function say(text,good){
-    if(!msg)return;
-    msg.textContent=text; msg.className='promo-msg '+(good?'good':'bad'); msg.hidden=false;
-  }
-
-  function tryCode(v){
-    if(!isCode(v)){
-      say('الكود غير صحيح — تأكد منه ولا تنساه من الإعلان',false);
-      if(box){box.classList.add('shake');setTimeout(function(){box.classList.remove('shake');},420);}
-      return false;
-    }
-    apply(true);
-    say('تم تفعيل الكود — الأسعار نزلت 👇',true);
-    try{sessionStorage.setItem('cos_promo','1');}catch(e){}
-    if(typeof track==='function')track('PROMO_APPLIED',{code:CODE});
-    return true;
-  }
-
-  if(btn)btn.addEventListener('click',function(){tryCode(inp?inp.value:'');});
-  if(inp)inp.addEventListener('keydown',function(e){
-    if(e.key==='Enter'){e.preventDefault();tryCode(inp.value);}
-  });
-
-  /* the hero chip claims the code outright */
-  function claimFromHero(){
-    tryCode(CODE);
-    tkShow(false);
-    if(box){
-      try{box.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}
-      box.classList.add('flash');
-      setTimeout(function(){box.classList.remove('flash');},1400);
-    }
-  }
-  /* the floating ticket only points at the box: the visitor types the code
-     themselves, which is the small act of claiming that the whole idea rests
-     on. It carries the code in its own text so there is nothing to remember. */
-  function gotoBox(){
-    tkShow(false);
-    if(!box)return;
-    try{box.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}
-    box.classList.add('flash');
-    setTimeout(function(){box.classList.remove('flash');},1400);
-    /* focus after the scroll settles, or the keyboard fights the animation */
-    setTimeout(function(){if(inp&&!active){try{inp.focus();}catch(e){}}},520);
-  }
-  /* the chip is rewritten by apply(), so the click is caught on the way up */
-  document.addEventListener('click',function(e){
-    var t=e.target;
-    while(t&&t!==document.body&&t.id!=='ndaCode')t=t.parentNode;
-    if(t&&t.id==='ndaCode'){e.preventDefault();claimFromHero();}
-  });
-
-  /* The ticket sits above the order bar, and lifts the WhatsApp bubble clear
-     of itself; both heights are measured rather than guessed, because either
-     can change with the text inside it. */
-  function place(){
-    if(!tk||tk.hidden)return;
-    var sH=(sticky&&sticky.classList.contains('show'))?sticky.offsetHeight:0;
-    var b=sH+12;
-    tk.style.bottom=b+'px';
-    if(wa)wa.style.bottom=(b+tk.offsetHeight+12)+'px';
-  }
-  function tkShow(v){
-    if(!tk||v===!tk.hidden)return;
-    tk.hidden=!v;
-    if(v)place(); else if(wa)wa.style.bottom='';
-  }
-  function tkSync(){
-    if(!tk)return;
-    var modalOpen=modalEl&&modalEl.classList.contains('open');
-    tkShow(!active&&!dismissed&&!boxSeen&&!modalOpen&&window.scrollY>900);
-    place();
-  }
-  window.addEventListener('scroll',tkSync,{passive:true});
-  window.addEventListener('resize',place);
-  if(tkGo)tkGo.addEventListener('click',gotoBox);
-  if(tkX)tkX.addEventListener('click',function(){
-    dismissed=true;
-    try{sessionStorage.setItem('cos_promo_x','1');}catch(e){}
-    tkShow(false);
-  });
-  /* no point shouting about the code while the box itself is on screen */
-  if(box&&typeof IntersectionObserver!=='undefined'){
-    new IntersectionObserver(function(en){
-      boxSeen=en[0].isIntersecting;tkSync();
-    },{threshold:.25}).observe(box);
-  }
-
-  /* restore a code from a previous visit, or accept it on the link itself so
-     the same code can ride in the ad URL when it is not typed */
-  /* The claim lasts for the visit, not for ever. Remembering it across
-     visits quietly turned the discount back into the price for anyone who
-     had ever entered it — the exact thing the code exists to stop. A reload
-     part-way through an order still keeps it, which is the case that matters. */
-  var pre=false;
-  try{pre=sessionStorage.getItem('cos_promo')==='1';}catch(e){}
-  /* release devices still carrying the old permanent flag */
-  try{localStorage.removeItem('cos_promo');}catch(e){}
-  var q='';
-  try{q=(location.search.match(/[?&]code=([^&]+)/)||[])[1]||'';}catch(e){}
-  if(q)q=decodeURIComponent(q);
-  if(pre||isCode(q)){apply(true);if(msg)say('الكود مفعّل — الأسعار نزلت 👇',true);}
-  else apply(false);
 })();
 
 /* DOCTOR VIDEO */
@@ -2643,7 +2376,7 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
 /* ── HERO QUICK PICK: a ticket clicks the matching offer card and the
    button clicks that card's own order button, so the order (and every
    pixel event) goes down the same path as one placed further down. The
-   tickets copy the cards and refresh whenever COSMA40 rewrites them. ── */
+   tickets copy the cards, so a price change on a card shows up here too. ── */
 (function(){
   var box=document.getElementById('qk'),go=document.getElementById('qkGo');if(!box||!go)return;
   var ts=[].slice.call(box.querySelectorAll('.qk-t')),tx=document.getElementById('qkGoTx'),cur=null;
