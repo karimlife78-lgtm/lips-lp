@@ -70,6 +70,10 @@
 .ug-tap:focus-visible{outline:3px solid #fff;outline-offset:-6px}
 .ug-big{position:absolute;inset:0;margin:auto;z-index:5;width:76px;height:76px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;cursor:pointer}
 .ug-big[hidden],.ug-end[hidden]{display:none}
+.ug-load{position:absolute;inset:0;margin:auto;z-index:4;width:46px;height:46px;border-radius:50%;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;opacity:0;transition:opacity .2s;pointer-events:none;animation:ugSpin .8s linear infinite}
+.ug-card.buffering .ug-load{opacity:1}
+@keyframes ugSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ug-load{animation-duration:2.4s}}
 .ug-end{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:26px 20px;text-align:center;color:#fff;background:linear-gradient(180deg,rgba(31,21,23,.55),rgba(31,21,23,.92))}
 .ug-end>b{font-family:var(--fh);font-size:1.6rem;font-weight:900;line-height:1.3}
 .ug-end>b span{color:var(--gold)}
@@ -1179,6 +1183,7 @@ b,strong{font-weight:800}
         <button type="button" class="ug-pp" id="ugPP" aria-label="إيقاف مؤقت"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path class="i-pa" d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/><path class="i-pl" d="M8 5v14l11-7z" fill="currentColor"/></svg></button></div>
       <p class="ug-cap" id="ugCap">قبل الدوام ☀️ طبقة خفيفة وأطلع</p>
       <div class="ug-taps"><button type="button" class="ug-tap" data-d="-1" aria-label="الستوري السابقة"></button><button type="button" class="ug-tap" data-d="1" aria-label="الستوري التالية"></button></div>
+      <span class="ug-load" id="ugLoad" aria-hidden="true"></span>
       <button type="button" class="ug-big" id="ugBig" hidden aria-label="شغّل"><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
       <div class="ug-end" id="ugEnd" hidden>
         <b>مرتين باليوم — <span>وبس.</span></b>
@@ -2102,6 +2107,9 @@ window.PRODUCT={
       cur=0,inView=false,near=false,paused=false,held=false,done=false,raf=0,
       still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   function src(i){return '/assets/ugc28-'+S[i].k+'.mp4';}
+  /* once the first clip can play, fetch the other two so every jump is instant */
+  var warmed=false;function warmAll(){if(warmed||!window.fetch)return;warmed=true;for(var k=0;k<S.length;k++)if(k!==cur){try{fetch(src(k),{priority:'low'}).catch(function(){});}catch(e){}}}
+  function buffering(on){card.classList.toggle('buffering',!!on&&want());}
   function want(){return inView&&!paused&&!held&&!done&&!document.hidden&&!still;}
   function bar(){var f=v.duration?Math.min(1,v.currentTime/v.duration):0;bars[cur].style.transform='scaleX('+f+')';}
   function tick(){raf=0;bar();if(!v.paused)raf=requestAnimationFrame(tick);}
@@ -2117,10 +2125,8 @@ window.PRODUCT={
     document.getElementById('ugName').textContent=S[i].n;document.getElementById('ugTime').textContent=S[i].t;
     document.getElementById('ugCap').textContent=S[i].c;document.getElementById('ugAv').src='/assets/ugc28-'+S[i].k+'-thumb.webp';
     v.poster='/assets/ugc28-'+S[i].k+'.webp';
-    if(near){v.src=src(i);v.load();}
+    if(near){v.preload='auto';v.src=src(i);v.load();buffering(true);}
     if(go!==false)sync();
-    /* warm the next clip so the jump is instant */
-    if(near&&i+1<S.length&&window.fetch){try{fetch(src(i+1),{priority:'low'}).catch(function(){});}catch(e){}}
   }
   function next(d){
     var i=cur+d;
@@ -2131,6 +2137,9 @@ window.PRODUCT={
   v.addEventListener('play',function(){if(!raf)raf=requestAnimationFrame(tick);big.hidden=true;});
   v.addEventListener('ended',function(){next(1);});
   v.addEventListener('loadeddata',sync);
+  v.addEventListener('canplay',function(){buffering(false);warmAll();});
+  v.addEventListener('playing',function(){buffering(false);});
+  v.addEventListener('waiting',function(){buffering(true);});
   [].forEach.call(card.querySelectorAll('.ug-tap'),function(z){
     var timer=0,long=false;
     z.addEventListener('pointerdown',function(){long=false;clearTimeout(timer);timer=setTimeout(function(){long=true;held=true;sync();},230);});
@@ -2146,8 +2155,8 @@ window.PRODUCT={
   document.getElementById('ugAgain').addEventListener('click',function(){rings.forEach(function(r){r.classList.remove('seen');});show(0);});
   document.addEventListener('visibilitychange',sync);
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(en){if(en[0].isIntersecting&&!near){near=true;show(cur);}},{rootMargin:'600px 0px'}).observe(card);
-    new IntersectionObserver(function(en){inView=en[0].isIntersecting;sync();},{threshold:.5}).observe(card);
+    new IntersectionObserver(function(en){if(en[0].isIntersecting&&!near){near=true;show(cur);}},{rootMargin:'2500px 0px'}).observe(card);
+    new IntersectionObserver(function(en){inView=en[0].isIntersecting;sync();if(!inView)buffering(false);else if(v.readyState<3)buffering(true);},{threshold:.5}).observe(card);
   }else{near=true;inView=true;show(0);}
   if(still)big.hidden=false;
 })();
