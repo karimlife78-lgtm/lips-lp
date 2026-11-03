@@ -365,6 +365,9 @@ if(form)form.addEventListener('submit',function(e){
     upsells:upObjs,total:grandTotal(),
     name:name,phone:phone,city:fullCity,currency:CUR,src:getSrc(),ts:new Date().toISOString()
   };
+  /* a page can attach a note for the call centre (e.g. a gift that changes
+     what ships); the sheet writes it in the notes column */
+  if(typeof window.orderNote==='function'){var on=window.orderNote(state);if(on)order.note=on;}
   var btn=document.getElementById('submitBtn');
   if(btn){btn.disabled=true;btn.textContent='⏳ جاري الإرسال...';}
   var rerr=document.getElementById('regionErr');if(rerr)rerr.style.display='none';

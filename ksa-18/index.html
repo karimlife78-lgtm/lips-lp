@@ -871,6 +871,30 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .qk-t:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .qk-more{display:block;margin:10px auto 0;border:0;background:none;color:var(--red-2);font:inherit;font-family:'Cairo';font-weight:900;font-size:14.5px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:4px 10px}
 @media(max-width:360px){.qk-l{width:80px}.qk-t::before,.qk-t::after{left:80px}.qk-r small{font-size:11px}}
+
+/* ── BLACK FRIDAY ticket: black and gold, perforated, one tap opens the
+   3+1 order. Shown only while the offer runs (see the script). ── */
+.bf{position:relative;display:flex;align-items:stretch;width:100%;max-width:440px;margin:0 auto 14px;padding:0;border:0;border-radius:16px;overflow:hidden;cursor:pointer;text-align:right;font:inherit;color:#fff;background:linear-gradient(135deg,#0d0b0a 0%,#1f1914 55%,#0d0b0a 100%);box-shadow:0 16px 34px -16px rgba(0,0,0,.65),inset 0 0 0 1.5px rgba(232,196,112,.55)}
+.bf[hidden]{display:none}
+.bf::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,226,150,.16) 50%,transparent 65%);transform:translateX(-120%);animation:bfSheen 3.6s ease-in-out infinite;pointer-events:none}
+@keyframes bfSheen{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.bf-m{flex:1;display:flex;flex-direction:column;gap:2px;padding:12px 14px}
+.bf-tag{align-self:flex-start;font-family:'Cairo';font-weight:900;font-size:.68rem;letter-spacing:.22em;color:#0d0b0a;background:linear-gradient(135deg,#ffe7a3,#d7a842);padding:3px 9px;border-radius:999px;direction:ltr}
+.bf-h{font-family:'Cairo';font-weight:900;font-size:1.08rem;line-height:1.35;margin-top:3px}
+.bf-o{font-size:.9rem;font-weight:800;color:rgba(255,255,255,.85)}
+.bf-o em{font-style:normal;color:#f5d27a}
+.bf-s{position:relative;flex:none;width:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 8px;border-right:2px dashed rgba(232,196,112,.5);background:rgba(232,196,112,.08)}
+.bf-s::before,.bf-s::after{content:"";position:absolute;right:-9px;width:16px;height:16px;border-radius:50%;background:var(--paper)}
+.bf-s::before{top:-8px}.bf-s::after{bottom:-8px}
+.bf-s small{font-size:.66rem;font-weight:800;color:rgba(255,255,255,.65)}
+.bf-cd{display:flex;align-items:baseline;gap:3px;direction:ltr;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bf-cd b{font-family:'Cairo';font-weight:900;font-size:.98rem;color:#f5d27a}
+.bf-cd i{font-style:normal;font-size:.62rem;font-weight:800;color:rgba(255,255,255,.7);margin-inline-end:2px}
+.bf-go{margin-top:2px;font-family:'Cairo';font-weight:900;font-size:.78rem;color:#0d0b0a;background:linear-gradient(135deg,#ffe7a3,#d7a842);padding:5px 12px;border-radius:999px}
+.bf:active{transform:scale(.99)}
+.bf:focus-visible{outline:3px solid #f5d27a;outline-offset:3px}
+.bf-rib{position:absolute;top:-10px;left:12px;z-index:2;font-family:'Cairo';font-weight:900;font-size:.68rem;color:#0d0b0a;background:linear-gradient(135deg,#ffe7a3,#d7a842);padding:3px 10px;border-radius:999px;box-shadow:0 4px 10px -6px rgba(0,0,0,.5);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.bf::before{animation:none;display:none}}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product",
@@ -917,6 +941,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
+<!-- BLACK FRIDAY — hidden until the script confirms the event is on -->
+<button type="button" class="bf" id="bf" hidden aria-label="عرض الجمعة البيضاء: اشترِ 3 والرابعة هدية — اطلبه الحين">
+  <span class="bf-m">
+    <span class="bf-tag">BLACK FRIDAY</span>
+    <b class="bf-h">عروض الجمعة البيضاء</b>
+    <span class="bf-o">اشترِ 3 <em>والرابعة هدية 🎁</em></span>
+  </span>
+  <span class="bf-s">
+    <small>ينتهي بعد</small>
+    <span class="bf-cd"><b id="bfD">0</b><i>يوم</i> <b id="bfT">00:00:00</b></span>
+    <span class="bf-go">اطلبه ←</span>
+  </span>
+</button>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -2189,6 +2226,7 @@ document.getElementById('orderForm').addEventListener('submit',function(e){
   track('PLEDGE_CONFIRMED',{});
   var fullCity=district?city+' — حي '+district.replace(/^حي\s*/,''):city;
   var order={offer:state.offer,qty:state.qty,basePrice:state.price,upsells:[],total:grandTotal(),name:name,phone:phone,city:fullCity,currency:'SAR',src:getSrc(),ts:new Date().toISOString()};
+  if(typeof window.orderNote==='function'){var on=window.orderNote(state);if(on)order.note=on;}
   var submitBtn=document.getElementById('submitBtn');
   submitBtn.disabled=true;submitBtn.textContent='⏳ جاري الإرسال...';
   document.getElementById('regionErr').style.display='none';
@@ -2405,6 +2443,44 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
   go.addEventListener('click',function(){var o=cur&&card(cur.getAttribute('data-to')),b=o&&o.querySelector('.offer-cta');if(b)b.click();});
   var start=document.querySelector('.offer.selected')||card(2);
   fill();paint(start?start.getAttribute('data-offer'):'2');
+})();
+</script>
+<script>
+/* ── BLACK FRIDAY · الجمعة البيضاء — buy 3, the 4th is free. The 3-pack
+   card itself becomes 3+1 (quantity 4, same price), so the form, the pixel
+   and the sheet all carry 4 pieces, and the sheet's notes column tells the
+   call centre why. Before/after the dates nothing on the page changes. ── */
+(function(){
+  var END=Date.UTC(2026,10,30,20,59,59); /* 30 Nov 2026, 23:59:59 KSA (UTC+3) */
+  if(Date.now()>END)return;
+  var bf=document.getElementById('bf'),c3=document.querySelector('.offer[data-offer="3"]');
+  if(!bf||!c3)return;
+  function set(sel,html){var e=c3.querySelector(sel);if(e)e.innerHTML=html;}
+  c3.setAttribute('data-qty','4');
+  c3.setAttribute('data-label','3 قطع + الرابعة هدية 🎁 — عرض الجمعة البيضاء');
+  set('.offer-qty','3 + 1 هدية 🎁 <small>الرابعة مجاناً — عرض الجمعة البيضاء</small>');
+  set('.offer-price .was','796 ر.س');
+  set('.save','وفّر 507 ر.س');
+  set('.perunit','72 ر.س للقطعة');
+  set('.offer-cta','اطلب 3 + 1 هدية 🎁 وادفع عند الاستلام');
+  var rib=document.createElement('span');rib.className='bf-rib';rib.textContent='🎁 BLACK FRIDAY · 3+1';c3.appendChild(rib);
+  /* the hero ticket for the 3-pack says it too */
+  var t3=document.querySelector('.qk-t[data-to="3"]');
+  if(t3){t3.setAttribute('data-cta','الـ 3+1');var tb=t3.querySelector('.qk-r b');if(tb)tb.textContent='3 قطع + 1 هدية 🎁';
+    var ts=t3.querySelector('.qk-r small');if(ts)ts.textContent='الرابعة مجاناً · 72 ر.س للقطعة';
+    if(!t3.querySelector('.qk-pop')){var pp=document.createElement('em');pp.className='qk-pop';pp.textContent='🎁 الجمعة البيضاء';t3.insertBefore(pp,t3.firstChild);t3.classList.add('rec');}}
+  /* what the call centre reads in the sheet next to quantity 4 */
+  window.orderNote=function(st){return +st.qty===4?'عرض الجمعة البيضاء: 3 + الرابعة هدية (شحن 4 قطع)':'';};
+  bf.addEventListener('click',function(){var b=c3.querySelector('.offer-cta');if(b)b.click();});
+  var D=document.getElementById('bfD'),T=document.getElementById('bfT');
+  function two(n){return (n<10?'0':'')+n;}
+  function tick(){
+    var s=Math.max(0,Math.floor((END-Date.now())/1000));
+    if(!s){bf.hidden=true;return;}
+    D.textContent=Math.floor(s/86400);T.textContent=two(Math.floor(s%86400/3600))+':'+two(Math.floor(s%3600/60))+':'+two(s%60);
+    setTimeout(tick,1000-Date.now()%1000);
+  }
+  bf.hidden=false;tick();
 })();
 </script>
 </body>
