@@ -895,6 +895,16 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 .bf:focus-visible{outline:3px solid #f5d27a;outline-offset:3px}
 .bf-rib{position:absolute;top:-10px;left:12px;z-index:2;font-family:'Cairo';font-weight:900;font-size:.68rem;color:#0d0b0a;background:linear-gradient(135deg,#ffe7a3,#d7a842);padding:3px 10px;border-radius:999px;box-shadow:0 4px 10px -6px rgba(0,0,0,.5);white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.bf::before{animation:none;display:none}}
+
+/* Black Friday bar: same slot and height as the announcement bar it replaces */
+.bfb{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin:0;padding:8px 10px;border:0;cursor:pointer;font:inherit;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(90deg,#0d0b0a,#2a2119 50%,#0d0b0a);white-space:nowrap;overflow:hidden}
+.bfb[hidden]{display:none}
+.bfb-t{font-family:'Cairo';font-weight:900;font-size:10.5px;letter-spacing:.16em;color:#0d0b0a;background:linear-gradient(135deg,#ffe7a3,#d7a842);padding:2px 7px;border-radius:999px;direction:ltr}
+.bfb-c b{color:#f5d27a;font-variant-numeric:tabular-nums}
+@media(max-width:374px){.bfb{gap:6px;font-size:11.5px}.bfb-t{letter-spacing:.08em}}
+.bf.bf-flash{animation:bfFlash 1.3s ease}
+@keyframes bfFlash{0%,100%{box-shadow:0 16px 34px -16px rgba(0,0,0,.65),inset 0 0 0 1.5px rgba(232,196,112,.55)}35%{box-shadow:0 0 0 5px rgba(245,210,122,.55),inset 0 0 0 1.5px rgba(232,196,112,.9)}}
+@media(prefers-reduced-motion:reduce){.bf.bf-flash{animation:none}}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Product",
@@ -929,6 +939,10 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
   <span>🚚 توصيل لكل مدن السعودية</span>
   <span>🔥 كمية محدودة اليوم</span>
 </div>
+<!-- BLACK FRIDAY bar — takes the announcement bar's place during the event -->
+<button type="button" class="bfb" id="bfb" hidden aria-label="عرض الجمعة البيضاء: اشترِ 3 والرابعة هدية — شوف العرض">
+  <span class="bfb-t">BLACK FRIDAY</span><span class="bfb-o">🎁 اشترِ 3 والرابعة هدية</span><span class="bfb-c">⏳ <b id="bfbT">—</b></span>
+</button>
 
 <!-- Header -->
 <header class="bar">
@@ -941,19 +955,6 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
 <!-- HERO (photo first) -->
 <section class="hero">
   <div class="hero-in">
-<!-- BLACK FRIDAY — hidden until the script confirms the event is on -->
-<button type="button" class="bf" id="bf" hidden aria-label="عرض الجمعة البيضاء: اشترِ 3 والرابعة هدية — اطلبه الحين">
-  <span class="bf-m">
-    <span class="bf-tag">BLACK FRIDAY</span>
-    <b class="bf-h">عروض الجمعة البيضاء</b>
-    <span class="bf-o">اشترِ 3 <em>والرابعة هدية 🎁</em></span>
-  </span>
-  <span class="bf-s">
-    <small>ينتهي بعد</small>
-    <span class="bf-cd"><b id="bfD">0</b><i>يوم</i> <b id="bfT">00:00:00</b></span>
-    <span class="bf-go">اطلبه ←</span>
-  </span>
-</button>
     <div class="hero-photo">
       <picture>
         <source srcset="/assets/hero.webp" type="image/webp" />
@@ -994,6 +995,19 @@ footer a{color:rgba(255,255,255,.8);font-weight:700}
     </div>
   </div>
   <div class="wrap" style="padding-top:22px;padding-bottom:8px">
+    <!-- BLACK FRIDAY — hidden until the script confirms the event is on -->
+    <button type="button" class="bf" id="bf" hidden aria-label="عرض الجمعة البيضاء: اشترِ 3 والرابعة هدية — اطلبه الحين">
+      <span class="bf-m">
+        <span class="bf-tag">BLACK FRIDAY</span>
+        <b class="bf-h">عروض الجمعة البيضاء</b>
+        <span class="bf-o">اشترِ 3 <em>والرابعة هدية 🎁</em></span>
+      </span>
+      <span class="bf-s">
+        <small>ينتهي بعد</small>
+        <span class="bf-cd"><b id="bfD">0</b><i>يوم</i> <b id="bfT">00:00:00</b></span>
+        <span class="bf-go">اطلبه ←</span>
+      </span>
+    </button>
     <div class="qk" id="qk" role="radiogroup" aria-label="اختر باقتك">
       <button type="button" class="qk-t" data-to="1" data-cta="قطعة واحدة" role="radio" aria-checked="false">
         <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>قطعة واحدة</b><small>للتجربة</small></span></span>
@@ -2472,15 +2486,22 @@ setInterval(function(){if(n>5&&Math.random()>.5){n--;stockN.textContent=n;stockF
   /* what the call centre reads in the sheet next to quantity 4 */
   window.orderNote=function(st){return +st.qty===4?'عرض الجمعة البيضاء: 3 + الرابعة هدية (شحن 4 قطع)':'';};
   bf.addEventListener('click',function(){var b=c3.querySelector('.offer-cta');if(b)b.click();});
-  var D=document.getElementById('bfD'),T=document.getElementById('bfT');
+  var D=document.getElementById('bfD'),T=document.getElementById('bfT'),
+      B=document.getElementById('bfb'),BT=document.getElementById('bfbT'),ann=document.querySelector('.announce,.l-ann');
   function two(n){return (n<10?'0':'')+n;}
   function tick(){
     var s=Math.max(0,Math.floor((END-Date.now())/1000));
-    if(!s){bf.hidden=true;return;}
+    if(!s){bf.hidden=true;if(B)B.hidden=true;if(ann)ann.style.display='';return;}
     D.textContent=Math.floor(s/86400);T.textContent=two(Math.floor(s%86400/3600))+':'+two(Math.floor(s%3600/60))+':'+two(s%60);
+    if(BT)BT.textContent=D.textContent+' يوم '+T.textContent;
     setTimeout(tick,1000-Date.now()%1000);
   }
-  bf.hidden=false;tick();
+  bf.hidden=false;
+  /* the bar stands in for the announcement bar and points at the ticket */
+  if(B){B.hidden=false;if(ann)ann.style.display='none';
+    B.addEventListener('click',function(){try{bf.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){bf.scrollIntoView();}
+      bf.classList.add('bf-flash');setTimeout(function(){bf.classList.remove('bf-flash');},1400);});}
+  tick();
 })();
 </script>
 </body>
