@@ -94,18 +94,36 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(247,251,252,.85);bac
 .hero-chip{position:absolute;bottom:12px;right:12px;z-index:3;display:inline-flex;align-items:center;gap:9px;background:rgba(14,31,37,.84);backdrop-filter:blur(6px);color:#fff;font-family:'Cairo';font-size:12.5px;font-weight:900;padding:7px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.2)}
 .hero-chip i{width:1px;height:13px;background:rgba(255,255,255,.4);display:block}
 .hero-chip b{font-size:14px;color:var(--saff)}
-/* offer ticket — notched coupon, bottom-left of the hero photo */
-.hero-ticket{position:absolute;bottom:12px;left:12px;z-index:4;display:flex;align-items:stretch;-webkit-appearance:none;appearance:none;background:none;border:0;padding:0;margin:0;cursor:pointer;font-family:'Cairo';color:#0B2027;border-radius:12px;overflow:hidden;box-shadow:0 10px 22px -6px rgba(14,31,37,.55),0 0 0 2px rgba(255,255,255,.85);animation:ticketBob 3.2s ease-in-out infinite;-webkit-transform:translateZ(0)}
-/* notches at the seam, drawn as dark dots so no mask is needed (Safari-safe) */
-.hero-ticket::before,.hero-ticket::after{content:"";position:absolute;left:58px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:rgba(14,31,37,.85);z-index:2}
-.hero-ticket::before{top:-6px}.hero-ticket::after{bottom:-6px}
-.hero-ticket .off{display:flex;flex-direction:column;align-items:center;justify-content:center;width:58px;background:linear-gradient(160deg,var(--saff),var(--saff-2));font-size:18px;font-weight:900;line-height:1;border-right:2px dashed rgba(11,32,39,.4);text-align:center}
-.hero-ticket .off small{display:block;font-size:10px;font-weight:900;margin-top:3px}
-.hero-ticket .tx{background:#FFF8E8;padding:9px 14px 9px 12px;text-align:right;line-height:1.2}
-.hero-ticket .tx .t{display:block;font-size:11px;font-weight:900;color:var(--saff-2)}
-.hero-ticket .tx .p{display:block;font-size:17px;font-weight:900}
-.hero-ticket .tx .p s{font-size:11px;font-weight:700;color:var(--ink-soft);margin-inline-start:4px}
-@keyframes ticketBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(-2deg)}}
+/* HERO QUICK PICK — the three packs as tickets, order from the top. Prices are read from the offers section so they can never disagree. */
+.qk{display:flex;flex-direction:column;gap:9px;max-width:430px;margin:20px auto 0}
+.qk-t{position:relative;display:flex;align-items:stretch;width:100%;padding:0;border:1.5px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;text-align:right;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s,border-color .2s;-webkit-tap-highlight-color:transparent}
+.qk-t::before,.qk-t::after{content:"";position:absolute;left:92px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:1.5px solid var(--line);transform:translateX(-50%);box-sizing:border-box}
+.qk-t::before{top:-8px;clip-path:inset(50% 0 0 0)}
+.qk-t::after{bottom:-8px;clip-path:inset(0 0 50% 0)}
+.qk-t:active{transform:scale(.985)}
+.qk-r{flex:1;display:flex;align-items:center;gap:10px;padding:11px 13px}
+.qk-r>span{display:flex;flex-direction:column;gap:1px;min-width:0}
+.qk-r b{font-family:'Cairo';font-weight:900;font-size:16px;line-height:1.3}
+.qk-r small{font-size:12px;font-weight:700;color:var(--ink-soft);line-height:1.4}
+.qk-dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--brand-soft);display:grid;place-items:center}
+.qk-l{flex:none;width:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;border-right:2px dashed var(--line);line-height:1.05}
+.qk-l s{font-size:12px;font-weight:700;color:var(--ink-soft)}
+.qk-l b{font-family:'Cairo';font-weight:900;font-size:23px;color:var(--brand-2)}
+.qk-l small{font-size:11px;font-weight:800;color:var(--ink-soft)}
+.qk-pop{position:absolute;top:-10px;right:12px;z-index:1;font-style:normal;font-family:'Cairo';font-weight:900;font-size:11px;color:#4a3000;background:linear-gradient(135deg,#FFE08A,var(--saff));padding:3px 10px;border-radius:999px;box-shadow:0 4px 10px -6px rgba(0,0,0,.4)}
+.qk-t.rec{margin-top:6px}
+.qk-t.on{border-color:transparent;background:linear-gradient(135deg,var(--brand-2),var(--brand-3));color:#fff;box-shadow:var(--shadow-brand)}
+.qk-t.on::before,.qk-t.on::after{border-color:transparent}
+.qk-t.on .qk-r small,.qk-t.on .qk-l s,.qk-t.on .qk-l small{color:rgba(255,255,255,.75)}
+.qk-t.on .qk-l{border-right-color:rgba(255,255,255,.45)}
+.qk-t.on .qk-l b{color:#FFE08A}
+.qk-t.on .qk-dot{border-color:#fff;background:#fff}
+.qk-t.on .qk-dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--brand)}
+.qk-t:focus-visible{outline:3px solid var(--saff);outline-offset:2px}
+#qkGo{display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.3;margin-top:14px}
+.qk-cod{font-size:12px;font-weight:800;opacity:.9}
+.qk-more{display:block;margin:10px auto 0;border:0;background:none;color:var(--brand);font:inherit;font-family:'Cairo';font-weight:900;font-size:13.5px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:4px 10px}
+@media(max-width:360px){.qk-l{width:80px}.qk-t::before,.qk-t::after{left:80px}}
 .hero h1{font-size:33px;line-height:1.18;font-weight:900;letter-spacing:-.03em}
 .hero h1 .hl{color:var(--brand-2);position:relative;white-space:nowrap}
 .hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:1px;height:10px;background:linear-gradient(90deg,var(--brand-soft),rgba(227,154,18,.26));z-index:-1;border-radius:4px}
@@ -802,10 +820,6 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
       </div>
       <div class="hero-float"><span class="s">🌾</span> الزعفران هو المكوّن الأول</div>
       <span class="hero-chip"><b>صَفاء</b><i></i>٦٠ كبسولة</span>
-      <button type="button" class="hero-ticket" data-scroll="#offers" aria-label="عرض اليوم: علبتان بـ٣٣٩ ريال بدل ٥٣٨">
-        <span class="tx"><span class="t">🎟️ عرض اليوم · علبتان</span><span class="p">339 ر.س<s>538</s></span></span>
-        <span class="off">‎-37%<small>خصم</small></span>
-      </button>
     </div>
     <h1>عقلك ما فيه<br><span class="hl">زر إيقاف</span></h1>
     <p class="sub">تطفّي النور… ويشتغل هو. يراجع كلمة قلتها الصبح، ويخطّط لشي ما صار، ويرجّع لك موقف من سنتين. هذا <b>التفكير الزائد</b> — ومو عادة تتخلص منها بالإرادة، له <b>مسارات</b> في دماغك. صَفاء: <b>٧ مكوّنات</b> على <b>٦ مسارات</b>، كبسولتين باليوم.</p>
@@ -814,6 +828,22 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
       <span class="pain">😔 مزاج <b>نازل بدون سبب</b></span>
       <span class="pain">🪫 طاقة <b>تخلص بدري</b></span>
     </div>
+    <div class="qk" id="qk" role="radiogroup" aria-label="اختر برنامجك">
+      <button type="button" class="qk-t" data-to="offer1" data-cta="علبة واحدة" role="radio" aria-checked="false">
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>علبة واحدة</b><small>٣٠ يوم — للتجربة</small></span></span>
+        <span class="qk-l"><s>279</s><b class="qk-p">199</b><small>ر.س</small></span>
+      </button>
+      <button type="button" class="qk-t rec" data-to="offer2" data-cta="العلبتين" role="radio" aria-checked="false">
+        <em class="qk-pop">⭐ الأكثر طلباً · وفّر 219 ر.س</em><span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>علبتان</b><small>٦٠ يوم — البرنامج الموصى به</small></span></span>
+        <span class="qk-l"><s>538</s><b class="qk-p">339</b><small>ر.س</small></span>
+      </button>
+      <button type="button" class="qk-t" data-to="offer3" data-cta="الـ٣ علب" role="radio" aria-checked="false">
+        <span class="qk-r"><i class="qk-dot" aria-hidden="true"></i><span><b>٣ علب</b><small>٩٠ يوم — الثالثة شبه مجانية 🎁</small></span></span>
+        <span class="qk-l"><s>837</s><b class="qk-p">449</b><small>ر.س</small></span>
+      </button>
+    </div>
+    <button type="button" class="btn lg cta-pulse" id="qkGo"><span id="qkGoTx">اطلب العلبتين — 339 ر.س</span><small class="qk-cod">💵 تدفع عند الاستلام</small></button>
+    <button type="button" class="qk-more" data-scroll="#offers">أو شوف تفاصيل البرامج ↓</button>
     <div class="timer-wrap">
       <span class="lbl">⏳ العرض ينتهي خلال</span>
       <div class="timer-units">
@@ -2019,10 +2049,26 @@ function selectOffer(card){
   card.classList.add('selected');selectedCard=card;
   var px=document.querySelector('.sticky-cta .px');
   if(px)px.innerHTML='برنامجك<b>'+card.getAttribute('data-price')+' ر.س</b>';
+  if(window.qkPaint)window.qkPaint(card);
 }
 document.querySelectorAll('.offer').forEach(function(card){card.addEventListener('click',function(){pauseToasts();selectOffer(card);});});
 document.querySelectorAll('.offer-cta').forEach(function(btn){btn.addEventListener('click',function(e){e.stopPropagation();pauseToasts();selectOffer(btn.closest('.offer'));openOrder();});});
 selectOffer(document.getElementById('offer2'));
+
+/* HERO QUICK PICK: tickets mirror the offer cards; the hero button goes down the same openOrder() path */
+(function(){
+  var box=document.getElementById('qk'),go=document.getElementById('qkGo');if(!box||!go)return;
+  var ts=[].slice.call(box.querySelectorAll('.qk-t')),tx=document.getElementById('qkGoTx'),cur=null;
+  ts.forEach(function(t){var o=document.getElementById(t.getAttribute('data-to'));if(!o){t.hidden=true;return;}t.querySelector('.qk-p').textContent=o.getAttribute('data-price');});
+  function paint(card){
+    ts.forEach(function(t){var on=card&&t.getAttribute('data-to')===card.id;t.classList.toggle('on',!!on);t.setAttribute('aria-checked',on?'true':'false');if(on)cur=t;});
+    if(cur&&card)tx.textContent='اطلب '+cur.getAttribute('data-cta')+' — '+card.getAttribute('data-price')+' ر.س';
+  }
+  ts.forEach(function(t){t.addEventListener('click',function(){pauseToasts();var o=document.getElementById(t.getAttribute('data-to'));if(o){selectOffer(o);paint(o);}});});
+  window.qkPaint=paint;
+  go.addEventListener('click',function(){pauseToasts();openOrder();});
+  paint(selectedCard);
+})();
 
 function openOrder(){
   var card=selectedCard||document.getElementById('offer2');
