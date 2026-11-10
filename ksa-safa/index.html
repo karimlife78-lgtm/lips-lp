@@ -95,14 +95,15 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(247,251,252,.85);bac
 .hero-chip i{width:1px;height:13px;background:rgba(255,255,255,.4);display:block}
 .hero-chip b{font-size:14px;color:var(--saff)}
 /* offer ticket — notched coupon, bottom-left of the hero photo */
-.hero-ticket{position:absolute;bottom:12px;left:12px;z-index:3;display:flex;align-items:stretch;border:0;padding:0;cursor:pointer;font-family:'Cairo';color:#0B2027;filter:drop-shadow(0 8px 14px rgba(14,31,37,.35));animation:ticketBob 3.2s ease-in-out infinite;
-  -webkit-mask:radial-gradient(circle 7px at 58px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 58px 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
-  mask:radial-gradient(circle 7px at 58px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 58px 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
-.hero-ticket .off{display:grid;place-items:center;width:58px;background:linear-gradient(160deg,var(--saff),var(--saff-2));font-size:17px;font-weight:900;line-height:1;border-right:2px dashed rgba(11,32,39,.35);text-align:center}
-.hero-ticket .off small{display:block;font-size:9.5px;font-weight:900;margin-top:2px}
-.hero-ticket .tx{background:#FFF8E8;padding:7px 12px 7px 11px;text-align:right;line-height:1.15}
-.hero-ticket .tx .t{display:block;font-size:10.5px;font-weight:900;color:var(--saff-2)}
-.hero-ticket .tx .p{display:block;font-size:15px;font-weight:900}
+.hero-ticket{position:absolute;bottom:12px;left:12px;z-index:4;display:flex;align-items:stretch;-webkit-appearance:none;appearance:none;background:none;border:0;padding:0;margin:0;cursor:pointer;font-family:'Cairo';color:#0B2027;border-radius:12px;overflow:hidden;box-shadow:0 10px 22px -6px rgba(14,31,37,.55),0 0 0 2px rgba(255,255,255,.85);animation:ticketBob 3.2s ease-in-out infinite;-webkit-transform:translateZ(0)}
+/* notches at the seam, drawn as dark dots so no mask is needed (Safari-safe) */
+.hero-ticket::before,.hero-ticket::after{content:"";position:absolute;left:58px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:rgba(14,31,37,.85);z-index:2}
+.hero-ticket::before{top:-6px}.hero-ticket::after{bottom:-6px}
+.hero-ticket .off{display:flex;flex-direction:column;align-items:center;justify-content:center;width:58px;background:linear-gradient(160deg,var(--saff),var(--saff-2));font-size:18px;font-weight:900;line-height:1;border-right:2px dashed rgba(11,32,39,.4);text-align:center}
+.hero-ticket .off small{display:block;font-size:10px;font-weight:900;margin-top:3px}
+.hero-ticket .tx{background:#FFF8E8;padding:9px 14px 9px 12px;text-align:right;line-height:1.2}
+.hero-ticket .tx .t{display:block;font-size:11px;font-weight:900;color:var(--saff-2)}
+.hero-ticket .tx .p{display:block;font-size:17px;font-weight:900}
 .hero-ticket .tx .p s{font-size:11px;font-weight:700;color:var(--ink-soft);margin-inline-start:4px}
 @keyframes ticketBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(-2deg)}}
 .hero h1{font-size:33px;line-height:1.18;font-weight:900;letter-spacing:-.03em}
