@@ -94,6 +94,17 @@ header.bar{position:sticky;top:0;z-index:40;background:rgba(247,251,252,.85);bac
 .hero-chip{position:absolute;bottom:12px;right:12px;z-index:3;display:inline-flex;align-items:center;gap:9px;background:rgba(14,31,37,.84);backdrop-filter:blur(6px);color:#fff;font-family:'Cairo';font-size:12.5px;font-weight:900;padding:7px 13px;border-radius:11px;border:1px solid rgba(255,255,255,.2)}
 .hero-chip i{width:1px;height:13px;background:rgba(255,255,255,.4);display:block}
 .hero-chip b{font-size:14px;color:var(--saff)}
+/* offer ticket — notched coupon, bottom-left of the hero photo */
+.hero-ticket{position:absolute;bottom:12px;left:12px;z-index:3;display:flex;align-items:stretch;border:0;padding:0;cursor:pointer;font-family:'Cairo';color:#0B2027;filter:drop-shadow(0 8px 14px rgba(14,31,37,.35));animation:ticketBob 3.2s ease-in-out infinite;
+  -webkit-mask:radial-gradient(circle 7px at 58px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 58px 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+  mask:radial-gradient(circle 7px at 58px 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 7px at 58px 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+.hero-ticket .off{display:grid;place-items:center;width:58px;background:linear-gradient(160deg,var(--saff),var(--saff-2));font-size:17px;font-weight:900;line-height:1;border-right:2px dashed rgba(11,32,39,.35);text-align:center}
+.hero-ticket .off small{display:block;font-size:9.5px;font-weight:900;margin-top:2px}
+.hero-ticket .tx{background:#FFF8E8;padding:7px 12px 7px 11px;text-align:right;line-height:1.15}
+.hero-ticket .tx .t{display:block;font-size:10.5px;font-weight:900;color:var(--saff-2)}
+.hero-ticket .tx .p{display:block;font-size:15px;font-weight:900}
+.hero-ticket .tx .p s{font-size:11px;font-weight:700;color:var(--ink-soft);margin-inline-start:4px}
+@keyframes ticketBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(-2deg)}}
 .hero h1{font-size:33px;line-height:1.18;font-weight:900;letter-spacing:-.03em}
 .hero h1 .hl{color:var(--brand-2);position:relative;white-space:nowrap}
 .hero h1 .hl::after{content:"";position:absolute;left:0;right:0;bottom:1px;height:10px;background:linear-gradient(90deg,var(--brand-soft),rgba(227,154,18,.26));z-index:-1;border-radius:4px}
@@ -790,6 +801,10 @@ footer .disc{margin-top:14px;font-size:11px;line-height:1.75;opacity:.55;max-wid
       </div>
       <div class="hero-float"><span class="s">🌾</span> الزعفران هو المكوّن الأول</div>
       <span class="hero-chip"><b>صَفاء</b><i></i>٦٠ كبسولة</span>
+      <button type="button" class="hero-ticket" data-scroll="#offers" aria-label="عرض اليوم: علبتان بـ٣٣٩ ريال بدل ٥٣٨">
+        <span class="tx"><span class="t">🎟️ عرض اليوم · علبتان</span><span class="p">339 ر.س<s>538</s></span></span>
+        <span class="off">‎-37%<small>خصم</small></span>
+      </button>
     </div>
     <h1>عقلك ما فيه<br><span class="hl">زر إيقاف</span></h1>
     <p class="sub">تطفّي النور… ويشتغل هو. يراجع كلمة قلتها الصبح، ويخطّط لشي ما صار، ويرجّع لك موقف من سنتين. هذا <b>التفكير الزائد</b> — ومو عادة تتخلص منها بالإرادة، له <b>مسارات</b> في دماغك. صَفاء: <b>٧ مكوّنات</b> على <b>٦ مسارات</b>، كبسولتين باليوم.</p>
