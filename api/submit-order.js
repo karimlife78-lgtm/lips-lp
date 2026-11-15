@@ -75,8 +75,8 @@ module.exports = async function handler(req, res) {
     // everything else → main sheet (GOOGLE_SCRIPT_URL), default 'Orders' tab.
     // ksa-26 sits on the main sheet with ksa-18, sharing its 'lips ksa' tab
     // (no tab sent -> the Apps Script default).
-    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa', 'ksa-bath', 'ksa-kidney', 'ksa-waqar']);
-    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa', 'ksa-bath': 'Bath', 'ksa-kidney': 'Kidney', 'ksa-waqar': 'Waqar' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
+    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa', 'ksa-bath', 'ksa-kidney', 'ksa-waqar', 'ksa-eyes']);
+    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa', 'ksa-bath': 'Bath', 'ksa-kidney': 'Kidney', 'ksa-waqar': 'Waqar', 'ksa-eyes': 'Eyes' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
     const scriptUrl = CALM_SHEET_PAGES.has(page)
       ? (process.env.GOOGLE_SCRIPT_URL_CALM || process.env.GOOGLE_SCRIPT_URL)
       : process.env.GOOGLE_SCRIPT_URL;
