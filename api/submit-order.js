@@ -36,8 +36,12 @@ module.exports = async function handler(req, res) {
     // REMOVE each exception once testing is confirmed — everything else stays KSA-only.
     const TEMP_BYPASS_PAGES = new Set(['ksa-gluco', 'ksa-glow']);
 
+    // Country pages: a uae-* page sells to the UAE only (and never to KSA); every other page stays KSA-only.
+    const PAGE_COUNTRIES = { 'uae-kidney': new Set(['AE']) };
+    const allowedHere = PAGE_COUNTRIES[page] || ALLOWED;
+
     // 2. Block outside allowed region — allow empty country (local dev / header absent)
-    if (country && !ALLOWED.has(country) && !TEMP_BYPASS_PAGES.has(page)) {
+    if (country && !allowedHere.has(country) && !TEMP_BYPASS_PAGES.has(page)) {
       return res.status(403).json({ error: 'region_blocked', country });
     }
 
@@ -75,8 +79,8 @@ module.exports = async function handler(req, res) {
     // everything else → main sheet (GOOGLE_SCRIPT_URL), default 'Orders' tab.
     // ksa-26 sits on the main sheet with ksa-18, sharing its 'lips ksa' tab
     // (no tab sent -> the Apps Script default).
-    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa', 'ksa-bath', 'ksa-kidney', 'ksa-waqar', 'ksa-eyes']);
-    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa', 'ksa-bath': 'Bath', 'ksa-kidney': 'Kidney', 'ksa-waqar': 'Waqar', 'ksa-eyes': 'Eyes' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
+    const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa', 'ksa-bath', 'ksa-kidney', 'uae-kidney', 'ksa-waqar', 'ksa-eyes']);
+    const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa', 'ksa-bath': 'Bath', 'ksa-kidney': 'Kidney', 'uae-kidney': 'KidneyUAE', 'ksa-waqar': 'Waqar', 'ksa-eyes': 'Eyes' }; // ksa-calm omits tab -> apps script defaults to 'Orders'
     const scriptUrl = CALM_SHEET_PAGES.has(page)
       ? (process.env.GOOGLE_SCRIPT_URL_CALM || process.env.GOOGLE_SCRIPT_URL)
       : process.env.GOOGLE_SCRIPT_URL;
