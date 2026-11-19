@@ -32,7 +32,15 @@ var PRODUCT_LABELS = {
   'Masar':    'شاي مَسار',
   'Rawaq':    'رَواق',
   'RawaqTT':  'رَواق — تيك توك',
-  'Safa':     'صَفاء'
+  'Safa':     'صَفاء',
+  'Bath':     'حوض الأطفال',
+  'Kidney':   'حصانة — الكلى',
+  'KidneyUAE':'حصانة — الإمارات',
+  'Waqar':    'وَقار — البروستاتا',
+  'Eyes':     'ريم — جهاز العين',
+  'Naseem':   'نسيم — سوار الغثيان',
+  'Mizan':    'ميزان — الضغط',
+  'MizanTT':  'ميزان — تيك توك'
 };
 
 // tabs that aren't orders, so the reader skips them

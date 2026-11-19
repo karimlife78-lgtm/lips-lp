@@ -84,8 +84,8 @@ async function scriptPost(body) {
 // SKU, title and which sheet its orders land in. It never writes anything.
 
 // Display-only mirror of the routing in api/submit-order.js — keep in sync.
-const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa']);
-const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa' };
+const CALM_SHEET_PAGES = new Set(['ksa-calm', 'ksa-glow', 'ksa-gluco', 'ksa-24', 'ksa-mullein', 'ksa-hair', 'ksa-lung', 'ksa-masar', 'ksa-rawaq', 'ksa-rawaq-tt', 'ksa-safa', 'ksa-mizan', 'ksa-mizan-tt']);
+const TAB_BY_PAGE = { 'ksa-glow': 'Glow', 'ksa-gluco': 'Gluco', 'ksa-24': 'Ceylora', 'ksa-mullein': 'Mullein', 'ksa-hair': 'Hair', 'ksa-lung': 'Lung', 'ksa-masar': 'Masar', 'ksa-rawaq': 'Rawaq', 'ksa-rawaq-tt': 'RawaqTT', 'ksa-safa': 'Safa', 'ksa-mizan': 'Mizan', 'ksa-mizan-tt': 'MizanTT' };
 
 // A page can init several pixels (and some still carry a dead 'SNAP_PIXEL_ID'
 // stub), so every id is collected: ok = at least one real id, warn = real id
@@ -283,6 +283,8 @@ module.exports = async function handler(req, res) {
         '/ksa-26':      { name: 'نورقلو — Solar Light', icon: '🪔', desc: 'Mandala solar garden light (DOCOSM · lips ksa tab)' },
         '/ksa-rawaq':   { name: 'رَواق — Mushroom Gummies', icon: '🍄', desc: 'Stress & calm gummies' },
         '/ksa-rawaq-tt':{ name: 'رَواق — TikTok',       icon: '🎵', desc: 'Copy of ksa-rawaq for TikTok ads' },
+        '/ksa-mizan':   { name: 'ميزان — BP Program',   icon: '🫀', desc: 'Grip + beet chews + breathing gift (COSDO sheet: Mizan tab)' },
+        '/ksa-mizan-tt':{ name: 'ميزان — TikTok',       icon: '🎵', desc: 'Copy of ksa-mizan for TikTok ads (MizanTT tab)' },
         '/ksa-masar':   { name: 'مَسار — Tea',          icon: '🍵', desc: 'Digestive tea LP' },
         '/ksa-gluco':   { name: 'جلوكو — Gluco',        icon: '🩸', desc: 'Blood-sugar support LP' },
         '/ksa-24':      { name: 'سيلورا — Ceylora',     icon: '🌱', desc: 'Ceylon cinnamon LP' },
